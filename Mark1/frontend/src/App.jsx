@@ -1,14 +1,13 @@
-import './App.css'
-
+import Form from "./pages/SignUp/form";
+import NavBar from "./pages/SignUp/navbar";
+import "./pages/SignUp/navbar.css";
+import "./pages/SignUp/form.css";
 function App() {
-
   return (
     <>
-      <div>
-        Project Started
-      </div>
+      <NavBar />
+      <Form />
     </>
-  )
+  );
 }
-
-export default App
+export default App;
