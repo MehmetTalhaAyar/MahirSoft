@@ -16,6 +16,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 92vh; /*vh stands for viewport height */
+  transform: scale(1);
+  transition: 3s;
 }
 form {
   background: gray;
@@ -28,6 +30,7 @@ form {
   color: #fff;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
 }
+
 form::before {
   content: "";
   position: absolute;

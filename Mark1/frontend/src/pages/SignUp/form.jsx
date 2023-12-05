@@ -1,8 +1,6 @@
-import { useState } from "react";
-
 function Form() {
   return (
-    <div className="form-container">
+    <div className="form-container ">
       <form>
         <h1>Login</h1>
         <div className="input-box">

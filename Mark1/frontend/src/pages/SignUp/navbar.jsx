@@ -1,4 +1,6 @@
-function NavBar() {
+import React from "react";
+
+function NavBar({ onLoginClick }) {
   return (
     <nav className="nav">
       <a href="#" className="nav_brand">
@@ -31,7 +33,7 @@ function NavBar() {
           </a>
         </li>
       </ul>
-      <button className="nav_button" type="submit">
+      <button className="nav_button" type="submit" onClick={onLoginClick}>
         Log-In
       </button>
     </nav>
