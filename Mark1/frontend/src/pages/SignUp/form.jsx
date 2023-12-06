@@ -1,3 +1,6 @@
+import { Link, useNavigate } from "react-router-dom";
+
+
 function Form() {
   return (
     <div className="form-container ">
@@ -23,8 +26,8 @@ function Form() {
             Forgot Password
           </a>
         </div>
-        <button type="submit" class="btn">
-          Login
+        <button type="submit" class="btn" >
+          <Link to = '/home'>Login</Link>
         </button>
       </form>
     </div>
