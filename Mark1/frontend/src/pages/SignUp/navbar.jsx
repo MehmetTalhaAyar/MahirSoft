@@ -1,6 +1,6 @@
 import React from "react";
 
-function NavBar({ onLoginClick }) {
+function NavBar({ onLoginClick, isButtonClicked }) {
   return (
     <nav className="nav">
       <a href="#" className="nav_brand">
@@ -33,7 +33,11 @@ function NavBar({ onLoginClick }) {
           </a>
         </li>
       </ul>
-      <button className="nav_button" type="submit" onClick={onLoginClick}>
+      <button
+        className={`nav_button ${isButtonClicked ? "clicked" : ""}`}
+        type="submit"
+        onClick={onLoginClick}
+      >
         Log-In
       </button>
     </nav>

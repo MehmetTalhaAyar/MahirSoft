@@ -63,24 +63,25 @@ li > a.nav_brand::after {
   gap: 8rem;
 }
 .nav_button {
-  width: 100px;
-  height: 40px;
+  display: block;
+  padding: 10px 20px;
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-weight: 500;
-  color: #000;
-  background-color: #fff;
-  border: none;
-  border-radius: 15px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease 0s;
+  letter-spacing: 1px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
+  border-radius: 5px;
+  border: 2px solid #007bff; /* Button border color */
   cursor: pointer;
-  outline: none;
+  transition: transform 0.3s ease;
 }
 .nav_button:hover {
-  background-color: #54b28d;
-  box-shadow: 0px 12px 20px rgba(46, 229, 157, 0.4);
-  color: #fff;
-  transform: translateY(-3px);
+  background-color: #0056b3; /* Button background color on hover */
+  color: #fff; /* Button text color on hover */
+  transform: scale(0.99);
+}
+.nav_button.clicked {
+  transform: scale(0.7); /* You can adjust the scale factor as needed */
 }

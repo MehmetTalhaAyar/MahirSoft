@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 
-
 function Form() {
   return (
-    <div className="form-container ">
+    <div className="form-container">
       <form>
         <h1>Login</h1>
         <div className="input-box">
@@ -26,9 +25,9 @@ function Form() {
             Forgot Password
           </a>
         </div>
-        <button type="submit" class="btn" >
-          <Link to = '/home'>Login</Link>
-        </button>
+        <Link to="/home" className="button-link">
+          Log-In
+        </Link>
       </form>
     </div>
   );
