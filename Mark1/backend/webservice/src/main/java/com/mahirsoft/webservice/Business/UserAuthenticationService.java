@@ -24,8 +24,11 @@ public class UserAuthenticationService {
 
     public UserAuthentication getUserInfo(UserAuthentication userAuthentication){
         
-    
-        return userAuthenticationRepository.findByEmailandPassword(userAuthentication.getEmail(),userAuthentication.getPassword());
+        var user = userAuthenticationRepository.findByEmailandPassword(userAuthentication.getEmail(),userAuthentication.getPassword());
+        if (user != null)
+            return user;
+        else
+            return null;
         
     }
 
