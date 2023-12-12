@@ -26,7 +26,7 @@ function Form({toHome}) {
           </a>
         </div>
         <button type="submit" class="button-link" onClick={toHome}>
-          Log-in
+            Log-in
         </button>
       </form>
     </div>

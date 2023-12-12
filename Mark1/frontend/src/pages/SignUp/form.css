@@ -80,8 +80,10 @@ form .input-box input:valid + label {
   color: white;
   font-size: 1.1rem;
 }
+
 .button-link {
   display: block;
+  width: 100%;
   padding: 10px 20px;
   font-size: 11px;
   text-transform: uppercase;
