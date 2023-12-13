@@ -15,8 +15,14 @@ function Form({ toHome }) {
         email,
         password,
       });
-      console.log("istek tamamlandı.", response.data);
-      toHome();
+      console.log("istek tamamlandı.", response);
+      if (response.data !== ""){
+
+        toHome();
+      }
+      else if (response.status === 204){
+        console.log(":D")
+      }
     } catch (ex) {
       console.error("istek başarısız.", ex);
     }
