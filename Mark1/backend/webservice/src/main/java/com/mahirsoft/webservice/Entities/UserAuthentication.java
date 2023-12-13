@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
@@ -19,6 +20,7 @@ public class UserAuthentication {
     @Column(name = "email")
     private String email;
     
+    @NotBlank
     @Column(name = "password")
     private String password;
 

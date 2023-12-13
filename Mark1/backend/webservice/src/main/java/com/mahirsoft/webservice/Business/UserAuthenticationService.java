@@ -25,6 +25,7 @@ public class UserAuthenticationService {
     public UserAuthentication getUserInfo(UserAuthentication userAuthentication){
         
         var user = userAuthenticationRepository.findByEmailandPassword(userAuthentication.getEmail(),userAuthentication.getPassword());
+        System.out.println(user);
         if (user != null)
             return user;
         else
