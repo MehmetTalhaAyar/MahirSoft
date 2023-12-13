@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
-import com.mahirsoft.webservice.Entities.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 @Service
 public class UserAuthenticationService {
@@ -24,12 +24,8 @@ public class UserAuthenticationService {
 
     public UserAuthentication getUserInfo(UserAuthentication userAuthentication){
         
-        var user = userAuthenticationRepository.findByEmailandPassword(userAuthentication.getEmail(),userAuthentication.getPassword());
-        System.out.println(user);
-        if (user != null)
-            return user;
-        else
-            return null;
+        return userAuthenticationRepository.findByEmailandPassword(userAuthentication.getEmail(),userAuthentication.getPassword());
+        
         
     }
 

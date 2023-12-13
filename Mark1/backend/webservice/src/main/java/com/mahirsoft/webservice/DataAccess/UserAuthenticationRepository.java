@@ -3,7 +3,7 @@ package com.mahirsoft.webservice.DataAccess;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.mahirsoft.webservice.Entities.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 public interface UserAuthenticationRepository  extends JpaRepository<UserAuthentication,Long>{
 

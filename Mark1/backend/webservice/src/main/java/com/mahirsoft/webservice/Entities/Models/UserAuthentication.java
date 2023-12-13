@@ -1,4 +1,4 @@
-package com.mahirsoft.webservice.Entities;
+package com.mahirsoft.webservice.Entities.Models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -17,10 +19,13 @@ public class UserAuthentication {
     @Column(name ="userId")
     private long userId;
 
+    @NotBlank
     @Column(name = "email")
     private String email;
     
     @NotBlank
+    @Size(min = 8,max = 32,message = "Password should be between 8 and 32 characters.") 
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$",message = "Your password must contain at least one uppercase letter, one lowercase letter, and one digit.")
     @Column(name = "password")
     private String password;
 

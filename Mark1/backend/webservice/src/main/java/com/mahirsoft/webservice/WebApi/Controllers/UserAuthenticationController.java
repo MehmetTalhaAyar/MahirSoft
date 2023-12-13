@@ -1,9 +1,13 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.UserAuthenticationService;
-import com.mahirsoft.webservice.Entities.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Errors.ApiError;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 import jakarta.validation.Valid;
 
@@ -50,6 +55,21 @@ public class UserAuthenticationController {
     List<UserAuthentication> getUsers(){
         return userAuthenticationService.getAllUsers();
         
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<?> handleMethodArgutmentNotValidException(MethodArgumentNotValidException exception){
+        ApiError apiError = new ApiError();
+        //path değiştirilecek
+        apiError.setPath("/api");
+        apiError.setMessage("Validation error");
+        apiError.setStatus(400);
+        Map<String,String> validationErrors = new HashMap<>();
+        for(var fieldError : exception.getBindingResult().getFieldErrors()){
+            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        } 
+        apiError.setValidationErrors(validationErrors);
+        return new ResponseEntity<ApiError>(apiError, HttpStatusCode.valueOf(apiError.getStatus()));
     }
     
 }
