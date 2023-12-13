@@ -1,28 +1,26 @@
 import { useState } from "react";
 import { signUp } from "./api";
 
-function Form() {
-  function Form({ toHome }) {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+function Form({ toHome }) {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-    console.log(email);
-    console.log(password);
+  console.log(email);
+  console.log(password);
 
-    const onsubmit = async (event) => {
-      event.preventDefault();
-      try {
-        const response = await signUp({
-          email,
-          password,
-        });
-        console.log("istek tamamlandı.", response.data);
-        toHome();
-      } catch (ex) {
-        console.error("istek başarısız.", ex);
-      }
-    };
-  }
+  const onsubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await signUp({
+        email,
+        password,
+      });
+      console.log("istek tamamlandı.", response.data);
+      toHome();
+    } catch (ex) {
+      console.error("istek başarısız.", ex);
+    }
+  };
 
   return (
     <div className="form-container">
@@ -55,11 +53,12 @@ function Form() {
             Forgot Password
           </a>
         </div>
-        <button type="submit" className="button-link">
+        <button type="submit" className="button">
           Log-in
         </button>
       </form>
     </div>
   );
 }
+
 export default Form;
