@@ -3,7 +3,7 @@ import NavBar from "./pages/SignUp/navbar";
 import "./pages/SignUp/navbar.css";
 import "./pages/SignUp/form.css";
 import { useState, useEffect } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -16,8 +16,8 @@ function App() {
   };
 
   const navigateToHome = () => {
-    navigate('/home')
-  }
+    navigate("/home");
+  };
 
   useEffect(() => {
     if (isButtonClicked) {
@@ -38,7 +38,7 @@ function App() {
         isButtonClicked={isButtonClicked}
       />
 
-      {isFormVisible && <Form toHome = {navigateToHome}/>}
+      {isFormVisible && <Form toHome={navigateToHome} />}
     </>
   );
 }

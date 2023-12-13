@@ -1,7 +1,11 @@
+import NavBar from "./navbar";
+import SideBar from "./sidebar";
+
 function Home() {
   return (
     <div>
-      <h1>Home Page</h1>
+      <NavBar />
+      <SideBar />
     </div>
   );
 }

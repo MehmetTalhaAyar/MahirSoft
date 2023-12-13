@@ -1,0 +1,26 @@
+.navbar {
+  display: flex;
+  background-color: #454679;
+  color: white;
+  padding: 18px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  text-decoration: none;
+  align-items: center; /* Vertically center align items */
+  justify-content: space-between;
+}
+.logout_img {
+  font-size: 25px;
+  cursor: pointer;
+}
+.logout_img:hover {
+  color: rgb(193, 122, 105);
+  transition: 0.3s;
+}
+.logout_img.clicked {
+  transform: scale(0.7);
+}
