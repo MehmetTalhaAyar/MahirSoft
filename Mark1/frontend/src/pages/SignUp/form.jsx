@@ -1,18 +1,43 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { signUp } from "./api";
 
 function Form({toHome}) {
+  const [email,setEmail]  = useState();
+  const [password,setPassword]  = useState();
+
+  console.log(email)
+  console.log(password)
+
+  const onsubmit = async (event) => {
+    event.preventDefault();
+    try{  
+    const response = await signUp({
+      email,
+      password
+    })
+    console.log("istek tamamlandı.",response.data);
+    toHome()
+  }catch(ex){
+    console.error("istek başarısız.",ex)
+
+  }
+   
+      
+    
+  };
+
   return (
     <div className="form-container">
-      <form>
+      <form onSubmit={onsubmit}>
         <h1>Login</h1>
         <div className="input-box">
           <span className="icon"></span>
-          <input id="email" />
+          <input id="email" onChange={(event) => setEmail(event.target.value)} />
           <label htmlFor="email">E-mail</label>
         </div>
         <div className="input-box">
           <span className="icon"></span>
-          <input id="password" type="password" />
+          <input id="password" type="password" onChange={(event) => setPassword(event.target.value)}/>
           <label htmlFor="password">Password</label>
         </div>
 
@@ -25,7 +50,7 @@ function Form({toHome}) {
             Forgot Password
           </a>
         </div>
-        <button type="submit" class="button-link" onClick={toHome}>
+        <button type="submit" className="button-link">
             Log-in
         </button>
       </form>
