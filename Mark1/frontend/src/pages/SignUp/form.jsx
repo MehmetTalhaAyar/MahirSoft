@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signUp } from "./api";
+import { signIn } from "./api";
 
 function Form({ toHome }) {
   const [email, setEmail] = useState();
@@ -11,7 +11,7 @@ function Form({ toHome }) {
   const onsubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await signUp({
+      const response = await signIn({
         email,
         password,
       });
