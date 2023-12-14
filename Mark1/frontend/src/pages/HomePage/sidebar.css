@@ -4,7 +4,7 @@
 .sidebar {
   padding: 10px;
   width: 4%;
-  height: 640px;
+  height: 630px;
   background-color: white;
   transition: width 0.3s ease;
 }
@@ -29,11 +29,13 @@
   width: 30px;
   height: 27px;
   background-color: #d7d7de;
+  box-shadow: 1px 1px 5px #454679;
 }
 
 .sidebar.open .sidebar_icon {
   transition: 0.3s;
   display: flex;
+  box-shadow: 1px 1px 5px #454679;
 }
 .react_img {
   margin-top: 2px;
