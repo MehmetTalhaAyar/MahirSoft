@@ -1,8 +1,7 @@
 import React from "react";
 import "./navbar.css";
-import Profile from "./ProfilePage/profile";
 
-import { CgProfile } from "react-icons/cg";
+import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
 
 function NavBar() {
@@ -26,13 +25,12 @@ function NavBar() {
           <li href="#">Home</li>
           <li href="#">About</li>
           <li href="#">Contact</li>
-          <Profile />
         </ul>
         <div
           className={`logout_img ${isClicked ? "clicked" : ""}`}
           onClick={handleLogoutClick}
         >
-          <CgProfile />
+          <IoIosLogOut />
         </div>
       </div>
     </nav>

@@ -80,7 +80,11 @@ form .input-box input:valid + label {
   color: white;
   font-size: 1.1rem;
 }
+<<<<<<< HEAD:frontend/src/pages/SignUp/form.css
+.button-link {
+=======
 .button {
+>>>>>>> de6c1d27c7fc17e1fc83765f51673e7647587854:Mark1/frontend/src/pages/SignUp/form.css
   display: block;
   padding: 10px 20px;
   font-size: 11px;
