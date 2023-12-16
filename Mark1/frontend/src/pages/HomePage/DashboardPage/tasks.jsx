@@ -2,12 +2,12 @@ import "./tasks.css";
 import { CiCirclePlus } from "react-icons/ci";
 function Tasks() {
   return (
-    <div class="scrolling">
+    <div className="scrolling">
       <div className="plus">
         <CiCirclePlus />
       </div>
-      <ul class="cards">
-        <li class="card">
+      <ul className="cards">
+        <li className="card">
           <div className="container3">
             <h4>New +</h4>
             <div className="tasks">Task</div>
@@ -15,7 +15,7 @@ function Tasks() {
             <div className="tasks">Task</div>
           </div>
         </li>
-        <li class="card">
+        <li className="card">
           <div className="container3">
             <h4>New</h4>
             <div className="tasks">Task</div>
@@ -23,7 +23,7 @@ function Tasks() {
             <div className="tasks">Task</div>
           </div>
         </li>
-        <li class="card">
+        <li className="card">
           <div className="container3">
             <h4>New</h4>
             <div className="tasks">Task</div>
@@ -31,7 +31,7 @@ function Tasks() {
             <div className="tasks">Task</div>
           </div>
         </li>
-        <li class="card">
+        <li className="card">
           <div className="container3">
             <h4>New</h4>
             <div className="tasks">Task</div>
@@ -40,7 +40,7 @@ function Tasks() {
           </div>
         </li>
 
-        <li class="card">
+        <li className="card">
           <div className="container3">
             <h4>New</h4>
             <div className="tasks">Task</div>
@@ -48,7 +48,7 @@ function Tasks() {
             <div className="tasks">Task</div>
           </div>
         </li>
-        <li class="card">
+        <li className="card">
           <div className="container3">
             <h4>New</h4>
             <div className="tasks">Task</div>

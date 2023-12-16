@@ -3,9 +3,11 @@ package com.mahirsoft.webservice.WebApi.Controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,10 +66,8 @@ public class UserAuthenticationController {
         apiError.setPath("/api");
         apiError.setMessage("Validation error");
         apiError.setStatus(400);
-        Map<String,String> validationErrors = new HashMap<>();
-        for(var fieldError : exception.getBindingResult().getFieldErrors()){
-            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-        } 
+        var validationErrors = exception.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField,FieldError::getDefaultMessage,(existing,replacing) -> existing));
+
         apiError.setValidationErrors(validationErrors);
         return new ResponseEntity<ApiError>(apiError, HttpStatusCode.valueOf(apiError.getStatus()));
     }
