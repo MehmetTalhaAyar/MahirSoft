@@ -1,17 +1,21 @@
 package com.mahirsoft.webservice.Entities.Models;
 
+import com.mahirsoft.webservice.Entities.Validations.Annotations.UniqueEmail;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
 @Entity
-@Table(name="UserAuthentication")
+@Table(name="UserAuthentication",uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class UserAuthentication {
     
     @Id
@@ -19,7 +23,8 @@ public class UserAuthentication {
     @Column(name ="userId")
     private long userId;
 
-    @NotBlank
+    @UniqueEmail
+    @Email
     @Column(name = "email")
     private String email;
     

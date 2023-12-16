@@ -12,7 +12,7 @@ public interface UserAuthenticationRepository  extends JpaRepository<UserAuthent
     @Query("select au from UserAuthentication au where au.email = :email and au.password = :password")
     UserAuthentication findByEmailandPassword(String email,String password);
 
-
+    UserAuthentication findByEmail(String email);
     
     
 }
