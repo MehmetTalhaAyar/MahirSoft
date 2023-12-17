@@ -19,7 +19,7 @@
   justify-content: space-around;
 }
 
-input {
+.search_bar {
   width: 500px;
   padding: 6px 20px;
   box-sizing: border-box;

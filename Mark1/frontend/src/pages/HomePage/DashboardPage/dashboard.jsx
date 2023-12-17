@@ -6,7 +6,7 @@ function Dashboard() {
     <div className="wraper">
       <div className="container1">
         <div className="column1">
-          <input type="text" id="fname" name="fname" />
+          <input className="search_bar" type="text" id="fname" name="fname" />
           <button className="buttn">Filter</button>
         </div>
       </div>
