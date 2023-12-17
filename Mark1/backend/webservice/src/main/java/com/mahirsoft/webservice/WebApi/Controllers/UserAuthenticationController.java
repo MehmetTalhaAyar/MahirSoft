@@ -1,8 +1,6 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatusCode;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.UserAuthenticationService;
 import com.mahirsoft.webservice.Entities.Errors.ApiError;
-import com.mahirsoft.webservice.Entities.Exceptions.NotUniqueEmailException;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 import jakarta.validation.Valid;
@@ -73,17 +70,5 @@ public class UserAuthenticationController {
         return new ResponseEntity<ApiError>(apiError, HttpStatusCode.valueOf(apiError.getStatus()));
     }
 
-    @ExceptionHandler(NotUniqueEmailException.class)
-    ResponseEntity<?> handleNotUniqueEmailException(NotUniqueEmailException exception){
-        ApiError apiError = new ApiError();
-        //path değiştirilecek
-        apiError.setPath("/api");
-        apiError.setMessage("Validation error");
-        apiError.setStatus(400);
-        Map<String,String> validationErrors = new HashMap<>();
-        validationErrors.put("email", "E-mail in use!");
-        apiError.setValidationErrors(validationErrors);
-        return new ResponseEntity<ApiError>(apiError, HttpStatusCode.valueOf(apiError.getStatus()));
-    }
-    
+   
 }
