@@ -1,6 +1,6 @@
 import "./dashboard.css";
-
 import Tasks from "./tasks";
+
 function Dashboard() {
   return (
     <div className="wraper">
