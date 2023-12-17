@@ -21,7 +21,9 @@ function NavBar() {
   return (
     <nav>
       <div className="navbar">
-        <h1>Home Page</h1>
+        <a href="#" className="home_page">
+          Home Page
+        </a>
         <ul className="nav-links">
           <li href="#">Home</li>
           <li href="#">About</li>

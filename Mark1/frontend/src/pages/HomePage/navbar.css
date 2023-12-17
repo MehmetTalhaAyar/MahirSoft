@@ -6,6 +6,13 @@
   align-items: center;
   justify-content: space-between;
 }
+.home_page {
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+}
 
 .nav-links {
   display: flex;

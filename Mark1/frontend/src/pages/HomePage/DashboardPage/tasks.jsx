@@ -8,49 +8,71 @@ function Tasks() {
       </div>
       <ul className="cards">
         <li className="card">
-          <div className="container3">
-            <h4>New +</h4>
+          <h4>New +</h4>
+          <div className="scrolling_vertically">
             <div className="tasks">Task</div>
             <div className="tasks">Task</div>
             <div className="tasks">Task</div>
-          </div>
-        </li>
-        <li className="card">
-          <div className="container3">
-            <h4>New</h4>
             <div className="tasks">Task</div>
-            <div className="tasks">Task</div>
-            <div className="tasks">Task</div>
-          </div>
-        </li>
-        <li className="card">
-          <div className="container3">
-            <h4>New</h4>
-            <div className="tasks">Task</div>
-            <div className="tasks">Task</div>
-            <div className="tasks">Task</div>
-          </div>
-        </li>
-        <li className="card">
-          <div className="container3">
-            <h4>New</h4>
-            <div className="tasks">Task</div>
-            <div className="tasks">Task</div>
-            <div className="tasks">Task</div>
-          </div>
-        </li>
 
+            <div className="tasks">Task</div>
+          </div>
+        </li>
         <li className="card">
-          <div className="container3">
-            <h4>New</h4>
+          <h4>New +</h4>
+          <div className="scrolling_vertically">
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
             <div className="tasks">Task</div>
             <div className="tasks">Task</div>
             <div className="tasks">Task</div>
           </div>
         </li>
         <li className="card">
-          <div className="container3">
-            <h4>New</h4>
+          <h4>New +</h4>
+          <div className="scrolling_vertically">
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+          </div>
+        </li>
+        <li className="card">
+          <h4>New +</h4>
+          <div className="scrolling_vertically">
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+          </div>
+        </li>
+        <li className="card">
+          <h4>New +</h4>
+          <div className="scrolling_vertically">
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+          </div>
+        </li>
+        <li className="card">
+          <h4>New +</h4>
+          <div className="scrolling_vertically">
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+            <div className="tasks">Task</div>
+          </div>
+        </li>
+        <li className="card">
+          <h4>New +</h4>
+          <div className="scrolling_vertically">
             <div className="tasks">Task</div>
             <div className="tasks">Task</div>
             <div className="tasks">Task</div>
