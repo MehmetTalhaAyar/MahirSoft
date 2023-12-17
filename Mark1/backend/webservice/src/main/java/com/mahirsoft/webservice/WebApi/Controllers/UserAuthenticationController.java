@@ -81,7 +81,7 @@ public class UserAuthenticationController {
         apiError.setMessage("Validation error");
         apiError.setStatus(400);
         Map<String,String> validationErrors = new HashMap<>();
-        validationErrors.put("email", "E-mail in use");
+        validationErrors.put("email", "E-mail in use!");
         apiError.setValidationErrors(validationErrors);
         return new ResponseEntity<ApiError>(apiError, HttpStatusCode.valueOf(apiError.getStatus()));
     }

@@ -17,6 +17,7 @@ body {
   align-items: center;
   min-height: 92vh; /*vh stands for viewport height */
   transform: scale(1);
+  transition: all 1s;
 }
 form {
   background: gray;

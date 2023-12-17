@@ -1,6 +1,5 @@
 package com.mahirsoft.webservice.Entities.Models;
 
-import com.mahirsoft.webservice.Entities.Validations.Annotations.UniqueEmail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +22,6 @@ public class UserAuthentication {
     @Column(name ="userId")
     private long userId;
 
-    @UniqueEmail
     @Email
     @Column(name = "email")
     private String email;
