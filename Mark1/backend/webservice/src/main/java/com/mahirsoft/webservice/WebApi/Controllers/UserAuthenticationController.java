@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.UserAuthenticationService;
+import com.mahirsoft.webservice.Entities.CreateModels.CreateUserAuthtentication;
 import com.mahirsoft.webservice.Entities.Errors.ApiError;
+import com.mahirsoft.webservice.Entities.GetModels.GetUserAuthentication;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 import jakarta.validation.Valid;
@@ -34,14 +36,14 @@ public class UserAuthenticationController {
     
 
     @PostMapping("/add")
-    ResponseEntity<String> createUser(@Valid @RequestBody UserAuthentication userAuthentication){
+    ResponseEntity<String> createUser(@Valid @RequestBody CreateUserAuthtentication userAuthentication){
         String body = "User created";
         userAuthenticationService.save(userAuthentication);
         return new ResponseEntity<String>(body,HttpStatusCode.valueOf(200));
     }
 
     @PostMapping("/user")
-    ResponseEntity<?> getUserInformation(@Valid @RequestBody UserAuthentication userAuthentication){
+    ResponseEntity<?> getUserInformation(@Valid @RequestBody GetUserAuthentication userAuthentication){
         var user = userAuthenticationService.getUserInfo(userAuthentication);
 
         if (user == null){
