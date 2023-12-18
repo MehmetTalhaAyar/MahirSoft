@@ -53,11 +53,11 @@ function Form({ toHome }) {
             <input type="checkbox" />
             Remember Me
           </label>
-          <a href="#" className="fg">
+          <a href="#" className="forgot_password">
             Forgot Password
           </a>
         </div>
-        <button type="submit" className="button">
+        <button type="submit" className="login_button">
           Log-in
         </button>
       </form>

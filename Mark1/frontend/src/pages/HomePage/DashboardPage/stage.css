@@ -71,7 +71,7 @@ h4:hover {
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 1px 1px 5px #454679;
-  text-align: center;
+  text-align: start;
   background-color: #d7d7de;
 }
 .tasks:hover {

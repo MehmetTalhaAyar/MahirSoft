@@ -1,5 +1,5 @@
 import "./dashboard.css";
-import Tasks from "./tasks";
+import Stage from "./stage";
 
 function Dashboard() {
   return (
@@ -12,7 +12,7 @@ function Dashboard() {
       </div>
       <hr></hr>
       <div className="container2">
-        <Tasks />
+        <Stage />
       </div>
     </div>
   );
