@@ -1,4 +1,4 @@
-package com.mahirsoft.webservice.Entities.Models;
+package com.mahirsoft.webservice.Entities.Models.DatabaseModels;
 
 
 

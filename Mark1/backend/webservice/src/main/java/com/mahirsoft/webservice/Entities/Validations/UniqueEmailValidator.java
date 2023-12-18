@@ -1,7 +1,7 @@
 package com.mahirsoft.webservice.Entities.Validations;
 
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.DatabaseModels.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Validations.Annotations.UniqueEmail;
 
 import jakarta.validation.ConstraintValidator;

@@ -1,4 +1,4 @@
-package com.mahirsoft.webservice.Entities.GetModels;
+package com.mahirsoft.webservice.Entities.Models.GetModels;
 
 
 public class GetUserAuthentication {
