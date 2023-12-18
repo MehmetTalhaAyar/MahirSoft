@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.UserAuthenticationService;
+import com.mahirsoft.webservice.Entities.CreateModels.CreateUserAuthtentication;
 import com.mahirsoft.webservice.Entities.Errors.ApiError;
-import com.mahirsoft.webservice.Entities.Models.CreateModels.CreateUserAuthtentication;
-import com.mahirsoft.webservice.Entities.Models.DatabaseModels.UserAuthentication;
-import com.mahirsoft.webservice.Entities.Models.GetModels.GetUserAuthentication;
+import com.mahirsoft.webservice.Entities.GetModels.GetUserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 import jakarta.validation.Valid;
 

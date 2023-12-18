@@ -1,4 +1,4 @@
-package com.mahirsoft.webservice.Entities.Models.CreateModels;
+package com.mahirsoft.webservice.Entities.CreateModels;
 
 import com.mahirsoft.webservice.Entities.Validations.Annotations.UniqueEmail;
 
