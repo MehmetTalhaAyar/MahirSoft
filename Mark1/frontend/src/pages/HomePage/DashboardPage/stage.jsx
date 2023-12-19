@@ -1,13 +1,17 @@
 import "./stage.css";
+import Task from "./task";
 
 function Stage() {
   return (
     <div className="scrolling">
       <ul className="cards">
         <li className="card">
-          <h4>New +</h4>
+          <div className="card_header">
+            <div className="header_name">Abdullah Vural</div>
+            <div className="new">New+</div>
+          </div>
           <div className="scrolling_vertically">
-            <div className="tasks">Isim</div>
+            <Task />
           </div>
         </li>
       </ul>
