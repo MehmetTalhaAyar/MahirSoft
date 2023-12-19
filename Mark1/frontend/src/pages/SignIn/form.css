@@ -98,14 +98,13 @@ body {
   color: white;
   font-size: 1.1rem;
 }
-.button {
+.login_button {
   display: block;
   padding: 10px 20px;
   font-size: 11px;
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 1px;
-
   text-align: center;
   text-decoration: none;
   background-color: #007bff; /* Button background color */
@@ -116,7 +115,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.button-link:hover {
+.login_button:hover {
   background-color: #0056b3; /* Button background color on hover */
   color: #fff; /* Button text color on hover */
   transform: scale(0.99);
@@ -127,7 +126,7 @@ body {
   justify-content: space-between;
   margin-bottom: 10px;
 }
-a {
+.forgot_password {
   color: rgb(209, 124, 124);
 }
 

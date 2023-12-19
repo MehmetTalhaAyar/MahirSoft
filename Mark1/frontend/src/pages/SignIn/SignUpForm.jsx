@@ -4,9 +4,6 @@ import "./SignUpForm.css"
 function SignUpForm({isVisible,changeVisible}) {
 
 
-
-
-
   return (
     <>
       <div className={`SignUp-form-container ${isVisible ? "visible animate" : ""}`}>

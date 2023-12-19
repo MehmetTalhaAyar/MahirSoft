@@ -24,8 +24,9 @@
 }
 
 .card {
+  position: relative;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   flex-direction: column;
   flex: 0 0 100%;
@@ -34,6 +35,21 @@
   border-radius: 10px;
   box-shadow: 1px 1px 5px #454679;
   background-color: #d6d6de;
+}
+
+.card_header {
+  margin: 6px 20px 0px 20px;
+}
+.new {
+  position: absolute;
+  width: 25%;
+  right: 7%;
+  top: 1.5%;
+  border: 1px solid orange;
+  box-shadow: 1px 1px 5px orange;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .scrolling_vertically {
@@ -50,36 +66,6 @@
   height: 12px;
 }
 
-h4 {
-  margin-right: 60%;
-  width: 25%;
-  justify-content: center;
-  text-align: center;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 1px 1px 5px #454679;
-  cursor: pointer;
-}
-h4:hover {
-  background-color: #b5b5bf;
-  transition: 0.3s;
-}
-
-.tasks {
-  height: 30%;
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 1px 1px 5px #454679;
-  text-align: center;
-  background-color: #d7d7de;
-}
-.tasks:hover {
-  font-size: 20px;
-  height: 31%;
-  transition: 0.3s;
-}
-
 @media (min-width: 500px) {
   .card {
     flex-basis: calc(50% - 10px);
@@ -90,7 +76,7 @@ h4:hover {
 }
 @media (min-width: 700px) {
   .card {
-    flex-basis: calc(calc(100% / 3) - 20px);
+    flex-basis: calc(calc(100% / 3) - 40px);
   }
   .card:not(:last-child) {
     margin-right: 30px;

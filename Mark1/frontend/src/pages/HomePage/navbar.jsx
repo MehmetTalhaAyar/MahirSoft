@@ -20,8 +20,8 @@ function NavBar() {
   };
   return (
     <nav>
-      <div className="navbar">
-        <a href="#" className="home_page">
+      <div className="homepage_navbar">
+        <a href="#" className="home_page_logo">
           Home Page
         </a>
         <ul className="nav-links">

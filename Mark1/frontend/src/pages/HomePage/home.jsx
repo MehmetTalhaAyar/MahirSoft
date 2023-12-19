@@ -7,7 +7,7 @@ function Home() {
   return (
     <div>
       <NavBar />
-      <div className="container">
+      <div className="home_page_wraper">
         <SideBar />
         <Dashboard />
       </div>

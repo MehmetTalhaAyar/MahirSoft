@@ -68,7 +68,7 @@ function Form({ toHome ,isVisible,changeVisible }) {
             Forgot Password
           </a>
         </div>
-        <button type="submit" className="button">
+        <button type="submit" className="login_button">
           Log-in
         </button>
         </div>

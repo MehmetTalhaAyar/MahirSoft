@@ -2,7 +2,7 @@ import React from "react";
 
 function NavBar({ onLoginClick, isLoginButtonClicked ,onSignUpClick,isSignUpButtonClicked}) {
   return (
-    <nav className="nav">
+    <nav className="login_navbar">
       <a href="#" className="nav_brand">
         Login Page
       </a>

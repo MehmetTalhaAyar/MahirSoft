@@ -1,4 +1,4 @@
-.navbar {
+.homepage_navbar {
   display: flex;
   background-color: #454679;
   color: white;
@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.home_page {
+.home_page_logo {
   text-decoration: none;
   letter-spacing: 0.15em;
   color: white;
