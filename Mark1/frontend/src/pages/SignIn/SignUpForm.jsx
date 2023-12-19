@@ -43,7 +43,7 @@ function SignUpForm({isVisible,changeVisible}) {
             id="email"
             required
           />
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">E-mail</label>
         </div>
         <div className="input-box">
           <span className="icon"></span>

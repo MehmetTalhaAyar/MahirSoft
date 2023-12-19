@@ -46,6 +46,7 @@ function Form({ toHome ,isVisible,changeVisible }) {
           <input
             id="email"
             onChange={(event) => setEmail(event.target.value)}
+            required
           />
           <label htmlFor="email">E-mail</label>
         </div>
@@ -55,6 +56,7 @@ function Form({ toHome ,isVisible,changeVisible }) {
             id="password"
             type="password"
             onChange={(event) => setPassword(event.target.value)}
+            required
           />
           <label htmlFor="password">Password</label>
         </div>
