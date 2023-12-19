@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signIn } from "./api";
 
-function Form({ toHome }) {
+function Form({ toHome ,isVisible,changeVisible }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -18,7 +18,12 @@ function Form({ toHome }) {
       console.log("istek tamamlandı.", response);
       if (response.data !== "") {
         toHome();
-      } else if (response.status === 204) {
+      }
+      else if (response.status === 400){
+        console.log("bad request.")
+
+      }
+      else if (response.status === 204) {
         console.log(":D");
       }
     } catch (ex) {
@@ -26,9 +31,15 @@ function Form({ toHome }) {
     }
   };
 
+
   return (
-    <div className="form-container">
-      <form onSubmit={onsubmit}>
+    <div className={`form-container ${isVisible ? "visible animate" : ""}`}>
+      
+      <form className="Sign-In-Form" onSubmit={onsubmit}>
+      <div className="form-header">
+      <span onClick={changeVisible} className="close" title="Close Sign In Form">&times;</span>
+      </div>
+      <div className="Sign-In-Form-Content">
         <h1>Login</h1>
         <div className="input-box">
           <span className="icon"></span>
@@ -53,13 +64,14 @@ function Form({ toHome }) {
             <input type="checkbox" />
             Remember Me
           </label>
-          <a href="#" className="fg">
+          <a href="/forgotpassword" className="fg">
             Forgot Password
           </a>
         </div>
         <button type="submit" className="button">
           Log-in
         </button>
+        </div>
       </form>
     </div>
   );

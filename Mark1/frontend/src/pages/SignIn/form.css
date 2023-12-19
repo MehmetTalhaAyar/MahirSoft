@@ -12,26 +12,32 @@ body {
 }
 
 .form-container {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   min-height: 92vh; /*vh stands for viewport height */
   transform: scale(1);
   transition: all 1s;
 }
-form {
+.visible{
+  display: block;
+}
+.Sign-In-Form {
   background: gray;
   position: relative;
-  width: 100%;
-  max-width: 380px;
-  padding: 80px 40px 40px;
+  width: 400px;
   background: #454679;
   border-radius: 10px;
   color: #fff;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
 }
+.Sign-In-Form-Content {
+  padding: 40px 40px 40px;
 
-form::before {
+
+}
+
+.Sign-In-Form::before {
   content: "";
   position: absolute;
   top: 0;
@@ -44,17 +50,28 @@ form::before {
   border-radius: 10px;
   pointer-events: none;
 }
+.form-header{
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  align-content: flex-end;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  
+}
 
-form h1 {
+
+
+.Sign-In-Form h1 {
   text-align: center;
   letter-spacing: 1px;
   margin-bottom: 2rem;
   color: white;
 }
-form .input-box {
+.Sign-In-Form .input-box {
   position: relative;
 }
-form .input-box input {
+.Sign-In-Form .input-box input {
   width: 100%;
   padding: 10px 0;
   font-size: 1.5rem;
@@ -66,7 +83,7 @@ form .input-box input {
   background-color: transparent;
   color: inherit;
 }
-form .input-box label {
+.Sign-In-Form .input-box label {
   position: absolute;
   top: 0;
   left: 0;
@@ -75,8 +92,8 @@ form .input-box label {
   pointer-events: none;
   transition: 0.3s ease-out;
 }
-form .input-box input:focus + label,
-form .input-box input:valid + label {
+.Sign-In-Form .input-box input:focus + label,
+.Sign-In-Form .input-box input:valid + label {
   transform: translateY(-18px);
   color: white;
   font-size: 1.1rem;
@@ -112,4 +129,18 @@ form .input-box input:valid + label {
 }
 a {
   color: rgb(209, 124, 124);
+}
+
+.close {
+  right: 100px;
+  top: 0;
+  color: #f3f8ff;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
 }

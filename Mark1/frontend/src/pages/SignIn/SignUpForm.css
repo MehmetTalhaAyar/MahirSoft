@@ -1,0 +1,165 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    font-size: 62.5%;
+  }
+  body {
+    font-size: 1.6rem;
+    background-color: #cccccc;
+  }
+  
+  .SignUp-form-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    min-height: 92vh; /*vh stands for viewport height */
+    transform: scale(1);
+    transition: all 1s;
+  }
+  .visible {
+    display: flex;
+  }
+  .Sign-Up-Form {
+    background: gray;
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    background: #454679;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+  }
+  .Sign-Up-Form-Content {
+    padding: 40px 40px 40px;
+
+
+  }
+  
+  .Sign-Up-Form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    transform: skewX(-26deg);
+    transform-origin: bottom left;
+    border-radius: 10px;
+    pointer-events: none;
+  }
+  
+  .Sign-Up-Form h1 {
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 3rem;
+    color: #f3f8ff;
+  }
+  .Sign-Up-Form .input-box {
+    position: relative;
+  }
+  .Sign-Up-Form .input-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    border: 1px solid #f3f8ff;
+    border-radius: 10px;
+    outline: none;
+    padding-left: 0.75rem;
+    background-color: transparent;
+    color: inherit;
+  }
+  .Sign-Up-Form .input-box label {
+    position: absolute;
+    top: 1.5em;
+    left: 1em;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.3s ease-out;
+  }
+  .Sign-Up-Form .input-box input:focus {
+    border-color: #f6ba6f;
+  }
+  
+  
+  .Sign-Up-Form .input-box input:focus + label,
+  .Sign-Up-Form .input-box input:valid + label {
+  
+    top: -1.25em;
+    left: 0.5em;
+    color: #f6ba6f;
+    font-size: 1.1rem;
+    
+  
+  }
+  .Sign-Up-Form .input-box input:valid + label {
+    color: #f3f8ff;
+  }
+  
+  .button {
+    display: block;
+    padding: 10px 20px;
+    font-size: 11px;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border-radius: 5px;
+    border: 2px solid #007bff; /* Button border color */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .button-link:hover {
+    background-color: #0056b3; /* Button background color on hover */
+    color: #fff; /* Button text color on hover */
+    transform: scale(0.99);
+  }
+  .remember-forgot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  a {
+    color: rgb(209, 124, 124);
+  }
+
+  .close {
+    right: 100px;
+    top: 0;
+    color: #f3f8ff;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: red;
+    cursor: pointer;
+  }
+
+  @-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+  }
+    
+  @keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+  }
+
+  .animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+  }
+  

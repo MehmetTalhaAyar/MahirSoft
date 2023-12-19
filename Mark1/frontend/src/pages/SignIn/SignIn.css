@@ -1,0 +1,129 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    font-size: 62.5%;
+  }
+  body {
+    font-size: 1.6rem;
+    background-color: #cccccc;
+  }
+  
+  .SignUp-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 92vh; /*vh stands for viewport height */
+    transform: scale(1);
+    transition: all 1s;
+  }
+  form {
+    background: gray;
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    padding: 80px 40px 40px;
+    background: #454679;
+    border-radius: 10px;
+    color: #fff;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+  }
+  
+  form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    transform: skewX(-26deg);
+    transform-origin: bottom left;
+    border-radius: 10px;
+    pointer-events: none;
+  }
+  
+  form h1 {
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 5rem;
+    color: #f3f8ff;
+  }
+  form .input-box {
+    position: relative;
+  }
+  form .input-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    border: 1px solid #f3f8ff;
+    border-radius: 10px;
+    outline: none;
+    padding-left: 0.75rem;
+    background-color: transparent;
+    color: inherit;
+  }
+  form .input-box label {
+    position: absolute;
+    top: 0.5em;
+    left: 1em;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.3s ease-out;
+  }
+  form .input-box input:focus {
+    border-color: #f6ba6f;
+  }
+  
+  
+  form .input-box input:focus + label,
+  form .input-box input:valid + label {
+  
+    top: -1.0em;
+    left: 0.5em;
+    color: #f6ba6f;
+    font-size: 1.1rem;
+    
+  
+  }
+  form .input-box input:valid + label {
+    color: #f3f8ff;
+  }
+  
+  .button {
+    display: block;
+    padding: 10px 20px;
+    font-size: 11px;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border-radius: 5px;
+    border: 2px solid #007bff; /* Button border color */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .button-link:hover {
+    background-color: #0056b3; /* Button background color on hover */
+    color: #fff; /* Button text color on hover */
+    transform: scale(0.99);
+  }
+  .remember-forgot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  a {
+    color: rgb(209, 124, 124);
+  }
+  

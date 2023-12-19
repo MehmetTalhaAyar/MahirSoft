@@ -85,3 +85,8 @@ li > a.nav_brand::after {
 .nav_button.clicked {
   transform: scale(0.7); /* You can adjust the scale factor as needed */
 }
+.navigation-bar-buttons{
+  display: flex;
+  width: 25rem;
+  justify-content: space-around;
+}
