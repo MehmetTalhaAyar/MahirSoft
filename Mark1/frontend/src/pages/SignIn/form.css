@@ -3,24 +3,19 @@
   padding: 0;
   box-sizing: border-box;
 }
-html {
-  font-size: 62.5%;
-}
-body {
-  font-size: 1.6rem;
-  background-color: #cccccc;
-}
 
 .form-container {
   display: none;
   justify-content: center;
   align-items: center;
+  left: 570px;
   min-height: 92vh; /*vh stands for viewport height */
   transform: scale(1);
   transition: all 1s;
 }
-.visible{
-  display: block;
+.visible {
+  display: flex;
+  position: absolute;
 }
 .Sign-In-Form {
   background: gray;
@@ -33,8 +28,6 @@ body {
 }
 .Sign-In-Form-Content {
   padding: 40px 40px 40px;
-
-
 }
 
 .Sign-In-Form::before {
@@ -50,17 +43,14 @@ body {
   border-radius: 10px;
   pointer-events: none;
 }
-.form-header{
+.form-header {
   display: flex;
   align-items: end;
   justify-content: end;
   align-content: flex-end;
   padding-right: 1rem;
   padding-top: 0.5rem;
-  
 }
-
-
 
 .Sign-In-Form h1 {
   text-align: center;
@@ -98,7 +88,7 @@ body {
   transform: translateY(-18px);
   top: -0.5em;
   color: #f6ba6f;
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 .Sign-In-Form .input-box input:focus {
   border-color: #f6ba6f;

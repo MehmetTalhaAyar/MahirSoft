@@ -1,6 +1,12 @@
 import React from "react";
+import "./Navbar.css";
 
-function NavBar({ onLoginClick, isLoginButtonClicked ,onSignUpClick,isSignUpButtonClicked}) {
+function NavBar({
+  onLoginClick,
+  isLoginButtonClicked,
+  onSignUpClick,
+  isSignUpButtonClicked,
+}) {
   return (
     <nav className="login_navbar">
       <a href="#" className="nav_brand">
@@ -34,21 +40,20 @@ function NavBar({ onLoginClick, isLoginButtonClicked ,onSignUpClick,isSignUpButt
         </li>
       </ul>
       <div className="navigation-bar-buttons">
-      <button
-        className={`nav_button ${isSignUpButtonClicked ? "clicked" : ""}`}
-        type="submit"
-        onClick={onSignUpClick}
-      >
-        Sign Up
-      </button>
-      <button
-        className={`nav_button ${isLoginButtonClicked ? "clicked" : ""}`}
-        type="submit"
-        onClick={onLoginClick}
-      >
-        Log-In
-      </button>
-      
+        <button
+          className={`nav_button ${isSignUpButtonClicked ? "clicked" : ""}`}
+          type="submit"
+          onClick={onSignUpClick}
+        >
+          Sign Up
+        </button>
+        <button
+          className={`nav_button ${isLoginButtonClicked ? "clicked" : ""}`}
+          type="submit"
+          onClick={onLoginClick}
+        >
+          Log-In
+        </button>
       </div>
     </nav>
   );

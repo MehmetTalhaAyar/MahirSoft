@@ -22,7 +22,7 @@ function SideBar() {
       <div className="sidebar_icon" onClick={openSidebar}>
         <AiOutlineMenu />
       </div>
-      <hr className="hr1"></hr>
+
       <div className="sidebar_menu">
         <div className="sidebar_column">
           <div className="react_img">

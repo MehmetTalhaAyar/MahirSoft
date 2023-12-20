@@ -3,14 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-html {
-  font-size: 62.5%;
-}
-body {
-  font-size: 1.6rem;
-  /*background-image: url(photo2.jpg);*/
-  background-color: #cccccc;
-}
+
 li {
   list-style: none;
   display: inline-block;
@@ -60,7 +53,7 @@ li > a.nav_brand::after {
 .nav_menu {
   display: flex;
   align-items: center;
-  gap: 8rem;
+  gap: 6rem;
 }
 .nav_button {
   display: block;
@@ -85,8 +78,8 @@ li > a.nav_brand::after {
 .nav_button.clicked {
   transform: scale(0.7); /* You can adjust the scale factor as needed */
 }
-.navigation-bar-buttons{
+.navigation-bar-buttons {
   display: flex;
-  width: 25rem;
+  width: 20rem;
   justify-content: space-around;
 }
