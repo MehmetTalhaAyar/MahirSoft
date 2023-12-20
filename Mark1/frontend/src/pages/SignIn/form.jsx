@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn } from "./api";
 import "./Form.css";
 
 function Form({ toHome, isVisible, changeVisible }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [isEmailTrue,setIsEmailTrue] = useState(false);
+  const [isPasswordTrue,setIsPasswordTrue] = useState(false);
 
   console.log(email);
   console.log(password);
@@ -22,12 +24,23 @@ function Form({ toHome, isVisible, changeVisible }) {
       } else if (response.status === 400) {
         console.log("bad request.");
       } else if (response.status === 204) {
+        setIsEmailTrue(true);
+        setIsPasswordTrue(true);
         console.log(":D");
       }
     } catch (ex) {
+
       console.error("istek başarısız.", ex);
     }
   };
+  useEffect(()=>{
+    setIsEmailTrue(false);
+  },[email])
+
+  useEffect(()=>{
+    setIsPasswordTrue(false);
+  },[password])
+
 
   return (
     <div className={`form-container ${isVisible ? "visible animate" : ""}`}>
@@ -47,22 +60,25 @@ function Form({ toHome, isVisible, changeVisible }) {
             <span className="icon"></span>
             <input
               id="email"
+              className={`${isEmailTrue ? "not-found-error" : ""}`}
               onChange={(event) => setEmail(event.target.value)}
               required
             />
             <label htmlFor="email">E-mail</label>
+            {isEmailTrue && <span className="not-found-error">Please be sure that your email is true</span>}
           </div>
           <div className="input-box">
             <span className="icon"></span>
             <input
               id="password"
               type="password"
+              className={`${isPasswordTrue ? "not-found-error" : ""}`}
               onChange={(event) => setPassword(event.target.value)}
               required
             />
             <label htmlFor="password">Password</label>
+            {isPasswordTrue && <span className="not-found-error">Please be sure that your password is true</span>}
           </div>
-
           <div className="remember-forgot">
             <label>
               <input type="checkbox" />

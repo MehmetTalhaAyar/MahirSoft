@@ -13,6 +13,7 @@
   transform: scale(1);
   transition: all 1s;
 }
+
 .visible {
   display: flex;
   position: absolute;
@@ -60,13 +61,13 @@
 }
 .Sign-In-Form .input-box {
   position: relative;
+  margin-bottom: 2.5rem;
 }
 .Sign-In-Form .input-box input {
   width: 100%;
   padding: 10px 0;
   font-size: 1.5rem;
   letter-spacing: 1px;
-  margin-bottom: 30px;
   border: 1px solid #f3f8ff;
   border-radius: 10px;
   padding-left: 0.75rem;
@@ -141,4 +142,14 @@
 .close:focus {
   color: red;
   cursor: pointer;
+}
+
+.Sign-In-Form .input-box input.not-found-error {
+  border-color:#e67e22;
+}
+
+.not-found-error {
+  padding-left: 1rem;
+  font-size: 1.3rem;
+  color: #e67e22;
 }

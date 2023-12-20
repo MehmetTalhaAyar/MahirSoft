@@ -1,9 +1,9 @@
 
 
-export function forgotpassword(){
+export function ForgotPassword(){
     return <>
     <div>
-        Forgot Passord PAge
+        Forgot Passord Page
     </div>
     </>
 }

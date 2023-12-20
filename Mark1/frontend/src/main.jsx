@@ -7,6 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from "./pages/HomePage/home.jsx";
+import { ForgotPassword } from "./pages/ForgotPasswordPage/ForgotPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home/>
-  }
+  },
+  {
+    path: "/forgotpassword",
+    element: <ForgotPassword/>,
+  },
 ]);
 
 
