@@ -49,7 +49,7 @@ function Form({ toHome, isVisible, changeVisible }) {
           <span
             onClick={changeVisible}
             className="close"
-            title="Close Sign In Form"
+            title="Close Log In Form"
           >
             &times;
           </span>

@@ -120,7 +120,7 @@ function SignUpForm({ isVisible, changeVisible }) {
             <span
               onClick={changeVisible}
               className="close"
-              title="Close Sign In Form"
+              title="Close Sign Up Form"
             >
               &times;
             </span>

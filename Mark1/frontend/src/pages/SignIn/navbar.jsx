@@ -45,7 +45,7 @@ function NavBar({
           type="submit"
           onClick={onSignUpClick}
         >
-          Sign Up
+          Sign-Up
         </button>
         <button
           className={`nav_button ${isLoginButtonClicked ? "clicked" : ""}`}
