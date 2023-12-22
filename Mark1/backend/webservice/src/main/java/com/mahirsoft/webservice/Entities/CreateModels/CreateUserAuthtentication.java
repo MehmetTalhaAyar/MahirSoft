@@ -1,5 +1,6 @@
 package com.mahirsoft.webservice.Entities.CreateModels;
 
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Validations.Annotations.UniqueEmail;
 
 import jakarta.validation.constraints.Email;
@@ -9,9 +10,19 @@ import jakarta.validation.constraints.Size;
 
 public class CreateUserAuthtentication {
 
+    @NotBlank(message = "name cannot be empty!")
+    String name;
+
+    @NotBlank(message = "surname cannot be empty!")
+    String surname;
+
+    @NotBlank(message = "gsm cannot be empty!")
+    @Pattern(regexp = "^[0-9]+$",message = "Please enter only numerical characters.")
+    String gsm;
+
     @NotBlank(message = "E-mail cannot be empty!")
     @UniqueEmail
-    @Email
+    @Email(message = "Please enter a valid email format.")
     private String email;
     
     @NotBlank(message = "Passoword cannot be empty!")
@@ -33,5 +44,36 @@ public class CreateUserAuthtentication {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserAuthentication toUserAuthentication() {
+        UserAuthentication userAuthentication = new UserAuthentication();
+        userAuthentication.setEmail(email);
+        userAuthentication.setPassword(password);
+        return userAuthentication;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getGsm() {
+        return gsm;
+    }
+
+    public void setGsm(String gsm) {
+        this.gsm = gsm;
     }
 }

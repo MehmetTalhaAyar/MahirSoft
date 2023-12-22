@@ -36,15 +36,15 @@ public class UserAuthenticationController {
     
 
     @PostMapping("/add")
-    ResponseEntity<String> createUser(@Valid @RequestBody CreateUserAuthtentication userAuthentication){
+    ResponseEntity<String> createUser(@Valid @RequestBody CreateUserAuthtentication createUserAuthentication){
         String body = "User created";
-        userAuthenticationService.save(userAuthentication);
+        userAuthenticationService.save(createUserAuthentication.toUserAuthentication());
         return new ResponseEntity<String>(body,HttpStatusCode.valueOf(200));
     }
 
     @PostMapping("/user")
-    ResponseEntity<?> getUserInformation(@Valid @RequestBody GetUserAuthentication userAuthentication){
-        var user = userAuthenticationService.getUserInfo(userAuthentication);
+    ResponseEntity<?> getUserInformation(@Valid @RequestBody GetUserAuthentication getUserAuthentication){
+        var user = userAuthenticationService.getUserInfo(getUserAuthentication.toUserAuthentication());
 
         if (user == null){
             return new ResponseEntity<String>("User not found", HttpStatusCode.valueOf(204));

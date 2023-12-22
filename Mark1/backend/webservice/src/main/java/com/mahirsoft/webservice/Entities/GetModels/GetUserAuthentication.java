@@ -1,5 +1,6 @@
 package com.mahirsoft.webservice.Entities.GetModels;
 
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 public class GetUserAuthentication {
 
@@ -21,5 +22,12 @@ public class GetUserAuthentication {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserAuthentication toUserAuthentication() {
+        UserAuthentication userAuthentication = new UserAuthentication();
+        userAuthentication.setEmail(email);
+        userAuthentication.setPassword(password);
+        return userAuthentication;
     }
 }
