@@ -1,25 +1,14 @@
+import React from "react";
 import "./task.css";
 
-function Task() {
+function Task(props) {
+  // Access props data
+  const { taskName } = props;
+
   return (
     <>
       <div className="task">
-        <div>Isim : </div>
-        <div>Description :</div>
-        <div className="tag">Tag</div>
-      </div>
-      <div className="task">
-        <div>Isim : </div>
-        <div>Description :</div>
-        <div className="tag">Tag</div>
-      </div>
-      <div className="task">
-        <div>Isim : </div>
-        <div>Description :</div>
-        <div className="tag">Tag</div>
-      </div>
-      <div className="task">
-        <div>Isim : </div>
+        <div>{taskName} : </div>
         <div>Description :</div>
         <div className="tag">Tag</div>
       </div>

@@ -34,27 +34,37 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 1px 1px 5px #454679;
-  background-color: #d6d6de;
+  background-color: white;
 }
 
 .card_header {
   margin: 6px 20px 0px 20px;
 }
+.header_name {
+  font-weight: 700;
+  color: black;
+}
 .new {
   position: absolute;
-  width: 25%;
+  width: 17%;
   right: 7%;
   top: 1.5%;
-  border: 1px solid orange;
-  box-shadow: 1px 1px 5px orange;
+  height: 7%;
+  border: 1px solid rgb(155, 153, 150);
+  box-shadow: 1px 1px 5px rgb(155, 153, 150);
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
+  background-color: white;
+}
+.new:hover {
+  background-color: rgb(232, 232, 232);
+  transition: 0.3s;
 }
 
 .scrolling_vertically {
   width: 100%;
-  border-top: 1px solid rgb(195, 153, 153);
+  border-top: 1px solid rgb(155, 153, 150);
   margin-top: 10px;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
