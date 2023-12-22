@@ -7,7 +7,7 @@ function Stage() {
       <ul className="cards">
         <li className="card">
           <div className="card_header">
-            <div className="header_name">Abdullah Vural</div>
+            <div className="header_name">Ali Duru</div>
             <div className="new">New+</div>
           </div>
           <div className="scrolling_vertically">

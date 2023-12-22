@@ -1,13 +1,19 @@
-import React from "react";
 import "./navbar.css";
 import Profile from "./ProfilePage/profile";
+import React, { useState } from "react";
 
 import { CgProfile } from "react-icons/cg";
-import { useState } from "react";
 
 function NavBar() {
-  const [isClicked, setIsClicked] = useState(false);
+  const [isProfileVisible, setIsProfileVisible] = useState(false);
 
+  const handleProfileClick = () => {
+    setIsProfileVisible(!isProfileVisible);
+  };
+
+  /*const [isClicked, setIsClicked] = useState(false);*/
+
+  /*
   const handleLogoutClick = () => {
     setIsClicked(true);
 
@@ -15,9 +21,8 @@ function NavBar() {
     setTimeout(() => {
       setIsClicked(false);
     }, 80);
-
-    // You can perform additional logout logic here if needed
   };
+  */
   return (
     <nav>
       <div className="homepage_navbar">
@@ -31,11 +36,15 @@ function NavBar() {
           <Profile />
         </ul>
         <div
-          className={`logout_img ${isClicked ? "clicked" : ""}`}
-          onClick={handleLogoutClick}
+          className="logout_img"
+          onClick={handleProfileClick}
+
+          /* className={`logout_img ${isClicked ? "clicked" : ""}`}
+          onClick={handleLogoutClick}*/
         >
           <CgProfile />
         </div>
+        {isProfileVisible && <Profile isVisible={isProfileVisible} />}
       </div>
     </nav>
   );
