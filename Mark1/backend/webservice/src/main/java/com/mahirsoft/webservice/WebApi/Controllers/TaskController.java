@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,7 +72,17 @@ public class TaskController {
         return new ResponseEntity<UpdateTaskResponse>(updatedTask, HttpStatusCode.valueOf(200));
     }
 
-    // delete mapping ile deletion statecode 1 e çekilecek.
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable long id){
+        String body = "Task Not Found";
+        var message = taskService.softDeleteTask(id);
+
+        if(message == null){
+            return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
+        }
+        return new ResponseEntity<>(HttpStatusCode.valueOf(204));
+
+    }
 
     
 

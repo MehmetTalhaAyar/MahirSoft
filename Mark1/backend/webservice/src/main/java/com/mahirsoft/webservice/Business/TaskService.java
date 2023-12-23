@@ -34,7 +34,7 @@ public class TaskService {
     public List<GetAllTaskResponse> getallTask(){
         List<GetAllTaskResponse> allTasks = new ArrayList<>();
 
-        for(var task : taskRepository.findAll()){
+        for(var task : taskRepository.findByDeletionStateCodeNot(1)){
             GetAllTaskResponse newTask = new GetAllTaskResponse();
             newTask.setTaskId(task.getTaskId());
             newTask.setTaskName(task.getTaskName());
@@ -95,6 +95,22 @@ public class TaskService {
 
 
 
+    }
+
+
+    public String softDeleteTask(long id) {
+        Task task = taskRepository.findById(id);
+
+        if(task == null){
+            return null;
+        }
+        else{
+            task.setDeletionStateCode(1);
+            taskRepository.save(task);
+            
+            return "Delete success";
+        }
+        
     }
 
 

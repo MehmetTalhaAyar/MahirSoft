@@ -1,6 +1,7 @@
 package com.mahirsoft.webservice.Entities.Models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +17,7 @@ public class Task {
     @GeneratedValue
     @Column(name = "taskId")
     long taskId;
-
+    
     @Column(name = "resposibleId")
     long resposibleId;
 
@@ -48,10 +49,10 @@ public class Task {
     long relatedTaskId;
 
     @Column(name = "deletionStateCode")
-    int deletionStateCode;
+    int deletionStateCode = 0;
 
     @Column(name = "createdOn")
-    Date createdOn;
+    Date createdOn = Date.valueOf(LocalDate.now());
 
     @Column(name = "taskDeadlineDate")
     Date taskDeadlineDate;
