@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { signIn } from "./api";
 import "./Form.css";
 
-function Form({ toHome, isVisible, changeVisible }) {
+function Form({ toHome, isVisible, changeVisible,changeForm, isChangeActive}) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [isEmailTrue,setIsEmailTrue] = useState(false);
@@ -43,9 +43,12 @@ function Form({ toHome, isVisible, changeVisible }) {
 
 
   return (
-    <div className={`form-container ${isVisible ? "visible animate" : ""}`}>
+    <div className={`form-container ${isVisible ? "visible animate " : ""}${isChangeActive ? "left-animation" : ""}`}>
       <form className="Sign-In-Form" onSubmit={onsubmit}>
         <div className="form-header">
+          <span className="change-form" title="Go to Sign Up Form" onClick={changeForm}>
+            &larr;
+          </span>
           <span
             onClick={changeVisible}
             className="close"
