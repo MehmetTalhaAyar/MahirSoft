@@ -2,7 +2,7 @@ import "./SignUpForm.css";
 import { useEffect, useState } from "react";
 import { signUp } from "./api";
 
-function SignUpForm({ isVisible, changeVisible }) {
+function SignUpForm({ isVisible, changeVisible,changeForm,isChangeActive}) {
 
   const [name,setName] = useState();
   const [surname,setSurname] = useState();
@@ -11,7 +11,8 @@ function SignUpForm({ isVisible, changeVisible }) {
   const [password,setPassword] = useState();
   const [errors,setErrors] = useState({});
   const [successMessage,setSuccessMessage] = useState();
-  
+  const [leftAnimation,setLeftAnimation] = useState(false);  
+
   // bu loglar kaldırılacak
   console.log(name);
   console.log(surname);
@@ -108,15 +109,23 @@ function SignUpForm({ isVisible, changeVisible }) {
     }
   },[successMessage])
 
+
+
+  
+  
+
   return (
     <>
       <div
         className={`SignUp-form-container ${
-          isVisible ? "visible animate" : ""
-        }`}
+          isVisible ? "visible animate " : ""
+        }${isChangeActive ? "left-animation" : ""}`}
       >
         <form className="Sign-Up-Form" onSubmit={onsubmit}>
           <div className="form-header">
+            <span className="change-form" title="Go to Sign In Form" onClick={changeForm}>
+            &larr;
+            </span>
             <span
               onClick={changeVisible}
               className="close"

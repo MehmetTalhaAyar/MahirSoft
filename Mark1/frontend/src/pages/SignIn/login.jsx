@@ -11,6 +11,8 @@ function Login() {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [isSignUpFormVisible, setIsSignUpFormVisible] = useState(false);
   const [isSignUpButtonClicked, setIsSignUpButtonClicked] = useState(false);
+  const [isChangeSignUpFormActive,setIsChangeSignUpFormActive] = useState(undefined);
+  const [isChangeSignInFormActive,setIsChangeSignInFormActive] = useState(undefined);
 
   const toggleFormVisibility = () => {
     if (isSignUpFormVisible === true) setIsSignUpFormVisible(false);
@@ -23,6 +25,41 @@ function Login() {
     setIsSignUpFormVisible(!isSignUpFormVisible);
     setIsSignUpButtonClicked(true);
   };
+
+  const changeSignUpForm = () =>{
+    setIsChangeSignUpFormActive(true);
+  
+  }
+
+  const changeSignInForm = () => {
+    setIsChangeSignInFormActive(true);
+    
+  }
+
+
+  useEffect(
+    ()=>{
+      if(isChangeSignUpFormActive){
+        const timeout = setTimeout(()=>{
+          setIsSignUpFormVisible(false);
+          setIsFormVisible(true);
+          setIsChangeSignUpFormActive(undefined);
+        },500)
+      }
+    }
+  ,[isChangeSignUpFormActive])
+
+  useEffect(
+    ()=>{
+      if(isChangeSignInFormActive){
+        const timeout = setTimeout(()=>{
+          setIsFormVisible(false);
+          setIsSignUpFormVisible(true);
+          setIsChangeSignInFormActive(undefined);
+        },500)
+      }
+    }
+  ,[isChangeSignInFormActive])
 
   useEffect(() => {
     if (isButtonClicked) {
@@ -67,10 +104,14 @@ function Login() {
         toHome={navigateToHome}
         isVisible={isFormVisible}
         changeVisible={toggleFormVisibility}
+        changeForm = {changeSignInForm}
+        isChangeActive = {isChangeSignInFormActive}
       />
       <SignUpForm
         isVisible={isSignUpFormVisible}
         changeVisible={toggleSignUpFormVisibility}
+        changeForm ={changeSignUpForm}
+        isChangeActive = {isChangeSignUpFormActive}
       />
     </div>
   );

@@ -116,9 +116,31 @@ a {
   color: rgb(209, 124, 124);
 }
 
+.Sign-Up-Form .form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-content: flex-end;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.Sign-Up-Form .change-form {
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: #f3f8ff;
+}
+
+.Sign-Up-Form .change-form:focus,
+.Sign-Up-Form .change-form:hover {
+  color: #8a87cc;
+  cursor: pointer;
+
+}
+
+
 .close {
-  right: 100px;
-  top: 0;
   color: #f3f8ff;
   font-size: 3rem;
   font-weight: bold;
@@ -170,3 +192,18 @@ a {
   -webkit-animation: animatezoom 0.6s;
   animation: animatezoom 0.6s;
 }
+
+
+@keyframes animateleft{
+  from{
+    left: 37%;
+  }
+  to {
+    left: -1000%;
+  }
+}
+
+.left-animation {
+  animation: animateleft 5s;
+}
+

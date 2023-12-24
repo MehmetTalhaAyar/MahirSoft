@@ -46,11 +46,25 @@
 }
 .form-header {
   display: flex;
-  align-items: end;
-  justify-content: end;
+  align-items: center;
+  justify-content: space-between;
   align-content: flex-end;
   padding-right: 1rem;
   padding-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.Sign-In-Form .change-form{
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: #f3f8ff;
+}
+
+.Sign-In-Form .change-form:focus,
+.Sign-In-Form .change-form:hover {
+  color: #8a87cc;
+  cursor: pointer;
+
 }
 
 .Sign-In-Form h1 {
@@ -131,8 +145,6 @@
 }
 
 .close {
-  right: 100px;
-  top: 0;
   color: #f3f8ff;
   font-size: 3rem;
   font-weight: bold;
@@ -153,3 +165,19 @@
   font-size: 1.3rem;
   color: #e67e22;
 }
+
+
+@keyframes animateleft{
+  from{
+    left: 37%;
+  }
+  to {
+    left: -1000%;
+  }
+}
+
+.left-animation {
+  animation: animateleft 5s;
+}
+
+
