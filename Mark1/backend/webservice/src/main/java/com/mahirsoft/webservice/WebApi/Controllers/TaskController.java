@@ -12,6 +12,7 @@ import com.mahirsoft.webservice.Entities.Response.UpdateTaskResponse;
 
 import jakarta.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
@@ -44,20 +45,48 @@ public class TaskController {
     @GetMapping("/getalltasks")
     public List<GetAllTaskResponse> getAllTasks(){
 
-        return taskService.getallTask();
+        var items = taskService.getallTask();
+
+
+        // response nesnesine mapping işlemi
+        List<GetAllTaskResponse> allTasks = new ArrayList<>();
+
+        for(var task : items){
+            GetAllTaskResponse newTask = new GetAllTaskResponse();
+            newTask.setTaskId(task.getTaskId());
+            newTask.setTaskName(task.getTaskName());
+            newTask.setTaskDescripton(task.getTaskDescription());
+            newTask.setCreatedOn(task.getCreatedOn());
+            newTask.setTaskDeadlineDate(task.getTaskDeadlineDate());
+
+            allTasks.add(newTask);
+        }
+
+        return allTasks;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getTaskById(@PathVariable long id){
 
         String body = "Task not found";
-        var eleman = taskService.getTaskById(id);
+        var task = taskService.getTaskById(id);
 
-        if(eleman == null){
+        if(task == null){
             return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
         }
 
-        return new ResponseEntity<GetTaskResponse>(eleman,HttpStatusCode.valueOf(200));
+
+        //response nesnesine map işlemi
+        GetTaskResponse getTaskResponse = new GetTaskResponse();
+
+        getTaskResponse.setTaskId(task.getTaskId());
+        getTaskResponse.setTaskName(task.getTaskName());
+        getTaskResponse.setTaskDescripton(task.getTaskDescription());
+        getTaskResponse.setCreatedOn(task.getCreatedOn());
+        getTaskResponse.setTaskDeadlineDate(task.getTaskDeadlineDate());
+        getTaskResponse.setResponsibleId(task.getUserAuthenticationresposibleId());
+
+        return new ResponseEntity<GetTaskResponse>(getTaskResponse,HttpStatusCode.valueOf(200));
     }
 
     @PutMapping("/{id}")
@@ -69,7 +98,13 @@ public class TaskController {
             return new ResponseEntity<String>(body , HttpStatusCode.valueOf(400));
         }
 
-        return new ResponseEntity<UpdateTaskResponse>(updatedTask, HttpStatusCode.valueOf(200));
+
+        // response nesnesine map işlemi
+        UpdateTaskResponse updateTaskResponse = new UpdateTaskResponse();
+        updateTaskResponse.setTaskName(updatedTask.getTaskName());
+        updateTaskResponse.setTaskDescription(updatedTask.getTaskDescription());
+
+        return new ResponseEntity<UpdateTaskResponse>(updateTaskResponse, HttpStatusCode.valueOf(200));
     }
 
     @DeleteMapping("/{id}")

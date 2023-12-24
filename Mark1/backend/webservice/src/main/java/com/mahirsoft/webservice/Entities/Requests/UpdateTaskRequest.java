@@ -1,5 +1,6 @@
 package com.mahirsoft.webservice.Entities.Requests;
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

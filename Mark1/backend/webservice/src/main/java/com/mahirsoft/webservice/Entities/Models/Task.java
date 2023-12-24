@@ -7,6 +7,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,8 +20,9 @@ public class Task {
     @Column(name = "taskId")
     long taskId;
     
-    @Column(name = "resposibleId")
-    long resposibleId;
+    @ManyToOne
+    @JoinColumn(name = "responsibleId",referencedColumnName = "userId")
+    UserAuthentication resposibleId;
 
     @Column(name = "projectId")
     long projectId;
@@ -33,8 +36,9 @@ public class Task {
     @Column(name = "priorityId")
     long priorityId;
 
-    @Column(name = "createdById")
-    long createdById;
+    @ManyToOne
+    @JoinColumn(name = "createdById",referencedColumnName = "userId")
+    UserAuthentication createdById;
 
     @Column(name = "commentId")
     long commentId;
@@ -63,14 +67,6 @@ public class Task {
 
     public void setTaskId(long taskId) {
         this.taskId = taskId;
-    }
-
-    public long getResposibleId() {
-        return resposibleId;
-    }
-
-    public void setResposibleId(long resposibleId) {
-        this.resposibleId = resposibleId;
     }
 
     public long getProjectId() {
@@ -103,14 +99,6 @@ public class Task {
 
     public void setPriorityId(long priorityId) {
         this.priorityId = priorityId;
-    }
-
-    public long getCreatedById() {
-        return createdById;
-    }
-
-    public void setCreatedById(long createdById) {
-        this.createdById = createdById;
     }
 
     public long getCommentId() {
@@ -167,6 +155,30 @@ public class Task {
 
     public void setTaskDeadlineDate(Date taskDeadlineDate) {
         this.taskDeadlineDate = taskDeadlineDate;
+    }
+
+    public UserAuthentication getUserAuthenticationresposibleId() {
+        return resposibleId;
+    }
+
+    public void setUserAuthenticationresposibleId(UserAuthentication userAuthenticationresposibleId) {
+        this.resposibleId = userAuthenticationresposibleId;
+    }
+
+    public UserAuthentication getResposibleId() {
+        return resposibleId;
+    }
+
+    public void setResposibleId(UserAuthentication resposibleId) {
+        this.resposibleId = resposibleId;
+    }
+
+    public UserAuthentication getCreatedById() {
+        return createdById;
+    }
+
+    public void setCreatedById(UserAuthentication createdById) {
+        this.createdById = createdById;
     }
     
 }

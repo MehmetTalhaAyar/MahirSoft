@@ -1,5 +1,6 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
@@ -46,13 +47,35 @@ public class UserAuthenticationController {
         if (user == null){
             return new ResponseEntity<String>("User not found", HttpStatusCode.valueOf(204));
         }
-        
-        return new ResponseEntity<PostUserAuthenticationResponse>( user, HttpStatusCode.valueOf(200));
+
+        // response nesnesine mapping
+        PostUserAuthenticationResponse UserAuthenticationResponse = new PostUserAuthenticationResponse();
+        UserAuthenticationResponse.setUserId(user.getUserId());
+        UserAuthenticationResponse.setEmail(user.getEmail());
+        UserAuthenticationResponse.setPassword(user.getPassword());
+    
+        return new ResponseEntity<PostUserAuthenticationResponse>( UserAuthenticationResponse, HttpStatusCode.valueOf(200));
     }
 
     @GetMapping("/users")
     List<GetAllUserAuthenticationResponse> getUsers(){
-        return userAuthenticationService.getAllUsers();
+
+
+        var items = userAuthenticationService.getAllUsers();
+        List<GetAllUserAuthenticationResponse> allUsers = new ArrayList<>();
+
+        for (var user : items){
+            GetAllUserAuthenticationResponse newUser = new GetAllUserAuthenticationResponse();
+            newUser.setUserId(user.getUserId());
+            newUser.setName(user.getName());
+            newUser.setSurname(user.getSurname());
+            newUser.setEmail(user.getEmail());
+            newUser.setGsm(user.getGsm());
+            newUser.setTasks(user.getResponsibleTasks());
+            allUsers.add(newUser);
+        }
+
+        return allUsers;
         
     }
 

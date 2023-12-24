@@ -1,10 +1,14 @@
 package com.mahirsoft.webservice.Entities.Response;
 
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+
 public class UpdateTaskResponse {
     
     String taskName;
 
     String taskDescription;
+
+    UserAuthentication responsibleId;
 
     public String getTaskName() {
         return taskName;
@@ -20,5 +24,13 @@ public class UpdateTaskResponse {
 
     public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
+    }
+
+    public UserAuthentication getResponsibleId() {
+        return responsibleId;
+    }
+
+    public void setResponsibleId(UserAuthentication responsibleId) {
+        this.responsibleId = responsibleId;
     }
 }

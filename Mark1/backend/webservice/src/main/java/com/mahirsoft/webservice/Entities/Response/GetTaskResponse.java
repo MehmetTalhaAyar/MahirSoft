@@ -2,6 +2,8 @@ package com.mahirsoft.webservice.Entities.Response;
 
 import java.util.Date;
 
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+
 public class GetTaskResponse {
 
     private long taskId;
@@ -13,6 +15,8 @@ public class GetTaskResponse {
     private Date createdOn;
 
     private Date taskDeadlineDate;
+
+    private UserAuthentication responsibleId;
 
     public long getTaskId() {
         return taskId;
@@ -52,6 +56,14 @@ public class GetTaskResponse {
 
     public void setTaskDeadlineDate(Date taskDeadlineDate) {
         this.taskDeadlineDate = taskDeadlineDate;
+    }
+
+    public UserAuthentication getResponsibleId() {
+        return responsibleId;
+    }
+
+    public void setResponsibleId(UserAuthentication responsibleId) {
+        this.responsibleId = responsibleId;
     }
 
     

@@ -3,11 +3,15 @@ package com.mahirsoft.webservice.Entities.Models;
 
 
 import java.sql.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -57,6 +61,15 @@ public class UserAuthentication {
 
     @Column(name = "createdById")
     long createdById;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "resposibleId")
+    List<Task> responsibleTasks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "resposibleId")
+    List<Task> tasksCretedBy;
+
 
 
     public long getUserId() {
@@ -162,6 +175,16 @@ public class UserAuthentication {
     public void setCreatedById(long createdById) {
         this.createdById = createdById;
     }
+
+    public List<Task> getResponsibleTasks() {
+        return responsibleTasks;
+    }
+
+    public void setResponsibleTasks(List<Task> responsibleTasks) {
+        this.responsibleTasks = responsibleTasks;
+    }
+
+    
  
 
 
