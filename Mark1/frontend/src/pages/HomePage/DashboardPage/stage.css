@@ -100,3 +100,19 @@
     margin-right: 40px;
   }
 }
+
+/* stage.css */
+.slide-down {
+  animation: slideDown 0.5s ease; /* Adjust the duration and easing as needed */
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px); /* Adjust the initial position as needed */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
