@@ -1,0 +1,75 @@
+body {
+  background-color: #f6f9ff;
+}
+
+main {
+  padding: 20px 30px;
+  width: 100%;
+}
+.profile_header {
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+  align-items: center;
+}
+.overview {
+  border-radius: 2px;
+  width: 30%;
+  text-align: center;
+  cursor: pointer;
+}
+.edit_profile {
+  border-radius: 2px;
+  width: 30%;
+  text-align: center;
+  cursor: pointer;
+}
+.change_password2 {
+  border-radius: 2px;
+  width: 40%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.profile_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  height: 250px;
+  width: 360px;
+  background-color: white;
+  box-shadow: 1px 1px 4px #454679;
+}
+.logo_img {
+  margin-top: 5px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+._image2 {
+  margin-bottom: 15px;
+  border: 1px solid #454679;
+  box-shadow: 1px 1px 4px #454679;
+  width: 40%;
+  border-radius: 50%;
+}
+.section {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.profile_card_overview {
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 4px #454679;
+  width: 70%;
+  height: 72vh;
+  background-color: white;
+}
+.active {
+  background-color: #007bff; /* Set your desired active background color */
+  color: white; /* Set your desired active text color */
+}

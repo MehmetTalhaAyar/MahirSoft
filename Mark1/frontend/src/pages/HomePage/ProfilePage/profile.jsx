@@ -20,11 +20,11 @@ function Profile({ isVisible }) {
         <p className="profile_text">FrontEnd Developer</p>
       </div>
       <div className="profile_container">
-        <a href="#" className="profile_link">
+        <a href="/myprofile" className="profile_link">
           <FaRegUser />
           <div className="my_profile">My Profile</div>
         </a>
-        <a href="#" className="profile_link">
+        <a href="/settings" className="profile_link">
           <FiSettings />
           <div className="settings">Settings</div>
         </a>

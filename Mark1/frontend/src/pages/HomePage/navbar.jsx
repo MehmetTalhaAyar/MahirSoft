@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { CgProfile } from "react-icons/cg";
 
-function NavBar() {
+function NavBar({ showProfilePage }) {
   const [isProfileVisible, setIsProfileVisible] = useState(false);
 
   const handleProfileClick = () => {
@@ -33,7 +33,7 @@ function NavBar() {
           <li href="#">Home</li>
           <li href="#">About</li>
           <li href="#">Contact</li>
-          <Profile />
+          <Profile showProfilePage={showProfilePage} />
         </ul>
         <div
           className="logout_img"

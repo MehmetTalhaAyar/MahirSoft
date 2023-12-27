@@ -1,0 +1,71 @@
+.edit_profile_page {
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
+  color: #716e6e;
+}
+.section2 {
+  display: flex;
+}
+.profile_container2 {
+  width: 25%;
+}
+._img {
+  display: flex;
+  flex-direction: column;
+}
+
+._image3 {
+  border: 1px solid #454679;
+  width: 40%;
+}
+.import_photo {
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+}
+.upload {
+  border-radius: 5px;
+  padding: 5px;
+  width: 25px;
+  height: 25px;
+  background-color: rgb(89, 89, 183);
+  color: black;
+  cursor: pointer;
+}
+.delete {
+  border-radius: 5px;
+  padding: 3px;
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  color: black;
+  cursor: pointer;
+}
+
+.full_name {
+  width: 25%;
+}
+
+.about_profile {
+  width: 25%;
+}
+.form-control {
+  width: 50%;
+  float: right;
+  height: 25px;
+  text-indent: 5px;
+  border-radius: 5px;
+  border: solid 1.5px #d3d3d3;
+  transition: 1s;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 2px 2px #4b7ccb;
+  transition: 0.3s;
+  outline-width: 0px;
+}

@@ -1,0 +1,28 @@
+.about {
+  margin-top: 30px;
+}
+.paragraph {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  color: #716e6e;
+}
+.profile_details {
+  display: flex;
+  margin-top: 20px;
+}
+.details1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  color: #716e6e;
+  width: 12%;
+}
+.details2 {
+  margin-left: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 200px;
+}
