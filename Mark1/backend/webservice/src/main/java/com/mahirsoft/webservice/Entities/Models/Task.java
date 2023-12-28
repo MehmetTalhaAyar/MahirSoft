@@ -43,9 +43,6 @@ public class Task {
     @Column(name = "commentId")
     long commentId;
 
-    @Column(name = "taskTags")
-    String taskTags;
-
     @Column(name = "stageId")
     long stageId;
 
@@ -107,14 +104,6 @@ public class Task {
 
     public void setCommentId(long commentId) {
         this.commentId = commentId;
-    }
-
-    public String getTaskTags() {
-        return taskTags;
-    }
-
-    public void setTaskTags(String taskTags) {
-        this.taskTags = taskTags;
     }
 
     public long getStageId() {
