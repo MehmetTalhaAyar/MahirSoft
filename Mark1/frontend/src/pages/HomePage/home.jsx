@@ -20,7 +20,7 @@ function Home() {
     <div>
       <NavBar />
       <div className="home_page_wraper">
-        <SideBar showProfilePage={handleFilterClick} />
+        <SideBar />
         {showDashboard ? (
           <Dashboard onFilterClick={handleFilterClick} />
         ) : (

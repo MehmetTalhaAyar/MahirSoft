@@ -65,7 +65,24 @@
 }
 
 .form-control:focus {
-  box-shadow: 0 0 2px 2px #4b7ccb;
+  box-shadow: 0 0 2px 2px #3498db;
   transition: 0.3s;
   outline-width: 0px;
+}
+.end_button {
+  display: flex;
+  justify-content: end;
+}
+.save_changes {
+  width: 13%;
+  height: 30px;
+  background-color: #007bff; /* Blue color */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.save_changes:hover {
+  background-color: #0070e6; /* Darker blue color on hover */
+  transition: 0.3s;
 }

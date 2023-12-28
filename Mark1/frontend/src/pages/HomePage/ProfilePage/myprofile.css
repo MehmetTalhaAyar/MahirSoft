@@ -16,18 +16,22 @@ main {
   border-radius: 2px;
   width: 30%;
   text-align: center;
+  padding: 5px;
   cursor: pointer;
 }
+
 .edit_profile {
   border-radius: 2px;
   width: 30%;
   text-align: center;
+  padding: 5px;
   cursor: pointer;
 }
 .change_password2 {
   border-radius: 2px;
   width: 40%;
   text-align: center;
+  padding: 5px;
   cursor: pointer;
 }
 
@@ -72,4 +76,8 @@ main {
 .active {
   background-color: #007bff; /* Set your desired active background color */
   color: white; /* Set your desired active text color */
+}
+.active:hover {
+  background-color: #0070e6;
+  transition: 0.3s;
 }

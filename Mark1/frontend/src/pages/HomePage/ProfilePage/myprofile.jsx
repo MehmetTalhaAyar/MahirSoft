@@ -10,11 +10,29 @@ import EditProfilePage from "./editprofile";
 import OverviewPage from "./overview";
 function MyProfile() {
   const [currentPage, setCurrentPage] = useState("overview");
+  const [profileImage, setProfileImage] = useState(false);
+  const [fullName, setFullName] = useState("-");
+  const [job, setJob] = useState("-");
 
+  //Change Page function
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  //Change Profile Function
+  const handleProfileImage = (newImage) => {
+    setProfileImage(newImage);
+  };
+
+  //Change Name function
+  const handleFullNameChange = (newFullName) => {
+    setFullName(newFullName);
+  };
+
+  //Change Job function
+  const handleJobChange = (newJob) => {
+    setJob(newJob);
+  };
   return (
     <main>
       <h1>Profile</h1>
@@ -25,11 +43,16 @@ function MyProfile() {
       <section className="section">
         <div className="profile_card">
           <img
-            src="./src/pages/HomePage/ProfilePage/images.jpg"
+            src={
+              profileImage
+                ? URL.createObjectURL(profileImage)
+                : "./src/pages/HomePage/ProfilePage/images.jpg"
+            }
+            alt="Profile"
             className="_image2"
           />
-          <h3 className="profile_name">Ali Duru</h3>
-          <p className="profile_text">FrontEnd Developer</p>
+          <h3 className="profile_name">{fullName}</h3>
+          <p className="profile_text">{job}</p>
           <div className="logo_img">
             <IoLogoLinkedin />
             <FaInstagramSquare />
@@ -64,7 +87,13 @@ function MyProfile() {
           </div>
           <hr></hr>
           {currentPage === "overview" && <OverviewPage />}
-          {currentPage === "editProfile" && <EditProfilePage />}
+          {currentPage === "editProfile" && (
+            <EditProfilePage
+              onProfileImageChange={handleProfileImage}
+              onFullNameChange={handleFullNameChange}
+              onJobChange={handleJobChange}
+            />
+          )}
           {currentPage === "changePassword" && <ChangePasswordPage />}
         </div>
       </section>

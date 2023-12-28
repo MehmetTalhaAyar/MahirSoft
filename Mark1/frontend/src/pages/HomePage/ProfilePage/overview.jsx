@@ -2,7 +2,7 @@
 import React from "react";
 import "./overview.css";
 
-const OverviewPage = () => {
+function OverviewPage() {
   return (
     <div>
       <div className="about">
@@ -37,6 +37,6 @@ const OverviewPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default OverviewPage;
