@@ -5,6 +5,9 @@ body {
 main {
   padding: 20px 30px;
   width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  height: 630px;
+  padding-bottom: 50px;
 }
 .profile_header {
   display: flex;
@@ -70,7 +73,6 @@ main {
   border-radius: 10px;
   box-shadow: 1px 1px 4px #454679;
   width: 70%;
-  height: 72vh;
   background-color: white;
 }
 .active {
@@ -80,4 +82,16 @@ main {
 .active:hover {
   background-color: #0070e6;
   transition: 0.3s;
+}
+.linkedin {
+  cursor: pointer;
+}
+.instagram {
+  cursor: pointer;
+}
+.facebook {
+  cursor: pointer;
+}
+.twitter {
+  cursor: pointer;
 }
