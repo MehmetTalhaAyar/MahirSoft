@@ -8,6 +8,8 @@ import { FaTwitter } from "react-icons/fa";
 import ChangePasswordPage from "./changepassword";
 import EditProfilePage from "./editprofile";
 import OverviewPage from "./overview";
+import defaultProfileImage from "/src/assets/profileImage.jpg";
+
 function MyProfile() {
   const [currentPage, setCurrentPage] = useState("overview");
   const [profileImage, setProfileImage] = useState(false);
@@ -46,7 +48,7 @@ function MyProfile() {
             src={
               profileImage
                 ? URL.createObjectURL(profileImage)
-                : "./src/pages/HomePage/ProfilePage/images.jpg"
+                : defaultProfileImage
             }
             alt="Profile"
             className="_image2"

@@ -9,6 +9,7 @@ import { GoProjectSymlink } from "react-icons/go";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { LiaEllipsisHSolid } from "react-icons/lia";
 import { CiDark } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 function SideBar() {
   const [isSideBarOpen, setisSideBarOpen] = useState(false);
@@ -24,12 +25,16 @@ function SideBar() {
       </div>
 
       <div className="sidebar_menu">
+      <Link className="to-home-link" to={""} style={{textDecoration:'none'}}>
         <div className="sidebar_column">
           <div className="react_img">
             <MdDashboard />
           </div>
+          
           <div className="side">Dashboard</div>
+         
         </div>
+      </Link>
         <div className="sidebar_column ">
           <div className="react_img">
             <RiTaskLine />

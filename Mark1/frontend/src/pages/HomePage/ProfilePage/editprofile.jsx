@@ -3,6 +3,8 @@ import React, { useState, useRef } from "react";
 import "./editprofile.css";
 import { LuUpload } from "react-icons/lu";
 import { MdDeleteOutline } from "react-icons/md";
+import defaultProfileImage from "/src/assets/profileImage.jpg";
+
 
 function EditProfilePage({
   onProfileImageChange,
@@ -51,7 +53,7 @@ function EditProfilePage({
             src={
               profileImage
                 ? URL.createObjectURL(profileImage)
-                : "./src/pages/HomePage/ProfilePage/images.jpg"
+                : defaultProfileImage
             }
             alt="Profile"
             className="_image3"

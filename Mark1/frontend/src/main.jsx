@@ -7,27 +7,35 @@ import Home from "./pages/HomePage/home.jsx";
 import { ForgotPassword } from "./pages/ForgotPasswordPage/ForgotPassword.jsx";
 import MyProfile from "./pages/HomePage/ProfilePage/myprofile.jsx";
 import Settings from "./pages/HomePage/ProfilePage/settings.jsx";
+import Dashboard from "./pages/HomePage/DashboardPage/dashboard.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App />
   },
   {
     path: "/home",
     element: <Home />,
+    children: [
+      {
+        path: "",
+        index:true,
+        element: <Dashboard />
+      },
+      {
+        path: "myprofile",
+        element: <MyProfile />
+      }
+    ]
   },
   {
     path: "/forgotpassword",
-    element: <ForgotPassword />,
-  },
-  {
-    path: "/myprofile",
-    element: <MyProfile />,
+    element: <ForgotPassword />
   },
   {
     path: "/settings",
-    element: <Settings />,
+    element: <Settings />
   },
 ]);
 

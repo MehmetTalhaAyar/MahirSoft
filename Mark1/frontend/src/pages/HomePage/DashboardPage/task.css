@@ -28,3 +28,96 @@
   background-color: rgb(190, 185, 240);
   transition: 0.3s;
 }
+
+.save-button {
+  position: absolute;
+  color:#04AA6D;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgb(155, 153, 150);
+  height: 2rem;
+  width: 2rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #04AA6D;
+  top: -8%;
+  right: -1%;
+}
+
+.save-button:hover {
+  color: white;
+  background-color: #04AA6D;
+}
+
+
+.task-input {
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  cursor: text;
+  padding-left: 0.5rem;
+}
+.task-readOnly-input{
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  cursor: default;
+  overflow: visible;
+
+}
+
+.name-field{
+  font-size: 1.5rem;
+  height: 2rem;
+  
+}
+
+h1.name-field {
+  color: #04AA6D;
+
+}
+.description-field.task-readOnly-input{
+  color: #1d1d1d;
+}
+
+.description-field{
+  height: 4.8rem;
+}
+
+.input-container{
+  position: relative;
+}
+
+.task-input-label {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+
+  font-size: 1.25rem;
+}
+
+.task-input:valid + .task-input-label,
+.task-input:focus + .task-input-label {
+  display: none;
+
+}
+
+
+.description-field::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.description-field::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.description-field::-webkit-scrollbar-thumb {
+background-color: darkgrey;
+outline: 1px solid slategrey;
+}
