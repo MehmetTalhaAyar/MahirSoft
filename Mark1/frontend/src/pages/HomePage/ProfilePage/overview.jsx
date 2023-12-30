@@ -2,37 +2,51 @@
 import React from "react";
 import "./overview.css";
 
-function OverviewPage() {
+function OverviewPage({
+  fullName,
+  job,
+  about,
+  company,
+  country,
+  adress,
+  phone,
+  email,
+}) {
   return (
-    <div>
-      <div className="about">
+    <div className="overview_page">
+      <div className="about_overview">
         <h2>About</h2>
-        <p className="paragraph">
-          Sunt est soluta temporibus accusantium neque nam maiores cumque
-          temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt
-          iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi
-          sed ea saepe at unde.
-        </p>
+        <p className="paragraph">{about}</p>
       </div>
       <h2>Profile Details</h2>
       <div className="profile_details">
-        <div className="details1">
-          <div>Full Name</div>
-          <div>Company</div>
-          <div>Job</div>
-          <div>Country</div>
-          <div>Address</div>
-          <div>Phone</div>
-          <div>Email</div>
+        <div className="details">
+          <div className="full_name">Full Name</div>
+          <div className="full_name_change">{fullName}</div>
         </div>
-        <div className="details2">
-          <div>Ali Duru</div>
-          <div>Mahir Soft</div>
-          <div>Frontend Developer</div>
-          <div>Turkiye</div>
-          <div>Edirne</div>
-          <div>+90 536 424 9946</div>
-          <div>aliduru@gmail.com</div>
+        <div className="details">
+          <div className="company">Company</div>
+          <div className="company_change">{company}</div>
+        </div>
+        <div className="details">
+          <div className="job">Job</div>
+          <div className="job_change">{job}</div>
+        </div>
+        <div className="details">
+          <div className="country">Country</div>
+          <div className="country_change">{country}</div>
+        </div>
+        <div className="details">
+          <div className="adress">Address</div>
+          <div className="adress_change">{adress}</div>
+        </div>
+        <div className="details">
+          <div className="phone">Phone</div>
+          <div className="phone_change">{phone}</div>
+        </div>
+        <div className="details">
+          <div className="email">Email</div>
+          <div className="email_change">{email}</div>
         </div>
       </div>
     </div>

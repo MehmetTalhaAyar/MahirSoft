@@ -1,10 +1,9 @@
 .edit_profile_page {
   margin-top: 10px;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 90%;
+
   color: #716e6e;
 }
 .section2 {
@@ -46,16 +45,37 @@
   color: black;
   cursor: pointer;
 }
-
-.full_name {
+.profile_details2 {
+  align-items: center;
+  margin-top: 10px;
+  height: 350px;
+}
+.details2 {
+  display: flex;
+  margin-bottom: 10px;
+}
+.about {
   width: 25%;
+  color: #716e6e;
+  height: 75px;
+}
+.textarea-control {
+  width: 65%;
+  float: right;
+  height: 75 px;
+  text-indent: 5px;
+  border-radius: 5px;
+  border: solid 1.5px #d3d3d3;
+  transition: 1s;
+}
+.textarea-control:focus {
+  box-shadow: 0 0 2px 2px #3498db;
+  transition: 0.3s;
+  outline-width: 0px;
 }
 
-.about_profile {
-  width: 25%;
-}
 .form-control {
-  width: 50%;
+  width: 65%;
   float: right;
   height: 25px;
   text-indent: 5px;
@@ -69,6 +89,7 @@
   transition: 0.3s;
   outline-width: 0px;
 }
+
 .end_button {
   display: flex;
   justify-content: end;
