@@ -1,6 +1,7 @@
 import "./SignUpForm.css";
 import { useEffect, useState } from "react";
 import { signUp } from "./api";
+import { SignFormItem } from "../../components/SignFormItem";
 
 function SignUpForm({ isVisible, changeVisible,changeForm,isChangeActive}) {
 
@@ -136,36 +137,13 @@ function SignUpForm({ isVisible, changeVisible,changeForm,isChangeActive}) {
           </div>
           <div className="Sign-Up-Form-Content">
             <h1>Sign Up</h1>
-            <div className="input-box">
-              <span className="icon"></span>
-              <input id="firstname" required className={`${errors.name ? "not-valid" : "" }`}  onChange={(event) =>setName(event.target.value)}/>
-              <label htmlFor="firstname">Name</label>
-              {errors.name && <span className="not-valid"> {errors.name} </span> }
-            </div>
-            <div className="input-box">
-              <span className="icon"></span>
-              <input id="surname" required className={`${errors.surname ? "not-valid" : "" }`} onChange={(event) =>setSurname(event.target.value)}/>
-              <label htmlFor="surname">Surname</label>
-              {errors.surname && <span className="not-valid"> {errors.surname} </span> }
-            </div>
-            <div className="input-box">
-              <span className="icon"></span>
-              <input id="GSM" required className={`${errors.gsm ? "not-valid" : "" }`} onChange={(event) =>setGsm(event.target.value)}/>
-              <label htmlFor="GSM">GSM</label>
-              {errors.gsm && <span className="not-valid"> {errors.gsm} </span> }
-            </div>
-            <div className="input-box">
-              <span className="icon"></span>
-              <input id="email" required className={`${errors.email ? "not-valid" : "" }`} onChange={(event) =>setEmail(event.target.value)}/>
-              <label htmlFor="email">E-mail</label>
-              {errors.email && <span className="not-valid"> {errors.email} </span> }
-            </div>
-            <div className="input-box">
-              <span className="icon"></span>
-              <input id="password" type="password" className={`${errors.password ? "not-valid" : "" }`} required onChange={(event) =>setPassword(event.target.value)}/>
-              <label htmlFor="password">Password</label>
-              {errors.password && <span className="not-valid"> {errors.password} </span> }
-            </div>
+
+            <SignFormItem inputId="firstname" error={errors.name} errorMessage={errors.name} onChange={(event) =>setName(event.target.value)} name="Name" errorType="not-valid"/>
+            <SignFormItem inputId="surname" error={errors.surname} errorMessage={errors.surname} onChange={(event) =>setSurname(event.target.value)} name="Surname" errorType="not-valid" />
+            <SignFormItem inputId="GSM" error={errors.gsm} errorMessage={errors.gsm} onChange={(event) =>setGsm(event.target.value)} name="GSM" errorType="not-valid" />
+            <SignFormItem inputId="email" error={errors.email} errorMessage={errors.email} onChange={(event) =>setEmail(event.target.value)} name="E-mail" errorType="not-valid" />
+            <SignFormItem inputId="password" error={errors.password} errorMessage={errors.password} onChange={(event) =>setPassword(event.target.value)} name="Password" errorType="not-valid" />
+
             { successMessage && <div className="validation-success"> <span> {successMessage} </span></div> }
             <button type="submit" className="button">
               Sign Up

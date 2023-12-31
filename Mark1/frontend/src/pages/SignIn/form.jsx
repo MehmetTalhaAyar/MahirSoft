@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { signIn } from "./api";
 import "./Form.css";
+import { SignFormItem } from "../../components/SignFormItem";
 
 function Form({ toHome, isVisible, changeVisible,changeForm, isChangeActive}) {
   const [email, setEmail] = useState();
@@ -59,29 +60,10 @@ function Form({ toHome, isVisible, changeVisible,changeForm, isChangeActive}) {
         </div>
         <div className="Sign-In-Form-Content">
           <h1>Login</h1>
-          <div className="input-box">
-            <span className="icon"></span>
-            <input
-              id="email"
-              className={`${isEmailTrue ? "not-found-error" : ""}`}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-            <label htmlFor="email">E-mail</label>
-            {isEmailTrue && <span className="not-found-error">Please be sure that your email is true</span>}
-          </div>
-          <div className="input-box">
-            <span className="icon"></span>
-            <input
-              id="password"
-              type="password"
-              className={`${isPasswordTrue ? "not-found-error" : ""}`}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-            <label htmlFor="password">Password</label>
-            {isPasswordTrue && <span className="not-found-error">Please be sure that your password is true</span>}
-          </div>
+
+          <SignFormItem inputId="email" error={isEmailTrue} errorMessage="Please be sure that your email is correct" onChange={(event) =>setEmail(event.target.value)} name="E-mail" errorType="not-found-error"/>
+          <SignFormItem inputId="password" error={isPasswordTrue} errorMessage="Please be sure that your password is correct" onChange={(event) =>setPassword(event.target.value)} name="E-mail" errorType="not-found-error"/>
+
           <div className="remember-forgot">
             <label>
               <input type="checkbox" />
