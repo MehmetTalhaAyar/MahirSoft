@@ -1,6 +1,7 @@
+import { getAllTask } from "./api";
 import "./stage.css";
 import Task from "./task";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 function Stage() {
   const [tasks, setTasks] = useState([]);
@@ -17,7 +18,22 @@ function Stage() {
     }, animationDuration);
   }, [tasks,newTaskCount]);
 
-  //burada tüm taskların elemanlarının isnew alanını false yapıcaz
+  const getTask = useCallback(async ()=>{
+
+    const response = await getAllTask()
+    console.log(response.data)
+
+    if (response.status === 200){
+      setTasks(response.data)
+    }
+
+
+  },[])
+
+  useEffect(()=>{
+    getTask()
+  },[])
+
 
   const saveTask = () => {
     
@@ -31,19 +47,13 @@ function Stage() {
 
   }
 
-  const loglama = (id) => {
-
-    console.log(id);
-
-  }
-
   const handleNewButtonClick = () => {
     // Add a new task to the tasks array
 
     if(newTaskCount === 0){
 
       const newTask = {
-        id: tasks.length,
+        taskId: tasks.length+1,
         isNew: true
       };
       setNewTaskCount(1)
@@ -70,7 +80,7 @@ function Stage() {
 
           <div className="scrolling_vertically">
             {tasks.map((task) => (
-              <Task key={task.id} isNew={task.isNew} onClick={loglama} changeState={saveTask} />
+              <Task key={task.taskId} isNew={task.isNew ? task.isNew : false} taskNameSend={task.taskName} taskDescriptionSend={task.taskDescription} changeState={saveTask} />
             ))}
           </div>
         </li>

@@ -1,16 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import "./task.css";
+import { addTask } from "./api";
 
 function Task(props) {
   // Access props data
-  const { isNew,changeState } = props;
+  const { isNew,changeState,taskNameSend,taskDescriptionSend } = props;
   const [taskName,setTaskName] = useState();
   const [taskDescription,setTaskDescription] = useState();
+  const [error,setErrors] = useState();
 
-  const saveElements = () => {
-    changeState()
+  const saveElements = async () => {
+
+    try {
+
+      const response = await addTask({
+        taskName,
+        taskDescription
+      })
+
+      console.log(response)
+      if(response.status === 201){
+
+        changeState()
+      }
+
+    } catch (axiosError) {
+      if (axiosError.response.data.status === 400) {
+        setErrors(axiosError.response.data.validationErrors)
+      }
+      console.log(axiosError)
+      
+    }
+
+    
   }
+
+  useEffect(()=>{
+    if(taskNameSend !== undefined){
+      setTaskName(taskNameSend);
+    }
+    console.log(taskDescriptionSend)
+    if(taskDescriptionSend !== undefined){
+      setTaskDescription(taskDescriptionSend)
+    }
+
+  },[])
+
+  // console.log(taskDescription);
+  // console.log(taskName);
   
   
 
@@ -22,13 +60,11 @@ function Task(props) {
           <button className="save-button" onClick={saveElements}><FaCheck /></button>
           <div className="input-container">
           <input required name="task-name-field" maxLength="32" onChange={(event)=>setTaskName(event.target.value)} id="task-name-field" type="text" className="name-field task-input" />
-          <label className="task-input-label" htmlFor="task-name-field">Enter a task Name</label>
+          <label className={`task-input-label ${error ? "error" : ""}`} htmlFor="task-name-field">{error ?  error.taskName  :  "Enter a task name"}</label>
           </div>
           <div className="input-container">
-          <textarea required onChange={(event)=>{
-            console.log(event)
-            setTaskDescription(event.target.value)}} id="task-desçcription-field" name="task-description-field" type="text" className="description-field task-input" />
-          <label className="task-input-label" htmlFor="task-description-field">Enter a task descrition</label>
+          <textarea required onChange={(event)=>{setTaskDescription(event.target.value)}} id="task-desçcription-field" name="task-description-field" type="text" className="description-field task-input" />
+          <label className={`task-input-label ${error ? "error" : ""}`}  htmlFor="task-description-field">{error ?  error.taskDescription  :  "Enter a task description"}</label>
           </div>
           <div className="tag">Tag</div>
         </div>
@@ -36,7 +72,7 @@ function Task(props) {
     )
 
   }
-  else{
+  else {
     return (
       <>
         <div className="task">
@@ -44,7 +80,7 @@ function Task(props) {
             <h1 className="task-readOnly-input name-field" name="task-header" id="task-header" readOnly={true}>{taskName}</h1>
             </div>
           <div className="task-description">
-            <textarea name="task-body" id="task-body" className="task-readOnly-input description-field" readOnly={true}>{taskDescription}</textarea>
+            <textarea name="task-body" id="task-body" className="task-readOnly-input description-field" value={taskDescription} readOnly={true} />
             </div>
           <div className="tag">Tag</div>
         </div>
