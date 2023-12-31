@@ -9,6 +9,7 @@ import MyProfile from "./pages/HomePage/ProfilePage/myprofile.jsx";
 import Settings from "./pages/HomePage/ProfilePage/settings.jsx";
 import Dashboard from "./pages/HomePage/TasksPage/dashboard.jsx";
 import Board from "./pages/HomePage/DashboardPage/board.jsx";
+import Project from "./pages/HomePage/Project/projects.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,16 +38,17 @@ const router = createBrowserRouter([
         path: "settings",
         element: <Settings />,
       },
+      {
+        path:"projects",
+        element: <Project />
+      }
     ],
   },
   {
     path: "/forgotpassword",
     element: <ForgotPassword />,
   },
-  {
-    path: "/settings",
-    element: <Settings />,
-  },
+
 ]);
 
 const rootElement = document.getElementById("root");

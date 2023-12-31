@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./navbar.css";
 import Profile from "./ProfilePage/profile";
 import React, { useState } from "react";
@@ -26,9 +27,9 @@ function NavBar() {
   return (
     <nav>
       <div className="homepage_navbar">
-        <a href="#" className="home_page_logo">
+        <Link to={""} className="home_page_logo">
           Home Page
-        </a>
+        </Link>
         <ul className="nav-links">
           <li href="#">Home</li>
           <li href="#">About</li>

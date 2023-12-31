@@ -1,5 +1,6 @@
 // Sidebar.js
 import "./sidebar.css";
+import { SideBarItem } from "../../components/SideBarItems";
 
 import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
@@ -9,7 +10,6 @@ import { GoProjectSymlink } from "react-icons/go";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { LiaEllipsisHSolid } from "react-icons/lia";
 import { CiDark } from "react-icons/ci";
-import { Link } from "react-router-dom";
 
 function SideBar() {
   const [isSideBarOpen, setisSideBarOpen] = useState(false);
@@ -25,37 +25,12 @@ function SideBar() {
       </div>
 
       <div className="sidebar_menu">
-        <Link
-          className="to-home-link"
-          to={""}
-          style={{ textDecoration: "none" }}
-        >
-          <div className="sidebar_column">
-            <div className="react_img">
-              <MdDashboard />
-            </div>
 
-            <div className="side">Dashboard</div>
-          </div>
-        </Link>
-        <div className="sidebar_column ">
-          <div className="react_img">
-            <RiTaskLine />
-          </div>
-          <div className="side">Tasks</div>
-        </div>
-        <div className="sidebar_column">
-          <div className="react_img">
-            <GoProjectSymlink />
-          </div>
-          <div className="side">Projects</div>
-        </div>
-        <div className="sidebar_column">
-          <div className="react_img">
-            <FaRegCalendarAlt />
-          </div>
-          <div className="side">Calendar</div>
-        </div>
+        <SideBarItem toWhere={"dashboard"} icon={<MdDashboard />} name="Dashboard" />
+        <SideBarItem toWhere={"#"} icon={<RiTaskLine />} name="Tasks" />
+        <SideBarItem toWhere={"projects"} icon={<GoProjectSymlink />} name="Projects" />
+        <SideBarItem toWhere={"#"} icon={<FaRegCalendarAlt />} name="Calendar" />
+        
         <div className="sidebar_column">
           <div className="react_img">
             <LiaEllipsisHSolid />
