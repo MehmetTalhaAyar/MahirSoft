@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 function Stage() {
   const [tasks, setTasks] = useState([]);
-  const [newTaskCount,setNewTaskCount] = useState(0);
+  const [newTaskCount, setNewTaskCount] = useState(0);
 
   useEffect(() => {
     // Add a class to trigger the slide-down animation when tasks change
@@ -16,56 +16,46 @@ function Stage() {
     setTimeout(() => {
       scrollingVertically.classList.remove("slide-down");
     }, animationDuration);
-  }, [tasks,newTaskCount]);
+  }, [tasks, newTaskCount]);
 
-  const getTask = useCallback(async ()=>{
+  const getTask = useCallback(async () => {
+    const response = await getAllTask();
+    console.log(response.data);
 
-    const response = await getAllTask()
-    console.log(response.data)
-
-    if (response.status === 200){
-      setTasks(response.data)
+    if (response.status === 200) {
+      setTasks(response.data);
     }
+  }, []);
 
-
-  },[])
-
-  useEffect(()=>{
-    getTask()
-  },[])
-
+  useEffect(() => {
+    getTask();
+  }, []);
 
   const saveTask = () => {
-    
-
-    const oldTasks = tasks.map((task)=>{
-      if(task.isNew === true){
+    const oldTasks = tasks.map((task) => {
+      if (task.isNew === true) {
         task.isNew = false;
       }
-    })
-    setNewTaskCount(0)
-
-  }
+    });
+    setNewTaskCount(0);
+  };
 
   const handleNewButtonClick = () => {
     // Add a new task to the tasks array
 
-    if(newTaskCount === 0){
-
+    if (newTaskCount === 0) {
       const newTask = {
-        taskId: tasks.length+1,
-        isNew: true
+        taskId: tasks.length + 1,
+        isNew: true,
       };
-      setNewTaskCount(1)
-  
-      console.log(newTask)
-     
-      setTasks([newTask,...tasks]);
-    }
-    else{
-      console.log("tek seferde 1 tane görev eklenebilir.")
-    }
+      setNewTaskCount(1);
 
+      console.log(newTask);
+
+      setTasks([newTask, ...tasks]);
+    } else {
+      console.log("tek seferde 1 tane görev eklenebilir.");
+    }
   };
   return (
     <div className="scrolling">
@@ -80,7 +70,13 @@ function Stage() {
 
           <div className="scrolling_vertically">
             {tasks.map((task) => (
-              <Task key={task.taskId} isNew={task.isNew ? task.isNew : false} taskNameSend={task.taskName} taskDescriptionSend={task.taskDescription} changeState={saveTask} />
+              <Task
+                key={task.taskId}
+                isNew={task.isNew ? task.isNew : false}
+                taskNameSend={task.taskName}
+                taskDescriptionSend={task.taskDescription}
+                changeState={saveTask}
+              />
             ))}
           </div>
         </li>

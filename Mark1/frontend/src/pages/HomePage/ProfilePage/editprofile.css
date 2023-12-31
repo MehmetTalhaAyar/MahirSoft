@@ -48,7 +48,6 @@
 .profile_details2 {
   align-items: center;
   margin-top: 10px;
-  height: 350px;
 }
 .details2 {
   display: flex;
@@ -93,6 +92,7 @@
 .end_button {
   display: flex;
   justify-content: end;
+  margin-top: 20px;
 }
 .save_changes {
   width: 13%;

@@ -5,7 +5,6 @@ import "./home.css";
 import { Outlet } from "react-router-dom";
 
 function Home() {
-  
   return (
     <div>
       <NavBar />
@@ -13,7 +12,6 @@ function Home() {
         <SideBar />
 
         <Outlet />
-        
       </div>
     </div>
   );

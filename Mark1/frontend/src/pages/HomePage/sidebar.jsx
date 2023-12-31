@@ -25,16 +25,19 @@ function SideBar() {
       </div>
 
       <div className="sidebar_menu">
-      <Link className="to-home-link" to={""} style={{textDecoration:'none'}}>
-        <div className="sidebar_column">
-          <div className="react_img">
-            <MdDashboard />
+        <Link
+          className="to-home-link"
+          to={""}
+          style={{ textDecoration: "none" }}
+        >
+          <div className="sidebar_column">
+            <div className="react_img">
+              <MdDashboard />
+            </div>
+
+            <div className="side">Dashboard</div>
           </div>
-          
-          <div className="side">Dashboard</div>
-         
-        </div>
-      </Link>
+        </Link>
         <div className="sidebar_column ">
           <div className="react_img">
             <RiTaskLine />

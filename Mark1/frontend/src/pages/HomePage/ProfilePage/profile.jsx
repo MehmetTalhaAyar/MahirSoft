@@ -14,24 +14,20 @@ function Profile({ isVisible }) {
   return (
     <div className={`profile ${isVisible ? "visible animate_profile" : ""}`}>
       <div className="profile_image">
-        <img
-          src={defaultProfileImage}
-          className="_image"
-        />
+        <img src={defaultProfileImage} className="_image" />
         <h3 className="profile_name">Ali Duru</h3>
         <p className="profile_text">FrontEnd Developer</p>
       </div>
       <div className="profile_container">
-        
-          <Link className="profile_link" to={"myprofile"}>
+        <Link className="profile_link" to={"myprofile"}>
           <FaRegUser />
           <div className="my_profile">My Profile</div>
-          </Link>
-        
-        <a href="/settings" className="profile_link">
+        </Link>
+
+        <Link className="profile_link" to={"settings"}>
           <FiSettings />
           <div className="settings">Settings</div>
-        </a>
+        </Link>
       </div>
 
       <button className="logout_button">

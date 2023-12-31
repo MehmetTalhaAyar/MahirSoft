@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
   display: block;
-  height: 630px;
 }
 .container1 {
   margin-bottom: 15px;
@@ -47,7 +46,6 @@
 
 .container2 {
   height: 29.34em;
-  background-color: rgb(241, 240, 240);
   display: flex;
   align-items: center;
   justify-content: center;

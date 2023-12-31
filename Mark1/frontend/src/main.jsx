@@ -7,12 +7,13 @@ import Home from "./pages/HomePage/home.jsx";
 import { ForgotPassword } from "./pages/ForgotPasswordPage/ForgotPassword.jsx";
 import MyProfile from "./pages/HomePage/ProfilePage/myprofile.jsx";
 import Settings from "./pages/HomePage/ProfilePage/settings.jsx";
-import Dashboard from "./pages/HomePage/DashboardPage/dashboard.jsx";
+import Dashboard from "./pages/HomePage/TasksPage/dashboard.jsx";
+import Board from "./pages/HomePage/DashboardPage/board.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />
+    element: <App />,
   },
   {
     path: "/home",
@@ -20,22 +21,31 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        index:true,
-        element: <Dashboard />
+        index: true,
+        element: <Dashboard />,
       },
       {
+        path: "dashboard",
+        element: <Board />,
+      },
+
+      {
         path: "myprofile",
-        element: <MyProfile />
-      }
-    ]
+        element: <MyProfile />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+      },
+    ],
   },
   {
     path: "/forgotpassword",
-    element: <ForgotPassword />
+    element: <ForgotPassword />,
   },
   {
     path: "/settings",
-    element: <Settings />
+    element: <Settings />,
   },
 ]);
 
