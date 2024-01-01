@@ -55,7 +55,7 @@ public class TaskController {
             GetAllTaskResponse newTask = new GetAllTaskResponse();
             newTask.setTaskId(task.getTaskId());
             newTask.setTaskName(task.getTaskName());
-            newTask.setTaskDescripton(task.getTaskDescription());
+            newTask.setTaskDescription(task.getTaskDescription());
             newTask.setCreatedOn(task.getCreatedOn());
             newTask.setTaskDeadlineDate(task.getTaskDeadlineDate());
 
