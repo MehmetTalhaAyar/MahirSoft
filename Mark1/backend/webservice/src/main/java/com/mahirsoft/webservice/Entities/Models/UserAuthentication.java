@@ -5,12 +5,15 @@ package com.mahirsoft.webservice.Entities.Models;
 import java.sql.Date;
 import java.util.List;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -44,8 +47,9 @@ public class UserAuthentication {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "reportsToId")
-    long reportsToId;
+    @ManyToOne
+    @JoinColumn(name = "reportsToId",referencedColumnName = "userId")
+    UserAuthentication reportsToId;
 
     @Column(name = "companyId")
     long companyId;
@@ -59,16 +63,35 @@ public class UserAuthentication {
     @Column(name = "deletionStateCode")
     int deletionStateCode;
 
-    @Column(name = "createdById")
-    long createdById;
+    @ManyToOne
+    @JoinColumn(name = "createdById",referencedColumnName = "userId")
+    UserAuthentication createdById;
 
     @JsonIgnore
     @OneToMany(mappedBy = "resposibleId")
     List<Task> responsibleTasks;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "resposibleId")
-    List<Task> tasksCretedBy;
+    @OneToMany(mappedBy = "createdById")
+    List<Task> tasksCreatedBy;
+
+    @JsonIgnore
+    @OneToMany(mappedBy =  "leadingPersonId")
+    List<Project> managedProjects;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "createdById")
+    List<Stage> createdStages;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "reportsToId")
+    List<UserAuthentication> managedUsers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "createdById")
+    List<UserAuthentication> createdUsers;
+
+
 
 
 
@@ -128,13 +151,7 @@ public class UserAuthentication {
         this.title = title;
     }
 
-    public long getReportsToId() {
-        return reportsToId;
-    }
-
-    public void setReportsToId(long reportsToId) {
-        this.reportsToId = reportsToId;
-    }
+    
 
     public long getCompanyId() {
         return companyId;
@@ -168,20 +185,62 @@ public class UserAuthentication {
         this.deletionStateCode = deletionStateCode;
     }
 
-    public long getCreatedById() {
-        return createdById;
-    }
-
-    public void setCreatedById(long createdById) {
-        this.createdById = createdById;
-    }
-
     public List<Task> getResponsibleTasks() {
         return responsibleTasks;
     }
 
     public void setResponsibleTasks(List<Task> responsibleTasks) {
         this.responsibleTasks = responsibleTasks;
+    }
+
+    public UserAuthentication getReportsToId() {
+        return reportsToId;
+    }
+
+    public void setReportsToId(UserAuthentication reportsToId) {
+        this.reportsToId = reportsToId;
+    }
+
+    
+
+    public List<Project> getManagedProjects() {
+        return managedProjects;
+    }
+
+    public void setManagedProjects(List<Project> managedProjects) {
+        this.managedProjects = managedProjects;
+    }
+
+    public List<Stage> getCreatedStages() {
+        return createdStages;
+    }
+
+    public void setCreatedStages(List<Stage> createdStages) {
+        this.createdStages = createdStages;
+    }
+
+    public List<UserAuthentication> getCreatedUsers() {
+        return createdUsers;
+    }
+
+    public void setCreatedUsers(List<UserAuthentication> createdUsers) {
+        this.createdUsers = createdUsers;
+    }
+
+    public List<UserAuthentication> getManagedUsers() {
+        return managedUsers;
+    }
+
+    public void setManagedUsers(List<UserAuthentication> managedUsers) {
+        this.managedUsers = managedUsers;
+    }
+
+    public List<Task> getTasksCreatedBy() {
+        return tasksCreatedBy;
+    }
+
+    public void setTasksCreatedBy(List<Task> tasksCreatedBy) {
+        this.tasksCreatedBy = tasksCreatedBy;
     }
 
     

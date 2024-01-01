@@ -2,6 +2,9 @@ package com.mahirsoft.webservice.Entities.Models;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,8 +28,9 @@ public class Task {
     @JoinColumn(name = "responsibleId",referencedColumnName = "userId")
     UserAuthentication resposibleId;
 
-    @Column(name = "projectId")
-    long projectId;
+    @ManyToOne
+    @JoinColumn(name = "projectId",referencedColumnName = "projectId")
+    Project projectId;
 
     @Column(name = "taskName")
     String taskName;
@@ -43,11 +48,13 @@ public class Task {
     @Column(name = "commentId")
     long commentId;
 
-    @Column(name = "stageId")
-    long stageId;
+    @ManyToOne
+    @JoinColumn(name = "stageId",referencedColumnName = "stageId")
+    Stage stageId;
 
-    @Column(name = "relatedTaskId")
-    long relatedTaskId;
+    @ManyToOne
+    @JoinColumn(name = "relatedTaskId",referencedColumnName = "taskId")
+    Task relatedTaskId;
 
     @Column(name = "deletionStateCode")
     int deletionStateCode = 0;
@@ -58,20 +65,17 @@ public class Task {
     @Column(name = "taskDeadlineDate")
     Date taskDeadlineDate;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "relatedTaskId")
+    List<Task> relatedTasks;
+
+
     public long getTaskId() {
         return taskId;
     }
 
     public void setTaskId(long taskId) {
         this.taskId = taskId;
-    }
-
-    public long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(long projectId) {
-        this.projectId = projectId;
     }
 
     public String getTaskName() {
@@ -104,22 +108,6 @@ public class Task {
 
     public void setCommentId(long commentId) {
         this.commentId = commentId;
-    }
-
-    public long getStageId() {
-        return stageId;
-    }
-
-    public void setStageId(long stageId) {
-        this.stageId = stageId;
-    }
-
-    public long getRelatedTaskId() {
-        return relatedTaskId;
-    }
-
-    public void setRelatedTaskId(long relatedTaskId) {
-        this.relatedTaskId = relatedTaskId;
     }
 
     public int getDeletionStateCode() {
@@ -162,6 +150,30 @@ public class Task {
         this.resposibleId = resposibleId;
     }
 
+    public Task getRelatedTaskId() {
+        return relatedTaskId;
+    }
+
+    public void setRelatedTaskId(Task relatedTaskId) {
+        this.relatedTaskId = relatedTaskId;
+    }
+
+    public List<Task> getRelatedTasks() {
+        return relatedTasks;
+    }
+
+    public void setRelatedTasks(List<Task> relatedTasks) {
+        this.relatedTasks = relatedTasks;
+    }
+
+    public Project getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Project projectId) {
+        this.projectId = projectId;
+    }
+
     public UserAuthentication getCreatedById() {
         return createdById;
     }
@@ -169,5 +181,14 @@ public class Task {
     public void setCreatedById(UserAuthentication createdById) {
         this.createdById = createdById;
     }
-    
+
+    public Stage getStageId() {
+        return stageId;
+    }
+
+    public void setStageId(Stage stageId) {
+        this.stageId = stageId;
+    }
+
+   
 }

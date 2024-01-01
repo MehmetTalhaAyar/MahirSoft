@@ -8,7 +8,7 @@ public class GetAllTaskResponse {
 
     private String taskName;
 
-    private String taskDescripton;
+    private String taskDescription;
 
     private Date createdOn;
 
@@ -33,12 +33,12 @@ public class GetAllTaskResponse {
         this.taskName = taskName;
     }
 
-    public String getTaskDescripton() {
-        return taskDescripton;
+    public String getTaskDescription() {
+        return taskDescription;
     }
 
-    public void setTaskDescripton(String taskDescripton) {
-        this.taskDescripton = taskDescripton;
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
     }
 
     public Date getCreatedOn() {
