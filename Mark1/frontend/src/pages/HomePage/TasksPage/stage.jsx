@@ -62,7 +62,7 @@ function Stage() {
       <ul className="cards">
         <li className="card">
           <div className="card_header">
-            <div className="header_name">Ali Duru</div>
+            <div className="header_name">To Do</div>
             <button className="new" onClick={handleNewButtonClick}>
               New
             </button>

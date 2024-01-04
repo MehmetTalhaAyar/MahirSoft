@@ -4,18 +4,33 @@ import "./project.css";
 import { HiDotsHorizontal } from "react-icons/hi";
 
 function Project() {
-  // State to track the project cards
-  const [projectCards, setProjectCards] = useState(["Project Title"]);
-  const [isDropdown, setIsOpenDropdown] = useState(false);
+  const [projectCards, setProjectCards] = useState(["Demo Project"]);
+  const [dropdownStates, setDropdownStates] = useState([false]);
 
   // Function to add a new project card
   const addProjectCard = () => {
     const newProjectCards = [...projectCards, "New Project"];
+    const newDropdownStates = [...dropdownStates, false];
     setProjectCards(newProjectCards);
+    setDropdownStates(newDropdownStates);
   };
 
-  const openDropdownMenu = () => {
-    setIsOpenDropdown(!isDropdown);
+  // Function to open dropdown menu
+  const openDropdownMenu = (index) => {
+    const newDropdownStates = [...dropdownStates];
+    newDropdownStates[index] = !newDropdownStates[index];
+    setDropdownStates(newDropdownStates);
+  };
+
+  //Function to delete a project card
+  const deleteProject = (index) => {
+    const myProjectCard = [...projectCards];
+    myProjectCard.splice(index, 1);
+    const myDropdownMenu = [...dropdownStates];
+    myDropdownMenu.splice(index, 1);
+
+    setProjectCards(myProjectCard);
+    setDropdownStates(myDropdownMenu);
   };
 
   return (
@@ -26,16 +41,22 @@ function Project() {
       </button>
 
       <div className="project_section">
-        {/* Map through projectCards array to render project cards */}
         {projectCards.map((title, index) => (
           <div className="project_card" key={index}>
-            <HiDotsHorizontal className="_dot" onClick={openDropdownMenu} />
+            <HiDotsHorizontal
+              className="_dot"
+              onClick={() => openDropdownMenu(index)}
+            />
 
             <div
-              id="myDropdown"
-              className={`dropdown-content ${isDropdown ? "openDropdown" : ""}`}
+              id={`myDropdown${index}`}
+              className={`dropdown-content ${
+                dropdownStates[index] ? "openDropdown" : ""
+              }`}
             >
-              <a href="#delete">Delete</a>
+              <a href="#delete" onClick={() => deleteProject(index)}>
+                Delete
+              </a>
             </div>
             <div className="proje_container">
               <h2 className="proje_title">{title}</h2>
@@ -49,7 +70,6 @@ function Project() {
           </div>
         ))}
       </div>
-      {/* Button to add a new project card */}
     </main>
   );
 }
