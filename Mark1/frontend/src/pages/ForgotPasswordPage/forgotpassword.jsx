@@ -1,6 +1,15 @@
+import { useNavigate } from 'react-router-dom'
 import '../ForgotPasswordPage/forgotpassword.css'
+import { useAuthState } from '../../state/context'
 
 export function ForgotPassword() {
+    const navigate = useNavigate()
+    const authState = useAuthState();
+
+    if(authState.userId > 0){
+        navigate("/home")
+    }
+
     return (
         <div className="password_page">
             <div className='container'>

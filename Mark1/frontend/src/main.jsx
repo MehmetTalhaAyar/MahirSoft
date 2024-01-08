@@ -1,62 +1,21 @@
 import React, { StrictMode } from "react";
-import ReactDOM, { createRoot } from "react-dom/client";
-import App from "./App.jsx";
+import { createRoot } from "react-dom/client";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/HomePage/home.jsx";
-import { ForgotPassword } from "./pages/ForgotPasswordPage/ForgotPassword.jsx";
-import MyProfile from "./pages/HomePage/ProfilePage/myprofile.jsx";
-import Settings from "./pages/HomePage/ProfilePage/settings.jsx";
-import Dashboard from "./pages/HomePage/TasksPage/dashboard.jsx";
-import Board from "./pages/HomePage/DashboardPage/board.jsx";
-import Project from "./pages/HomePage/Project/projects.jsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-    children: [
-      {
-        path: "",
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: "dashboard",
-        element: <Board />,
-      },
+import {  RouterProvider } from "react-router-dom";
 
-      {
-        path: "myprofile",
-        element: <MyProfile />,
-      },
-      {
-        path: "settings",
-        element: <Settings />,
-      },
-      {
-        path:"projects",
-        element: <Project />
-      }
-    ],
-  },
-  {
-    path: "/forgotpassword",
-    element: <ForgotPassword />,
-  },
+import { AuthenticationContext } from "./state/context.jsx";
+import { router } from "./router";
 
-]);
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthenticationContext>
+      <RouterProvider router={router} />
+    </AuthenticationContext>
   </StrictMode>
 );
 

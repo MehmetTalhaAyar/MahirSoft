@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 import { signIn } from "./api";
 import "./Form.css";
 import { SignFormItem } from "../../components/SignFormItem";
+import { useAuthDispatch } from "../../state/context";
+import { useNavigate } from "react-router-dom";
 
-function Form({ toHome, isVisible, changeVisible,changeForm, isChangeActive}) {
+function Form({ isVisible, changeVisible,changeForm, isChangeActive}) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [isEmailTrue,setIsEmailTrue] = useState(false);
   const [isPasswordTrue,setIsPasswordTrue] = useState(false);
+  const [isRememberActive,setIsRememberActive] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useAuthDispatch();
+
 
   console.log(email);
   console.log(password);
@@ -19,9 +25,16 @@ function Form({ toHome, isVisible, changeVisible,changeForm, isChangeActive}) {
         email,
         password,
       });
+      if(isRememberActive){
+        console.log("Fatih Sultan Mehmet")
+        dispatch({type:'remember-login-success',data:response.data})
+      }else{
+
+        dispatch({type:'login-success',data:response.data})
+      }
       console.log("istek tamamlandı.", response);
       if (response.data !== "") {
-        toHome();
+        navigate("/home")
       } else if (response.status === 400) {
         console.log("bad request.");
       } else if (response.status === 204) {
@@ -61,12 +74,12 @@ function Form({ toHome, isVisible, changeVisible,changeForm, isChangeActive}) {
         <div className="Sign-In-Form-Content">
           <h1>Login</h1>
 
-          <SignFormItem inputId="email" error={isEmailTrue} errorMessage="Please be sure that your email is correct" onChange={(event) =>setEmail(event.target.value)} name="E-mail" errorType="not-found-error"/>
-          <SignFormItem inputId="password" error={isPasswordTrue} errorMessage="Please be sure that your password is correct" onChange={(event) =>setPassword(event.target.value)} name="E-mail" errorType="not-found-error"/>
+          <SignFormItem inputId="login-email" error={isEmailTrue} errorMessage="Please be sure that your email is correct" onChange={(event) =>setEmail(event.target.value)} name="E-mail" errorType="not-found-error"/>
+          <SignFormItem type="password" inputId="login-password" error={isPasswordTrue} errorMessage="Please be sure that your password is correct" onChange={(event) =>setPassword(event.target.value)} name="Password" errorType="not-found-error"/>
 
           <div className="remember-forgot">
             <label>
-              <input type="checkbox" />
+              <input type="checkbox" onClick={()=>setIsRememberActive(!isRememberActive)} />
               Remember Me
             </label>
             <a href="/forgotpassword" className="fg">

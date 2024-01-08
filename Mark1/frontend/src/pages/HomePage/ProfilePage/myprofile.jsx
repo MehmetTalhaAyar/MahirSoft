@@ -9,6 +9,7 @@ import ChangePasswordPage from "./changepassword";
 import EditProfilePage from "./editprofile";
 import OverviewPage from "./overview";
 import defaultProfileImage from "/src/assets/profileImage.jpg";
+import { useAuthState } from "../../../state/context";
 
 function MyProfile() {
   const [currentPage, setCurrentPage] = useState("overview"); // Open the Overview page first
@@ -21,6 +22,7 @@ function MyProfile() {
   const [adress, setAdress] = useState("Adress"); // Set the Adress on the Profile Card
   const [phone, setPhone] = useState("Phone"); // Set the Phone on the Profile Card
   const [email, setEmail] = useState("Email"); // Set the Email on the Profile Card
+  const authState = useAuthState();
 
   //Change Page function
   const handlePageChange = (page) => {
@@ -89,8 +91,8 @@ function MyProfile() {
             alt="Profile"
             className="_image2"
           />
-          <h3 className="profile_name">{fullName}</h3>
-          <p className="profile_text">{job}</p>
+          <h3 className="profile_name">{authState.fullName}</h3>
+          <p className="profile_text">{authState.job}</p>
           <div className="logo_img">
             <IoLogoLinkedin className="linkedin" />
             <FaInstagramSquare className="instagram" />

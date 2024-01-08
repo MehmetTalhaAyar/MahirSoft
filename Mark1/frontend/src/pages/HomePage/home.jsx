@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import NavBar from "./navbar";
 import SideBar from "./sidebar";
 import "./home.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuthState } from "../../state/context";
 
 function Home() {
+  const authState = useAuthState()
+  const navigate = useNavigate();
+  
+  if(authState.userId <= 0){
+    navigate("/")
+  }
+
   return (
     <div>
       <NavBar />

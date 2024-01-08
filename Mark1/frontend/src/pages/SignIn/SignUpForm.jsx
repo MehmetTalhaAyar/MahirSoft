@@ -12,14 +12,7 @@ function SignUpForm({ isVisible, changeVisible,changeForm,isChangeActive}) {
   const [password,setPassword] = useState();
   const [errors,setErrors] = useState({});
   const [successMessage,setSuccessMessage] = useState();
-  const [leftAnimation,setLeftAnimation] = useState(false);  
 
-  // bu loglar kaldırılacak
-  console.log(name);
-  console.log(surname);
-  console.log(gsm);
-  console.log(email);
-  console.log(password);
 
   const onsubmit = async (event) => {
     event.preventDefault();
@@ -37,10 +30,8 @@ function SignUpForm({ isVisible, changeVisible,changeForm,isChangeActive}) {
       );
       if (response.status === 200){
 
-        //başarılı mesajı yazdır.
         console.log("başarılı istek.",response)
         setSuccessMessage(response.data)
-        // changeVisible()
       }
     }
     catch(axiosError){
@@ -142,7 +133,7 @@ function SignUpForm({ isVisible, changeVisible,changeForm,isChangeActive}) {
             <SignFormItem inputId="surname" error={errors.surname} errorMessage={errors.surname} onChange={(event) =>setSurname(event.target.value)} name="Surname" errorType="not-valid" />
             <SignFormItem inputId="GSM" error={errors.gsm} errorMessage={errors.gsm} onChange={(event) =>setGsm(event.target.value)} name="GSM" errorType="not-valid" />
             <SignFormItem inputId="email" error={errors.email} errorMessage={errors.email} onChange={(event) =>setEmail(event.target.value)} name="E-mail" errorType="not-valid" />
-            <SignFormItem inputId="password" error={errors.password} errorMessage={errors.password} onChange={(event) =>setPassword(event.target.value)} name="Password" errorType="not-valid" />
+            <SignFormItem type="password" inputId="password" error={errors.password} errorMessage={errors.password} onChange={(event) =>setPassword(event.target.value)} name="Password" errorType="not-valid" />
 
             { successMessage && <div className="validation-success"> <span> {successMessage} </span></div> }
             <button type="submit" className="button">

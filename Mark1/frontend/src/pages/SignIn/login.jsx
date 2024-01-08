@@ -4,7 +4,6 @@ import SignUpForm from "./SignUpForm";
 import "./Login.css";
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -85,12 +84,6 @@ function Login() {
     }
   }, [isSignUpButtonClicked]);
 
-  const navigateHome = useNavigate();
-
-  const navigateToHome = () => {
-    navigateHome("/home");
-  };
-
   return (
     <div>
       <NavBar
@@ -101,7 +94,6 @@ function Login() {
       />
 
       <Form
-        toHome={navigateToHome}
         isVisible={isFormVisible}
         changeVisible={toggleFormVisibility}
         changeForm = {changeSignInForm}
