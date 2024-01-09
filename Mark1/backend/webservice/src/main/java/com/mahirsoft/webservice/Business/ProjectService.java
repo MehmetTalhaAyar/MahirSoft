@@ -27,6 +27,10 @@ public class ProjectService {
 
     }
 
+    public void createProject(Project project){
+        projectRepository.save(project);
+    }
+
     public Project getProject(long id){
 
         var project = projectRepository.findById(id);

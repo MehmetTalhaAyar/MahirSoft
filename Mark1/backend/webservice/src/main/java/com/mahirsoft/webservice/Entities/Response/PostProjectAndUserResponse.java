@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.mahirsoft.webservice.Entities.Models.Stage;
 
-public class GetProjectResponse {
+public class PostProjectAndUserResponse {
 
     private String name;
 
     private GeneralUserAuthenticationResponse leadingPerson;
 
-    private List<Stage> stages;
-
     private Date createdOn;
+
+    private List<Stage> stages;
 
     public String getName() {
         return name;
@@ -23,13 +23,12 @@ public class GetProjectResponse {
         this.name = name;
     }
 
-
-    public List<Stage> getStages() {
-        return stages;
+    public GeneralUserAuthenticationResponse getLeadingPerson() {
+        return leadingPerson;
     }
 
-    public void setStages(List<Stage> stages) {
-        this.stages = stages;
+    public void setLeadingPerson(GeneralUserAuthenticationResponse leadingPerson) {
+        this.leadingPerson = leadingPerson;
     }
 
     public Date getCreatedOn() {
@@ -40,12 +39,11 @@ public class GetProjectResponse {
         this.createdOn = createdOn;
     }
 
-    public GeneralUserAuthenticationResponse getLeadingPerson() {
-        return leadingPerson;
+    public List<Stage> getStages() {
+        return stages;
     }
 
-    public void setLeadingPerson(GeneralUserAuthenticationResponse leadingPerson) {
-        this.leadingPerson = leadingPerson;
+    public void setStages(List<Stage> stages) {
+        this.stages = stages;
     }
-    
 }

@@ -8,13 +8,19 @@ public class PostUserAuthenticationResponse {
 
     private String email;
         
-    private String password;
+    private String name;
+
+    private String surname;
+
+    private String fullName;
 
 
     public UserAuthentication toUserAuthentication() {
         UserAuthentication userAuthentication = new UserAuthentication();
         userAuthentication.setEmail(email);
-        userAuthentication.setPassword(password);
+        userAuthentication.setName(name);
+        userAuthentication.setSurname(surname);
+        
         return userAuthentication;
     }
 
@@ -27,19 +33,35 @@ public class PostUserAuthenticationResponse {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public long getUserId() {
         return userId;
     }
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

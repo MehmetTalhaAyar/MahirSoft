@@ -34,6 +34,7 @@ public class Stage {
     @Column(name = "createdOn")
     Date createdOn = Date.valueOf(LocalDate.now());
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "projectId")
     Project projectId;

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.ProjectService;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectResponse;
 
 import jakarta.validation.Valid;
@@ -34,10 +35,17 @@ public class ProjectController {
             return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
 
         }
+
+        GeneralUserAuthenticationResponse leadPerson = new GeneralUserAuthenticationResponse();
+        leadPerson.setEmail(project.getLeadingPersonId().getEmail());
+        leadPerson.setGsm(project.getLeadingPersonId().getGsm());
+        leadPerson.setName(project.getLeadingPersonId().getName());
+        leadPerson.setSurname(project.getLeadingPersonId().getSurname());
+        leadPerson.setUserId(project.getLeadingPersonId().getUserId());
         
         GetProjectResponse getProjectResponse = new GetProjectResponse();
         getProjectResponse.setCreatedOn(project.getCreatedOn());
-        getProjectResponse.setLeadingPerson(project.getLeadingPersonId());
+        getProjectResponse.setLeadingPerson(leadPerson);
         getProjectResponse.setName(project.getName());
         getProjectResponse.setStages(project.getStages());
 

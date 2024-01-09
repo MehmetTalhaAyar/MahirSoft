@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,6 +52,30 @@ public class Project {
     List<Stage> stages;
 
     public Project() {
+    }
+
+    public GeneralProjectResponse toGeneralProjectResponse(){
+        GeneralUserAuthenticationResponse leadPerson = toLeadPerson();
+
+        GeneralProjectResponse response = new GeneralProjectResponse();
+        response.setCreatedOn(createdOn);
+        response.setName(name);
+        response.setLeadingPerson(leadPerson);
+
+        return response;
+
+    }
+
+    public GeneralUserAuthenticationResponse toLeadPerson(){
+        GeneralUserAuthenticationResponse leadPerson = new GeneralUserAuthenticationResponse();
+        leadPerson.setEmail(leadingPersonId.getEmail());
+        leadPerson.setGsm(leadingPersonId.getGsm());
+        leadPerson.setName(leadingPersonId.getName());
+        leadPerson.setSurname(leadingPersonId.getSurname());
+        leadPerson.setUserId(leadingPersonId.getUserId());
+
+        return leadPerson;
+
     }
 
     public long getProjectId() {

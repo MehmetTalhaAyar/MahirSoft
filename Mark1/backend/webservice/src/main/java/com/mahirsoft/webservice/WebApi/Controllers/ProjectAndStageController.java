@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.ProjectAndStageService;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
+import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.PostProjectAndStageResponse;
 
 import jakarta.validation.Valid;
@@ -36,9 +37,11 @@ public class ProjectAndStageController {
             return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
         }
 
+        GeneralProjectResponse generalProjectResponse = response.getProjectId().toGeneralProjectResponse();
+
         PostProjectAndStageResponse postProjectAndStageResponse = new PostProjectAndStageResponse();
         postProjectAndStageResponse.setName(response.getName());
-        postProjectAndStageResponse.setProjectId(response.getProjectId());
+        postProjectAndStageResponse.setProject(generalProjectResponse);
 
         return new ResponseEntity<PostProjectAndStageResponse>(postProjectAndStageResponse, HttpStatusCode.valueOf(200));
 

@@ -1,12 +1,11 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import com.mahirsoft.webservice.Entities.Models.Project;
 
 public class PostProjectAndStageResponse {
 
     private String name;
 
-    private Project projectId;
+    private GeneralProjectResponse project;
 
     public String getName() {
         return name;
@@ -16,12 +15,14 @@ public class PostProjectAndStageResponse {
         this.name = name;
     }
 
-    public Project getProjectId() {
-        return projectId;
+    public GeneralProjectResponse getProject() {
+        return project;
     }
 
-    public void setProjectId(Project projectId) {
-        this.projectId = projectId;
+    public void setProject(GeneralProjectResponse project) {
+        this.project = project;
     }
+
+   
     
 }

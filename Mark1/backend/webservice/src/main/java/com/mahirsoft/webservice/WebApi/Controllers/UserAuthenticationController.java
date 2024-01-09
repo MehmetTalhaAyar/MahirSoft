@@ -49,12 +49,15 @@ public class UserAuthenticationController {
         }
 
         // response nesnesine mapping
-        PostUserAuthenticationResponse UserAuthenticationResponse = new PostUserAuthenticationResponse();
-        UserAuthenticationResponse.setUserId(user.getUserId());
-        UserAuthenticationResponse.setEmail(user.getEmail());
-        UserAuthenticationResponse.setPassword(user.getPassword());
+        PostUserAuthenticationResponse userAuthenticationResponse = new PostUserAuthenticationResponse();
+        userAuthenticationResponse.setUserId(user.getUserId());
+        userAuthenticationResponse.setEmail(user.getEmail());
+        userAuthenticationResponse.setName(user.getName());
+        userAuthenticationResponse.setSurname(user.getSurname());
+        userAuthenticationResponse.setFullName(user.getName() + " " + user.getSurname());
+        
     
-        return new ResponseEntity<PostUserAuthenticationResponse>( UserAuthenticationResponse, HttpStatusCode.valueOf(200));
+        return new ResponseEntity<PostUserAuthenticationResponse>( userAuthenticationResponse, HttpStatusCode.valueOf(200));
     }
 
     @GetMapping("/users")
