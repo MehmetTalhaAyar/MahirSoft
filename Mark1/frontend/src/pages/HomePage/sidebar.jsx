@@ -25,26 +25,25 @@ function SideBar() {
       </div>
 
       <div className="sidebar_menu">
-
-        <SideBarItem toWhere={"dashboard"} icon={<MdDashboard />} name="Dashboard" />
+        <SideBarItem
+          toWhere={"dashboard"}
+          icon={<MdDashboard />}
+          name="Dashboard"
+        />
         <SideBarItem toWhere={"#"} icon={<RiTaskLine />} name="Tasks" />
-        <SideBarItem toWhere={"projects"} icon={<GoProjectSymlink />} name="Projects" />
-        <SideBarItem toWhere={"#"} icon={<FaRegCalendarAlt />} name="Calendar" />
-        
-        <div className="sidebar_column">
-          <div className="react_img">
-            <LiaEllipsisHSolid />
-          </div>
-          <div className="side">Others</div>
-        </div>
+        <SideBarItem
+          toWhere={"projects"}
+          icon={<GoProjectSymlink />}
+          name="Projects"
+        />
+        <SideBarItem
+          toWhere={"#"}
+          icon={<FaRegCalendarAlt />}
+          name="Calendar"
+        />
       </div>
       <hr className="hr2"></hr>
-      <div className="sidebar_column">
-        <div className="react_img">
-          <CiDark />
-        </div>
-        <div className="side">Dark Mode</div>
-      </div>
+      <SideBarItem toWhere={"#"} icon={<LiaEllipsisHSolid />} name="Others" />
     </div>
   );
 }
