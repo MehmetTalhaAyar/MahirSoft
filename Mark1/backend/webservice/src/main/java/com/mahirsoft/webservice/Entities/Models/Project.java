@@ -25,31 +25,32 @@ public class Project {
     @Id
     @GeneratedValue
     @Column(name = "projectId")
-    long projectId;
+    private long projectId;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "leadingPersonId", referencedColumnName = "userId")
-    UserAuthentication leadingPersonId;
+    private UserAuthentication leadingPersonId;
 
     @Column(name = "deletionStateCode")
-    int deletionStateCode = 0;
+    private int deletionStateCode = 0;
 
     @Column(name = "createdOn")
-    Date createdOn = Date.valueOf(LocalDate.now());
+    private Date createdOn = Date.valueOf(LocalDate.now());
 
-    @Column(name = "companyId")
-    long companyId;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "projectId")
-    List<Task> tasks;
+    @ManyToOne
+    @JoinColumn(name = "companyId",referencedColumnName = "companyId")
+    private Company companyId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "projectId")
-    List<Stage> stages;
+    private List<Task> tasks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "projectId")
+    private List<Stage> stages;
 
     public Project() {
     }
@@ -94,6 +95,14 @@ public class Project {
         this.name = name;
     }
 
+    public UserAuthentication getLeadingPersonId() {
+        return leadingPersonId;
+    }
+
+    public void setLeadingPersonId(UserAuthentication leadingPersonId) {
+        this.leadingPersonId = leadingPersonId;
+    }
+
     public int getDeletionStateCode() {
         return deletionStateCode;
     }
@@ -110,20 +119,12 @@ public class Project {
         this.createdOn = createdOn;
     }
 
-    public long getCompanyId() {
+    public Company getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(long companyId) {
+    public void setCompanyId(Company companyId) {
         this.companyId = companyId;
-    }
-
-    public UserAuthentication getLeadingPersonId() {
-        return leadingPersonId;
-    }
-
-    public void setLeadingPersonId(UserAuthentication leadingPersonId) {
-        this.leadingPersonId = leadingPersonId;
     }
 
     public List<Task> getTasks() {
@@ -142,5 +143,4 @@ public class Project {
         this.stages = stages;
     }
 
-    
 }

@@ -22,52 +22,53 @@ public class Task {
     @Id
     @GeneratedValue
     @Column(name = "taskId")
-    long taskId;
+    private long taskId;
     
     @ManyToOne
     @JoinColumn(name = "responsibleId",referencedColumnName = "userId")
-    UserAuthentication resposibleId;
+    private UserAuthentication resposibleId;
 
     @ManyToOne
     @JoinColumn(name = "projectId",referencedColumnName = "projectId")
-    Project projectId;
+    private Project projectId;
 
     @Column(name = "taskName")
-    String taskName;
+    private String taskName;
 
     @Column(name = "taskDescription")
-    String taskDescription;
+    private String taskDescription;
 
     @Column(name = "priorityId")
-    long priorityId;
+    private long priorityId;
 
     @ManyToOne
     @JoinColumn(name = "createdById",referencedColumnName = "userId")
-    UserAuthentication createdById;
-
-    @Column(name = "commentId")
-    long commentId;
+    private UserAuthentication createdById;
 
     @ManyToOne
     @JoinColumn(name = "stageId",referencedColumnName = "stageId")
-    Stage stageId;
+    private Stage stageId;
 
     @ManyToOne
     @JoinColumn(name = "relatedTaskId",referencedColumnName = "taskId")
-    Task relatedTaskId;
+    private Task relatedTaskId;
 
     @Column(name = "deletionStateCode")
-    int deletionStateCode = 0;
+    private int deletionStateCode = 0;
 
     @Column(name = "createdOn")
-    Date createdOn = Date.valueOf(LocalDate.now());
+    private Date createdOn = Date.valueOf(LocalDate.now());
 
     @Column(name = "taskDeadlineDate")
-    Date taskDeadlineDate;
+    private Date taskDeadlineDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "relatedTaskId")
-    List<Task> relatedTasks;
+    private List<Task> relatedTasks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "linkedTaskId")
+    private List<Comment> comments;
 
 
     public long getTaskId() {
@@ -102,13 +103,6 @@ public class Task {
         this.priorityId = priorityId;
     }
 
-    public long getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(long commentId) {
-        this.commentId = commentId;
-    }
 
     public int getDeletionStateCode() {
         return deletionStateCode;

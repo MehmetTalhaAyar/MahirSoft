@@ -49,47 +49,57 @@ public class UserAuthentication {
 
     @ManyToOne
     @JoinColumn(name = "reportsToId",referencedColumnName = "userId")
-    UserAuthentication reportsToId;
+    private UserAuthentication reportsToId;
 
-    @Column(name = "companyId")
-    long companyId;
+    @ManyToOne
+    @JoinColumn(name = "companyId",referencedColumnName = "companyId")
+    private Company companyId;
 
     @Column(name = "authorityTypeId")
-    long authorityTypeId;
+    private long authorityTypeId;
 
     @Column(name = "createdOn")
-    Date createdOn;
+    private Date createdOn;
 
     @Column(name = "deletionStateCode")
-    int deletionStateCode;
+    private int deletionStateCode = 0;
 
     @ManyToOne
     @JoinColumn(name = "createdById",referencedColumnName = "userId")
-    UserAuthentication createdById;
+    private UserAuthentication createdById;
 
     @JsonIgnore
     @OneToMany(mappedBy = "resposibleId")
-    List<Task> responsibleTasks;
+    private List<Task> responsibleTasks;
 
     @JsonIgnore
     @OneToMany(mappedBy = "createdById")
-    List<Task> tasksCreatedBy;
+    private List<Task> tasksCreatedBy;
 
     @JsonIgnore
     @OneToMany(mappedBy =  "leadingPersonId")
-    List<Project> managedProjects;
+    private List<Project> managedProjects;
 
     @JsonIgnore
     @OneToMany(mappedBy = "createdById")
-    List<Stage> createdStages;
+    private List<Stage> createdStages;
 
     @JsonIgnore
     @OneToMany(mappedBy = "reportsToId")
-    List<UserAuthentication> managedUsers;
+    private List<UserAuthentication> managedUsers;
 
     @JsonIgnore
     @OneToMany(mappedBy = "createdById")
-    List<UserAuthentication> createdUsers;
+    private List<UserAuthentication> createdUsers;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "managerId")
+    private List<Company> companyLead;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "writtenById")
+    private List<Comment> comments;
+
 
 
 
@@ -153,13 +163,7 @@ public class UserAuthentication {
 
     
 
-    public long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(long companyId) {
-        this.companyId = companyId;
-    }
+    
 
     public long getAuthorityTypeId() {
         return authorityTypeId;
@@ -241,6 +245,38 @@ public class UserAuthentication {
 
     public void setTasksCreatedBy(List<Task> tasksCreatedBy) {
         this.tasksCreatedBy = tasksCreatedBy;
+    }
+
+    public Company getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Company companyId) {
+        this.companyId = companyId;
+    }
+
+    public UserAuthentication getCreatedById() {
+        return createdById;
+    }
+
+    public void setCreatedById(UserAuthentication createdById) {
+        this.createdById = createdById;
+    }
+
+    public List<Company> getCompanyLead() {
+        return companyLead;
+    }
+
+    public void setCompanyLead(List<Company> companyLead) {
+        this.companyLead = companyLead;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     
