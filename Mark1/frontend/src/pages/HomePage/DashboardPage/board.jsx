@@ -1,11 +1,14 @@
+import { useAuthState } from "../../../state/context";
 import "./board.css";
 
 function Board() {
+  const authState = useAuthState();
+  
   return (
     <main>
       <h1>Dashboard Page</h1>
       <div className="dashboard_container">
-        <h1 className="dashboard_title">Hi, Ali Duru</h1>
+        <h1 className="dashboard_title">Hi, {authState.fullName}</h1>
         <p className="dashboard_paragraph">
           Check out any upcoming tasks and recent projects below{" "}
         </p>
