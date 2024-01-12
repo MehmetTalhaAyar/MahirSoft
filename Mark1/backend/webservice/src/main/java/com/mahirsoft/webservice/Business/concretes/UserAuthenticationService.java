@@ -1,7 +1,8 @@
-package com.mahirsoft.webservice.Business;
+package com.mahirsoft.webservice.Business.concretes;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
@@ -13,30 +14,37 @@ import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
 public class UserAuthenticationService {
 
     UserAuthenticationRepository userAuthenticationRepository;
+
+    PasswordEncoder passwordEncoder;
     
-    UserAuthenticationService (UserAuthenticationRepository userAuthenticationRepository) {
+    UserAuthenticationService (UserAuthenticationRepository userAuthenticationRepository,PasswordEncoder passwordEncoder) {
         this.userAuthenticationRepository =  userAuthenticationRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     public void save(UserAuthentication userAuthentication){
+
+        userAuthentication.setPassword(passwordEncoder.encode(userAuthentication.getPassword()));
 
         userAuthenticationRepository.save(userAuthentication);
        
 
     }
 
+    public UserAuthentication findByEmail(String email){
+        return userAuthenticationRepository.findByEmail(email);
+    }
+
     public UserAuthentication getUserInfo(PostUserAuthenticationRequest PostUserAuthenticationRequest){
         
-        UserAuthentication userAuthentication = userAuthenticationRepository.findByEmailandPassword(PostUserAuthenticationRequest.getEmail(),PostUserAuthenticationRequest.getPassword());
-        if (userAuthentication == null){
-            return null;
-        }
-        else{
+        UserAuthentication userAuthentication = userAuthenticationRepository.findByEmail(PostUserAuthenticationRequest.getEmail());
+        if (userAuthentication == null) return null;
 
-        
-            return userAuthentication;
-        }
+        if(!passwordEncoder.matches(PostUserAuthenticationRequest.getPassword(), userAuthentication.getPassword())) return null;
+
+        return userAuthentication;
+
                 
     }
 

@@ -3,7 +3,7 @@ package com.mahirsoft.webservice.WebApi.Controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mahirsoft.webservice.Business.TaskService;
+import com.mahirsoft.webservice.Business.concretes.TaskService;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
 import com.mahirsoft.webservice.Entities.Requests.UpdateTaskRequest;
 import com.mahirsoft.webservice.Entities.Response.GetAllTaskResponse;

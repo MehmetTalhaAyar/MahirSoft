@@ -1,7 +1,6 @@
 package com.mahirsoft.webservice.Entities.Models;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,29 +21,29 @@ public class Stage {
     @Id
     @GeneratedValue
     @Column(name = "stageId")
-    long stageId;
+    private long stageId;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "createdById" ,referencedColumnName = "userId")
-    UserAuthentication createdById;
+    private UserAuthentication createdById;
 
     @Column(name = "createdOn")
-    Date createdOn = Date.valueOf(LocalDate.now());
+    private LocalDateTime createdOn = LocalDateTime.now();
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "projectId", referencedColumnName = "projectId")
-    Project projectId;
+    private Project projectId;
 
     @Column(name = "deletionStateCode")
-    int deletionStateCode = 0;
+    private int deletionStateCode = 0;
 
     @JsonIgnore
     @OneToMany(mappedBy = "stageId")
-    List<Task> tasks;
+    private List<Task> tasks;
+
 
     public long getStageId() {
         return stageId;
@@ -70,15 +69,6 @@ public class Stage {
         this.createdById = createdById;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-
     public int getDeletionStateCode() {
         return deletionStateCode;
     }
@@ -101,6 +91,14 @@ public class Stage {
 
     public void setProjectId(Project projectId) {
         this.projectId = projectId;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
 
     

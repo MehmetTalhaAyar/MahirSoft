@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.mahirsoft.webservice.Entities.Errors.ApiError;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity<?> handleMethodArgutmentNotValidException(MethodArgumentNotValidException exception){
+    ResponseEntity<?> handleMethodArgutmentNotValidException(MethodArgumentNotValidException exception,HttpServletRequest request){
         ApiError apiError = new ApiError();
         //path değiştirilecek
-        apiError.setPath("/api");
+        apiError.setPath(request.getRequestURI());
         apiError.setMessage("Validation error");
         apiError.setStatus(400);
         var validationErrors = exception.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField,FieldError::getDefaultMessage,(existing,replacing) -> existing));

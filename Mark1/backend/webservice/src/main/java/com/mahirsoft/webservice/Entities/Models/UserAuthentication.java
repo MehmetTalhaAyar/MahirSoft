@@ -7,6 +7,7 @@ import java.util.List;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -100,6 +101,23 @@ public class UserAuthentication {
     @OneToMany(mappedBy = "writtenById")
     private List<Comment> comments;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId")
+    private List<ProjectUser> projects;
+
+
+    public GeneralUserAuthenticationResponse toGeneralUserAuthenticationResponse() {
+        GeneralUserAuthenticationResponse generalUser = new GeneralUserAuthenticationResponse();
+
+        generalUser.setEmail(email);
+        generalUser.setName(name);
+        generalUser.setFullName(name + " " + surname);
+        generalUser.setGsm(gsm);
+        generalUser.setUserId(userId);
+        generalUser.setSurname(surname);
+        
+        return generalUser;
+    }
 
 
 
@@ -277,6 +295,14 @@ public class UserAuthentication {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<ProjectUser> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<ProjectUser> projects) {
+        this.projects = projects;
     }
 
     

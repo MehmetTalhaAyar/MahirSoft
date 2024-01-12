@@ -2,16 +2,19 @@ package com.mahirsoft.webservice.WebApi.Controllers;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mahirsoft.webservice.Business.ProjectAndStageService;
+import com.mahirsoft.webservice.Business.concretes.ProjectAndStageService;
+import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.PostProjectAndStageResponse;
+import com.mahirsoft.webservice.security.DefaultUser;
 
 import jakarta.validation.Valid;
 
@@ -45,8 +48,23 @@ public class ProjectAndStageController {
 
         return new ResponseEntity<PostProjectAndStageResponse>(postProjectAndStageResponse, HttpStatusCode.valueOf(200));
 
-
-
     }
+
+    @PostMapping("/defaultProject")
+    public ResponseEntity<?> addDefaultProject(@Valid @RequestBody CreateProjectRequest createProjectRequest,@AuthenticationPrincipal DefaultUser user){
+        var project = projectAndStageService.createDefaultProject(createProjectRequest, user.getId());
+
+        GeneralProjectResponse generalProjectResponse = new GeneralProjectResponse();
+
+        generalProjectResponse.setCreatedOn(project.getCreatedOn());
+        generalProjectResponse.setLeadingPerson(project.toLeadPerson());
+        generalProjectResponse.setName(project.getName());
+        generalProjectResponse.setStages(project.toGeneralStageResponse());
+
+
+        return new ResponseEntity<GeneralProjectResponse>(generalProjectResponse, HttpStatusCode.valueOf(200));
+    }
+
+
     
 }

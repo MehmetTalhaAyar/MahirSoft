@@ -1,4 +1,4 @@
-package com.mahirsoft.webservice.Business;
+package com.mahirsoft.webservice.Business.concretes;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +9,7 @@ import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 public class ProjectAndUserService {
 
     ProjectService projectService;
+    
     UserAuthenticationService userAuthenticationService;
 
 

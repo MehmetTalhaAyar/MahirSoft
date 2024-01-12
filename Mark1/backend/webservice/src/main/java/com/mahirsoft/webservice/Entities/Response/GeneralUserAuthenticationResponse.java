@@ -1,5 +1,6 @@
 package com.mahirsoft.webservice.Entities.Response;
 
+
 public class GeneralUserAuthenticationResponse {
 
     private long userId;
@@ -10,7 +11,11 @@ public class GeneralUserAuthenticationResponse {
 
     private String surname;
 
+    private String fullName;
+
     private String gsm;
+
+    
 
     public long getUserId() {
         return userId;
@@ -50,5 +55,13 @@ public class GeneralUserAuthenticationResponse {
 
     public void setGsm(String gsm) {
         this.gsm = gsm;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

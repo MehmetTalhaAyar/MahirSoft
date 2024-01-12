@@ -1,11 +1,12 @@
 package com.mahirsoft.webservice.Entities.Models;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 
 import jakarta.persistence.Column;
@@ -38,7 +39,7 @@ public class Project {
     private int deletionStateCode = 0;
 
     @Column(name = "createdOn")
-    private Date createdOn = Date.valueOf(LocalDate.now());
+    private LocalDateTime createdOn = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "companyId",referencedColumnName = "companyId")
@@ -51,6 +52,10 @@ public class Project {
     @JsonIgnore
     @OneToMany(mappedBy = "projectId")
     private List<Stage> stages;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "projectId")
+    private List<ProjectUser> projectMembers;
 
     public Project() {
     }
@@ -65,6 +70,18 @@ public class Project {
 
         return response;
 
+    }
+
+    public List<GeneralStageResponse> toGeneralStageResponse(){
+        List<GeneralStageResponse> stageResponse = new ArrayList<>();
+        for(var eleman : stages){
+            GeneralStageResponse generalStageResponse = new GeneralStageResponse();
+            generalStageResponse.setName(eleman.getName());
+
+            stageResponse.add(generalStageResponse);
+        }
+
+        return stageResponse;
     }
 
     public GeneralUserAuthenticationResponse toLeadPerson(){
@@ -111,14 +128,6 @@ public class Project {
         this.deletionStateCode = deletionStateCode;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
     public Company getCompanyId() {
         return companyId;
     }
@@ -141,6 +150,22 @@ public class Project {
 
     public void setStages(List<Stage> stages) {
         this.stages = stages;
+    }
+
+    public List<ProjectUser> getProjectMembers() {
+        return projectMembers;
+    }
+
+    public void setProjectMembers(List<ProjectUser> projectMembers) {
+        this.projectMembers = projectMembers;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
 
 }

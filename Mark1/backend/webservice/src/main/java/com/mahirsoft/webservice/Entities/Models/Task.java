@@ -56,7 +56,7 @@ public class Task {
     @Column(name = "deletionStateCode")
     private int deletionStateCode = 0;
 
-    @Column(name = "createdOn")
+    @Column(name = "createdOn") // LocalDateTime
     private Date createdOn = Date.valueOf(LocalDate.now());
 
     @Column(name = "taskDeadlineDate")

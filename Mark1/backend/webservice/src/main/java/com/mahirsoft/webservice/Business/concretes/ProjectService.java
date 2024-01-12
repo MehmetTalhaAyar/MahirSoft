@@ -1,4 +1,4 @@
-package com.mahirsoft.webservice.Business;
+package com.mahirsoft.webservice.Business.concretes;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 @Service
 public class ProjectService {
 
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;

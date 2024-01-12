@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mahirsoft.webservice.Business.ProjectService;
+import com.mahirsoft.webservice.Business.concretes.ProjectService;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectResponse;

@@ -1,6 +1,9 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import java.sql.Date;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 
 
 public class GeneralProjectResponse {
@@ -9,7 +12,9 @@ public class GeneralProjectResponse {
 
     private GeneralUserAuthenticationResponse leadingPerson;
 
-    private Date createdOn;
+    private LocalDateTime createdOn;
+
+    private List<GeneralStageResponse> stages;
 
     public String getName() {
         return name;
@@ -27,12 +32,22 @@ public class GeneralProjectResponse {
         this.leadingPerson = leadingPerson;
     }
 
-    public Date getCreatedOn() {
+
+    public List<GeneralStageResponse> getStages() {
+        return stages;
+    }
+
+    public void setStages(List<GeneralStageResponse> stages) {
+        this.stages = stages;
+    }
+
+    public LocalDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
+
     
 }

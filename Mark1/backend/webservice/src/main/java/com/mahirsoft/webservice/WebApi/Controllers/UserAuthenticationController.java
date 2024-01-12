@@ -5,16 +5,17 @@ import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mahirsoft.webservice.Business.UserAuthenticationService;
+import com.mahirsoft.webservice.Business.abstracts.TokenService;
+import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
 import com.mahirsoft.webservice.Entities.Requests.CreateUserAuthtenticationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetAllUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.PostUserAuthenticationResponse;
 
@@ -27,8 +28,11 @@ public class UserAuthenticationController {
 
     UserAuthenticationService userAuthenticationService;
 
-    UserAuthenticationController (UserAuthenticationService userAuthenticationService){
+    TokenService tokenService;
+
+    UserAuthenticationController (UserAuthenticationService userAuthenticationService,TokenService tokenService){
         this.userAuthenticationService = userAuthenticationService;
+        this.tokenService = tokenService;
     }
 
     
@@ -36,6 +40,7 @@ public class UserAuthenticationController {
     @PostMapping("/add")
     ResponseEntity<String> createUser(@Valid @RequestBody CreateUserAuthtenticationRequest createUserAuthtenticationRequest){
         String body = "User created";
+
         userAuthenticationService.save(createUserAuthtenticationRequest.toUserAuthentication());
         return new ResponseEntity<String>(body,HttpStatusCode.valueOf(200));
     }
@@ -50,11 +55,13 @@ public class UserAuthenticationController {
 
         // response nesnesine mapping
         PostUserAuthenticationResponse userAuthenticationResponse = new PostUserAuthenticationResponse();
-        userAuthenticationResponse.setUserId(user.getUserId());
-        userAuthenticationResponse.setEmail(user.getEmail());
-        userAuthenticationResponse.setName(user.getName());
-        userAuthenticationResponse.setSurname(user.getSurname());
-        userAuthenticationResponse.setFullName(user.getName() + " " + user.getSurname());
+        
+        GeneralUserAuthenticationResponse generalUserAuthenticationResponse = user.toGeneralUserAuthenticationResponse();
+         
+        var token = tokenService.createToken(user);
+
+        userAuthenticationResponse.setUser(generalUserAuthenticationResponse);
+        userAuthenticationResponse.setToken(token);
         
     
         return new ResponseEntity<PostUserAuthenticationResponse>( userAuthenticationResponse, HttpStatusCode.valueOf(200));

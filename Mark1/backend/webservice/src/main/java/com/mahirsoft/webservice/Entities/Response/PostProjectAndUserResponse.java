@@ -1,6 +1,6 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.mahirsoft.webservice.Entities.Models.Stage;
@@ -11,7 +11,7 @@ public class PostProjectAndUserResponse {
 
     private GeneralUserAuthenticationResponse leadingPerson;
 
-    private Date createdOn;
+    private LocalDateTime createdOn;
 
     private List<Stage> stages;
 
@@ -31,19 +31,19 @@ public class PostProjectAndUserResponse {
         this.leadingPerson = leadingPerson;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
     public List<Stage> getStages() {
         return stages;
     }
 
     public void setStages(List<Stage> stages) {
         this.stages = stages;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
 }

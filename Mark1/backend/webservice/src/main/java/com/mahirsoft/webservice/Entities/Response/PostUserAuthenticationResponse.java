@@ -1,67 +1,32 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.Token;
+
 
 public class PostUserAuthenticationResponse {
 
-    private long userId;
+    GeneralUserAuthenticationResponse user;
 
-    private String email;
-        
-    private String name;
+    Token token;
 
-    private String surname;
+   
 
-    private String fullName;
-
-
-    public UserAuthentication toUserAuthentication() {
-        UserAuthentication userAuthentication = new UserAuthentication();
-        userAuthentication.setEmail(email);
-        userAuthentication.setName(name);
-        userAuthentication.setSurname(surname);
-        
-        return userAuthentication;
+    public Token getToken() {
+        return token;
     }
 
-    //getter Setters
-    public String getEmail() {
-        return email;
+    public void setToken(Token token) {
+        this.token = token;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public GeneralUserAuthenticationResponse getUser() {
+        return user;
     }
 
-    public long getUserId() {
-        return userId;
+    public void setUser(GeneralUserAuthenticationResponse user) {
+        this.user = user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+   
 }
