@@ -15,9 +15,6 @@ function Form({ isVisible, changeVisible,changeForm, isChangeActive}) {
   const dispatch = useAuthDispatch();
 
 
-  console.log(email);
-  console.log(password);
-
   const onsubmit = async (event) => {
     event.preventDefault();
     try {
@@ -26,7 +23,6 @@ function Form({ isVisible, changeVisible,changeForm, isChangeActive}) {
         password,
       });
       if(isRememberActive){
-        console.log("Fatih Sultan Mehmet")
         dispatch({type:'remember-login-success',data:response.data})
       }else{
 

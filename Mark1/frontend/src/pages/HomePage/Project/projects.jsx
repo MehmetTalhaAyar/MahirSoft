@@ -127,6 +127,7 @@ function Project() {
             className={`selected_object ${
               projectFormOpen ? "isVisible_select" : ""
             }`}
+            placeholder="Project Members"
             options={options}
             isMulti
             value={selectedOptions}

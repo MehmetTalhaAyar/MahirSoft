@@ -7,9 +7,8 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { MdDashboard } from "react-icons/md";
 import { RiTaskLine } from "react-icons/ri";
 import { GoProjectSymlink } from "react-icons/go";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt, FaUsers } from "react-icons/fa";
 import { LiaEllipsisHSolid } from "react-icons/lia";
-import { CiDark } from "react-icons/ci";
 
 function SideBar() {
   const [isSideBarOpen, setisSideBarOpen] = useState(false);
@@ -40,6 +39,11 @@ function SideBar() {
           toWhere={"#"}
           icon={<FaRegCalendarAlt />}
           name="Calendar"
+        />
+        <SideBarItem
+          toWhere={"company"}
+          icon={<FaUsers />}
+          name="Company"
         />
       </div>
       <hr className="hr2"></hr>

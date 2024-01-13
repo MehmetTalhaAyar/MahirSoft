@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { loadAuthState, storeAuthState } from "./storage";
-import { loadSessionAuthState, storeSessionAuthState ,deleteSessionAuthState } from "./sessionstorage";
+import { loadAuthState, storeAuthState, storeToken } from "./storage";
+import { loadSessionAuthState, storeSessionAuthState ,deleteSessionAuthState, loadSessionToken, storeSessionToken } from "./sessionstorage";
+import { setSessionToken, setToken } from "../lib/http";
 
 export const AuthContext = createContext();
 
@@ -17,16 +18,22 @@ export function useAuthDispatch(){
 const authReducer = (authState,action) => {
     switch(action.type){
         case 'login-success':
-            storeSessionAuthState(action.data)
+            storeSessionAuthState(action.data.user)
+            setSessionToken(action.data.token)
+
             return action.data;
         case 'remember-login-success':
-            storeAuthState(action.data)
+            storeAuthState(action.data.user)
+            setToken(action.data.token)
             return action.data;
         case 'logout-success':
             deleteSessionAuthState()
             storeAuthState({ userId: 0 })
+            setSessionToken()
+            setToken()
             return { userId: 0 }
         case 'session-storage':
+            setSessionToken(loadSessionToken())
             return loadSessionAuthState();
         default:
             throw new Error(`unknown action : ${action.type}`)

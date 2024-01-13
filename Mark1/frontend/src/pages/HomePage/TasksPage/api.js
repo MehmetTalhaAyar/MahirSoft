@@ -1,9 +1,9 @@
-import axios from "axios";
+import http from "../../../lib/http";
 
 export function addTask(body){
-    return axios.post("/api/v1/tasks/addtask",body)
+    return http.post("/api/v1/tasks/addtask",body)
 }
 
 export function getAllTask(){
-    return axios.get("/api/v1/tasks/getalltasks")
+    return http.get("/api/v1/tasks/getalltasks")
 }

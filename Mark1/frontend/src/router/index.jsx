@@ -7,6 +7,7 @@ import Board from "../pages/HomePage/DashboardPage/board.jsx";
 import Project from "../pages/HomePage/Project/projects.jsx";
 import App from "../App.jsx";
 import Home from "../pages/HomePage/home.jsx";
+import { CompanyPage } from "../pages/HomePage/CompanyPage/company.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
         {
           path:"projects",
           element: <Project />
+        },
+        {
+          path:"company",
+          element: <CompanyPage />
         }
       ],
     },

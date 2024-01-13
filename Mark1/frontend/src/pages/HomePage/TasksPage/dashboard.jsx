@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./dashboard.css";
 import Stage from "./stage";
 
 import { IoSettingsOutline } from "react-icons/io5";
 
 function Dashboard() {
+
+  useEffect(()=>{
+
+
+    
+  },[])
+
+
   return (
     <div className="wraper">
       <div className="container1">

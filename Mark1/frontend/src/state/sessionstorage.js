@@ -1,4 +1,25 @@
+import { json } from "react-router-dom";
 
+
+
+export function storeSessionToken(token){
+    if(token){
+        sessionStorage.setItem('token',JSON.stringify(token));
+    }
+    else{
+        sessionStorage.removeItem('token');
+    }
+}
+
+export function loadSessionToken(){
+    const authTokenInSession = sessionStorage.getItem('token')
+    if(!authTokenInSession) return null
+    try {
+        return JSON.parse(authTokenInSession);
+    } catch (error) {
+        return null;
+    }
+}
 
 
 export function storeSessionAuthState(auth){

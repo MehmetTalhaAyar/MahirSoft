@@ -128,14 +128,14 @@ function MyProfile() {
           <hr></hr>
           {currentPage === "overview" && (
             <OverviewPage
-              fullName={fullName}
+              fullName={authState.fullName}
               job={job}
               about={about}
               company={company}
               country={country}
               adress={adress}
               phone={phone}
-              email={email}
+              email={authState.email}
             />
           )}
           {currentPage === "editProfile" && (
