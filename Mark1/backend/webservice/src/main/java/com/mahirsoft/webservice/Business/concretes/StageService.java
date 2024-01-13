@@ -23,7 +23,11 @@ public class StageService {
         return stage;     
     }
 
-    public void createStage(Stage stage){
+    public Stage createStage(Stage stage){
+        return stageRepository.save(stage);
+    }
+
+    public void updateStage(Stage stage){
         stageRepository.save(stage);
     }
 

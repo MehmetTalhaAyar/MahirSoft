@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.abstracts.TokenService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateUserAuthtenticationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
@@ -46,8 +48,8 @@ public class UserAuthenticationController {
     }
 
     @PostMapping("/user")
-    ResponseEntity<?> getUserInformation(@Valid @RequestBody PostUserAuthenticationRequest postUserAuthenticationResponse){
-        var user = userAuthenticationService.getUserInfo(postUserAuthenticationResponse);
+    ResponseEntity<?> getUserInformation(@Valid @RequestBody PostUserAuthenticationRequest postUserAuthenticationRequest){
+        var user = userAuthenticationService.getUserInfo(postUserAuthenticationRequest);
 
         if (user == null){
             return new ResponseEntity<String>("User not found", HttpStatusCode.valueOf(204));
@@ -58,7 +60,7 @@ public class UserAuthenticationController {
         
         GeneralUserAuthenticationResponse generalUserAuthenticationResponse = user.toGeneralUserAuthenticationResponse();
          
-        var token = tokenService.createToken(user);
+        var token = tokenService.createToken(postUserAuthenticationRequest);
 
         userAuthenticationResponse.setUser(generalUserAuthenticationResponse);
         userAuthenticationResponse.setToken(token);
@@ -89,6 +91,10 @@ public class UserAuthenticationController {
         
     }
 
+    @GetMapping("/{id}")
+    public UserAuthentication getuser(@PathVariable long id){
+        return userAuthenticationService.findById(id);
+    }
     
 
    

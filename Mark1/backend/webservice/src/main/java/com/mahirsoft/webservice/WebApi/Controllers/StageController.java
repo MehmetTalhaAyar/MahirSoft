@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.concretes.StageService;
-import com.mahirsoft.webservice.Entities.Models.Stage;
+import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
 
 @RestController
 @RequestMapping("api/v1/stage")
@@ -21,9 +21,17 @@ public class StageController {
     
 
     @GetMapping("/{id}")
-    public Stage getStage(@PathVariable long id){
-        return service.getStage(id);
+    public GeneralStageResponse getStage(@PathVariable long id){
+
+        var stage = service.getStage(id);
+
+        if(stage == null) return null;
+
+    
+        return stage.toGeneralStageResponse();
     }
+
+
 
 
 }

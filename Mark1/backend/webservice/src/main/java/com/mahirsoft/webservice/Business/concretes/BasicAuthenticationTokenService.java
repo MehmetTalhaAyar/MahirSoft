@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.Business.abstracts.TokenService;
 import com.mahirsoft.webservice.Entities.Models.Token;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
 
 @Service
 public class BasicAuthenticationTokenService implements TokenService {
 
-
+   
     @Override
-    public Token createToken(UserAuthentication userAuthentication) {
+    public Token createToken(PostUserAuthenticationRequest userAuthentication) {
 
 
         String emailColonPassword = userAuthentication.getEmail() + ":" + userAuthentication.getPassword();

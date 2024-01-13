@@ -28,8 +28,7 @@ public class UserAuthenticationService {
         userAuthentication.setPassword(passwordEncoder.encode(userAuthentication.getPassword()));
 
         userAuthenticationRepository.save(userAuthentication);
-       
-
+    
     }
 
     public UserAuthentication findByEmail(String email){
@@ -57,6 +56,10 @@ public class UserAuthenticationService {
 
     public UserAuthentication findById(long id){
         return userAuthenticationRepository.findById(id);
+    }
+
+    public UserAuthentication updateUser(UserAuthentication userAuthentication){
+        return userAuthenticationRepository.save(userAuthentication);
     }
 
     

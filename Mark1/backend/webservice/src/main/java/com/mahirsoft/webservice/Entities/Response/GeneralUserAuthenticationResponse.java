@@ -15,6 +15,8 @@ public class GeneralUserAuthenticationResponse {
 
     private String gsm;
 
+    private CompanyResponse company;
+
     
 
     public long getUserId() {
@@ -63,5 +65,13 @@ public class GeneralUserAuthenticationResponse {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public CompanyResponse getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyResponse company) {
+        this.company = company;
     }
 }

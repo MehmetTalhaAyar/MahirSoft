@@ -84,7 +84,7 @@ public class TaskController {
         getTaskResponse.setTaskDescripton(task.getTaskDescription());
         getTaskResponse.setCreatedOn(task.getCreatedOn());
         getTaskResponse.setTaskDeadlineDate(task.getTaskDeadlineDate());
-        getTaskResponse.setResponsibleId(task.getUserAuthenticationresposibleId());
+        getTaskResponse.setResponsibleId(task.getResposibleId());
 
         return new ResponseEntity<GetTaskResponse>(getTaskResponse,HttpStatusCode.valueOf(200));
     }

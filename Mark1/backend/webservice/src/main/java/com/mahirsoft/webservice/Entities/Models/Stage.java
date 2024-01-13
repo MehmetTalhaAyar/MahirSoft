@@ -1,9 +1,12 @@
 package com.mahirsoft.webservice.Entities.Models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralTaskResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +46,30 @@ public class Stage {
     @JsonIgnore
     @OneToMany(mappedBy = "stageId")
     private List<Task> tasks;
+
+
+    public GeneralStageResponse toGeneralStageResponse(){
+        GeneralStageResponse newstage = new GeneralStageResponse();
+        newstage.setId(stageId);
+        newstage.setName(name);
+        return newstage;
+    }
+
+    public List<GeneralTaskResponse> toGeneralTaskResponses(){
+        List<GeneralTaskResponse> taskResponses = new ArrayList<>();
+
+        for(var eleman : tasks){
+            GeneralTaskResponse currentTask = new GeneralTaskResponse();
+            currentTask.setDescription(eleman.getTaskDescription());
+            currentTask.setName(eleman.getTaskName());
+            currentTask.setStage(eleman.getStageId().toGeneralStageResponse());
+            currentTask.setResponsiblePerson(eleman.getResposibleId().toGeneralUserAuthenticationResponse());
+
+            taskResponses.add(currentTask);
+
+        }
+        return taskResponses;
+    }
 
 
     public long getStageId() {

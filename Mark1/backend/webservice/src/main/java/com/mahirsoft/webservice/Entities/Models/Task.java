@@ -28,10 +28,6 @@ public class Task {
     @JoinColumn(name = "responsibleId",referencedColumnName = "userId")
     private UserAuthentication resposibleId;
 
-    @ManyToOne
-    @JoinColumn(name = "projectId",referencedColumnName = "projectId")
-    private Project projectId;
-
     @Column(name = "taskName")
     private String taskName;
 
@@ -128,14 +124,6 @@ public class Task {
         this.taskDeadlineDate = taskDeadlineDate;
     }
 
-    public UserAuthentication getUserAuthenticationresposibleId() {
-        return resposibleId;
-    }
-
-    public void setUserAuthenticationresposibleId(UserAuthentication userAuthenticationresposibleId) {
-        this.resposibleId = userAuthenticationresposibleId;
-    }
-
     public UserAuthentication getResposibleId() {
         return resposibleId;
     }
@@ -158,14 +146,6 @@ public class Task {
 
     public void setRelatedTasks(List<Task> relatedTasks) {
         this.relatedTasks = relatedTasks;
-    }
-
-    public Project getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Project projectId) {
-        this.projectId = projectId;
     }
 
     public UserAuthentication getCreatedById() {

@@ -81,10 +81,8 @@ public class ProjectAndStageService {
         project.setName(createProjectRequest.getName());
         project.setCompanyId(user.getCompanyId());
         project.setLeadingPersonId(user);
-        project.setStages(stages);
-        
-        // userın companysine göre projectin alanı doldurulacak
-        // project.setCompanyId(user.getCompanyId());
+        project.setStages(stages);        
+        project.setCompanyId(user.getCompanyId());
         
         projectService.createProject(project);
 

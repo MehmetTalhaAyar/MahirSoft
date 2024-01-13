@@ -47,10 +47,6 @@ public class Project {
 
     @JsonIgnore
     @OneToMany(mappedBy = "projectId")
-    private List<Task> tasks;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "projectId")
     private List<Stage> stages;
 
     @JsonIgnore
@@ -76,6 +72,7 @@ public class Project {
         List<GeneralStageResponse> stageResponse = new ArrayList<>();
         for(var eleman : stages){
             GeneralStageResponse generalStageResponse = new GeneralStageResponse();
+            generalStageResponse.setId(eleman.getStageId());
             generalStageResponse.setName(eleman.getName());
 
             stageResponse.add(generalStageResponse);
@@ -134,14 +131,6 @@ public class Project {
 
     public void setCompanyId(Company companyId) {
         this.companyId = companyId;
-    }
-
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
     }
 
     public List<Stage> getStages() {
