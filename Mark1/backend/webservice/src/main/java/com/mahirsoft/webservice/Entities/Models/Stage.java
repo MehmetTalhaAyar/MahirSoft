@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralTaskResponse;
+import com.mahirsoft.webservice.Entities.Response.TaskResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,6 +53,8 @@ public class Stage {
         GeneralStageResponse newstage = new GeneralStageResponse();
         newstage.setId(stageId);
         newstage.setName(name);
+        newstage.setTasks(toTaskResponses());
+
         return newstage;
     }
 
@@ -71,6 +74,19 @@ public class Stage {
         return taskResponses;
     }
 
+    private List<TaskResponse> toTaskResponses(){
+        List<TaskResponse> taskList = new ArrayList<>();
+
+        for(var eleman : tasks){
+            TaskResponse currentTask = new TaskResponse();
+            currentTask.setId(eleman.getTaskId());
+            currentTask.setName(eleman.getTaskName());
+            currentTask.setDescription(eleman.getTaskDescription());
+            taskList.add(currentTask);
+        }
+
+        return taskList;
+    }
 
     public long getStageId() {
         return stageId;

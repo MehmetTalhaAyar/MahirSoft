@@ -22,6 +22,7 @@ public class TaskService {
         var task = new Task();
         task.setTaskName(createTaskRequest.getTaskName());
         task.setTaskDescription(createTaskRequest.getTaskDescription());
+        task.setCreatedById(null);
         
         taskRepository.save(task);
     }
