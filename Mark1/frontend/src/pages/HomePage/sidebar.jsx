@@ -25,7 +25,7 @@ function SideBar() {
 
       <div className="sidebar_menu">
         <SideBarItem
-          toWhere={"dashboard"}
+          toWhere={""}
           icon={<MdDashboard />}
           name="Dashboard"
         />

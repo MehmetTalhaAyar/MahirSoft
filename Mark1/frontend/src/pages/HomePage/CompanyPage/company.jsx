@@ -15,7 +15,6 @@ export function CompanyPage(props){
     const { companyName } = props;
 
     const saveUser = () => {
-        console.log("1111")
 
         createUser({
             name,

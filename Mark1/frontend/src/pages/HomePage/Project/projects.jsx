@@ -1,21 +1,66 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./project.css";
 import Select from "react-select";
 
 import { HiDotsHorizontal } from "react-icons/hi";
+import { getCompanyMembers,getCompanyProjects} from "./api";
+import { MONTHS } from "../../../Constants/Constants";
+import { Link } from "react-router-dom";
 
 function Project() {
   const [projectFormOpen, setProjectFormOpen] = useState(false);
-  const [projectCards, setProjectCards] = useState([
-    { title: "Demo Project", admin: "Admin Name" },
-  ]);
+  const [projectCards, setProjectCards] = useState([]);
   const [titleError, setTitleError] = useState("");
   const [adminError, setAdminError] = useState("");
 
   const [dropdownStates, setDropdownStates] = useState([false]);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [projectTitle, setProjectTitle] = useState("");
-  const [adminName, setAdminName] = useState("");
+  const [adminName, setAdminName] = useState([]);
+  const [options,setOptions] = useState("");
+
+  const getMembers = useCallback( async ()=>{
+    
+    const response = await getCompanyMembers();
+
+    if(response.status === 200 && response.data){
+      setOptions(response.data.map((user)=>{
+        return {
+          value:user.userId,
+          label:user.fullName
+        }
+      }))
+    }
+    
+
+  },[])
+
+  const getProjects = useCallback( async () => {
+    const response = await getCompanyProjects();
+
+    if(response.status === 200 && response.data ){
+      setProjectCards(response.data.map((project)=>{
+        return {
+          title: project.name,
+          admin: project.leadingPerson.fullName,
+          adminId: project.leadingPerson.userId,
+          stages: project.stages,
+          createdOn: {
+            day: project.createdOn.split('T')[0].split('-')[2],
+            month: project.createdOn.split('T')[0].split('-')[1],
+            year :project.createdOn.split('T')[0].split('-')[0]
+          }
+        }
+      }))
+
+    }
+
+  },[])
+
+  useEffect(()=>{
+    getMembers()
+    getProjects()
+  },[])
 
   const openProjectForm = () => {
     setProjectFormOpen(!projectFormOpen);
@@ -68,20 +113,11 @@ function Project() {
     setSelectedOptions(selectedValues);
   };
 
-  const options = [
-    { value: "Name1", label: "Name 1" },
-    { value: "Name2", label: "Name 2" },
-    { value: "Name3", label: "Name 3" },
-    { value: "Name4", label: "Name 4" },
-    { value: "Name5", label: "Name 5" },
-    { value: "Name6", label: "Name 6" },
-    { value: "Name7", label: "Name 7" },
-    { value: "Name8", label: "Name 8" },
-    { value: "Name9", label: "Name 9" },
-    { value: "Name10", label: "Name 10" },
+  const handleAdminChange = (selectedValue) => {
+    setAdminName(selectedValue)
+  }
 
-    // Add more options as needed
-  ];
+
 
   return (
     <main>
@@ -108,18 +144,15 @@ function Project() {
             }}
           />
           {titleError && <p className="error-message">{titleError}</p>}
-          <input
-            type="text"
-            placeholder="Admin Name"
+          <Select
+            placeholder="Project Manager"
             className={`project_input ${
-              projectFormOpen ? "isVisible_input" : ""
+              projectFormOpen ? "isVisible_select" : ""
             }`}
-            id="adminName"
+            isClearable="true"
             value={adminName}
-            onChange={(e) => {
-              setAdminName(e.target.value);
-              setAdminError("");
-            }}
+            options={options}
+            onChange={handleAdminChange}
           />
           {adminError && <p className="error-message">{adminError}</p>}
 
@@ -130,6 +163,7 @@ function Project() {
             placeholder="Project Members"
             options={options}
             isMulti
+            closeMenuOnSelect={false}
             value={selectedOptions}
             onChange={handleSelectChange}
           />
@@ -146,7 +180,8 @@ function Project() {
       </div>
       <div className="project_section">
         {projectCards.map((project, index) => (
-          <div className="project_card" key={index}>
+          <div key={index} className="project_card">
+            <div>
             <HiDotsHorizontal
               className="_dot"
               onClick={() => openDropdownMenu(index)}
@@ -163,11 +198,16 @@ function Project() {
               </a>
               <a href="#edit">Edit</a>
             </div>
+          </div>
+            
+          <Link key={index} className="to-links" to={project.title.toLowerCase()}>
             <div className="proje_container">
               <h2 className="proje_title">{project.title}</h2>
               <div className="proje_tasks_container">{project.admin}</div>
             </div>
-            <span className="created_on">Created on January 01</span>
+            <span className="created_on">Created on {`${project.createdOn.day} ${MONTHS[project.createdOn.month]} ${project.createdOn.year}`}</span>
+
+          </Link>
           </div>
         ))}
       </div>

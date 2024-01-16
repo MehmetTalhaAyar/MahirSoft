@@ -13,7 +13,7 @@ export function storeSessionToken(token){
 
 export function loadSessionToken(){
     const authTokenInSession = sessionStorage.getItem('token')
-    if(!authTokenInSession) return null
+    if(!authTokenInSession) return null;
     try {
         return JSON.parse(authTokenInSession);
     } catch (error) {

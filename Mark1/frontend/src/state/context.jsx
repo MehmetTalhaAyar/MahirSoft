@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { loadAuthState, storeAuthState, storeToken } from "./storage";
-import { loadSessionAuthState, storeSessionAuthState ,deleteSessionAuthState, loadSessionToken, storeSessionToken } from "./sessionstorage";
+import { loadAuthState, loadToken, storeAuthState, storeToken } from "./storage";
+import { loadSessionAuthState, storeSessionAuthState ,deleteSessionAuthState, loadSessionToken } from "./sessionstorage";
 import { setSessionToken, setToken } from "../lib/http";
 
 export const AuthContext = createContext();

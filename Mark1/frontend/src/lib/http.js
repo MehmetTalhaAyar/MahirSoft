@@ -4,7 +4,7 @@ import { loadSessionToken, storeSessionToken } from "../state/sessionstorage";
 
 const http = axios.create();
 
-let authToken = loadToken();
+let authToken = loadToken() !== null ? loadToken() : loadSessionToken();
 
 
 
