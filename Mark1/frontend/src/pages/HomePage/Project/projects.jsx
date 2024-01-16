@@ -200,7 +200,7 @@ function Project() {
             </div>
           </div>
             
-          <Link key={index} className="to-links" to={project.title.toLowerCase()}>
+          <Link className="to-links" to={project.title.toLowerCase()} state={{admin:project.admin,stages:project.stages}}>
             <div className="proje_container">
               <h2 className="proje_title">{project.title}</h2>
               <div className="proje_tasks_container">{project.admin}</div>

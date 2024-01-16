@@ -30,12 +30,12 @@ function NavBar() {
         <Link to={""} className="home_page_logo">
           Home Page
         </Link>
-        <ul className="nav-links">
+        {/* <ul className="nav-links">
           <li href="#">Home</li>
           <li href="#">About</li>
           <li href="#">Contact</li>
           <Profile />
-        </ul>
+        </ul> */}
         <div
           className="logout_img"
           onClick={handleProfileClick}

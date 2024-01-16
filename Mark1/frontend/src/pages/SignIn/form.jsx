@@ -22,21 +22,22 @@ function Form({ isVisible, changeVisible,changeForm, isChangeActive}) {
         email,
         password,
       });
-      if(isRememberActive){
-        dispatch({type:'remember-login-success',data:response.data})
-      }else{
-
-        dispatch({type:'login-success',data:response.data})
-      }
+      
       console.log("istek tamamlandı.", response);
       if (response.data !== "") {
+        if(isRememberActive){
+          dispatch({type:'remember-login-success',data:response.data})
+        }else{
+  
+          dispatch({type:'login-success',data:response.data})
+        }
         navigate("/home")
       } else if (response.status === 400) {
         console.log("bad request.");
       } else if (response.status === 204) {
         setIsEmailTrue(true);
         setIsPasswordTrue(true);
-        console.log(":D");
+        console.log("No context");
       }
     } catch (ex) {
 

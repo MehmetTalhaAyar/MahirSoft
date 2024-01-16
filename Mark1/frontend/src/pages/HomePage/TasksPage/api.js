@@ -1,9 +1,9 @@
 import http from "../../../lib/http";
 
-export function addTask(body){
-    return http.post("/api/v1/tasks/addtask",body)
+export function addTask(stageId,body){
+    return http.post(`/api/v1/taskstage/${stageId}`,body)
 }
 
-export function getAllTask(){
-    return http.get("/api/v1/tasks/getalltasks")
+export function getTasks(stageId){
+    return http.get(`/api/v1/taskstage/alltasks/${stageId}`)
 }

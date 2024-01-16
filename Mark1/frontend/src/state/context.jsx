@@ -21,7 +21,7 @@ const authReducer = (authState,action) => {
             storeSessionAuthState(action.data.user)
             setSessionToken(action.data.token)
 
-            return action.data;
+            return action.data.user;
         case 'remember-login-success':
             storeAuthState(action.data.user)
             setToken(action.data.token)
@@ -48,9 +48,17 @@ export function AuthenticationContext({children}){
         if(!(authState.userId > 0)) {
             dispatch({type:'session-storage'});
             
+            
         }
         
     },[])
+
+    // useEffect(()=>{
+    //     console.log("buraya girdix")
+    //     storeSessionAuthState(authState)
+        
+
+    // },[authState])
 
     return <AuthContext.Provider value={authState}>
         <AuthDispatchContext.Provider value={dispatch}>

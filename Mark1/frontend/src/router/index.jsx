@@ -8,6 +8,7 @@ import Project from "../pages/HomePage/Project/projects.jsx";
 import App from "../App.jsx";
 import Home from "../pages/HomePage/home.jsx";
 import { CompanyPage } from "../pages/HomePage/CompanyPage/company.jsx";
+import { TaskPage } from "../pages/TaskPage/index.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -40,13 +41,14 @@ export const router = createBrowserRouter([
         {
           path:"projects",
           element: <Project />,
-          children:[
-            {
-              index:true,
-              path:":projectname",
-              element: <Dashboard />
-            }
-          ]
+        },
+        {
+          path: "projects/:projectname",
+          element: <Dashboard />
+        },
+        {
+          path: "task",
+          element: <TaskPage />
         },
         {
           path:"company",

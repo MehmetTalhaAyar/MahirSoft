@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./dashboard.css";
 import Stage from "./stage";
 
 import { IoSettingsOutline } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
 
 function Dashboard() {
+  const location = useLocation();
+  const [stages,setStages] = useState(location.state.stages);
+
 
   useEffect(()=>{
 
@@ -26,7 +30,12 @@ function Dashboard() {
       </div>
       <hr></hr>
       <div className="container2">
-        <Stage />
+        {
+          stages.map((stage)=>(
+            <Stage key={stage.id} stageName={stage.name} stageId={stage.id} />
+          ))
+        }
+        
       </div>
     </div>
   );

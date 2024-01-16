@@ -157,6 +157,10 @@
   cursor: pointer;
 }
 
+.to-links:hover{
+  text-decoration: none;
+}
+
 .proje_container {
   display: flex;
   flex-direction: column;

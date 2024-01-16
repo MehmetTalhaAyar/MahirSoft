@@ -1,9 +1,11 @@
-import { getAllTask } from "./api";
+import { getTasks } from "./api";
 import "./stage.css";
 import Task from "./task";
 import React, { useState, useEffect, useCallback } from "react";
 
-function Stage() {
+
+function Stage(props) {
+  const { stageName,stageId } = props;
   const [tasks, setTasks] = useState([]);
   const [newTaskCount, setNewTaskCount] = useState(0);
 
@@ -19,11 +21,11 @@ function Stage() {
   }, [tasks, newTaskCount]);
 
   const getTask = useCallback(async () => {
-    const response = await getAllTask();
-    console.log(response.data);
+    const response = await getTasks(stageId);
+    console.log(response.data.tasks);
 
     if (response.status === 200) {
-      setTasks(response.data);
+      setTasks(response.data.tasks);
     }
   }, []);
 
@@ -62,7 +64,7 @@ function Stage() {
       <ul className="cards">
         <li className="card">
           <div className="card_header">
-            <div className="header_name">To Do</div>
+            <div className="header_name">{stageName}</div>
             <button className="new" onClick={handleNewButtonClick}>
               New
             </button>
@@ -71,11 +73,12 @@ function Stage() {
           <div className="scrolling_vertically">
             {tasks.map((task) => (
               <Task
-                key={task.taskId}
+                key={task.id}
                 isNew={task.isNew ? task.isNew : false}
-                taskNameSend={task.taskName}
-                taskDescriptionSend={task.taskDescription}
+                taskNameSend={task.name}
+                taskDescriptionSend={task.description}
                 changeState={saveTask}
+                stageId={stageId}
               />
             ))}
           </div>

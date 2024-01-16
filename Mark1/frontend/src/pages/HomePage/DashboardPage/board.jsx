@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { useAuthState } from "../../../state/context";
 import "./board.css";
 
 function Board() {
   const authState = useAuthState();
+
+  useEffect(()=>{
+    
+  },[authState])
   
   return (
     <main>

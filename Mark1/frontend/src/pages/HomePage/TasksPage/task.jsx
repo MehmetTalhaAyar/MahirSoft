@@ -5,14 +5,14 @@ import { addTask } from "./api";
 
 function Task(props) {
   // Access props data
-  const { isNew, changeState, taskNameSend, taskDescriptionSend } = props;
+  const { isNew, changeState, taskNameSend, taskDescriptionSend, stageId} = props;
   const [taskName, setTaskName] = useState();
   const [taskDescription, setTaskDescription] = useState();
   const [error, setErrors] = useState();
 
   const saveElements = async () => {
     try {
-      const response = await addTask({
+      const response = await addTask(stageId,{
         taskName,
         taskDescription,
       });
@@ -39,8 +39,7 @@ function Task(props) {
     }
   }, []);
 
-  // console.log(taskDescription);
-  // console.log(taskName);
+  
 
   if (isNew === true) {
     return (
