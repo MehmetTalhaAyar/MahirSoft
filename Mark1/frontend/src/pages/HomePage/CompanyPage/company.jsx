@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { CreateUserItem } from "../../../components/CreateUserItems"
 import { createUser } from "./api";
+import './company.css';
+import { SignFormItem } from "../../../components/SignFormItem";
 
 
 export function CompanyPage(props){
@@ -24,32 +26,69 @@ export function CompanyPage(props){
             title,
             gsm
         })
-        
-
     }
 
+    // const [showForm, setShowForm] = useState(false);
 
-    return (
-        <main>
-        <h1>{companyName}</h1>
-
-        {/* <span>Create User</span>
-
-        <div className="create-user-inputs">
-        
-        <CreateUserItem id="name" text="Name" onChange={(event)=>setName(event.target.value)} />
-        <CreateUserItem id="surname" text="Surname" onChange={(event)=>setSurname(event.target.value)} />
-        <CreateUserItem id="gsm" text="Gsm" onChange={(event)=>setGsm(event.target.value)} />
-        <CreateUserItem id="email" text="Email" onChange={(event)=>setEmail(event.target.value)} />
-        <CreateUserItem id="password" text="Password" onChange={(event)=>setPassword(event.target.value)} />
-        <CreateUserItem id="title" text="Title" onChange={(event)=>setTitle(event.target.value)} />
-
-        <button onClick={saveUser}>Save User</button>
-        </div> */}
+    // const handleButtonClick = () => {
+    //     setShowForm(true);
+    // };
 
 
-        
-        
+    return (    
+        <main >
+            
+             <h1>Company</h1>
+            <div className="container">
+                <h1>Company Name</h1>
+                <h2>Descriotion:</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium odio at provident, distinctio quos iure inventore obcaecati atque, odit ea facere cumque. Sit hic cumque doloremque, nihil quod adipisci suscipit!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum vitae, dolorem eum suscipit neque, vel nihil sunt obcaecati saepe qui fugit repellat nesciunt minus aliquam. Error autem asperiores fugit facere!
+                </p>
+
+                <div>
+                    <h2>Social Media</h2>
+                    <ul>
+                    <li>
+                        <a href="https://twitter.com/company" target="_blank" rel="noopener noreferrer" className="tw">
+                        Twitter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/company" target="_blank" rel="noopener noreferrer" className="tw">
+                        Facebook
+                        </a>
+                    </li>
+                    {/* Add more social media links as needed */}
+                    </ul>
+                </div>
+            {/* </div> */}
+            {/* <div className="small-container-2"> */}
+<div className="company-form">
+                <form className="user-form">
+                
+                <h2>Register Form</h2>
+
+                <label htmlFor="surname">Surname:</label>
+                <input type="text" id="surname" name="surname" required />
+
+                <label htmlFor="gsm">GSM:</label>
+                <input type="tel" id="gsm" name="gsm" required />
+
+                <label htmlFor="email">Email:</label>
+                <input type="email" id="email" name="email" required />
+                
+                <label htmlFor="password">Password:</label>
+                <input type="password" id="password" name="password" required />
+
+                <label htmlFor="title">Title:</label>
+                <input type="text" id="title" name="title" required />
+
+                <button type="submit">Submit</button>
+                </form>
+                </div>
+            {/* </div> */}
+            </div>
         </main>
     )
 }
