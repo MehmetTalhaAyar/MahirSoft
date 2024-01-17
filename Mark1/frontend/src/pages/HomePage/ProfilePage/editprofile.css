@@ -66,6 +66,7 @@
   border-radius: 5px;
   border: solid 1.5px #d3d3d3;
   transition: 1s;
+  resize: vertical;
 }
 .textarea-control:focus {
   box-shadow: 0 0 2px 2px #3498db;

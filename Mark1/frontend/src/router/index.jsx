@@ -11,54 +11,53 @@ import { CompanyPage } from "../pages/HomePage/CompanyPage/company.jsx";
 import { TaskPage } from "../pages/TaskPage/index.jsx";
 
 export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <App />,
-    },
-    {
-      path: "/home",
-      element: <Home />,
-      children: [
-        // {
-        //   path: "",
-        //   index: true,
-        //   element: <Dashboard />,
-        // },
-        {
-          path: "",
-          element: <Board />,
-          index: true,
-        },
-  
-        {
-          path: "myprofile",
-          element: <MyProfile />,
-        },
-        {
-          path: "settings",
-          element: <Settings />,
-        },
-        {
-          path:"projects",
-          element: <Project />,
-        },
-        {
-          path: "projects/:projectname",
-          element: <Dashboard />
-        },
-        {
-          path: "task",
-          element: <TaskPage />
-        },
-        {
-          path:"company",
-          element: <CompanyPage />
-        }
-      ],
-    },
-    {
-      path: "/forgotpassword",
-      element: <ForgotPassword />,
-    },
-  
-  ]);
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/home",
+    element: <Home />,
+    children: [
+      // {
+      //   path: "",
+      //   index: true,
+      //   element: <Dashboard />,
+      // },
+      {
+        path: "",
+        element: <Board />,
+        index: true,
+      },
+
+      {
+        path: "myprofile",
+        element: <MyProfile />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+      },
+      {
+        path: "projects",
+        element: <Project />,
+      },
+      {
+        path: "projects/:projectname",
+        element: <Dashboard />,
+      },
+      {
+        path: "task",
+        element: <TaskPage />,
+      },
+      {
+        path: "company",
+        element: <CompanyPage />,
+      },
+    ],
+  },
+  {
+    path: "/forgotpassword",
+    element: <ForgotPassword />,
+  },
+]);

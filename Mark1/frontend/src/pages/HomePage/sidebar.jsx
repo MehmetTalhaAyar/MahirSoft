@@ -24,27 +24,15 @@ function SideBar() {
       </div>
 
       <div className="sidebar_menu">
-        <SideBarItem
-          toWhere={""}
-          icon={<MdDashboard />}
-          name="Dashboard"
-        />
+        <SideBarItem toWhere={""} icon={<MdDashboard />} name="Dashboard" />
         <SideBarItem toWhere={"#"} icon={<RiTaskLine />} name="Tasks" />
         <SideBarItem
           toWhere={"projects"}
           icon={<GoProjectSymlink />}
           name="Projects"
         />
-        <SideBarItem
-          toWhere={"#"}
-          icon={<FaRegCalendarAlt />}
-          name="Calendar"
-        />
-        <SideBarItem
-          toWhere={"company"}
-          icon={<FaUsers />}
-          name="Company"
-        />
+
+        <SideBarItem toWhere={"company"} icon={<FaUsers />} name="Company" />
       </div>
       <hr className="hr2"></hr>
       <SideBarItem toWhere={"#"} icon={<LiaEllipsisHSolid />} name="Others" />
