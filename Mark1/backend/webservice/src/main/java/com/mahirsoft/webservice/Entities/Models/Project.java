@@ -63,6 +63,7 @@ public class Project {
         response.setCreatedOn(createdOn);
         response.setName(name);
         response.setLeadingPerson(leadPerson);
+        response.setStages(toGeneralStageResponse());
 
         return response;
 
@@ -88,6 +89,9 @@ public class Project {
         leadPerson.setName(leadingPersonId.getName());
         leadPerson.setSurname(leadingPersonId.getSurname());
         leadPerson.setUserId(leadingPersonId.getUserId());
+        leadPerson.setCompany(leadingPersonId.getCompanyId().toCompanyResponse());
+        leadPerson.setFullName(leadingPersonId.getName()+ " " + leadingPersonId.getSurname());
+
 
         return leadPerson;
 

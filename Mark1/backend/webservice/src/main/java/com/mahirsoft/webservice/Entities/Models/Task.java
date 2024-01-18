@@ -2,9 +2,12 @@ package com.mahirsoft.webservice.Entities.Models;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mahirsoft.webservice.Entities.Response.GeneralCommentResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,10 +56,10 @@ public class Task {
     private int deletionStateCode = 0;
 
     @Column(name = "createdOn") // LocalDateTime
-    private Date createdOn = Date.valueOf(LocalDate.now());
+    private LocalDateTime createdOn = LocalDateTime.now();
 
     @Column(name = "taskDeadlineDate")
-    private Date taskDeadlineDate;
+    private LocalDateTime taskDeadlineDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "relatedTaskId")
@@ -65,6 +68,23 @@ public class Task {
     @JsonIgnore
     @OneToMany(mappedBy = "linkedTaskId")
     private List<Comment> comments;
+
+
+    public List<GeneralCommentResponse> toGeneralCommentResponses(){
+        List<GeneralCommentResponse> generalComments = new ArrayList<>();
+
+        for(var eleman : comments){
+            GeneralCommentResponse currentComment = new GeneralCommentResponse();
+            currentComment.setCommentId(eleman.getCommentId());
+            currentComment.setContent(eleman.getContent());
+            currentComment.setLikeCount(eleman.getLikeCount());
+            currentComment.setWrittenById(eleman.getWrittenById().toGeneralUserAuthenticationResponse());
+
+            generalComments.add(currentComment);
+        }
+
+        return generalComments;
+    }
 
 
     public long getTaskId() {
@@ -108,21 +128,6 @@ public class Task {
         this.deletionStateCode = deletionStateCode;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public Date getTaskDeadlineDate() {
-        return taskDeadlineDate;
-    }
-
-    public void setTaskDeadlineDate(Date taskDeadlineDate) {
-        this.taskDeadlineDate = taskDeadlineDate;
-    }
 
     public UserAuthentication getResposibleId() {
         return resposibleId;
@@ -162,6 +167,30 @@ public class Task {
 
     public void setStageId(Stage stageId) {
         this.stageId = stageId;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public LocalDateTime getTaskDeadlineDate() {
+        return taskDeadlineDate;
+    }
+
+    public void setTaskDeadlineDate(LocalDateTime taskDeadlineDate) {
+        this.taskDeadlineDate = taskDeadlineDate;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
    

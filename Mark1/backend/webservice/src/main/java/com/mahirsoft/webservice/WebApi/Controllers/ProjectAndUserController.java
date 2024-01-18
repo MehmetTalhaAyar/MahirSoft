@@ -24,7 +24,7 @@ public class ProjectAndUserController {
     public ProjectAndUserController(ProjectAndUserService projectAndUserService) {
         this.projectAndUserService = projectAndUserService;
     }
-
+    // burası sadece yazılım tarafında kullanılıyor.
     @PostMapping("/{id}")
     public ResponseEntity<?> createProjectWithLead(@PathVariable long id,@Valid @RequestBody CreateProjectRequest createProjectRequest){
         

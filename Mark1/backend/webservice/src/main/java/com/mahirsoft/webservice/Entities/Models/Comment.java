@@ -1,8 +1,6 @@
 package com.mahirsoft.webservice.Entities.Models;
 
-
-import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,13 +31,13 @@ public class Comment {
     private Task linkedTaskId;
 
     @Column(name = "likeCount")
-    private int likeCount;
+    private int likeCount = 0;
 
     @Column(name = "deletionStateCode")
     private int deletionStateCode = 0;
 
     @Column(name = "createdOn")
-    private Date createdOn = Date.valueOf(LocalDate.now());
+    private LocalDateTime createdOn = LocalDateTime.now();
 
     public long getCommentId() {
         return commentId;
@@ -73,13 +71,6 @@ public class Comment {
         this.deletionStateCode = deletionStateCode;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
 
     public UserAuthentication getWrittenById() {
         return writtenById;
@@ -87,6 +78,22 @@ public class Comment {
 
     public void setWrittenById(UserAuthentication writtenById) {
         this.writtenById = writtenById;
+    }
+
+    public Task getLinkedTaskId() {
+        return linkedTaskId;
+    }
+
+    public void setLinkedTaskId(Task linkedTaskId) {
+        this.linkedTaskId = linkedTaskId;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
 
 

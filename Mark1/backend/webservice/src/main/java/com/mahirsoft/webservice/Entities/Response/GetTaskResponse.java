@@ -1,8 +1,8 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 public class GetTaskResponse {
 
@@ -12,11 +12,17 @@ public class GetTaskResponse {
 
     private String taskDescripton;
 
-    private Date createdOn;
+    private LocalDateTime createdOn;
 
-    private Date taskDeadlineDate;
+    private LocalDateTime taskDeadlineDate;
 
-    private UserAuthentication responsibleId;
+    private GeneralUserAuthenticationResponse responsibleId;
+
+    private GeneralUserAuthenticationResponse createdById;
+
+    private List<GeneralCommentResponse> comments;
+
+    private StageResponse stage;
 
     public long getTaskId() {
         return taskId;
@@ -42,29 +48,60 @@ public class GetTaskResponse {
         this.taskDescripton = taskDescripton;
     }
 
-    public Date getCreatedOn() {
+   
+
+ 
+
+    public LocalDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getTaskDeadlineDate() {
+    public LocalDateTime getTaskDeadlineDate() {
         return taskDeadlineDate;
     }
 
-    public void setTaskDeadlineDate(Date taskDeadlineDate) {
+    public void setTaskDeadlineDate(LocalDateTime taskDeadlineDate) {
         this.taskDeadlineDate = taskDeadlineDate;
     }
 
-    public UserAuthentication getResponsibleId() {
+
+
+    public List<GeneralCommentResponse> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<GeneralCommentResponse> comments) {
+        this.comments = comments;
+    }
+
+    public GeneralUserAuthenticationResponse getResponsibleId() {
         return responsibleId;
     }
 
-    public void setResponsibleId(UserAuthentication responsibleId) {
+    public void setResponsibleId(GeneralUserAuthenticationResponse responsibleId) {
         this.responsibleId = responsibleId;
     }
 
+    public GeneralUserAuthenticationResponse getCreatedById() {
+        return createdById;
+    }
+
+    public void setCreatedById(GeneralUserAuthenticationResponse createdById) {
+        this.createdById = createdById;
+    }
+
+    public StageResponse getStage() {
+        return stage;
+    }
+
+    public void setStage(StageResponse stage) {
+        this.stage = stage;
+    }
+
+    
     
 }

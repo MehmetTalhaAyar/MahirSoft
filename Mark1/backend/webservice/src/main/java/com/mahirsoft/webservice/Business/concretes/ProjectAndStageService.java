@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.Entities.Models.Project;
+import com.mahirsoft.webservice.Entities.Models.ProjectUser;
 import com.mahirsoft.webservice.Entities.Models.Stage;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostCreateProjectRequest;
 
 @Service
 public class ProjectAndStageService {
@@ -16,13 +19,16 @@ public class ProjectAndStageService {
     StageService stageService;
     ProjectService projectService;
     UserAuthenticationService userAuthenticationService;
+    ProjectUserService projectUserService;
 
     
 
-    public ProjectAndStageService(StageService stageService, ProjectService projectService,UserAuthenticationService userAuthenticationService) {
+    public ProjectAndStageService(StageService stageService, ProjectService projectService,
+            UserAuthenticationService userAuthenticationService, ProjectUserService projectUserService) {
         this.stageService = stageService;
         this.projectService = projectService;
         this.userAuthenticationService = userAuthenticationService;
+        this.projectUserService = projectUserService;
     }
 
 
@@ -44,29 +50,63 @@ public class ProjectAndStageService {
 
     public Project createDefaultProject(CreateProjectRequest createProjectRequest,long userId){
 
-        List<Stage> stages = new ArrayList<Stage>();
-
+        
         var user = userAuthenticationService.findById(userId);
         if(user == null) return null;
-        
+
+        var project = defaultProject(createProjectRequest,user,user);
+
+        return project;
+    }
+
+
+    public Project createProject(PostCreateProjectRequest postCreateProjectRequest,long createdUserId){
+
+        var createdUser = userAuthenticationService.findById(createdUserId);
+        if(createdUser == null ) return null;
+
+        var leadPerson = userAuthenticationService.findById(postCreateProjectRequest.getAdminId());
+        if(leadPerson == null) return null;
+
+
+        var project = defaultProject(postCreateProjectRequest.getProject(),createdUser,leadPerson);
+        if(project == null) return null;
+
+        for(var currentId : postCreateProjectRequest.getProjectUserIds()){
+            var projectMember = userAuthenticationService.findById(currentId);
+            ProjectUser projectUser = new ProjectUser();
+            projectUser.setProjectId(project);
+            projectUser.setUserId(projectMember);
+
+            projectUserService.addUserToProject(projectUser);
+        }
+
+        return project;
+    }
+
+
+    private Project defaultProject(CreateProjectRequest createProjectRequest,UserAuthentication createdUser,UserAuthentication leadPerson){
+
+        List<Stage> stages = new ArrayList<Stage>();
+
         Stage newStage = new Stage();
-        newStage.setCreatedById(user);
+        newStage.setCreatedById(createdUser);
         newStage.setName("New");
 
         Stage pendingStage = new Stage();
-        pendingStage.setCreatedById(user);
+        pendingStage.setCreatedById(createdUser);
         pendingStage.setName("Pending");
 
         Stage inProgressStage = new Stage();
-        inProgressStage.setCreatedById(user);
+        inProgressStage.setCreatedById(createdUser);
         inProgressStage.setName("In Proggress");
 
         Stage finishedStage = new Stage();
-        finishedStage.setCreatedById(user);
+        finishedStage.setCreatedById(createdUser);
         finishedStage.setName("Finished");
 
         Stage failedStage = new Stage();
-        failedStage.setCreatedById(user);
+        failedStage.setCreatedById(createdUser);
         failedStage.setName("Failed");
 
         stages.add(newStage);
@@ -79,10 +119,9 @@ public class ProjectAndStageService {
         Project project = new Project();
 
         project.setName(createProjectRequest.getName());
-        project.setCompanyId(user.getCompanyId());
-        project.setLeadingPersonId(user);
+        project.setCompanyId(leadPerson.getCompanyId());
+        project.setLeadingPersonId(leadPerson);
         project.setStages(stages);        
-        project.setCompanyId(user.getCompanyId());
         
         projectService.createProject(project);
 

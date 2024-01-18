@@ -2,7 +2,7 @@ package com.mahirsoft.webservice.Entities.Models;
 
 
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -60,7 +60,7 @@ public class UserAuthentication {
     private long authorityTypeId;
 
     @Column(name = "createdOn")
-    private Date createdOn;
+    private LocalDateTime createdOn = LocalDateTime.now();
 
     @Column(name = "deletionStateCode")
     private int deletionStateCode = 0;
@@ -115,6 +115,7 @@ public class UserAuthentication {
         generalUser.setGsm(gsm);
         generalUser.setUserId(userId);
         generalUser.setSurname(surname);
+        generalUser.setCompany(companyId.toCompanyResponse());
         
         return generalUser;
     }
@@ -191,13 +192,6 @@ public class UserAuthentication {
         this.authorityTypeId = authorityTypeId;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
 
     public int getDeletionStateCode() {
         return deletionStateCode;
@@ -303,6 +297,22 @@ public class UserAuthentication {
 
     public void setProjects(List<ProjectUser> projects) {
         this.projects = projects;
+    }
+
+
+
+
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+
+
+
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
 
     

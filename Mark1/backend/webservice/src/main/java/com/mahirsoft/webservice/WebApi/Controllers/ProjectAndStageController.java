@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mahirsoft.webservice.Business.concretes.ProjectAndStageService;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostCreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.PostProjectAndStageResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
@@ -63,6 +64,19 @@ public class ProjectAndStageController {
 
 
         return new ResponseEntity<GeneralProjectResponse>(generalProjectResponse, HttpStatusCode.valueOf(200));
+    }
+
+
+    @PostMapping("/createproject")
+    public ResponseEntity<?> addProject(@Valid @RequestBody PostCreateProjectRequest postCreateProjectRequest ,@AuthenticationPrincipal DefaultUser currentUser){
+
+        var project = projectAndStageService.createProject(postCreateProjectRequest, currentUser.getId());
+
+        if(project == null) return new ResponseEntity<String>("Something Went Wrong!", HttpStatusCode.valueOf(400));
+
+        GeneralProjectResponse generalProjectResponse = project.toGeneralProjectResponse();
+        
+        return new ResponseEntity<GeneralProjectResponse>(generalProjectResponse, HttpStatusCode.valueOf(201));
     }
 
 

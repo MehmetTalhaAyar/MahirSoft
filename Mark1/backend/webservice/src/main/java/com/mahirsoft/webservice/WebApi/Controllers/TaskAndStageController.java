@@ -1,6 +1,5 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
-import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

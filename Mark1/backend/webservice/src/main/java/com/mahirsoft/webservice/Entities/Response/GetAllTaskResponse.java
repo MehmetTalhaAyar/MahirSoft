@@ -1,6 +1,6 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class GetAllTaskResponse {
 
@@ -10,9 +10,9 @@ public class GetAllTaskResponse {
 
     private String taskDescription;
 
-    private Date createdOn;
+    private LocalDateTime createdOn;
 
-    private Date taskDeadlineDate;
+    private LocalDateTime taskDeadlineDate;
 
     public GetAllTaskResponse() {
     }
@@ -41,20 +41,20 @@ public class GetAllTaskResponse {
         this.taskDescription = taskDescription;
     }
 
-    public Date getCreatedOn() {
+    public LocalDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getTaskDeadlineDate() {
+    public LocalDateTime getTaskDeadlineDate() {
         return taskDeadlineDate;
     }
 
-    public void setTaskDeadlineDate(Date taskDeadlineDate) {
+    public void setTaskDeadlineDate(LocalDateTime taskDeadlineDate) {
         this.taskDeadlineDate = taskDeadlineDate;
     }
-    
+
 }
