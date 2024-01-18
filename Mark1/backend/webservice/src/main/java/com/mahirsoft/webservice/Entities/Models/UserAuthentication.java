@@ -128,8 +128,12 @@ public class UserAuthentication {
         List<GeneralProjectResponse> projectList = new ArrayList<>();
 
         for(var eleman: projects){
+
+            if(eleman.getProjectId().getDeletionStateCode() == 1) continue;
+
             GeneralProjectResponse currentProject = new GeneralProjectResponse();
 
+            currentProject.setId(eleman.getProjectId().getProjectId());
             currentProject.setCreatedOn(eleman.getProjectId().getCreatedOn());
             currentProject.setLeadingPerson(eleman.getProjectId().getLeadingPersonId().toGeneralUserAuthenticationResponse());
             currentProject.setStages(eleman.getProjectId().toGeneralStageResponse());

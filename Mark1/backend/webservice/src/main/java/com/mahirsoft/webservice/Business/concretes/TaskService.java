@@ -73,24 +73,25 @@ public class TaskService {
 
 
     }
+
+    public Task findById(long id){
+        return taskRepository.findById(id);
+    }
+
+    public Task save(Task task){
+        return taskRepository.save(task);
+    }
     
 
-    public String softDeleteTask(long id) {
-        Task task = taskRepository.findById(id);
-
-        if(task == null){
-            return null;
-        }
-        else{
-            task.setDeletionStateCode(1);
-            taskRepository.save(task);
-            
-            return "Delete success";
-        }
+    
+    public Task softDeleteTask(Task task) {
+        
+        task.setDeletionStateCode(1);            
+        return taskRepository.save(task);
+        
         
     }
 
-    
 
 
 }

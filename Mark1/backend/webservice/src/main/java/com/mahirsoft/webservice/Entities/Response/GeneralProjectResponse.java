@@ -8,6 +8,8 @@ import java.util.List;
 
 public class GeneralProjectResponse {
 
+    private long id;
+
     private String name;
 
     private GeneralUserAuthenticationResponse leadingPerson;
@@ -47,6 +49,14 @@ public class GeneralProjectResponse {
 
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     

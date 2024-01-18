@@ -110,17 +110,7 @@ public class TaskController {
         return new ResponseEntity<UpdateTaskResponse>(updateTaskResponse, HttpStatusCode.valueOf(200));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTask(@PathVariable long id){
-        String body = "Task Not Found";
-        var message = taskService.softDeleteTask(id);
-
-        if(message == null){
-            return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
-        }
-        return new ResponseEntity<>(HttpStatusCode.valueOf(204));
-
-    }
+    
 
     
 

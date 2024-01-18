@@ -79,6 +79,8 @@ public class Stage {
         List<TaskResponse> taskList = new ArrayList<>();
 
         for(var eleman : tasks){
+            if(eleman.getDeletionStateCode() == 1) continue;
+            
             TaskResponse currentTask = new TaskResponse();
             currentTask.setId(eleman.getTaskId());
             currentTask.setName(eleman.getTaskName());

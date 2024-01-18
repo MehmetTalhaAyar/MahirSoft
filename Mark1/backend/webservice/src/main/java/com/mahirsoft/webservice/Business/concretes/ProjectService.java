@@ -40,10 +40,13 @@ public class ProjectService {
         return project;
     }
 
-    public List<Project> getProjectByCompanyId(){
-        return null;
+    public Project findById(long id){
+        return projectRepository.findById(id);
     }
 
-    
-    
+    public Project save(Project project){
+        return projectRepository.save(project);
+    }
+
+ 
 }

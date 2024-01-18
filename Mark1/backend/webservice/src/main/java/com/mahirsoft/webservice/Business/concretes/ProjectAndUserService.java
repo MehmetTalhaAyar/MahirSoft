@@ -43,6 +43,29 @@ public class ProjectAndUserService {
 
 
 
+
+    public Project softDeleteProject(long id,long userId) {
+
+        var user = userAuthenticationService.findById(userId);
+        if(user == null ) return null;
+        
+        var project = projectService.findById(id);
+        if(project == null) return null;
+
+        if(project.getLeadingPersonId().getUserId() == user.getUserId()){
+            project.setDeletionStateCode(1);
+            return projectService.save(project);
+        }
+        else {
+            return null;
+        }
+
+        
+
+    }
+
+
+
     
     
 }

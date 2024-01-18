@@ -81,8 +81,11 @@ public class Company {
         List<GeneralProjectResponse> projectList = new ArrayList<>();
 
         for(var eleman : projects){
+            if(eleman.getDeletionStateCode() == 1) continue;
+
             GeneralProjectResponse currentProject = new GeneralProjectResponse();
 
+            currentProject.setId(eleman.getProjectId());
             currentProject.setCreatedOn(eleman.getCreatedOn());
             currentProject.setLeadingPerson(eleman.getLeadingPersonId().toGeneralUserAuthenticationResponse());
             currentProject.setName(eleman.getName());
