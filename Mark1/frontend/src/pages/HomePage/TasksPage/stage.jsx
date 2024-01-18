@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { getTasks } from "./api";
 import "./stage.css";
 import Task from "./task";
@@ -72,6 +73,7 @@ function Stage(props) {
 
           <div className="scrolling_vertically">
             {tasks.map((task) => (
+              <Link to={`/home/task/${task.id}`} state={{id:task.id , name:task.name,description:task.description}} >
               <Task
                 key={task.id}
                 isNew={task.isNew ? task.isNew : false}
@@ -80,6 +82,7 @@ function Stage(props) {
                 changeState={saveTask}
                 stageId={stageId}
               />
+              </Link>
             ))}
           </div>
         </li>

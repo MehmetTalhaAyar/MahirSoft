@@ -7,15 +7,20 @@ import { useLocation } from "react-router-dom";
 
 function Dashboard() {
   const location = useLocation();
-  const [stages,setStages] = useState(location.state.stages);
+  const [stages,setStages] = useState([]);
 
 
   useEffect(()=>{
+
+    if(location.state){
+      setStages(location.state.stages)
+    }
 
 
     
   },[])
 
+  //bir callback fonksiyonu yazılacak ve proje isminin var olup olmadığına bakılacak.
 
   return (
     <div className="wraper">

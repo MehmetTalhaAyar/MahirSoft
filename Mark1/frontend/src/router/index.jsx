@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "task",
+        path: "task/:taskid",
         element: <TaskPage />,
       },
       {

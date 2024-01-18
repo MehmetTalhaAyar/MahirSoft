@@ -3,7 +3,7 @@ import "./project.css";
 import Select from "react-select";
 
 import { HiDotsHorizontal } from "react-icons/hi";
-import { getCompanyMembers,getCompanyProjects} from "./api";
+import { createProject, getCompanyMembers,getCompanyProjects} from "./api";
 import { MONTHS } from "../../../Constants/Constants";
 import { Link } from "react-router-dom";
 
@@ -18,6 +18,9 @@ function Project() {
   const [projectTitle, setProjectTitle] = useState("");
   const [adminName, setAdminName] = useState([]);
   const [options,setOptions] = useState("");
+
+  // console.log(adminName.label)
+  // console.log()
 
   const getMembers = useCallback( async ()=>{
     
@@ -62,32 +65,71 @@ function Project() {
     getProjects()
   },[])
 
+  useEffect(()=>{
+
+  },[projectCards])
+
   const openProjectForm = () => {
     setProjectFormOpen(!projectFormOpen);
   };
 
   // Function to add a new project card
-  const addProjectCard = () => {
+  const addProjectCard = async () => {
     if (!projectTitle.trim()) {
       console.log("Project Title is required");
       return;
     }
 
-    if (!adminName.trim()) {
+    if (!adminName.label.trim()) {
       console.log("Admin Name is required");
       return;
     }
 
-    const newProjectCards = [
-      ...projectCards,
-      { title: projectTitle, admin: adminName },
-    ];
-    const newDropdownStates = [...dropdownStates, false];
-    setProjectCards(newProjectCards);
-    setDropdownStates(newDropdownStates);
+    try {
+      const response = await createProject({
+        project:{
+          name: projectTitle
+        },
+        adminId: adminName.value,
+        projectUserIds: selectedOptions.map((eleman)=>{
+          return eleman.value;
+        })
+      })
+
+      console.log(response)
+
+      if(response.status === 201){
+
+        const newProjectCards = [
+          ...projectCards,
+          {
+            title: response.data.name,
+            admin: response.data.leadingPerson.fullName,
+            adminId: response.data.leadingPerson.userId,
+            stages: response.data.stages,
+            createdOn: {
+              day: response.data.createdOn.split('T')[0].split('-')[2],
+              month: response.data.createdOn.split('T')[0].split('-')[1],
+              year :response.data.createdOn.split('T')[0].split('-')[0]
+            }
+          },
+        ];
+        const newDropdownStates = [...dropdownStates, false];
+        setProjectCards(newProjectCards);
+        setDropdownStates(newDropdownStates);
+
+      }
+
+    } catch (error) {
+      setTitleError("Project title size must be between 2 and 32 characters!")
+      
+    }
+
+    
     // Clear input values after creating the project card
     setProjectTitle("");
-    setAdminName("");
+    setAdminName([]);
+    setSelectedOptions([])
     console.log("Project Component created successfully!");
   };
 
