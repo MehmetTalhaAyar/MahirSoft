@@ -71,7 +71,7 @@ function Stage(props) {
             </button>
           </div>
 
-          <div className="scrolling_vertically">
+          <div className={`scrolling_vertically ${stageName}`}>
             {tasks.map((task) => (
               <Link to={`/home/task/${task.id}`} state={{id:task.id , name:task.name,description:task.description}} >
               <Task
