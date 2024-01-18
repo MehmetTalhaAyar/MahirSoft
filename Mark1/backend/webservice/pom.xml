@@ -31,10 +31,10 @@
 			<scope>runtime</scope>
 		</dependency>
 		<!-- Bu dependency security eklendikten sonra açılacak -->
-		<!-- <dependency>  
+		 <dependency>  
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency> -->
+		</dependency> 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>

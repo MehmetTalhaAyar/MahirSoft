@@ -4,9 +4,8 @@ import "./stage.css";
 import Task from "./task";
 import React, { useState, useEffect, useCallback } from "react";
 
-
 function Stage(props) {
-  const { stageName,stageId } = props;
+  const { stageName, stageId } = props;
   const [tasks, setTasks] = useState([]);
   const [newTaskCount, setNewTaskCount] = useState(0);
 
@@ -73,7 +72,6 @@ function Stage(props) {
 
           <div className="scrolling_vertically">
             {tasks.map((task) => (
-              <Link to={`/home/task/${task.id}`} state={{id:task.id , name:task.name,description:task.description}} >
               <Task
                 key={task.id}
                 isNew={task.isNew ? task.isNew : false}
@@ -81,8 +79,8 @@ function Stage(props) {
                 taskDescriptionSend={task.description}
                 changeState={saveTask}
                 stageId={stageId}
+                taskId={task.id}
               />
-              </Link>
             ))}
           </div>
         </li>
