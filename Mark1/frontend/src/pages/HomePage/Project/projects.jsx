@@ -3,7 +3,7 @@ import "./project.css";
 import Select from "react-select";
 
 import { HiDotsHorizontal } from "react-icons/hi";
-import { createProject, getCompanyMembers,getCompanyProjects} from "./api";
+import { createProject, getCompanyMembers,getCompanyProjects,deleteProjectById} from "./api";
 import { MONTHS } from "../../../Constants/Constants";
 import { Link } from "react-router-dom";
 
@@ -44,6 +44,7 @@ function Project() {
     if(response.status === 200 && response.data ){
       setProjectCards(response.data.map((project)=>{
         return {
+          id: project.id,
           title: project.name,
           admin: project.leadingPerson.fullName,
           adminId: project.leadingPerson.userId,
@@ -103,6 +104,7 @@ function Project() {
         const newProjectCards = [
           ...projectCards,
           {
+            id:response.data.id,
             title: response.data.name,
             admin: response.data.leadingPerson.fullName,
             adminId: response.data.leadingPerson.userId,
@@ -141,14 +143,27 @@ function Project() {
   };
 
   //Function to delete a project card
-  const deleteProject = (index) => {
-    const myProjectCard = [...projectCards];
-    myProjectCard.splice(index, 1);
-    const myDropdownMenu = [...dropdownStates];
-    myDropdownMenu.splice(index, 1);
+  const deleteProject = async (index) => {
 
-    setProjectCards(myProjectCard);
-    setDropdownStates(myDropdownMenu);
+    const response = await deleteProjectById(index);
+  
+    if(response.status === 200){
+
+      const myProjectCard = [...projectCards];
+      const deleteobjectindex = myProjectCard.map((project,number)=>{
+        if(project.id === index){
+          return number;
+        }
+      })
+      myProjectCard.splice(deleteobjectindex, 1);
+      const myDropdownMenu = [...dropdownStates];
+      myDropdownMenu.splice(deleteobjectindex, 1);
+  
+      setProjectCards(myProjectCard);
+      setDropdownStates(myDropdownMenu);
+    }
+
+    
   };
 
   const handleSelectChange = (selectedValues) => {
@@ -235,7 +250,7 @@ function Project() {
                 dropdownStates[index] ? "openDropdown" : ""
               }`}
             >
-              <a href="#delete" onClick={() => deleteProject(index)}>
+              <a href="#delete" onClick={() => deleteProject(project.id)}>
                 Delete
               </a>
               <a href="#edit">Edit</a>

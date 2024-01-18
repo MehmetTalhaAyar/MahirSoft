@@ -22,7 +22,6 @@ function Stage(props) {
 
   const getTask = useCallback(async () => {
     const response = await getTasks(stageId);
-    console.log(response.data.tasks);
 
     if (response.status === 200) {
       setTasks(response.data.tasks);

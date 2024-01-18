@@ -3,9 +3,9 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../state/context";
-import { getTaskInfo } from "./api";
+import { getTaskInfo,deleteTaskById } from "./api";
 import { MONTHS } from "../../Constants/Constants";
 
 export function TaskPage() {
@@ -74,6 +74,16 @@ export function TaskPage() {
     }
   };
 
+  const deleteTask = async (id) =>{
+
+    const response = await deleteTaskById(id);
+    if(response.status === 200){
+
+        window.history.back()
+    }
+
+  }
+
   return (
     <main>
       <div className="task_page_container">
@@ -90,8 +100,8 @@ export function TaskPage() {
                 dropDownMenu ? "openDropdown2" : " "
               }`}
             >
-              <a href="#delete">Delete</a>
-              <a href="#edit">Edit</a>
+              <a onClick={()=>deleteTask(location.state.id)}>Delete</a>
+              <a href="">Edit</a>
             </div>
           </div>
         </div>
