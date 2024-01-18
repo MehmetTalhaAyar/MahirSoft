@@ -3,7 +3,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useAuthState } from "../../state/context";
 import { getTaskInfo } from "./api";
 import { MONTHS } from "../../Constants/Constants";
@@ -13,7 +13,7 @@ export function TaskPage() {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const location = useLocation();
-  const authState = useAuthState()
+  const authState = useAuthState();
 
   const [taskName,setTaskName] = useState(location.state.name)
   const [taskDescription,setTaskDescription] = useState(location.state.description)
@@ -21,9 +21,14 @@ export function TaskPage() {
   const [taskResponsible,setTaskResponsible] = useState({});
   const [taskReporter,setTaskReporter] = useState({});
   const [createdDate,setCreatedDate] = useState({});
+  const [userDefaultLogo,setUserDefaultLogo] = useState();
 
   
-
+  useEffect(()=>{
+    if(authState.userId > 0){
+        setUserDefaultLogo(authState.name[0]+authState.surname[0])
+    }
+  },[authState])
 
   useEffect(()=>{
     getInfo()
@@ -103,7 +108,7 @@ export function TaskPage() {
               <div className="comments_title">Comments</div>
             </div>
             <div className="photo_input_container">
-              <p className="logo">{authState.name[0]+authState.surname[0]}</p>
+              <p className="logo">{userDefaultLogo}</p>
               <textarea
                 type="text"
                 className="comment_input"

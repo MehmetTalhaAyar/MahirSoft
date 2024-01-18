@@ -11,7 +11,7 @@ function Stage(props) {
 
   useEffect(() => {
     // Add a class to trigger the slide-down animation when tasks change
-    const scrollingVertically = document.querySelector(".scrolling_vertically");
+    const scrollingVertically = document.querySelector(`.${stageName.replace(' ','-')}`);
     scrollingVertically.classList.add("slide-down");
 
     const animationDuration = 500; // Adjust this value based on your CSS animation duration
@@ -70,7 +70,7 @@ function Stage(props) {
             </button>
           </div>
 
-          <div className={`scrolling_vertically ${stageName}`}>
+          <div className={`scrolling_vertically ${stageName.replace(' ','-')}`}>
             {tasks.map((task) => (
               <Task
                 key={task.id}
