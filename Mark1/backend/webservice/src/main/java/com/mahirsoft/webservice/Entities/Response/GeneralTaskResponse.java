@@ -2,6 +2,8 @@ package com.mahirsoft.webservice.Entities.Response;
 
 public class GeneralTaskResponse {
 
+    private long id;
+
     private String name;
 
     private String description;
@@ -40,6 +42,14 @@ public class GeneralTaskResponse {
 
     public void setResponsiblePerson(GeneralUserAuthenticationResponse responsiblePerson) {
         this.responsiblePerson = responsiblePerson;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
 

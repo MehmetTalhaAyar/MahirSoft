@@ -17,6 +17,7 @@ import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateUserAuthtenticationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
+import com.mahirsoft.webservice.Entities.Response.GeneralProjectUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetAllUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.PostUserAuthenticationResponse;
@@ -93,8 +94,14 @@ public class UserAuthenticationController {
 
     @GetMapping("/{id}")
     public UserAuthentication getuser(@PathVariable long id){
-        return userAuthenticationService.findById(id);
+
+        var user = userAuthenticationService.findById(id);
+        if(user == null) return null;
+
+
+        return user;
     }
+
     
 
    

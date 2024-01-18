@@ -113,7 +113,14 @@ public class CompanyController {
 
         if(currentUser == null) return null;
 
-        return currentUser.getCompanyId().toGeneralProjectResponses();
+        if(currentUser.getCompanyId().getManagerId().getUserId() == currentUser.getUserId()){
+
+            return currentUser.getCompanyId().toGeneralProjectResponses();
+        }
+        else {
+            return currentUser.toGeneralProjectResponses();
+        }
+
     }
 
 

@@ -1,7 +1,5 @@
 package com.mahirsoft.webservice.Entities.Models;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

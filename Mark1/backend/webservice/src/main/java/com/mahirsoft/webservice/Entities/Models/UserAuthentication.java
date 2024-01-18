@@ -3,10 +3,13 @@ package com.mahirsoft.webservice.Entities.Models;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralProjectUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 
 import jakarta.persistence.Column;
@@ -119,6 +122,25 @@ public class UserAuthentication {
             generalUser.setCompany(companyId.toCompanyResponse());
         
         return generalUser;
+    }
+
+    public List<GeneralProjectResponse> toGeneralProjectResponses(){
+        List<GeneralProjectResponse> projectList = new ArrayList<>();
+
+        for(var eleman: projects){
+            GeneralProjectResponse currentProject = new GeneralProjectResponse();
+
+            currentProject.setCreatedOn(eleman.getProjectId().getCreatedOn());
+            currentProject.setLeadingPerson(eleman.getProjectId().getLeadingPersonId().toGeneralUserAuthenticationResponse());
+            currentProject.setStages(eleman.getProjectId().toGeneralStageResponse());
+            currentProject.setName(eleman.getProjectId().getName());
+
+            projectList.add(currentProject);
+
+        }
+
+        return projectList;
+
     }
 
 

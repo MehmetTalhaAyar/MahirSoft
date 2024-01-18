@@ -58,11 +58,13 @@ public class TaskAndStageController {
         task.setTaskName(createTaskRequest.getTaskName());
         task.setTaskDescription(createTaskRequest.getTaskDescription());
 
-        taskService.createTask(task);
+        var createdTask = taskService.createTask(task);
+        if(createdTask == null) return null;
 
         GeneralTaskResponse generalTask = new GeneralTaskResponse();
-        generalTask.setDescription(task.getTaskDescription());
-        generalTask.setName(task.getTaskName());
+        generalTask.setId(createdTask.getTaskId());
+        generalTask.setDescription(createdTask.getTaskDescription());
+        generalTask.setName(createdTask.getTaskName());
         generalTask.setResponsiblePerson(currentUser.toGeneralUserAuthenticationResponse());
         generalTask.setStage(stage.toGeneralStageResponse());
 
