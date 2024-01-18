@@ -2,17 +2,25 @@ import React, { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import "./task.css";
 import { addTask } from "./api";
+import { Link } from "react-router-dom";
 
 function Task(props) {
   // Access props data
-  const { isNew, changeState, taskNameSend, taskDescriptionSend, stageId} = props;
+  const {
+    isNew,
+    changeState,
+    taskNameSend,
+    taskDescriptionSend,
+    stageId,
+    taskId,
+  } = props;
   const [taskName, setTaskName] = useState();
   const [taskDescription, setTaskDescription] = useState();
   const [error, setErrors] = useState();
 
   const saveElements = async () => {
     try {
-      const response = await addTask(stageId,{
+      const response = await addTask(stageId, {
         taskName,
         taskDescription,
       });
@@ -38,8 +46,6 @@ function Task(props) {
       setTaskDescription(taskDescriptionSend);
     }
   }, []);
-
-  
 
   if (isNew === true) {
     return (
@@ -90,28 +96,37 @@ function Task(props) {
   } else {
     return (
       <>
-        <div className="task">
-          <div className="task-name">
-            <h1
-              className="task-readOnly-input name-field"
-              name="task-header"
-              id="task-header"
-              readOnly={true}
-            >
-              {taskName}
-            </h1>
+        <Link
+          to={`/home/task/${taskId}`}
+          state={{
+            id: taskId,
+            name: taskNameSend,
+            description: taskDescriptionSend,
+          }}
+        >
+          <div className="task">
+            <div className="task-name">
+              <h1
+                className="task-readOnly-input name-field"
+                name="task-header"
+                id="task-header"
+                readOnly={true}
+              >
+                {taskName}
+              </h1>
+            </div>
+            <div className="task-description">
+              <textarea
+                name="task-body"
+                id="task-body"
+                className="task-readOnly-input description-field"
+                value={taskDescription}
+                readOnly={true}
+              />
+            </div>
+            <div className="tag">Tag</div>
           </div>
-          <div className="task-description">
-            <textarea
-              name="task-body"
-              id="task-body"
-              className="task-readOnly-input description-field"
-              value={taskDescription}
-              readOnly={true}
-            />
-          </div>
-          <div className="tag">Tag</div>
-        </div>
+        </Link>
       </>
     );
   }

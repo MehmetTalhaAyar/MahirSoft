@@ -115,7 +115,8 @@ public class UserAuthentication {
         generalUser.setGsm(gsm);
         generalUser.setUserId(userId);
         generalUser.setSurname(surname);
-        generalUser.setCompany(companyId.toCompanyResponse());
+        if(companyId != null)
+            generalUser.setCompany(companyId.toCompanyResponse());
         
         return generalUser;
     }
