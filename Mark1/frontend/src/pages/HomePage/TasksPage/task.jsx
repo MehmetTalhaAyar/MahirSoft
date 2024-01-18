@@ -27,7 +27,7 @@ function Task(props) {
 
       console.log(response);
       if (response.status === 201) {
-        changeState();
+        changeState(response.data);
       }
     } catch (axiosError) {
       if (axiosError.response.data.status === 400) {

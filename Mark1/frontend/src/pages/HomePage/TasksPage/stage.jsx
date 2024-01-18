@@ -33,9 +33,12 @@ function Stage(props) {
     getTask();
   }, []);
 
-  const saveTask = () => {
+  const saveTask = (response) => {
     const oldTasks = tasks.map((task) => {
       if (task.isNew === true) {
+        task.id = response.id;
+        task.name = response.name;
+        task.description = response.description;
         task.isNew = false;
       }
     });
@@ -47,7 +50,7 @@ function Stage(props) {
 
     if (newTaskCount === 0) {
       const newTask = {
-        taskId: tasks.length + 1,
+        id: tasks.length + 1,
         isNew: true,
       };
       setNewTaskCount(1);
