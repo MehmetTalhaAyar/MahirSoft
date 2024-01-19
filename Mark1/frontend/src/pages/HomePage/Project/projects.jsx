@@ -145,19 +145,20 @@ function Project() {
   //Function to delete a project card
   const deleteProject = async (index) => {
 
+
+
     const response = await deleteProjectById(index);
   
     if(response.status === 200){
 
       const myProjectCard = [...projectCards];
-      const deleteobjectindex = myProjectCard.map((project,number)=>{
-        if(project.id === index){
-          return number;
-        }
-      })
+      const deleteobjectindex = projectCards.findIndex((project)=> project.id === index)
+
       myProjectCard.splice(deleteobjectindex, 1);
       const myDropdownMenu = [...dropdownStates];
       myDropdownMenu.splice(deleteobjectindex, 1);
+
+
   
       setProjectCards(myProjectCard);
       setDropdownStates(myDropdownMenu);
@@ -256,13 +257,13 @@ function Project() {
               <a href="#edit">Edit</a>
             </div>
           </div>
-            
           <Link className="to-links" to={project.title.toLowerCase()} state={{admin:project.admin,stages:project.stages}}>
             <div className="proje_container">
               <h2 className="proje_title">{project.title}</h2>
               <div className="proje_tasks_container">{project.admin}</div>
             </div>
             <span className="created_on">Created on {`${project.createdOn.day} ${MONTHS[project.createdOn.month]} ${project.createdOn.year}`}</span>
+            
 
           </Link>
           </div>

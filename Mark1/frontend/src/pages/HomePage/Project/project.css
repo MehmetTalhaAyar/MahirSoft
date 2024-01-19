@@ -120,7 +120,6 @@
   position: relative;
   background-color: white;
   padding: 5px; /* Adjust the padding for each project card */
-  height: 200px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
