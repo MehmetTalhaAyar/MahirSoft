@@ -60,6 +60,7 @@ public class Project {
         GeneralUserAuthenticationResponse leadPerson = toLeadPerson();
 
         GeneralProjectResponse response = new GeneralProjectResponse();
+        response.setId(projectId);
         response.setCreatedOn(createdOn);
         response.setName(name);
         response.setLeadingPerson(leadPerson);
