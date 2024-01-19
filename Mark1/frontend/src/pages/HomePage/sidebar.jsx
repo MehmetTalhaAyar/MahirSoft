@@ -9,9 +9,11 @@ import { RiTaskLine } from "react-icons/ri";
 import { GoProjectSymlink } from "react-icons/go";
 import { FaRegCalendarAlt, FaUsers } from "react-icons/fa";
 import { LiaEllipsisHSolid } from "react-icons/lia";
+import { useAuthState } from "../../state/context";
 
 function SideBar() {
   const [isSideBarOpen, setisSideBarOpen] = useState(false);
+  const authState = useAuthState();
 
   const openSidebar = () => {
     setisSideBarOpen(!isSideBarOpen);
@@ -32,7 +34,7 @@ function SideBar() {
           name="Projects"
         />
 
-        <SideBarItem toWhere={"company"} icon={<FaUsers />} name="Company" />
+        {authState.company && <SideBarItem toWhere={"company"} icon={<FaUsers />} name="Company" />}
       </div>
       <hr className="hr2"></hr>
       <SideBarItem toWhere={"#"} icon={<LiaEllipsisHSolid />} name="Others" />
