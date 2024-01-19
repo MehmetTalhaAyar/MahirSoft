@@ -1,5 +1,6 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
@@ -99,7 +100,11 @@ public class CompanyController {
     @GetMapping("/members")
     public List<GeneralUserAuthenticationResponse> getcompanyMembers(@AuthenticationPrincipal DefaultUser user){
         var chosenUser = userAuthenticationService.findById(user.getId());
-
+        if(chosenUser.getCompanyId() == null){
+            List<GeneralUserAuthenticationResponse> onlyHimself = new ArrayList<>();
+            onlyHimself.add(chosenUser.toGeneralUserAuthenticationResponse());
+            return onlyHimself;
+        }
         var company = companyService.getCompany(chosenUser.getCompanyId().getCompanyId());
 
         return company.toListGeneralUserAuthenticationResponses();
@@ -113,13 +118,19 @@ public class CompanyController {
 
         if(currentUser == null) return null;
 
-        if(currentUser.getCompanyId().getManagerId().getUserId() == currentUser.getUserId()){
+        if(currentUser.getCompanyId() != null){
+            if(currentUser.getCompanyId().getManagerId().getUserId() == currentUser.getUserId()){
 
-            return currentUser.getCompanyId().toGeneralProjectResponses();
+                return currentUser.getCompanyId().toGeneralProjectResponses();
+            }
+            else {
+                return currentUser.toGeneralProjectResponses();
+            }
         }
         else {
             return currentUser.toGeneralProjectResponses();
         }
+        
 
     }
 

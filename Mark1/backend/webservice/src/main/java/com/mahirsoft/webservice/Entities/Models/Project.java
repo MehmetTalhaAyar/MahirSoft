@@ -90,7 +90,10 @@ public class Project {
         leadPerson.setName(leadingPersonId.getName());
         leadPerson.setSurname(leadingPersonId.getSurname());
         leadPerson.setUserId(leadingPersonId.getUserId());
-        leadPerson.setCompany(leadingPersonId.getCompanyId().toCompanyResponse());
+
+        if(leadingPersonId.getCompanyId() != null) //companysi olmayan kullanıcı için
+            leadPerson.setCompany(leadingPersonId.getCompanyId().toCompanyResponse());
+
         leadPerson.setFullName(leadingPersonId.getName()+ " " + leadingPersonId.getSurname());
 
 
