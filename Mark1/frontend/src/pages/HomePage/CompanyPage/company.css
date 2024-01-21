@@ -1,65 +1,63 @@
-
-
-.container {
-    margin-top: 30px;
-    background-color: #ffffff;
-    border-radius: 5px;
-     box-shadow: rgba(135, 135, 135, 0.24) 0px 3px 8px; 
-    width: 100%;
-    border: 1px solid red;
-}
-
-.small-container-1 {
-  /* background-color: #454679;     */
-  width: 100%;
-}
-
-.small-container-2 {
-  /* background-color: #8b7777;  */
-  width: 100%;
-  border: 1px solid red;
-}
-
-.company-name{
-   
-}
-
-
-
-
-button.create-user {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-button.create-user {
-  background-color: #0056b3;
-}
-
-
-
-.user-form {
+.company_container {
+  display: flex;
   margin-top: 20px;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: rgba(135, 135, 135, 0.24) 0px 3px 8px;
+  height: 500px;
 }
 
+.company_name {
+  margin-bottom: 10px;
+  border-left: 7px solid rgb(46, 9, 196);
+  padding: 0 10px;
+}
+.company_description {
+  margin-bottom: 5px;
+  padding: 0 18px;
+}
+.description {
+  margin-bottom: 15px;
+  padding: 0 18px;
+}
 
-.user-form label {
-  display: block;
-  margin-bottom: 8px;
+.socialmedia_company {
+  margin-bottom: 5px;
+  padding: 0 18px;
+}
+
+.right_container {
+  display: flex;
+  flex-direction: column;
+}
+.user-form {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.register_form_company {
+  margin-bottom: 20px;
+}
+
+.company_input {
+  width: 30%;
+  padding: 11px;
+  border: 1px double rgb(211, 211, 211);
+  border-radius: 4px;
+  float: right;
+  transition: 1s;
+}
+.company_input:focus {
+  box-shadow: 0 0 2px 2px #3498db;
+  transition: 0.1s;
+  outline-width: 0px;
 }
 
 .user-form input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 16px;
   /* border-radius: 20%; */
 }
@@ -67,14 +65,21 @@ button.create-user {
 .user-form button {
   background-color: #007bff;
   color: #fff;
-  padding: 10px 15px;
+  padding: 10px 25px;
   font-size: 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
-
+.company_submit_button {
+  display: flex;
+  justify-content: end;
+}
 .user-form button:hover {
   background-color: #0056b3;
+}
+.tw {
+  color: black;
+  padding: 0 7px;
 }
