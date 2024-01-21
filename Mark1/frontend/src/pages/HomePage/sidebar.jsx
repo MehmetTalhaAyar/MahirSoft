@@ -27,14 +27,16 @@ function SideBar() {
 
       <div className="sidebar_menu">
         <SideBarItem toWhere={""} icon={<MdDashboard />} name="Dashboard" />
-        <SideBarItem toWhere={"#"} icon={<RiTaskLine />} name="Tasks" />
+        {/* <SideBarItem toWhere={"#"} icon={<RiTaskLine />} name="Tasks" /> */}
         <SideBarItem
           toWhere={"projects"}
           icon={<GoProjectSymlink />}
           name="Projects"
         />
 
-        {authState.company && <SideBarItem toWhere={"company"} icon={<FaUsers />} name="Company" />}
+        {authState.company && (
+          <SideBarItem toWhere={"company"} icon={<FaUsers />} name="Company" />
+        )}
       </div>
       <hr className="hr2"></hr>
       <SideBarItem toWhere={"#"} icon={<LiaEllipsisHSolid />} name="Others" />
