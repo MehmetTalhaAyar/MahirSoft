@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateUserItem } from "../../../components/CreateUserItems";
 import { createUser } from "./api";
 import "./company.css";
@@ -8,34 +8,114 @@ import { IoLogoLinkedin } from "react-icons/io5";
 import { FaInstagramSquare } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import { useAuthState } from "../../../state/context";
 
 export function CompanyPage(props) {
-  const [name, setName] = useState();
-  const [surname, setSurname] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [title, setTitle] = useState();
-  const [gsm, setGsm] = useState();
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [gsm, setGsm] = useState("");
+  const [errors,setErrors] = useState({})
+  const [condition,setCondition] = useState(false);
+  const authState = useAuthState();
 
-  const { companyName } = props;
 
-  const saveUser = () => {
-    createUser({
-      name,
-      surname,
-      email,
-      password,
-      title,
-      gsm,
-    });
+
+  const saveUser = async (event) => {
+    event.preventDefault()
+    try {
+      const response = await createUser({
+        name,
+        surname,
+        email,
+        password,
+        title,
+        gsm,
+      });
+      
+      
+    } catch (axiosError) {
+      // console.log(axiosError)
+      setErrors(axiosError.response.data.validationErrors)
+    }
+    
+
+
+
   };
+
+  useEffect(()=>{
+    setErrors(function(lastErrors){
+    return {
+      ...lastErrors,
+      name: undefined
+    };
+  })
+  },[name])
+
+  useEffect(()=>{
+    setErrors(function(lastErrors){
+    return {
+      ...lastErrors,
+      surname: undefined
+    };
+  })
+  },[surname])
+
+  useEffect(()=>{
+    setErrors(function(lastErrors){
+    return {
+      ...lastErrors,
+      title: undefined
+    };
+  })
+  },[title])
+
+
+  useEffect(()=>{
+    setErrors(function(lastErrors){
+    return {
+      ...lastErrors,
+      gsm: undefined
+    };
+  })
+  },[gsm])
+
+  useEffect(()=>{
+    setErrors(function(lastErrors){
+    return {
+      ...lastErrors,
+      email: undefined
+    };
+  })
+  },[email])
+
+  useEffect(()=>{
+    setErrors(function(lastErrors){
+    return {
+      ...lastErrors,
+      password: undefined
+    };
+  })
+  },[password])
+
+  useEffect(()=>{
+    if(authState.userId > 0){
+      setCondition(authState.userId === authState.company.managerId)
+    }
+  },[authState])
+
+  console.log(errors)
+  
 
   return (
     <main>
       <h1>Company</h1>
       <div className="company_container">
         <div className="left_container">
-          <h1 className="company_name">Company Name</h1>
+          <h1 className="company_name">{authState.company !== undefined ? authState.company.name : ""}</h1>
           <h3 className="company_description">Description:</h3>
           <p className="description">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
@@ -72,26 +152,32 @@ export function CompanyPage(props) {
           </ul>
         </div>
         <div className="right_container">
-          <form className="user-form">
+          {condition && <form className="user-form">
             <h2 className="register_form_company">Register Form</h2>
-            <input placeholder="Title" className="company_input" />
-            <input placeholder="Name" className="company_input" />
+            <input placeholder="Title" className="company_input" onChange={(event) => setTitle(event.target.value)} />
+            {/* {errors.title && <span className=""> {errors.title} </span> } */}
+            <input placeholder="Name" className="company_input" onChange={(event) => setName(event.target.value)}  />
+            {/* {errors.name && <span className=""> {errors.name} </span> } */}
 
-            <input placeholder="Surname" className="company_input" />
-            <input placeholder="Gsm" className="company_input" />
-
-            <input placeholder="Email" className="company_input" />
+            <input placeholder="Surname" className="company_input" onChange={(event) => setSurname(event.target.value)}  />
+            {/* {errors.surname && <span className=""> {errors.surname} </span> } */}
+            <input placeholder="Gsm" className="company_input" onChange={(event) => setGsm(event.target.value)}  />
+            {/* {errors.gsm && <span className=""> {errors.gsm} </span> } */}
+            <input placeholder="Email" className="company_input" onChange={(event) => setEmail(event.target.value)}  />
+            {/* {errors.email && <span className=""> {errors.email} </span> } */}
 
             <input
               type="password"
               placeholder="Password"
               className="company_input"
+              onChange={(event) => setPassword(event.target.value)} 
             />
+            {/* {errors.password && <span className=""> {errors.password} </span> } */}
 
             <div className="company_submit_button">
-              <button type="submit">Submit</button>
+              <button type="submit" onClick={saveUser}>Submit</button>
             </div>
-          </form>
+          </form>}
         </div>
       </div>
     </main>

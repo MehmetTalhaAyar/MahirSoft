@@ -27,7 +27,7 @@ function Profile({ isVisible }) {
       <div className="profile_image">
         <img src={defaultProfileImage} className="_image" />
         <h3 className="profile_name">{authState.fullName}</h3>
-        <p className="profile_text">FrontEnd Developer</p>
+        <p className="profile_text">{authState.title}</p>
       </div>
       <div className="profile_container">
         <Link className="profile_link" to={"myprofile"}>
