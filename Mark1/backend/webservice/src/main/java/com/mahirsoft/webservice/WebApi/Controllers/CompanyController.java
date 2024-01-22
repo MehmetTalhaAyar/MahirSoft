@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mahirsoft.webservice.Business.concretes.CompanyService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
 import com.mahirsoft.webservice.Entities.Models.Company;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Requests.CreateCompanyMemberRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateCompnayRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddUserToCompanyRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
@@ -132,6 +134,23 @@ public class CompanyController {
         }
         
 
+    }
+
+    @PostMapping("/createcompanymember")
+    public ResponseEntity<?> createCompanyMember(@Valid @RequestBody CreateCompanyMemberRequest CreateCompanyMemberRequest ,@AuthenticationPrincipal DefaultUser user){
+
+        var createdUser = userAuthenticationService.findById(user.getId());
+        if(createdUser == null) return new ResponseEntity<String>("Something went Wrong", HttpStatusCode.valueOf(400));
+
+        UserAuthentication newMember = CreateCompanyMemberRequest.toUserAuthentication();
+        newMember.setCreatedById(createdUser);
+        newMember.setCompanyId(createdUser.getCompanyId());
+
+        var newCreatedUser = userAuthenticationService.save(newMember);
+
+        GeneralUserAuthenticationResponse generalUser = newCreatedUser.toGeneralUserAuthenticationResponse();
+
+        return new ResponseEntity<GeneralUserAuthenticationResponse>(generalUser,HttpStatusCode.valueOf(201));
     }
 
 

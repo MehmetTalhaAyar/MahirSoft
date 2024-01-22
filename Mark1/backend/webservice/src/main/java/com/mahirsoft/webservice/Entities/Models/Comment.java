@@ -2,6 +2,8 @@ package com.mahirsoft.webservice.Entities.Models;
 
 import java.time.LocalDateTime;
 
+import com.mahirsoft.webservice.Entities.Response.GeneralCommentResponse;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,6 +40,17 @@ public class Comment {
 
     @Column(name = "createdOn")
     private LocalDateTime createdOn = LocalDateTime.now();
+
+
+    public GeneralCommentResponse toGeneralCommentResponse(){
+        GeneralCommentResponse generalCommentResponse = new GeneralCommentResponse();
+        generalCommentResponse.setCommentId(commentId);
+        generalCommentResponse.setContent(content);
+        generalCommentResponse.setLikeCount(likeCount);
+        generalCommentResponse.setWrittenById(writtenById.toGeneralUserAuthenticationResponse());
+        generalCommentResponse.setCreatedOn(createdOn);
+        return generalCommentResponse;
+    }
 
     public long getCommentId() {
         return commentId;

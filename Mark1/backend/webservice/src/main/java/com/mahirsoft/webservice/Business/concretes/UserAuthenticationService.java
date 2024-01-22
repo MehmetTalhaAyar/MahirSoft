@@ -23,11 +23,11 @@ public class UserAuthenticationService {
     }
 
 
-    public void save(UserAuthentication userAuthentication){
+    public UserAuthentication save(UserAuthentication userAuthentication){
 
         userAuthentication.setPassword(passwordEncoder.encode(userAuthentication.getPassword()));
 
-        userAuthenticationRepository.save(userAuthentication);
+        return userAuthenticationRepository.save(userAuthentication);
     
     }
 

@@ -17,7 +17,7 @@ public class GeneralUserAuthenticationResponse {
 
     private CompanyResponse company;
 
-    
+    private String title;
 
     public long getUserId() {
         return userId;
@@ -73,5 +73,13 @@ public class GeneralUserAuthenticationResponse {
 
     public void setCompany(CompanyResponse company) {
         this.company = company;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

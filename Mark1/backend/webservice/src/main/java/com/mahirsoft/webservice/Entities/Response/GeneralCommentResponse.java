@@ -1,5 +1,6 @@
 package com.mahirsoft.webservice.Entities.Response;
 
+import java.time.LocalDateTime;
 
 public class GeneralCommentResponse {
 
@@ -10,6 +11,8 @@ public class GeneralCommentResponse {
     private GeneralUserAuthenticationResponse writtenById;
 
     private int likeCount;
+    
+    private LocalDateTime createdOn;
 
     public long getCommentId() {
         return commentId;
@@ -42,6 +45,14 @@ public class GeneralCommentResponse {
 
     public void setWrittenById(GeneralUserAuthenticationResponse writtenById) {
         this.writtenById = writtenById;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
     
 }

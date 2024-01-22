@@ -77,6 +77,7 @@ public class Task {
             currentComment.setContent(eleman.getContent());
             currentComment.setLikeCount(eleman.getLikeCount());
             currentComment.setWrittenById(eleman.getWrittenById().toGeneralUserAuthenticationResponse());
+            currentComment.setCreatedOn(eleman.getCreatedOn());
 
             generalComments.add(currentComment);
         }
