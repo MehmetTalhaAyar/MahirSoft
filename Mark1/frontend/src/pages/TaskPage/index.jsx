@@ -6,7 +6,7 @@ import Select from "react-select";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../state/context";
-import { getTaskInfo, deleteTaskById } from "./api";
+import { getTaskInfo, deleteTaskById ,addComment } from "./api";
 import { MONTHS } from "../../Constants/Constants";
 
 export function TaskPage() {
@@ -43,9 +43,9 @@ export function TaskPage() {
       setStage(response.data.stage.name);
       setTaskReporter({
         logo:
-          response.data.createdById.name[0] +
-          response.data.createdById.surname[0],
-        name: response.data.createdById.fullName,
+          response.data.reportsTo.name[0] +
+          response.data.reportsTo.surname[0],
+        name: response.data.reportsTo.fullName,
       });
       setTaskResponsible({
         logo:
@@ -58,7 +58,18 @@ export function TaskPage() {
         month: response.data.createdOn.split("T")[0].split("-")[1],
         year: response.data.createdOn.split("T")[0].split("-")[0],
       });
-      setComments(response.data.comments);
+      setComments(
+        response.data.comments.map((comment) =>{
+          return {
+            author:comment.writtenById.fullName,
+            time: `${comment.createdOn.split('T')[0].split('-')[2]} ${MONTHS[comment.createdOn.split('T')[0].split('-')[1]]} ${comment.createdOn.split('T')[0].split('-')[0]}`,
+            text: comment.content
+
+          }
+        })
+
+
+      );
     } else {
       console.log("Some Thing Went Wrong!");
     }
