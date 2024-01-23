@@ -11,7 +11,7 @@
   border-radius: 20px 20px;
   box-shadow: 1px 1px 5px #444579;
   background-color: white;
-  z-index: 1;
+  z-index: 2;
 }
 
 .profile_image {

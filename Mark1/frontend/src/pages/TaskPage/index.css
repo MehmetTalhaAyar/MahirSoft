@@ -57,7 +57,11 @@
   align-items: center;
   margin-top: 5px;
   margin-bottom: 10px;
-  width: 20%;
+  font-size: 18px;
+  padding-left: 40px;
+}
+.comments_title {
+  border-bottom: 1px solid black;
 }
 
 .comment_input {
@@ -114,6 +118,7 @@
   border-radius: 50%;
 }
 .photo_input_container {
+  margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -154,11 +159,13 @@
 .selection_menu {
   display: flex;
   gap: 20px;
+
+  justify-content: space-between;
 }
 
 /* burası*/
 .task_name {
-  width: 40%;
+  width: 50%;
   margin-bottom: 15px;
   font-weight: 700;
   font-size: 20px;
@@ -167,14 +174,39 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 40%;
+  width: 60%;
   margin-bottom: 20px;
 }
 .assignee_title {
   margin-bottom: 10px;
 }
+.assignee_select_box {
+  width: 80%;
+}
 .reporter_title {
   margin-bottom: 10px;
+}
+.task_button_container {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.save_task_button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  color: white;
+
+  text-align: center;
+  padding: 7px;
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.3s ease-in-out;
+}
+.save_task_button:hover {
+  background-color: #0070e6;
 }
 
 .tree {
@@ -196,6 +228,7 @@
   background-color: #f0f0f0;
   min-width: 100px;
   box-shadow: rgba(50, 48, 48, 0.2) 0px 2px 8px 0px;
+  z-index: 1;
 }
 .dropdown-content2 a {
   padding: 5px 10px;
@@ -208,4 +241,45 @@
 }
 .openDropdown2 {
   display: block;
+}
+
+/* Date Picker Container */
+.date_picker_container {
+}
+
+/* Date Picker */
+.date_picker {
+  width: 100%;
+  padding: 9px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.date_picker:focus {
+  box-shadow: 0 0 2px 1px rgb(0, 89, 255);
+
+  outline-width: 0px;
+}
+
+/* Adjust DatePicker styles for time select */
+.react-datepicker-time__header {
+  padding-bottom: 8px;
+}
+
+.react-datepicker-time__input-container {
+  margin-right: 8px;
+}
+
+.react-datepicker__time-list {
+  padding: 8px;
+}
+
+/* Adjust DatePicker styles for time intervals */
+.react-datepicker__time-list-item {
+  padding: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f0f0f0;
+  }
 }

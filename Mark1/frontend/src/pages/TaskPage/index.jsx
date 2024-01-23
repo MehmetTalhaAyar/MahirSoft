@@ -2,11 +2,13 @@ import "./index.css";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import Select from "react-select";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../state/context";
-import { getTaskInfo, deleteTaskById ,addComment } from "./api";
+import { getTaskInfo, deleteTaskById, addComment } from "./api";
 import { MONTHS } from "../../Constants/Constants";
 
 export function TaskPage() {
@@ -25,6 +27,7 @@ export function TaskPage() {
   const [taskReporter, setTaskReporter] = useState({});
   const [createdDate, setCreatedDate] = useState({});
   const [userDefaultLogo, setUserDefaultLogo] = useState();
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     if (authState.userId > 0) {
@@ -43,8 +46,7 @@ export function TaskPage() {
       setStage(response.data.stage.name);
       setTaskReporter({
         logo:
-          response.data.reportsTo.name[0] +
-          response.data.reportsTo.surname[0],
+          response.data.reportsTo.name[0] + response.data.reportsTo.surname[0],
         name: response.data.reportsTo.fullName,
       });
       setTaskResponsible({
@@ -59,16 +61,15 @@ export function TaskPage() {
         year: response.data.createdOn.split("T")[0].split("-")[0],
       });
       setComments(
-        response.data.comments.map((comment) =>{
+        response.data.comments.map((comment) => {
           return {
-            author:comment.writtenById.fullName,
-            time: `${comment.createdOn.split('T')[0].split('-')[2]} ${MONTHS[comment.createdOn.split('T')[0].split('-')[1]]} ${comment.createdOn.split('T')[0].split('-')[0]}`,
-            text: comment.content
-
-          }
+            author: comment.writtenById.fullName,
+            time: `${comment.createdOn.split("T")[0].split("-")[2]} ${
+              MONTHS[comment.createdOn.split("T")[0].split("-")[1]]
+            } ${comment.createdOn.split("T")[0].split("-")[0]}`,
+            text: comment.content,
+          };
         })
-
-
       );
     } else {
       console.log("Some Thing Went Wrong!");
@@ -141,10 +142,7 @@ export function TaskPage() {
             <p className="task_description">{taskDescription}</p>
 
             <h4>Activity</h4>
-            <div className="comment_container">
-              <p>Show :</p>
-              <div className="comments_title">Comments</div>
-            </div>
+
             <div className="photo_input_container">
               <p className="logo">{userDefaultLogo}</p>
               <textarea
@@ -162,7 +160,9 @@ export function TaskPage() {
                 Comment
               </button>
             </div>
-
+            <div className="comment_container">
+              <div className="comments_title">Comments</div>
+            </div>
             <div className="show_comment_container">
               {comments.map((comment, index) => (
                 <div key={index} className="show_comment">
@@ -183,16 +183,38 @@ export function TaskPage() {
           <div className="right_container">
             <div className="selection_menu">
               <Select placeholder={stage} className="task_name" />
+              <div className="date_picker_container">
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  className="date_picker"
+                />
+              </div>
             </div>
             <h4 className="assignee_title">Assignee</h4>
             <div className="name_container">
               <p className="logo2">{taskResponsible.logo}</p>
-              <h3>{taskResponsible.name}</h3>
+              <Select
+                placeholder={taskResponsible.name}
+                className="assignee_select_box"
+              />
             </div>
             <h4 className="reporter_title">Reporter</h4>
             <div className="name_container">
               <p className="logo3">{taskReporter.logo}</p>
-              <h3>{taskReporter.name}</h3>
+              <Select
+                placeholder={taskReporter.name}
+                className="assignee_select_box"
+              />
+            </div>
+            <div className="task_button_container">
+              <button className="save_task_button" type="submit">
+                Save Changes
+              </button>
             </div>
             <hr className="tree" />
             <p className="task_created">
