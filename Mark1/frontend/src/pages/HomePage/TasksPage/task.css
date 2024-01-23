@@ -31,7 +31,7 @@
 
 .save-button {
   position: absolute;
-  color:#04AA6D;
+  color: #04aa6d;
   border-radius: 5px;
   box-shadow: 1px 1px 5px rgb(155, 153, 150);
   height: 2rem;
@@ -39,16 +39,15 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  border: 1px solid #04AA6D;
+  border: 1px solid #04aa6d;
   top: -8%;
   right: -1%;
 }
 
 .save-button:hover {
   color: white;
-  background-color: #04AA6D;
+  background-color: #04aa6d;
 }
-
 
 .task-input {
   border: none;
@@ -60,7 +59,7 @@
   cursor: text;
   padding-left: 0.5rem;
 }
-.task-readOnly-input{
+.task-readOnly-input {
   border: none;
   width: 100%;
   border-radius: 5px;
@@ -69,28 +68,28 @@
   outline: none;
   cursor: default;
   overflow: visible;
-
+}
+.task_link_decoration {
+  text-decoration: none;
 }
 
-.name-field{
+.name-field {
   font-size: 1.5rem;
   height: 2rem;
-  
 }
 
 h1.name-field {
-  color: #04AA6D;
-
+  color: #04aa6d;
 }
-.description-field.task-readOnly-input{
+.description-field.task-readOnly-input {
   color: #1d1d1d;
 }
 
-.description-field{
+.description-field {
   height: 4.8rem;
 }
 
-.input-container{
+.input-container {
   position: relative;
 }
 
@@ -106,21 +105,19 @@ h1.name-field {
 .task-input:valid + .task-input-label,
 .task-input:focus + .task-input-label {
   display: none;
-
 }
-
 
 .description-field::-webkit-scrollbar {
   width: 0.25rem;
 }
 
 .description-field::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 .description-field::-webkit-scrollbar-thumb {
-background-color: darkgrey;
-outline: 1px solid slategrey;
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
 }
 
 .error {

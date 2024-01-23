@@ -11,7 +11,9 @@ function Stage(props) {
 
   useEffect(() => {
     // Add a class to trigger the slide-down animation when tasks change
-    const scrollingVertically = document.querySelector(`.${stageName.replace(' ','-')}`);
+    const scrollingVertically = document.querySelector(
+      `.${stageName.replace(" ", "-")}`
+    );
     scrollingVertically.classList.add("slide-down");
 
     const animationDuration = 500; // Adjust this value based on your CSS animation duration
@@ -62,32 +64,30 @@ function Stage(props) {
     }
   };
   return (
-    <div className="scrolling">
-      <ul className="cards">
-        <li className="card">
-          <div className="card_header">
-            <div className="header_name">{stageName}</div>
-            <button className="new" onClick={handleNewButtonClick}>
-              New
-            </button>
-          </div>
+    <ul className="cards">
+      <li className="card">
+        <div className="card_header">
+          <div className="header_name">{stageName}</div>
+          <button className="new" onClick={handleNewButtonClick}>
+            New
+          </button>
+        </div>
 
-          <div className={`scrolling_vertically ${stageName.replace(' ','-')}`}>
-            {tasks.map((task) => (
-              <Task
-                key={task.id}
-                isNew={task.isNew ? task.isNew : false}
-                taskNameSend={task.name}
-                taskDescriptionSend={task.description}
-                changeState={saveTask}
-                stageId={stageId}
-                taskId={task.id}
-              />
-            ))}
-          </div>
-        </li>
-      </ul>
-    </div>
+        <div className={`scrolling_vertically ${stageName.replace(" ", "-")}`}>
+          {tasks.map((task) => (
+            <Task
+              key={task.id}
+              isNew={task.isNew ? task.isNew : false}
+              taskNameSend={task.name}
+              taskDescriptionSend={task.description}
+              changeState={saveTask}
+              stageId={stageId}
+              taskId={task.id}
+            />
+          ))}
+        </div>
+      </li>
+    </ul>
   );
 }
 export default Stage;

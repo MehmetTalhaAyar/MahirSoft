@@ -150,13 +150,13 @@
   display: block;
 }
 
-.to-links{
+.to-links {
   color: #c8a2c8;
   text-decoration: none;
   cursor: pointer;
 }
 
-.to-links:hover{
+.to-links:hover {
   text-decoration: none;
 }
 

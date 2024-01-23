@@ -1,11 +1,12 @@
 import "./index.css";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
+import Select from "react-select";
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../state/context";
-import { getTaskInfo,deleteTaskById } from "./api";
+import { getTaskInfo, deleteTaskById } from "./api";
 import { MONTHS } from "../../Constants/Constants";
 
 export function TaskPage() {
@@ -15,47 +16,53 @@ export function TaskPage() {
   const location = useLocation();
   const authState = useAuthState();
 
-  const [taskName,setTaskName] = useState(location.state.name)
-  const [taskDescription,setTaskDescription] = useState(location.state.description)
-  const [stage,setStage] = useState();
-  const [taskResponsible,setTaskResponsible] = useState({});
-  const [taskReporter,setTaskReporter] = useState({});
-  const [createdDate,setCreatedDate] = useState({});
-  const [userDefaultLogo,setUserDefaultLogo] = useState();
+  const [taskName, setTaskName] = useState(location.state.name);
+  const [taskDescription, setTaskDescription] = useState(
+    location.state.description
+  );
+  const [stage, setStage] = useState();
+  const [taskResponsible, setTaskResponsible] = useState({});
+  const [taskReporter, setTaskReporter] = useState({});
+  const [createdDate, setCreatedDate] = useState({});
+  const [userDefaultLogo, setUserDefaultLogo] = useState();
 
-  
-  useEffect(()=>{
-    if(authState.userId > 0){
-        setUserDefaultLogo(authState.name[0]+authState.surname[0])
+  useEffect(() => {
+    if (authState.userId > 0) {
+      setUserDefaultLogo(authState.name[0] + authState.surname[0]);
     }
-  },[authState])
+  }, [authState]);
 
-  useEffect(()=>{
-    getInfo()
-  },[])
+  useEffect(() => {
+    getInfo();
+  }, []);
 
-  const getInfo = useCallback(async()=>{
-
+  const getInfo = useCallback(async () => {
     const response = await getTaskInfo(location.state.id);
-    
-    if(response.status == 200){
-        setStage(response.data.stage.name)
-        setTaskReporter({logo:response.data.createdById.name[0]+response.data.createdById.surname[0] ,name:response.data.createdById.fullName})
-        setTaskResponsible({logo:response.data.responsibleId.name[0]+response.data.responsibleId.surname[0] ,name:response.data.responsibleId.fullName})
-        setCreatedDate({
-            day: response.data.createdOn.split('T')[0].split('-')[2],
-            month: response.data.createdOn.split('T')[0].split('-')[1],
-            year :response.data.createdOn.split('T')[0].split('-')[0]
-          })
-        setComments(response.data.comments)
-        
 
+    if (response.status == 200) {
+      setStage(response.data.stage.name);
+      setTaskReporter({
+        logo:
+          response.data.createdById.name[0] +
+          response.data.createdById.surname[0],
+        name: response.data.createdById.fullName,
+      });
+      setTaskResponsible({
+        logo:
+          response.data.responsibleId.name[0] +
+          response.data.responsibleId.surname[0],
+        name: response.data.responsibleId.fullName,
+      });
+      setCreatedDate({
+        day: response.data.createdOn.split("T")[0].split("-")[2],
+        month: response.data.createdOn.split("T")[0].split("-")[1],
+        year: response.data.createdOn.split("T")[0].split("-")[0],
+      });
+      setComments(response.data.comments);
+    } else {
+      console.log("Some Thing Went Wrong!");
     }
-    else{
-        console.log("Some Thing Went Wrong!")
-    }
-
-  },[])
+  }, []);
 
   const openDropdownMenu2 = () => {
     setDropDownMenu(!dropDownMenu);
@@ -74,15 +81,12 @@ export function TaskPage() {
     }
   };
 
-  const deleteTask = async (id) =>{
-
+  const deleteTask = async (id) => {
     const response = await deleteTaskById(id);
-    if(response.status === 200){
-
-        window.history.back()
+    if (response.status === 200) {
+      window.history.back();
     }
-
-  }
+  };
 
   return (
     <main>
@@ -100,7 +104,7 @@ export function TaskPage() {
                 dropDownMenu ? "openDropdown2" : " "
               }`}
             >
-              <a onClick={()=>deleteTask(location.state.id)}>Delete</a>
+              <a onClick={() => deleteTask(location.state.id)}>Delete</a>
               <a href="">Edit</a>
             </div>
           </div>
@@ -108,9 +112,7 @@ export function TaskPage() {
         <div className="alt_container">
           <div className="left_container">
             <h4 className="task_description_header">Description</h4>
-            <p className="task_description">
-            {taskDescription}
-            </p>
+            <p className="task_description">{taskDescription}</p>
 
             <h4>Activity</h4>
             <div className="comment_container">
@@ -153,7 +155,9 @@ export function TaskPage() {
             </div>
           </div>
           <div className="right_container">
-            <h5 className="task_name">{stage}</h5>
+            <div className="selection_menu">
+              <Select placeholder={stage} className="task_name" />
+            </div>
             <h4 className="assignee_title">Assignee</h4>
             <div className="name_container">
               <p className="logo2">{taskResponsible.logo}</p>
@@ -165,7 +169,12 @@ export function TaskPage() {
               <h3>{taskReporter.name}</h3>
             </div>
             <hr className="tree" />
-            <p className="task_created">Created on {`${MONTHS[createdDate.month]} ${createdDate.day},${createdDate.year}`}</p>
+            <p className="task_created">
+              Created on{" "}
+              {`${MONTHS[createdDate.month]} ${createdDate.day},${
+                createdDate.year
+              }`}
+            </p>
             {/* <p className="task_updated">Updated February 3,2024, 15:51 PM</p> */}
           </div>
         </div>

@@ -150,14 +150,18 @@
 .photo {
   font-size: 28px;
 }
+
+.selection_menu {
+  display: flex;
+  gap: 20px;
+}
+
+/* burası*/
 .task_name {
-  margin-bottom: 20px;
-  background-color: #a8a8a8;
-  width: 22%;
-  padding: 6px;
-  text-align: center;
+  width: 40%;
+  margin-bottom: 15px;
+  font-weight: 700;
   font-size: 20px;
-  border-radius: 5px;
 }
 .name_container {
   display: flex;

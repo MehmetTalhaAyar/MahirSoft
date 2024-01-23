@@ -9,5 +9,6 @@ html {
 body {
   font-size: 1.6rem;
   /* background-color: rgb(241, 240, 240); */
-  background-color: antiquewhite;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
 }

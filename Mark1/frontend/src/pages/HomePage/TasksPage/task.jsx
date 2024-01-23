@@ -97,6 +97,7 @@ function Task(props) {
     return (
       <>
         <Link
+          className="task_link_decoration"
           to={`/home/task/${taskId}`}
           state={{
             id: taskId,
