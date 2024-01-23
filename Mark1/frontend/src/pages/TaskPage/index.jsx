@@ -25,6 +25,8 @@ export function TaskPage() {
   const [userDefaultLogo,setUserDefaultLogo] = useState();
 
   
+
+  
   useEffect(()=>{
     if(authState.userId > 0){
         setUserDefaultLogo(authState.name[0]+authState.surname[0])
@@ -41,7 +43,7 @@ export function TaskPage() {
     
     if(response.status == 200){
         setStage(response.data.stage.name)
-        setTaskReporter({logo:response.data.createdById.name[0]+response.data.createdById.surname[0] ,name:response.data.createdById.fullName})
+        setTaskReporter({logo:response.data.reportsTo.name[0]+response.data.reportsTo.surname[0] ,name:response.data.reportsTo.fullName})
         setTaskResponsible({logo:response.data.responsibleId.name[0]+response.data.responsibleId.surname[0] ,name:response.data.responsibleId.fullName})
         setCreatedDate({
             day: response.data.createdOn.split('T')[0].split('-')[2],

@@ -131,7 +131,7 @@ function MyProfile() {
               fullName={authState.fullName}
               job={authState.title}
               about={about}
-              company={authState.company !== undefined ? authState.company.name : ""}
+              company={authState.company !== undefined && authState.company !== null  ? authState.company.name : ""}
               country={country}
               adress={adress}
               phone={authState.gsm}
