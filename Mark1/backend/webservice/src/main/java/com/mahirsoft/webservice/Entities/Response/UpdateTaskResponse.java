@@ -1,36 +1,48 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import java.time.LocalDateTime;
 
 public class UpdateTaskResponse {
+
+    private long id;
+
+    private LocalDateTime endTime;
     
-    String taskName;
+    private GeneralUserAuthenticationResponse reporterUser;
 
-    String taskDescription;
+    private GeneralUserAuthenticationResponse responsibleId;
 
-    UserAuthentication responsibleId;
-
-    public String getTaskName() {
-        return taskName;
+    public long getId() {
+        return id;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
-    public UserAuthentication getResponsibleId() {
+    public GeneralUserAuthenticationResponse getReporterUser() {
+        return reporterUser;
+    }
+
+    public void setReporterUser(GeneralUserAuthenticationResponse reporterUser) {
+        this.reporterUser = reporterUser;
+    }
+
+    public GeneralUserAuthenticationResponse getResponsibleId() {
         return responsibleId;
     }
 
-    public void setResponsibleId(UserAuthentication responsibleId) {
+    public void setResponsibleId(GeneralUserAuthenticationResponse responsibleId) {
         this.responsibleId = responsibleId;
     }
+
+    
 }

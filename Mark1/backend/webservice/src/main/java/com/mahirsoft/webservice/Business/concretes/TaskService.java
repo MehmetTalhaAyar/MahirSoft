@@ -13,6 +13,8 @@ import com.mahirsoft.webservice.Entities.Requests.UpdateTaskRequest;
 public class TaskService {
     TaskRepository taskRepository;
 
+    UserAuthenticationService userAuthenticationService;
+
     public TaskService(TaskRepository taskRepository){
         this.taskRepository = taskRepository;
     }
@@ -60,14 +62,33 @@ public class TaskService {
         if(task == null){
             return null;
         }
-        else {
-            task.setTaskName(updateTaskRequest.getTaskName());
-            task.setTaskDescription(updateTaskRequest.getTaskDescription());
+        
 
-            taskRepository.save(task);
             
-            return task;
+        if(updateTaskRequest.getResponsibleId() != null){
+            var user = userAuthenticationService.findById(updateTaskRequest.getResponsibleId());
+            if(user == null) return null;
+
+            task.setResposibleId(user);
         }
+
+        if(updateTaskRequest.getReportsToId() != null){
+        
+            var userReporter = userAuthenticationService.findById(updateTaskRequest.getReportsToId());
+
+            if(userReporter == null) return null;
+
+            task.setReportsToId(userReporter);
+
+        }
+        
+        if(updateTaskRequest.getEndDate() != null)
+            task.setTaskDeadlineDate(updateTaskRequest.getEndDate());
+
+        taskRepository.save(task);
+        
+        return task;
+        
 
 
 

@@ -1,33 +1,40 @@
 package com.mahirsoft.webservice.Entities.Requests;
 
+import java.time.LocalDateTime;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 public class UpdateTaskRequest {
     
-    @Size(min=2, max=32, message = "Size must be between 2 and 32 characters!")
-    @NotBlank(message = "Task name can not be empty!")
-    String taskName;
+    private Long responsibleId;
 
-    @NotBlank(message = "Task description can not be empty!")
-    String taskDescription;
+    private Long reportsToId;
 
-    public String getTaskName() {
-        return taskName;
+    private LocalDateTime endDate;
+
+    public Long getResponsibleId() {
+        return responsibleId;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setResponsibleId(Long responsibleId) {
+        this.responsibleId = responsibleId;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
+    public Long getReportsToId() {
+        return reportsToId;
     }
 
-    public void setTaskDescription(String taskDescription) {
-        this.taskDescription = taskDescription;
+    public void setReportsToId(Long reportsToId) {
+        this.reportsToId = reportsToId;
     }
 
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    
     
 }

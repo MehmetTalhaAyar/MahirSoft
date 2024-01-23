@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,7 +84,7 @@ public class TaskController {
         getTaskResponse.setCreatedOn(task.getCreatedOn());
         getTaskResponse.setTaskDeadlineDate(task.getTaskDeadlineDate());
         getTaskResponse.setResponsibleId(task.getResposibleId().toGeneralUserAuthenticationResponse());
-        getTaskResponse.setCreatedById(task.getCreatedById().toGeneralUserAuthenticationResponse());
+        getTaskResponse.setReportsTo(task.getReportsToId().toGeneralUserAuthenticationResponse());
         getTaskResponse.setComments(task.toGeneralCommentResponses());
         getTaskResponse.setStage(task.getStageId().toStageResponse());
 
@@ -104,8 +103,10 @@ public class TaskController {
 
         // response nesnesine map işlemi
         UpdateTaskResponse updateTaskResponse = new UpdateTaskResponse();
-        updateTaskResponse.setTaskName(updatedTask.getTaskName());
-        updateTaskResponse.setTaskDescription(updatedTask.getTaskDescription());
+        updateTaskResponse.setEndTime(updatedTask.getTaskDeadlineDate());
+        updateTaskResponse.setId(updatedTask.getTaskId());
+        updateTaskResponse.setReporterUser(updatedTask.getReportsToId().toGeneralUserAuthenticationResponse());
+        updateTaskResponse.setResponsibleId(updatedTask.getResposibleId().toGeneralUserAuthenticationResponse());
 
         return new ResponseEntity<UpdateTaskResponse>(updateTaskResponse, HttpStatusCode.valueOf(200));
     }

@@ -54,6 +54,7 @@ public class TaskAndStageController {
         Task task = new Task();
         
         task.setCreatedById(currentUser);
+        task.setReportsToId(currentUser);
         task.setStageId(stage);
         task.setResposibleId(currentUser);
         task.setTaskName(createTaskRequest.getTaskName());

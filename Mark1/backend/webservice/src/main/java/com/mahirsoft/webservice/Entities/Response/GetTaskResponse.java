@@ -18,7 +18,7 @@ public class GetTaskResponse {
 
     private GeneralUserAuthenticationResponse responsibleId;
 
-    private GeneralUserAuthenticationResponse createdById;
+    private GeneralUserAuthenticationResponse reportsTo;
 
     private List<GeneralCommentResponse> comments;
 
@@ -86,20 +86,20 @@ public class GetTaskResponse {
         this.responsibleId = responsibleId;
     }
 
-    public GeneralUserAuthenticationResponse getCreatedById() {
-        return createdById;
-    }
-
-    public void setCreatedById(GeneralUserAuthenticationResponse createdById) {
-        this.createdById = createdById;
-    }
-
     public StageResponse getStage() {
         return stage;
     }
 
     public void setStage(StageResponse stage) {
         this.stage = stage;
+    }
+
+    public GeneralUserAuthenticationResponse getReportsTo() {
+        return reportsTo;
+    }
+
+    public void setReportsTo(GeneralUserAuthenticationResponse reportsTo) {
+        this.reportsTo = reportsTo;
     }
 
     

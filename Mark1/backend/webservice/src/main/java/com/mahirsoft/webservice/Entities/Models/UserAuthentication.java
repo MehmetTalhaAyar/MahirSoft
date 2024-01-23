@@ -81,6 +81,10 @@ public class UserAuthentication {
     private List<Task> tasksCreatedBy;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "reportsToId")
+    private List<Task> tasksReporter;
+
+    @JsonIgnore
     @OneToMany(mappedBy =  "leadingPersonId")
     private List<Project> managedProjects;
 

@@ -47,6 +47,10 @@ public class Task {
     private Stage stageId;
 
     @ManyToOne
+    @JoinColumn(name = "reportsToId",referencedColumnName = "userId")
+    private UserAuthentication reportsToId;
+
+    @ManyToOne
     @JoinColumn(name = "relatedTaskId",referencedColumnName = "taskId")
     private Task relatedTaskId;
 
@@ -190,6 +194,16 @@ public class Task {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+
+    public UserAuthentication getReportsToId() {
+        return reportsToId;
+    }
+
+
+    public void setReportsToId(UserAuthentication reportsToId) {
+        this.reportsToId = reportsToId;
     }
 
    
