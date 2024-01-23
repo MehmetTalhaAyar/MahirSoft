@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.ProjectUser;
 import com.mahirsoft.webservice.Entities.Models.Stage;
+import com.mahirsoft.webservice.Entities.Models.Task;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.UpdateTaskRequest;
+import com.mahirsoft.webservice.Entities.Response.ProjectMembersAndStageResponse;
 
 @Service
 public class ProjectAndStageService {
@@ -20,15 +23,17 @@ public class ProjectAndStageService {
     ProjectService projectService;
     UserAuthenticationService userAuthenticationService;
     ProjectUserService projectUserService;
+    TaskService taskService;
 
     
 
     public ProjectAndStageService(StageService stageService, ProjectService projectService,
-            UserAuthenticationService userAuthenticationService, ProjectUserService projectUserService) {
+            UserAuthenticationService userAuthenticationService, ProjectUserService projectUserService,TaskService taskService) {
         this.stageService = stageService;
         this.projectService = projectService;
         this.userAuthenticationService = userAuthenticationService;
         this.projectUserService = projectUserService;
+        this.taskService = taskService;
     }
 
 
@@ -142,6 +147,69 @@ public class ProjectAndStageService {
         stageService.createStage(failedStage);
 
         return project;
+    }
+
+
+    public ProjectMembersAndStageResponse getProjectMembersAndStageByStageId(long stageId) {
+        
+        var stage = stageService.getStage(stageId);
+
+        if(stage == null) return null;
+
+        ProjectMembersAndStageResponse projectMembersAndStageResponse = new ProjectMembersAndStageResponse();
+        projectMembersAndStageResponse.setStages(stage.getProjectId().toStageResponses());
+        projectMembersAndStageResponse.setUsers(stage.getProjectId().toUserAuthenticationResponses());
+
+        return projectMembersAndStageResponse;
+
+
+    }
+
+    public Task updateTask(long id,UpdateTaskRequest updateTaskRequest){
+
+        Task task = taskService.findById(id);
+
+        if(task == null){
+            return null;
+        }
+        
+
+        if(updateTaskRequest.getStageId() != null){
+            var stage = stageService.getStage(updateTaskRequest.getStageId());
+
+            if(stage == null) return null;
+
+            task.setStageId(stage);
+        }
+            
+        if(updateTaskRequest.getResponsibleId() != null){
+            var user = userAuthenticationService.findById(updateTaskRequest.getResponsibleId());
+            if(user == null) return null;
+
+            task.setResposibleId(user);
+        }
+
+        if(updateTaskRequest.getReportsToId() != null){
+        
+            var userReporter = userAuthenticationService.findById(updateTaskRequest.getReportsToId());
+
+            if(userReporter == null) return null;
+
+            task.setReportsToId(userReporter);
+
+        }
+        
+        if(updateTaskRequest.getEndDate() != null)
+            task.setTaskDeadlineDate(updateTaskRequest.getEndDate());
+
+        taskService.save(task);
+        
+        return task;
+        
+
+
+
+
     }
     
 }

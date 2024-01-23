@@ -34,15 +34,6 @@ public class GeneralProjectResponse {
         this.leadingPerson = leadingPerson;
     }
 
-
-    public List<GeneralStageResponse> getStages() {
-        return stages;
-    }
-
-    public void setStages(List<GeneralStageResponse> stages) {
-        this.stages = stages;
-    }
-
     public LocalDateTime getCreatedOn() {
         return createdOn;
     }
@@ -57,6 +48,14 @@ public class GeneralProjectResponse {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<GeneralStageResponse> getStages() {
+        return stages;
+    }
+
+    public void setStages(List<GeneralStageResponse> stages) {
+        this.stages = stages;
     }
 
     

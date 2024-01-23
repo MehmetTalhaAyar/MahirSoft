@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +18,11 @@ import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateUserAuthtenticationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
-import com.mahirsoft.webservice.Entities.Response.GeneralProjectUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetAllUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.PostUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.TaskCountResponse;
+import com.mahirsoft.webservice.security.DefaultUser;
 
 import jakarta.validation.Valid;
 
@@ -100,6 +102,16 @@ public class UserAuthenticationController {
 
 
         return user;
+    }
+
+    @GetMapping("/taskcount")
+    public ResponseEntity<?> getTaskCount(@AuthenticationPrincipal DefaultUser currentUser){
+        
+        var user = userAuthenticationService.findById(currentUser.getId());
+
+        if(user == null) return new ResponseEntity<String>("Something went Wrong", HttpStatusCode.valueOf(400));
+
+        return new ResponseEntity<TaskCountResponse>(user.toTaskCountResponse(), HttpStatusCode.valueOf(200));
     }
 
     

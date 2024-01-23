@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
-import com.mahirsoft.webservice.Entities.Response.GeneralProjectUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.TaskCountResponse;
+import com.mahirsoft.webservice.Entities.Response.UserAuthenticationResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -127,6 +127,59 @@ public class UserAuthentication {
             generalUser.setCompany(companyId.toCompanyResponse());
         
         return generalUser;
+    }
+
+    public UserAuthenticationResponse toUserAuthenticationResponse(){
+        UserAuthenticationResponse userAuthenticationResponse = new UserAuthenticationResponse();
+        userAuthenticationResponse.setFullName(name + " " + surname);
+        userAuthenticationResponse.setId(userId);
+
+        return userAuthenticationResponse;
+
+    }
+
+    public TaskCountResponse toTaskCountResponse(){
+        TaskCountResponse taskCountResponse = new TaskCountResponse();
+        int dueToday = 0;
+        int pendingTasks = 0; 
+        int totalTask = 0;
+
+
+        if(responsibleTasks != null)
+        {
+
+            for(var eleman :responsibleTasks){
+                if(eleman.getStageId().getProjectId().getDeletionStateCode() == 1) continue;
+
+                totalTask = totalTask + 1;
+
+                if(eleman.getTaskDeadlineDate() != null){
+                    if(localdatetimeCompare(eleman.getTaskDeadlineDate())){
+                        dueToday = dueToday + 1;
+                    }
+
+                }                
+
+                if(eleman.getStageId().getName().equals("Pending")){
+                    pendingTasks = pendingTasks + 1;
+
+                }
+                
+
+            }
+            taskCountResponse.setDueTaskCount(dueToday);
+            taskCountResponse.setPendingTaskCount(pendingTasks);
+            taskCountResponse.setTotalTaskCount(totalTask);
+            
+        }
+        
+        return taskCountResponse;
+
+    }
+
+    private boolean localdatetimeCompare(LocalDateTime taskdate){
+        LocalDateTime today = LocalDateTime.now();
+        return taskdate.getYear() == today.getYear() && taskdate.getMonth() == today.getMonth() && taskdate.getDayOfYear() == today.getDayOfYear();
     }
 
     public List<GeneralProjectResponse> toGeneralProjectResponses(){

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.Entities.Models.Task;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
-import com.mahirsoft.webservice.Entities.Requests.UpdateTaskRequest;
 
 @Service
 public class TaskService {
@@ -55,45 +54,6 @@ public class TaskService {
     
     }
 
-    public Task updateTask(long id,UpdateTaskRequest updateTaskRequest){
-
-        Task task = taskRepository.findById(id);
-
-        if(task == null){
-            return null;
-        }
-        
-
-            
-        if(updateTaskRequest.getResponsibleId() != null){
-            var user = userAuthenticationService.findById(updateTaskRequest.getResponsibleId());
-            if(user == null) return null;
-
-            task.setResposibleId(user);
-        }
-
-        if(updateTaskRequest.getReportsToId() != null){
-        
-            var userReporter = userAuthenticationService.findById(updateTaskRequest.getReportsToId());
-
-            if(userReporter == null) return null;
-
-            task.setReportsToId(userReporter);
-
-        }
-        
-        if(updateTaskRequest.getEndDate() != null)
-            task.setTaskDeadlineDate(updateTaskRequest.getEndDate());
-
-        taskRepository.save(task);
-        
-        return task;
-        
-
-
-
-
-    }
 
     public Task findById(long id){
         return taskRepository.findById(id);

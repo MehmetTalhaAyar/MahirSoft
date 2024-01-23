@@ -1,13 +1,29 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuthState } from "../../../state/context";
 import "./board.css";
+import { getResponsibleTaskCount } from "./api";
 
 function Board() {
   const authState = useAuthState();
+  const [totalTaskCount,setTotalTaskCount] = useState(0);
+  const [pendingTaskCount,setPendingTaskCount] = useState(0);
+  const [dueTaskCount,setDueTaskCount] = useState(0);
 
   useEffect(()=>{
+    getTaskCounts();
+
     
-  },[authState])
+  },[])
+
+  const getTaskCounts = useCallback(async ()=>{
+    const response = await getResponsibleTaskCount();
+
+    if(response.status === 200){
+      setTotalTaskCount(response.data.totalTaskCount)
+      setPendingTaskCount(response.data.pendingTaskCount)
+      setDueTaskCount(response.data.dueTaskCount)
+    }
+  },[])
   
   return (
     <main>
@@ -23,21 +39,21 @@ function Board() {
       <div className="dashboard_cards">
         <div className="dashboard_task">
           <div className="total_tasks">
-            <h1>3</h1>
+            <h1>{totalTaskCount}</h1>
             <span>Total Task</span>
           </div>
           <img src="/src/assets/images.jpg" className="dashboard_img" />
         </div>
         <div className="dashboard_task">
           <div className="total_tasks">
-            <h1>2</h1>
+            <h1>{pendingTaskCount}</h1>
             <span>Pending</span>
           </div>
           <img src="/src/assets/images.jpg" className="dashboard_img" />
         </div>
         <div className="dashboard_task">
           <div className="total_tasks">
-            <h1>1</h1>
+            <h1>{dueTaskCount}</h1>
             <span>Due Today</span>
           </div>
           <img src="/src/assets/images.jpg" className="dashboard_img" />

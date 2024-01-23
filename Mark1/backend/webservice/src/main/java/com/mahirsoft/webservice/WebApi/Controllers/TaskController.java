@@ -5,10 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.concretes.TaskService;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
-import com.mahirsoft.webservice.Entities.Requests.UpdateTaskRequest;
 import com.mahirsoft.webservice.Entities.Response.GetAllTaskResponse;
 import com.mahirsoft.webservice.Entities.Response.GetTaskResponse;
-import com.mahirsoft.webservice.Entities.Response.UpdateTaskResponse;
 
 import jakarta.validation.Valid;
 
@@ -20,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -91,25 +88,7 @@ public class TaskController {
         return new ResponseEntity<GetTaskResponse>(getTaskResponse,HttpStatusCode.valueOf(200));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable long id,@RequestBody UpdateTaskRequest updateTaskRequest){
-
-        String body = "Task not Found";
-        var updatedTask = taskService.updateTask(id, updateTaskRequest);
-        if(updatedTask == null){
-            return new ResponseEntity<String>(body , HttpStatusCode.valueOf(400));
-        }
-
-
-        // response nesnesine map işlemi
-        UpdateTaskResponse updateTaskResponse = new UpdateTaskResponse();
-        updateTaskResponse.setEndTime(updatedTask.getTaskDeadlineDate());
-        updateTaskResponse.setId(updatedTask.getTaskId());
-        updateTaskResponse.setReporterUser(updatedTask.getReportsToId().toGeneralUserAuthenticationResponse());
-        updateTaskResponse.setResponsibleId(updatedTask.getResposibleId().toGeneralUserAuthenticationResponse());
-
-        return new ResponseEntity<UpdateTaskResponse>(updateTaskResponse, HttpStatusCode.valueOf(200));
-    }
+    
 
     
 

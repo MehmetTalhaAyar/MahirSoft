@@ -75,18 +75,19 @@ public class Stage {
         return taskResponses;
     }
 
-    private List<TaskResponse> toTaskResponses(){
+    public List<TaskResponse> toTaskResponses(){
         List<TaskResponse> taskList = new ArrayList<>();
 
-        for(var eleman : tasks){
-            if(eleman.getDeletionStateCode() == 1) continue;
-            
-            TaskResponse currentTask = new TaskResponse();
-            currentTask.setId(eleman.getTaskId());
-            currentTask.setName(eleman.getTaskName());
-            currentTask.setDescription(eleman.getTaskDescription());
-            taskList.add(currentTask);
-        }
+        if(tasks != null) // burayı ekledik çünkü tasks null olduğu zaman atılan isteklerden 500 internal server error geliyor.
+            for(var eleman : tasks){
+                if(eleman.getDeletionStateCode() == 1) continue;
+                
+                TaskResponse currentTask = new TaskResponse();
+                currentTask.setId(eleman.getTaskId());
+                currentTask.setName(eleman.getTaskName());
+                currentTask.setDescription(eleman.getTaskDescription());
+                taskList.add(currentTask);
+            }
 
         return taskList;
     }

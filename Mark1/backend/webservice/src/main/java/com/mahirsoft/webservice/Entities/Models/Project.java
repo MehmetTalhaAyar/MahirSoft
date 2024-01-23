@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.StageResponse;
+import com.mahirsoft.webservice.Entities.Response.UserAuthenticationResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -76,11 +78,36 @@ public class Project {
             GeneralStageResponse generalStageResponse = new GeneralStageResponse();
             generalStageResponse.setId(eleman.getStageId());
             generalStageResponse.setName(eleman.getName());
+            generalStageResponse.setTasks(eleman.toTaskResponses());
 
             stageResponse.add(generalStageResponse);
         }
 
         return stageResponse;
+    }
+
+
+    public List<StageResponse> toStageResponses(){
+        List<StageResponse> stageResponses = new ArrayList<>();
+        for(var eleman : stages){
+            StageResponse stageResponse = new StageResponse();
+            stageResponse.setId(eleman.getStageId());
+            stageResponse.setName(eleman.getName());
+
+            stageResponses.add(stageResponse);
+        }
+
+        return stageResponses;
+    }
+
+    public List<UserAuthenticationResponse> toUserAuthenticationResponses(){
+        List<UserAuthenticationResponse> userAuthenticationResponses = new ArrayList<>();
+        for(var eleman : projectMembers){
+            userAuthenticationResponses.add(eleman.getUserId().toUserAuthenticationResponse());
+        }
+
+        return userAuthenticationResponses;
+
     }
 
     public GeneralUserAuthenticationResponse toLeadPerson(){

@@ -34,6 +34,14 @@ export function CompanyPage(props) {
         title,
         gsm,
       });
+      if(response.status === 201){
+        setName("")
+        setSurname("")
+        setTitle("")
+        setGsm("")
+        setPassword("")
+        setEmail("")
+      }
       
       
     } catch (axiosError) {
@@ -154,22 +162,23 @@ export function CompanyPage(props) {
         <div className="right_container">
           {condition && <form className="user-form">
             <h2 className="register_form_company">Register Form</h2>
-            <input placeholder="Title" className="company_input" onChange={(event) => setTitle(event.target.value)} />
+            <input placeholder="Title" className="company_input" onChange={(event) => setTitle(event.target.value)} value={title} />
             {/* {errors.title && <span className=""> {errors.title} </span> } */}
-            <input placeholder="Name" className="company_input" onChange={(event) => setName(event.target.value)}  />
+            <input placeholder="Name" className="company_input" onChange={(event) => setName(event.target.value)} value={name} />
             {/* {errors.name && <span className=""> {errors.name} </span> } */}
 
-            <input placeholder="Surname" className="company_input" onChange={(event) => setSurname(event.target.value)}  />
+            <input placeholder="Surname" className="company_input" onChange={(event) => setSurname(event.target.value)} value={surname}  />
             {/* {errors.surname && <span className=""> {errors.surname} </span> } */}
-            <input placeholder="Gsm" className="company_input" onChange={(event) => setGsm(event.target.value)}  />
+            <input placeholder="Gsm" className="company_input" onChange={(event) => setGsm(event.target.value)} value={gsm} />
             {/* {errors.gsm && <span className=""> {errors.gsm} </span> } */}
-            <input placeholder="Email" className="company_input" onChange={(event) => setEmail(event.target.value)}  />
+            <input placeholder="Email" className="company_input" onChange={(event) => setEmail(event.target.value)} value={email} />
             {/* {errors.email && <span className=""> {errors.email} </span> } */}
 
             <input
               type="password"
               placeholder="Password"
               className="company_input"
+              value={password}
               onChange={(event) => setPassword(event.target.value)} 
             />
             {/* {errors.password && <span className=""> {errors.password} </span> } */}

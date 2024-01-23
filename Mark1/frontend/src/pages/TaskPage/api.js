@@ -12,3 +12,11 @@ export function deleteTaskById(id){
 export function addComment(body){
     return http.post("/api/v1/comment/add",body)
 }
+
+export function getprojectMembers(stageId){
+    return http.get(`/api/v1/projectandstage/getallmembersandstage/${stageId}`)
+}
+
+export function updateTaskInfo(body,taskId){
+    return http.put(`/api/v1/projectandstage/updatetask/${taskId}`,body)
+}

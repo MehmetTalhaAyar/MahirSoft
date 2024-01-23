@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 
 public class UpdateTaskRequest {
+
+    private Long stageId;
     
     private Long responsibleId;
 
@@ -33,6 +35,14 @@ public class UpdateTaskRequest {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public Long getStageId() {
+        return stageId;
+    }
+
+    public void setStageId(Long stageId) {
+        this.stageId = stageId;
     }
 
     

@@ -8,7 +8,7 @@ import DatePicker from "react-datepicker";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../state/context";
-import { getTaskInfo, deleteTaskById, addComment } from "./api";
+import { getTaskInfo, deleteTaskById, addComment,getprojectMembers, updateTaskInfo } from "./api";
 import { MONTHS } from "../../Constants/Constants";
 
 export function TaskPage() {
@@ -23,11 +23,18 @@ export function TaskPage() {
     location.state.description
   );
   const [stage, setStage] = useState();
-  const [taskResponsible, setTaskResponsible] = useState({});
-  const [taskReporter, setTaskReporter] = useState({});
+  const [taskResponsible, setTaskResponsible] = useState();
+  const [taskReporter, setTaskReporter] = useState();
   const [createdDate, setCreatedDate] = useState({});
   const [userDefaultLogo, setUserDefaultLogo] = useState();
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [responsibleLogo,setResponsibleLogo] = useState();
+  const [reporterLogo,setReporterLogo] = useState();
+  const [selectedDate, setSelectedDate] = useState();
+  const [projectMembers,setProjectMembers] = useState({});
+  const [stageOptions,setStageOptions] = useState({})
+  const [selectedStage,setSelectedStage] = useState();
+  const [selectedResponsible,setSelectedResponsible] = useState();
+  const [selectedReporter,setSelectedReporter] = useState();
 
   useEffect(() => {
     if (authState.userId > 0) {
@@ -44,17 +51,11 @@ export function TaskPage() {
 
     if (response.status == 200) {
       setStage(response.data.stage.name);
-      setTaskReporter({
-        logo:
-          response.data.reportsTo.name[0] + response.data.reportsTo.surname[0],
-        name: response.data.reportsTo.fullName,
-      });
-      setTaskResponsible({
-        logo:
-          response.data.responsibleId.name[0] +
-          response.data.responsibleId.surname[0],
-        name: response.data.responsibleId.fullName,
-      });
+      setTaskReporter(response.data.reportsTo.fullName);
+      setReporterLogo(response.data.reportsTo.name[0] + response.data.reportsTo.surname[0])
+
+      setTaskResponsible(response.data.responsibleId.fullName);
+      setResponsibleLogo(response.data.responsibleId.name[0] +response.data.responsibleId.surname[0])
       setCreatedDate({
         day: response.data.createdOn.split("T")[0].split("-")[2],
         month: response.data.createdOn.split("T")[0].split("-")[1],
@@ -71,10 +72,54 @@ export function TaskPage() {
           };
         })
       );
+      if(response.data.taskDeadlineDate !== null){
+        setSelectedDate(new Date(response.data.taskDeadlineDate))
+      }
+      await getProjectMembersAndStage(response.data.stage.id)
     } else {
       console.log("Some Thing Went Wrong!");
     }
   }, []);
+
+
+  const getProjectMembersAndStage = useCallback( async(stageId)=>{
+    const response = await getprojectMembers(stageId)
+
+    if(response.status === 200){
+
+      setProjectMembers(
+        response.data.users.map((user)=>{
+          return {
+            value: user.id,
+            label: user.fullName
+          }
+        })
+      )
+
+      setStageOptions(
+        response.data.stages.map((stage)=>{
+          return {
+            value:stage.id,
+            label:stage.name
+          }
+        })
+      )
+
+    }
+
+  },[])
+
+  const handleStageSelector = (selectedValue) => {
+    setSelectedStage(selectedValue);
+  }
+
+  const handleResponsibleSelector = (selectedValue) => {
+    setSelectedResponsible(selectedValue);
+  }
+
+  const handleReporterSelector = (selectedValue) => {
+    setSelectedReporter(selectedValue);
+  }
 
   const openDropdownMenu2 = () => {
     setDropDownMenu(!dropDownMenu);
@@ -91,7 +136,6 @@ export function TaskPage() {
     });
 
     if (response.status === 201) {
-      console.log(response);
 
       const newComment = {
         author: response.data.writtenById.fullName, // Replace with actual user information
@@ -107,6 +151,27 @@ export function TaskPage() {
       console.log("Something went wrong!");
     }
   };
+
+  const handleChanges = async () => {
+    if(selectedDate === undefined && selectedReporter === undefined && selectedResponsible === undefined && selectedStage === undefined)
+      return ;
+
+    const response = await updateTaskInfo({
+      responsibleId : selectedResponsible !== undefined ? selectedResponsible.value : null,
+      stageId : selectedStage !== undefined ? selectedStage.value : null,
+      endDate : selectedDate,
+      reportsToId : selectedReporter !== undefined ? selectedReporter.value : null
+
+    },location.state.id)
+
+    if(response.status === 200){
+
+      setReporterLogo(response.data.reporterUser.name[0] +response.data.reporterUser.surname[0])
+      setResponsibleLogo(response.data.responsibleId.name[0] +response.data.responsibleId.surname[0])
+    }
+
+
+  }
 
   const deleteTask = async (id) => {
     const response = await deleteTaskById(id);
@@ -182,12 +247,19 @@ export function TaskPage() {
           </div>
           <div className="right_container">
             <div className="selection_menu">
-              <Select placeholder={stage} className="task_name" />
+              <Select 
+                selected={selectedStage}
+                options={stageOptions}
+                placeholder={stage} 
+                className="task_name"
+                onChange={handleStageSelector}
+              />
               <div className="date_picker_container">
                 <DatePicker
                   selected={selectedDate}
                   onChange={(date) => setSelectedDate(date)}
                   showTimeSelect
+                  placeholderText="No Deadline"
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   dateFormat="MMMM d, yyyy h:mm aa"
@@ -197,22 +269,26 @@ export function TaskPage() {
             </div>
             <h4 className="assignee_title">Assignee</h4>
             <div className="name_container">
-              <p className="logo2">{taskResponsible.logo}</p>
+              <p className="logo2">{responsibleLogo}</p>
               <Select
-                placeholder={taskResponsible.name}
+                options={projectMembers}
+                placeholder={taskResponsible}
                 className="assignee_select_box"
+                onChange={handleResponsibleSelector}
               />
             </div>
             <h4 className="reporter_title">Reporter</h4>
             <div className="name_container">
-              <p className="logo3">{taskReporter.logo}</p>
+              <p className="logo3">{reporterLogo}</p>
               <Select
-                placeholder={taskReporter.name}
+                options={projectMembers}
+                placeholder={taskReporter}
                 className="assignee_select_box"
+                onChange={handleReporterSelector}
               />
             </div>
             <div className="task_button_container">
-              <button className="save_task_button" type="submit">
+              <button className="save_task_button" type="submit" onClick={handleChanges}>
                 Save Changes
               </button>
             </div>
