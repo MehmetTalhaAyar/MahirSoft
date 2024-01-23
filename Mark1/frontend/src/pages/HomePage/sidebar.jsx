@@ -34,9 +34,9 @@ function SideBar() {
           name="Projects"
         />
 
-        {/*{authState.company && ( */}
+        {authState.company && ( 
         <SideBarItem toWhere={"company"} icon={<FaUsers />} name="Company" />
-        {/*  )} */}
+          )} 
       </div>
       <hr className="hr2"></hr>
       <SideBarItem toWhere={"#"} icon={<LiaEllipsisHSolid />} name="Others" />
