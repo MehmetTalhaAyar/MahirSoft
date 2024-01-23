@@ -68,16 +68,31 @@ export function TaskPage() {
     setDropDownMenu(!dropDownMenu);
   };
 
-  const handleCommentSubmit = () => {
-    if (commentText.trim() !== "") {
+  const handleCommentSubmit = async () => {
+    if (commentText.trim() === "") {
+      return;
+    }
+
+    const response = await addComment({
+      content: commentText,
+      linkedTaskId: location.state.id,
+    });
+
+    if (response.status === 201) {
+      console.log(response);
+
       const newComment = {
-        author: "Redon Capuni", // Replace with actual user information
-        time: new Date().toLocaleString(),
+        author: response.data.writtenById.fullName, // Replace with actual user information
+        time: `${response.data.createdOn.split("T")[0].split("-")[2]} ${
+          MONTHS[response.data.createdOn.split("T")[0].split("-")[1]]
+        } ${response.data.createdOn.split("T")[0].split("-")[0]}`,
         text: commentText,
       };
 
       setComments([...comments, newComment]);
       setCommentText("");
+    } else {
+      console.log("Something went wrong!");
     }
   };
 

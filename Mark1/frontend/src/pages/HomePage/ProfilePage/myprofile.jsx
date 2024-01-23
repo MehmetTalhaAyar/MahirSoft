@@ -92,7 +92,7 @@ function MyProfile() {
             className="_image2"
           />
           <h3 className="profile_name">{authState.fullName}</h3>
-          <p className="profile_text">{authState.job}</p>
+          <p className="profile_text">{authState.title}</p>
           <div className="logo_img">
             <IoLogoLinkedin className="linkedin" />
             <FaInstagramSquare className="instagram" />
@@ -129,12 +129,12 @@ function MyProfile() {
           {currentPage === "overview" && (
             <OverviewPage
               fullName={authState.fullName}
-              job={job}
+              job={authState.title}
               about={about}
-              company={company}
+              company={authState.company !== undefined && authState.company !== null  ? authState.company.name : ""}
               country={country}
               adress={adress}
-              phone={phone}
+              phone={authState.gsm}
               email={authState.email}
             />
           )}

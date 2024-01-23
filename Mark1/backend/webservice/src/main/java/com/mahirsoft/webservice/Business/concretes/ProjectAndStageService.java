@@ -72,6 +72,10 @@ public class ProjectAndStageService {
         var project = defaultProject(postCreateProjectRequest.getProject(),createdUser,leadPerson);
         if(project == null) return null;
 
+        if(!postCreateProjectRequest.getProjectUserIds().contains(postCreateProjectRequest.getAdminId())){
+            postCreateProjectRequest.getProjectUserIds().add(postCreateProjectRequest.getAdminId());
+        }
+
         for(var currentId : postCreateProjectRequest.getProjectUserIds()){
             var projectMember = userAuthenticationService.findById(currentId);
             ProjectUser projectUser = new ProjectUser();

@@ -52,6 +52,7 @@ public class Company {
 
         companyResponse.setId(companyId);
         companyResponse.setName(name);
+        companyResponse.setManagerId(managerId.getUserId());
 
         return companyResponse;
     }

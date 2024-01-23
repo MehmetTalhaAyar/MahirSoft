@@ -3,12 +3,14 @@ package com.mahirsoft.webservice.Entities.Requests;
 import java.util.List;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 public class PostCreateProjectRequest {
 
     @Valid
     private CreateProjectRequest project;
 
+    @NotNull
     private long adminId;
     
     private List<Long> projectUserIds;
