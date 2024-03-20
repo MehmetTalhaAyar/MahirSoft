@@ -1,80 +1,75 @@
 .settings-window {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    height: 100%;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    box-shadow: 1px 1px 5px #444579;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  box-shadow: 1px 1px 5px #444579;
+  background-color: white;
 }
 
 .settings-header {
-    margin-top: 15px;
-    padding-left: 50px;
-    text-align: start;
+  margin-top: 15px;
+  padding-left: 50px;
+  text-align: start;
 }
 
-.row-1{
-    width: 50%;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
+.row-1 {
+  width: 50%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
 }
 .settings-value-area {
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-around;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .settings-value {
-    display: inline-block;
-    text-align: start;
-    text-overflow: clip;
-    font-size: large;
-    font-weight: 600;
-    font-style: italic;
-
+  display: inline-block;
+  text-align: start;
+  text-overflow: clip;
+  font-size: large;
+  font-weight: 600;
+  font-style: italic;
 }
 
 .settings-description {
-    font-size: small;
-    font-family: 'Times New Roman', Times, serif;
-    text-overflow: ellipsis;
+  font-size: small;
+  font-family: "Times New Roman", Times, serif;
+  text-overflow: ellipsis;
 }
 
 .drop-down-menu {
-    display: flex;
-    width: 20%;
-    justify-content: center;
-    border:none
+  display: flex;
+  width: 20%;
+  justify-content: center;
+  border: none;
 }
 
-
-.select{
-    
-    font-size: medium;
-    font-family: 'Times New Roman', Times, serif;
-    width: 100%;
-    border: none;
+.select {
+  font-size: medium;
+  font-family: "Times New Roman", Times, serif;
+  width: 100%;
+  border: none;
 }
 
-
-.select:hover{
-    color: white;
-    background-color: rgb(184, 184, 184);
-    cursor: pointer;
+.select:hover {
+  color: white;
+  background-color: rgb(184, 184, 184);
+  cursor: pointer;
 }
 
-.selected-option{
-    font-family: 'Times New Roman', Times, serif;
-    text-align: center;
-    font-size: large;
+.selected-option {
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+  font-size: large;
 }
 
 .selected-option:hover {
-    background-color: red;
-    text-align: center;
-    cursor: pointer;
+  background-color: red;
+  text-align: center;
+  cursor: pointer;
 }
-

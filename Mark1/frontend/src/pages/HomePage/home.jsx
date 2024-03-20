@@ -6,11 +6,11 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthState } from "../../state/context";
 
 function Home() {
-  const authState = useAuthState()
+  const authState = useAuthState();
   const navigate = useNavigate();
-  
-  if(authState.userId <= 0){
-    navigate("/")
+
+  if (authState.userId <= 0) {
+    navigate("/");
   }
 
   return (

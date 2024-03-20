@@ -26,11 +26,11 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		<!-- Bu dependency mysql bağtantısından sonra kaldırılacak -->
-		<dependency> 
+		<!-- <dependency> 
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>  
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>

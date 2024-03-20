@@ -1,0 +1,26 @@
+.dropdown-content2 {
+  right: 0px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 12rem;
+  display: none;
+  position: absolute;
+  z-index: 1;
+  cursor: pointer;
+  padding: 5px 0px;
+}
+.dropdown-content2 a {
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  display: block;
+  color: rgb(98, 98, 98);
+}
+.dropdown-content2 a:hover {
+  color: #000;
+  background-color: #e0e0e0;
+}
+.openDropdown2 {
+  display: block;
+}
