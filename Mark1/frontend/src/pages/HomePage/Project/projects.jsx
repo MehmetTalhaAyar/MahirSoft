@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./project.css";
 import Select from "react-select";
+import image from "../../../assets/profileImage.jpg";
 
 import { CiSearch } from "react-icons/ci";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaChevronDown } from "react-icons/fa";
 import { FaChevronUp } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
 import {
   createProject,
   getCompanyMembers,
@@ -262,7 +264,8 @@ function Project() {
         <div className="project_section">
           {filteredProjectCards.map((project, index) => (
             <div key={index} className="project_card">
-              <div>
+              <header className="project_header">
+                <h2 className="proje_title">{project.title}</h2>
                 <HiDotsHorizontal
                   className="_dot"
                   onClick={() => openDropdownMenu(index)}
@@ -279,23 +282,58 @@ function Project() {
                   </a>
                   <a href="#edit">Edit</a>
                 </div>
+              </header>
+
+              <div className="proje_container">
+                <section className="manager_side">
+                  <p className="manager_header">Manager</p>
+                  <div className="proje_manager_container">
+                    <img
+                      src={image}
+                      alt="Manager Image"
+                      className="manager_image"
+                    />
+                    <span>{project.admin}</span>
+                  </div>
+                </section>
+                <section className="member_side">
+                  <p className="member_header">Members</p>
+                  <div className="proje_member_container">
+                    <div className="member_list">
+                      <img
+                        src={image}
+                        alt="Manager Image"
+                        className="member_image"
+                      />
+                      <span className="member_name">{project.admin}</span>
+                    </div>
+                    <div className="member_list">
+                      <img
+                        src={image}
+                        alt="Manager Image"
+                        className="member_image"
+                      />
+                      <span className="member_name">{project.admin}</span>
+                    </div>
+                  </div>
+                  <Link
+                    className="to-links"
+                    to={project.title.toLowerCase()}
+                    state={{ admin: project.admin, stages: project.stages }}
+                  >
+                    <button className="go_into_tasks">
+                      Go to Tasks <IoIosArrowForward />
+                    </button>
+                  </Link>
+                </section>
               </div>
-              <Link
-                className="to-links"
-                to={project.title.toLowerCase()}
-                state={{ admin: project.admin, stages: project.stages }}
-              >
-                <div className="proje_container">
-                  <h2 className="proje_title">{project.title}</h2>
-                  <div className="proje_tasks_container">{project.admin}</div>
-                </div>
-                <span className="created_on">
-                  Created on{" "}
-                  {`${project.createdOn.day} ${
-                    MONTHS[project.createdOn.month]
-                  } ${project.createdOn.year}`}
-                </span>
-              </Link>
+
+              <span className="created_on">
+                Created on{" "}
+                {`${project.createdOn.day} ${MONTHS[project.createdOn.month]} ${
+                  project.createdOn.year
+                }`}
+              </span>
             </div>
           ))}
         </div>

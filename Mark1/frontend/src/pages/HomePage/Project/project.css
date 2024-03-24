@@ -154,31 +154,43 @@
   margin: 10px 15px;
   position: relative;
   background-color: white;
-  padding: 5px; /* Adjust the padding for each project card */
+  overflow: hidden;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-
+.project_header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f3f2f2;
+  padding: 5px;
+  border-bottom: 1px solid rgb(218, 217, 217);
+}
 ._dot {
   cursor: pointer;
 }
 .dropdown-content {
-  border: 1px solid #cdcbcb;
-  border-radius: 5px;
+  top: 40px;
+  right: 0px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 0.7rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 12rem;
   display: none;
   position: absolute;
-  background-color: #f0f0f0;
-  min-width: 100px;
-  box-shadow: rgba(50, 48, 48, 0.2) 0px 2px 8px 0px;
+  z-index: 1;
+  cursor: pointer;
+  padding: 5px 0px;
 }
 .dropdown-content a {
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   text-decoration: none;
   display: block;
+  color: rgb(98, 98, 98);
 }
 .dropdown-content a:hover {
-  color: red;
-  background-color: #ddd;
+  color: #000;
+  background-color: #e0e0e0;
 }
 
 .openDropdown {
@@ -197,19 +209,93 @@
 
 .proje_container {
   display: flex;
+  padding: 10px;
+  height: 170px;
+}
+.manager_side {
+  border-right: 1px solid rgb(218, 217, 217);
+  color: black;
+  width: 40%;
+}
+.manager_header {
+  padding-bottom: 2px;
+  width: 90%;
+  border-bottom: 1px solid rgb(218, 217, 217);
+}
+.manager_image {
+  width: 60%;
+  border: 1px solid rgb(193, 193, 193);
+  border-radius: 50%;
+}
+.member_image {
+  width: 60%;
+  border: 1px solid rgb(193, 193, 193);
+  border-radius: 50%;
+}
+.member_side {
+  display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  padding: 16px;
-  height: 150px;
+  align-items: end;
+  padding-left: 5px;
+  color: black;
+  width: 70%;
+}
+.member_header {
+  padding-bottom: 2px;
+  width: 100%;
+  border-bottom: 1px solid rgb(218, 217, 217);
 }
 .proje_title {
-  text-align: center;
+  color: rgb(95, 95, 95);
+  padding-left: 7px;
+  border-left: 6px solid green;
 }
-.proje_tasks_container {
+.proje_manager_container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding: 10px;
   width: 100%;
+  height: 90%;
+  gap: 10px;
+}
+.proje_member_container {
+  display: flex;
+
+  padding: 5px;
+  width: 100%;
+}
+.member_list {
+  border-right: 1px solid rgb(197, 197, 197);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 35%;
+  height: 100%;
+}
+
+.go_into_tasks {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+  background-color: #55b867;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.go_into_tasks:hover {
+  transition: 0.3s;
+  background-color: #37a44b;
+}
+.member_name {
+  font-size: 12px;
+  text-align: center;
 }
 
 .created_on {

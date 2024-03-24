@@ -50,7 +50,7 @@
 
 .scrolling_vertically {
   width: 100%;
-  border-top: 1px solid rgb(155, 153, 150);
+
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   height: 90%;
