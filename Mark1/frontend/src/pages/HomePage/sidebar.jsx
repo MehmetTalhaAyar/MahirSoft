@@ -5,10 +5,9 @@ import { SideBarItem } from "../../components/SideBarItems";
 import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdDashboard } from "react-icons/md";
-import { RiTaskLine } from "react-icons/ri";
-import { FaTasks } from "react-icons/fa";
+
 import { GoProjectSymlink } from "react-icons/go";
-import { FaRegCalendarAlt, FaUsers } from "react-icons/fa";
+import {  FaUsers } from "react-icons/fa";
 import { LiaEllipsisHSolid } from "react-icons/lia";
 import { useAuthState } from "../../state/context";
 
@@ -28,7 +27,7 @@ function SideBar() {
 
       <div className="sidebar_menu">
         <SideBarItem toWhere={""} icon={<MdDashboard />} name="Dashboard" />
-        {/* <SideBarItem toWhere={"#"} icon={<RiTaskLine />} name="Tasks" /> */}
+       
         <SideBarItem
           toWhere={"projects"}
           icon={<GoProjectSymlink />}

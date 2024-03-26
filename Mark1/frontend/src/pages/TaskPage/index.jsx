@@ -19,13 +19,15 @@ import {
 import { MONTHS } from "../../Constants/Constants";
 import Description from "./description";
 import Dropdown from "./dropdown";
+import { AiOutlineAlignLeft, AiOutlineLike, AiOutlineMenu } from "react-icons/ai";
+import { BsReply } from "react-icons/bs";
+import { MdDelete, MdOutlineModeEditOutline } from "react-icons/md";
 
 export function TaskPage() {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [editedComment, setEditedComment] = useState("");
   const [editingCommentIndex, setEditingCommentIndex] = useState(null);
-
   const location = useLocation();
   const authState = useAuthState();
 
@@ -99,7 +101,6 @@ export function TaskPage() {
   }, []);
 
   
-
   const getProjectMembersAndStage = useCallback( async(body)=>{
     const response = await getprojectMembers(body)
 
@@ -220,9 +221,37 @@ export function TaskPage() {
         resolve(filterMembers(response.data));
       }, 100);
     });
-
-    
   }
+
+  const handleLikeChange = (index) => {
+    const updatedComments = [...comments];
+    updatedComments[index].likesCount =
+      (updatedComments[index].likesCount || 0) + 1;
+    setComments(updatedComments);
+  };
+
+  const handleDeleteComment = (index) => {
+    const updatedComments = [...comments];
+    updatedComments.splice(index, 1);
+    setComments(updatedComments);
+  };
+
+  const handleEditClick = (index, text) => {
+    setEditingCommentIndex(index);
+    setEditedComment(text);
+  };
+
+  const handleSaveEdit = (index) => {
+    const updatedComments = [...comments];
+    updatedComments[index].text = editedComment; // Update the text of the comment
+    setComments(updatedComments);
+    setEditingCommentIndex(null); // Reset editing state
+  };
+
+  const handleCancelEdit = () => {
+    setEditedComment(""); // Clear the edited comment
+    setEditingCommentIndex(null); // Reset editing state
+  };
 
 
   

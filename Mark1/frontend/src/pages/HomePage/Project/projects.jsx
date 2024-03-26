@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./project.css";
-import Select from "react-select";
 import AsyncSelect from "react-select/async";
 
 import { CiSearch } from "react-icons/ci";
@@ -16,6 +15,7 @@ import {
 } from "./api";
 import { MONTHS } from "../../../Constants/Constants";
 import { Link } from "react-router-dom";
+import defaultProfileImage from "../../../assets/profileImage.jpg"
 
 function Project() {
   const [projectFormOpen, setProjectFormOpen] = useState(false);
@@ -319,7 +319,7 @@ function Project() {
                   <p className="manager_header">Manager</p>
                   <div className="proje_manager_container">
                     <img
-                      src={image}
+                      src={defaultProfileImage}
                       alt="Manager Image"
                       className="manager_image"
                     />
@@ -331,7 +331,7 @@ function Project() {
                   <div className="proje_member_container">
                     <div className="member_list">
                       <img
-                        src={image}
+                        src={defaultProfileImage}
                         alt="Manager Image"
                         className="member_image"
                       />
@@ -339,7 +339,7 @@ function Project() {
                     </div>
                     <div className="member_list">
                       <img
-                        src={image}
+                        src={defaultProfileImage}
                         alt="Manager Image"
                         className="member_image"
                       />
