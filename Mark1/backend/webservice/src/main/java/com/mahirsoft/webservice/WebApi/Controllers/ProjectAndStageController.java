@@ -15,6 +15,7 @@ import com.mahirsoft.webservice.Business.concretes.ProjectAndStageService;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostGetStageAndProjectMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.UpdateTaskRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.PostProjectAndStageResponse;
@@ -85,10 +86,10 @@ public class ProjectAndStageController {
     }
 
 
-    @GetMapping("/getallmembersandstage/{stageId}")
-    public ResponseEntity<?> getAllMembersAndStage(@PathVariable long stageId){
+    @PostMapping("/getallmembersandstage")
+    public ResponseEntity<?> getAllMembersAndStage(@RequestBody PostGetStageAndProjectMembersRequest postGetStageAndProjectMembersRequest){
 
-        var projectMemberAndStages = projectAndStageService.getProjectMembersAndStageByStageId(stageId);
+        var projectMemberAndStages = projectAndStageService.getProjectMembersAndStageByStageId(postGetStageAndProjectMembersRequest);
 
         if(projectMemberAndStages == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400));
 

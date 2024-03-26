@@ -1,8 +1,8 @@
 import http from "../../../lib/http";
 
 
-export function getCompanyMembers(){
-    return http.get("/api/v1/company/members");
+export function getCompanyMembers(searchBody){
+    return http.post("/api/v1/company/members",searchBody);
 }
 
 export function getCompanyProjects(){

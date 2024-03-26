@@ -17,6 +17,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -51,6 +52,14 @@ public class UserAuthentication {
     @Column(name = "title")
     private String title;
 
+    @Lob
+    @Column(name = "image")
+    private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "userRoleId",referencedColumnName = "userRoleId")
+    private UserRole userRoleId;
+
     @ManyToOne
     @JoinColumn(name = "reportsToId",referencedColumnName = "userId")
     private UserAuthentication reportsToId;
@@ -58,9 +67,6 @@ public class UserAuthentication {
     @ManyToOne
     @JoinColumn(name = "companyId",referencedColumnName = "companyId")
     private Company companyId;
-
-    @Column(name = "authorityTypeId")
-    private long authorityTypeId;
 
     @Column(name = "createdOn")
     private LocalDateTime createdOn = LocalDateTime.now();
@@ -265,18 +271,6 @@ public class UserAuthentication {
         this.title = title;
     }
 
-    
-
-    
-
-    public long getAuthorityTypeId() {
-        return authorityTypeId;
-    }
-
-    public void setAuthorityTypeId(long authorityTypeId) {
-        this.authorityTypeId = authorityTypeId;
-    }
-
 
     public int getDeletionStateCode() {
         return deletionStateCode;
@@ -398,6 +392,30 @@ public class UserAuthentication {
 
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public List<Task> getTasksReporter() {
+        return tasksReporter;
+    }
+
+    public void setTasksReporter(List<Task> tasksReporter) {
+        this.tasksReporter = tasksReporter;
+    }
+
+    public UserRole getUserRoleId() {
+        return userRoleId;
+    }
+
+    public void setUserRoleId(UserRole userRoleId) {
+        this.userRoleId = userRoleId;
     }
 
     

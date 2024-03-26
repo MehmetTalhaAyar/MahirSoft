@@ -47,6 +47,10 @@ public class Company {
     @OneToMany(mappedBy = "companyId")
     List<UserAuthentication> companyMembers;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "companyId")
+    List<UserRole> userRoles;
+
     public CompanyResponse toCompanyResponse(){
         CompanyResponse companyResponse = new CompanyResponse();
 
@@ -151,6 +155,14 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     

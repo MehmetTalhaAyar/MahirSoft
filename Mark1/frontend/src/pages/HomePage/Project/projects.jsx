@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./project.css";
 import Select from "react-select";
+import AsyncSelect from "react-select/async";
 
 import { HiDotsHorizontal } from "react-icons/hi";
 import { createProject, getCompanyMembers,getCompanyProjects,deleteProjectById} from "./api";
@@ -24,7 +25,7 @@ function Project() {
 
   const getMembers = useCallback( async ()=>{
     
-    const response = await getCompanyMembers();
+    const response = await getCompanyMembers({searchKey:""});
 
     if(response.status === 200 && response.data){
       setOptions(response.data.map((user)=>{
@@ -50,9 +51,9 @@ function Project() {
           adminId: project.leadingPerson.userId,
           stages: project.stages,
           createdOn: {
-            day: project.createdOn.split('T')[0].split('-')[2],
-            month: project.createdOn.split('T')[0].split('-')[1],
-            year :project.createdOn.split('T')[0].split('-')[0]
+            day: project.createdOn[2],
+            month: project.createdOn[1],
+            year :project.createdOn[0]
           }
         }
       }))
@@ -110,9 +111,9 @@ function Project() {
             adminId: response.data.leadingPerson.userId,
             stages: response.data.stages,
             createdOn: {
-              day: response.data.createdOn.split('T')[0].split('-')[2],
-              month: response.data.createdOn.split('T')[0].split('-')[1],
-              year :response.data.createdOn.split('T')[0].split('-')[0]
+              day: response.data.createdOn[2],
+              month: response.data.createdOn[1],
+              year :response.data.createdOn[0]
             }
           },
         ];
@@ -169,10 +170,36 @@ function Project() {
 
   const handleSelectChange = (selectedValues) => {
     setSelectedOptions(selectedValues);
+    console.log(selectedValues)
+  };
+  
+  const handleAdminChange = (selectedValue) => {
+    // console.log(selectedValue)
+    setAdminName(selectedValue)
+  }
+
+  const filterMembers = (inputValue) => {
+    return inputValue.map((user)=>{
+      return {
+        value:user.userId,
+        label:user.fullName
+      }
+    } );
+    
   };
 
-  const handleAdminChange = (selectedValue) => {
-    setAdminName(selectedValue)
+  const promiseOptions = async (inputValue) =>{
+  
+    const response = await getCompanyMembers({
+      searchKey:inputValue
+    });
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(filterMembers(response.data));
+      }, 100);
+    });
+
+    
   }
 
 
@@ -202,25 +229,29 @@ function Project() {
             }}
           />
           {titleError && <p className="error-message">{titleError}</p>}
-          <Select
+          <AsyncSelect
             placeholder="Project Manager"
             className={`project_input ${
               projectFormOpen ? "isVisible_select" : ""
             }`}
             isClearable="true"
+            cacheOptions 
+            defaultOptions ={options}
             value={adminName}
-            options={options}
             onChange={handleAdminChange}
+            loadOptions={promiseOptions}
+
           />
           {adminError && <p className="error-message">{adminError}</p>}
-
-          <Select
+          <AsyncSelect
             className={`selected_object ${
               projectFormOpen ? "isVisible_select" : ""
             }`}
             placeholder="Project Members"
-            options={options}
+            cacheOptions 
+            defaultOptions ={options}
             isMulti
+            loadOptions={promiseOptions}
             closeMenuOnSelect={false}
             value={selectedOptions}
             onChange={handleSelectChange}

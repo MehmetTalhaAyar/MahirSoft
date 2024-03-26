@@ -9,6 +9,8 @@ public class CreateCompnayRequest {
     @NotBlank
     private String description;
 
+    private long managerId;
+
     public String getDescription() {
         return description;
     }
@@ -23,6 +25,14 @@ public class CreateCompnayRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(long managerId) {
+        this.managerId = managerId;
     }
     
 }

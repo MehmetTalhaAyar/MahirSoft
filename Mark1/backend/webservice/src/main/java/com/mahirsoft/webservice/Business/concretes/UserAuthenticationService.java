@@ -6,26 +6,48 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
+import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Requests.PostImageUpdateRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
+
+import jakarta.validation.Valid;
 
 
 @Service
 public class UserAuthenticationService {
 
-    UserAuthenticationRepository userAuthenticationRepository;
+    private UserAuthenticationRepository userAuthenticationRepository;
 
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
+    private FileService fileService;
+
+    private UserRoleRepository userRoleRepository;
     
-    UserAuthenticationService (UserAuthenticationRepository userAuthenticationRepository,PasswordEncoder passwordEncoder) {
-        this.userAuthenticationRepository =  userAuthenticationRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    
 
+    public UserAuthenticationService(UserAuthenticationRepository userAuthenticationRepository,
+            PasswordEncoder passwordEncoder, FileService fileService, UserRoleRepository userRoleRepository) {
+        this.userAuthenticationRepository = userAuthenticationRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.fileService = fileService;
+        this.userRoleRepository = userRoleRepository;
+    }
 
     public UserAuthentication save(UserAuthentication userAuthentication){
 
         userAuthentication.setPassword(passwordEncoder.encode(userAuthentication.getPassword()));
+        userAuthentication.setCreatedById(userAuthentication); // kayıt olan kullanıcı kendisini oluşturmuş oluyor
+
+        var userRole = userRoleRepository.findById(1); // 1 new user without company
+
+        if(userRole == null) return null;
+
+        userAuthentication.setUserRoleId(userRole);
+
 
         return userAuthenticationRepository.save(userAuthentication);
     
@@ -58,8 +80,54 @@ public class UserAuthenticationService {
         return userAuthenticationRepository.findById(id);
     }
 
-    public UserAuthentication updateUser(UserAuthentication userAuthentication){
+    public UserAuthentication addUserToCompany(UserAuthentication userAuthentication){
+
+        var userRole = userRoleRepository.findById(2); // new user for company
+        
+        if(userRole  == null) return null;
+        userAuthentication.setPassword(passwordEncoder.encode(userAuthentication.getPassword()));
+        userAuthentication.setUserRoleId(userRole);
+
         return userAuthenticationRepository.save(userAuthentication);
+    }
+
+    public List<UserAuthentication> getUsersBycompany(Company company,PostSearchCompanyMembersRequest searchKey ){
+
+        if(!searchKey.getSearchKey().strip().isBlank()){
+            return userAuthenticationRepository.findFirst5ByCompanyIdAndNameContaining(company, searchKey.getSearchKey()); 
+        }
+
+        return userAuthenticationRepository.findFirst5BycompanyId(company);
+    }
+
+
+    public UserAuthentication updateUserImage(long id, @Valid PostImageUpdateRequest postImageUpdateRequest) {
+
+        var user = userAuthenticationRepository.findById(id);
+
+        if(user == null) return null;
+
+        String image = fileService.saveBase64StringAsFile(postImageUpdateRequest.getImage());
+
+        if(image == null) return null;
+
+
+        user.setImage(image);
+
+        return userAuthenticationRepository.save(user);
+
+    }
+
+    public UserAuthentication updateUserWithCompany(UserAuthentication manager) {
+        
+        var userRole = userRoleRepository.findById(3); // company administrator
+
+        if(userRole  == null) return null;
+
+        manager.setUserRoleId(userRole);
+        manager.setTitle("Administrator");
+
+        return userAuthenticationRepository.save(manager);
     }
 
     

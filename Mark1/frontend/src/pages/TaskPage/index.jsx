@@ -1,6 +1,7 @@
 import "./index.css";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
+import AsyncSelect from "react-select/async";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
@@ -19,6 +20,7 @@ export function TaskPage() {
   const authState = useAuthState();
 
   const [taskName, setTaskName] = useState(location.state.name);
+  const [stageId,setStageId] = useState(location.state.id);
   const [taskDescription, setTaskDescription] = useState(
     location.state.description
   );
@@ -57,17 +59,17 @@ export function TaskPage() {
       setTaskResponsible(response.data.responsibleId.fullName);
       setResponsibleLogo(response.data.responsibleId.name[0] +response.data.responsibleId.surname[0])
       setCreatedDate({
-        day: response.data.createdOn.split("T")[0].split("-")[2],
-        month: response.data.createdOn.split("T")[0].split("-")[1],
-        year: response.data.createdOn.split("T")[0].split("-")[0],
+        day: response.data.createdOn[2],
+        month: `${response.data.createdOn[1]}`,
+        year: response.data.createdOn[0],
       });
       setComments(
         response.data.comments.map((comment) => {
           return {
             author: comment.writtenById.fullName,
-            time: `${comment.createdOn.split("T")[0].split("-")[2]} ${
-              MONTHS[comment.createdOn.split("T")[0].split("-")[1]]
-            } ${comment.createdOn.split("T")[0].split("-")[0]}`,
+            time: `${comment.createdOn[2]} ${
+              MONTHS[comment.createdOn[1]]
+            } ${comment.createdOn[0]}`,
             text: comment.content,
           };
         })
@@ -75,15 +77,15 @@ export function TaskPage() {
       if(response.data.taskDeadlineDate !== null){
         setSelectedDate(new Date(response.data.taskDeadlineDate))
       }
-      await getProjectMembersAndStage(response.data.stage.id)
+      await getProjectMembersAndStage({stageId: response.data.stage.id,searchKey: ""})
     } else {
       console.log("Some Thing Went Wrong!");
     }
   }, []);
 
 
-  const getProjectMembersAndStage = useCallback( async(stageId)=>{
-    const response = await getprojectMembers(stageId)
+  const getProjectMembersAndStage = useCallback( async(body)=>{
+    const response = await getprojectMembers(body)
 
     if(response.status === 200){
 
@@ -139,11 +141,12 @@ export function TaskPage() {
 
       const newComment = {
         author: response.data.writtenById.fullName, // Replace with actual user information
-        time: `${response.data.createdOn.split("T")[0].split("-")[2]} ${
-          MONTHS[response.data.createdOn.split("T")[0].split("-")[1]]
-        } ${response.data.createdOn.split("T")[0].split("-")[0]}`,
+        time: `${response.data.createdOn[2]} ${
+          MONTHS[response.data.createdOn[1]]
+        } ${response.data.createdOn[0]}`,
         text: commentText,
       };
+      
 
       setComments([...comments, newComment]);
       setCommentText("");
@@ -180,6 +183,32 @@ export function TaskPage() {
     }
   };
 
+
+  const filterMembers = (inputValue) => {
+    return inputValue.users.map((user)=>{
+      return {
+        value:user.userId,
+        label:user.fullName
+      }
+    } );
+    
+  };
+
+  const promiseOptions = async (inputValue) =>{
+  
+    const response = await getprojectMembers({
+      stageId: stageId,
+      searchKey : inputValue
+
+    })
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(filterMembers(response.data));
+      }, 100);
+    });
+
+    
+  }
   return (
     <main>
       <div className="task_page_container">
@@ -270,8 +299,10 @@ export function TaskPage() {
             <h4 className="assignee_title">Assignee</h4>
             <div className="name_container">
               <p className="logo2">{responsibleLogo}</p>
-              <Select
-                options={projectMembers}
+              <AsyncSelect
+                defaultOptions={projectMembers}
+                cacheOptions
+                loadOptions={promiseOptions}
                 placeholder={taskResponsible}
                 className="assignee_select_box"
                 onChange={handleResponsibleSelector}
@@ -280,8 +311,10 @@ export function TaskPage() {
             <h4 className="reporter_title">Reporter</h4>
             <div className="name_container">
               <p className="logo3">{reporterLogo}</p>
-              <Select
-                options={projectMembers}
+              <AsyncSelect
+                defaultOptions={projectMembers}
+                cacheOptions
+                loadOptions={promiseOptions}
                 placeholder={taskReporter}
                 className="assignee_select_box"
                 onChange={handleReporterSelector}

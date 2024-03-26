@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.ProjectUser;
 import com.mahirsoft.webservice.Entities.Models.Stage;
@@ -13,8 +14,10 @@ import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostGetStageAndProjectMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.UpdateTaskRequest;
 import com.mahirsoft.webservice.Entities.Response.ProjectMembersAndStageResponse;
+import com.mahirsoft.webservice.Entities.Response.UserAuthenticationResponse;
 
 @Service
 public class ProjectAndStageService {
@@ -22,20 +25,18 @@ public class ProjectAndStageService {
     StageService stageService;
     ProjectService projectService;
     UserAuthenticationService userAuthenticationService;
-    ProjectUserService projectUserService;
+    ProjectUserRepository projectUserRepository;
     TaskService taskService;
 
-    
-
     public ProjectAndStageService(StageService stageService, ProjectService projectService,
-            UserAuthenticationService userAuthenticationService, ProjectUserService projectUserService,TaskService taskService) {
+            UserAuthenticationService userAuthenticationService, ProjectUserRepository projectUserRepository,
+            TaskService taskService) {
         this.stageService = stageService;
         this.projectService = projectService;
         this.userAuthenticationService = userAuthenticationService;
-        this.projectUserService = projectUserService;
+        this.projectUserRepository = projectUserRepository;
         this.taskService = taskService;
     }
-
 
     public Stage addStageToProject(long projectId,CreateStageRequest createStageRequest){
         var project = projectService.getProject(projectId);
@@ -87,7 +88,7 @@ public class ProjectAndStageService {
             projectUser.setProjectId(project);
             projectUser.setUserId(projectMember);
 
-            projectUserService.addUserToProject(projectUser);
+            projectUserRepository.save(projectUser);
         }
 
         return project;
@@ -150,15 +151,40 @@ public class ProjectAndStageService {
     }
 
 
-    public ProjectMembersAndStageResponse getProjectMembersAndStageByStageId(long stageId) {
-        
-        var stage = stageService.getStage(stageId);
+    public ProjectMembersAndStageResponse getProjectMembersAndStageByStageId(PostGetStageAndProjectMembersRequest postGetStageAndProjectMembersRequest) {
+       
+        List<UserAuthenticationResponse> users = new ArrayList<>();
+        ProjectMembersAndStageResponse projectMembersAndStageResponse = new ProjectMembersAndStageResponse();
+
+        var stage = stageService.getStage(postGetStageAndProjectMembersRequest.getStageId());
 
         if(stage == null) return null;
 
-        ProjectMembersAndStageResponse projectMembersAndStageResponse = new ProjectMembersAndStageResponse();
+        if(postGetStageAndProjectMembersRequest.getSearchKey().strip().isBlank()){
+            var projectUsers =  projectUserRepository.findFirst5ByProjectId(stage.getProjectId());
+
+            for(var eleman : projectUsers){
+                users.add(eleman.getUserId().toUserAuthenticationResponse());
+            }
+
+            projectMembersAndStageResponse.setStages(stage.getProjectId().toStageResponses());
+            projectMembersAndStageResponse.setUsers(users);
+
+            return projectMembersAndStageResponse;
+        }
+
+        
+        var projectMembers = projectUserRepository.findFirst5ByProjectIdAndNameContaining(stage.getProjectId(), postGetStageAndProjectMembersRequest.getSearchKey());
+        
+
+        for(var projectUser : projectMembers){
+            users.add(projectUser.getUserId().toUserAuthenticationResponse());
+        }
+
+
+        
         projectMembersAndStageResponse.setStages(stage.getProjectId().toStageResponses());
-        projectMembersAndStageResponse.setUsers(stage.getProjectId().toUserAuthenticationResponses());
+        projectMembersAndStageResponse.setUsers(users);
 
         return projectMembersAndStageResponse;
 

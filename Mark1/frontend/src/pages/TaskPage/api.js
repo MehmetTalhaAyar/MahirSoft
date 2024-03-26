@@ -13,8 +13,8 @@ export function addComment(body){
     return http.post("/api/v1/comment/add",body)
 }
 
-export function getprojectMembers(stageId){
-    return http.get(`/api/v1/projectandstage/getallmembersandstage/${stageId}`)
+export function getprojectMembers(body){
+    return http.post(`/api/v1/projectandstage/getallmembersandstage`,body)
 }
 
 export function updateTaskInfo(body,taskId){

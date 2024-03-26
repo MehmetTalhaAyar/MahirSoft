@@ -17,6 +17,7 @@ import com.mahirsoft.webservice.Business.abstracts.TokenService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateUserAuthtenticationRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostImageUpdateRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetAllUserAuthenticationResponse;
@@ -46,7 +47,11 @@ public class UserAuthenticationController {
     ResponseEntity<String> createUser(@Valid @RequestBody CreateUserAuthtenticationRequest createUserAuthtenticationRequest){
         String body = "User created";
 
-        userAuthenticationService.save(createUserAuthtenticationRequest.toUserAuthentication());
+        var user = userAuthenticationService.save(createUserAuthtenticationRequest.toUserAuthentication());
+
+        if(user == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400)); 
+
+
         return new ResponseEntity<String>(body,HttpStatusCode.valueOf(200));
     }
 
@@ -112,6 +117,16 @@ public class UserAuthenticationController {
         if(user == null) return new ResponseEntity<String>("Something went Wrong", HttpStatusCode.valueOf(400));
 
         return new ResponseEntity<TaskCountResponse>(user.toTaskCountResponse(), HttpStatusCode.valueOf(200));
+    }
+
+    @PostMapping("/updateimage")
+    public ResponseEntity<?> handleUpdateImage( @Valid @RequestBody PostImageUpdateRequest postImageUpdateRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+
+        userAuthenticationService.updateUserImage(currentUser.getId(),postImageUpdateRequest);
+
+        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
+
     }
 
     

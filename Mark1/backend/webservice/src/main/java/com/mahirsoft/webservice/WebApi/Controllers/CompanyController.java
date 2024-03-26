@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.concretes.CompanyService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
+import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateCompanyMemberRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateCompnayRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddUserToCompanyRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyMembersRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
@@ -31,33 +34,38 @@ import jakarta.validation.Valid;
 @RequestMapping("api/v1/company")
 public class CompanyController {
 
-    CompanyService companyService;
+    private CompanyService companyService;
 
-    UserAuthenticationService userAuthenticationService;
+    private PermissionService permissionService;
 
-    public CompanyController(CompanyService companyService,UserAuthenticationService userAuthenticationService){
+    private UserAuthenticationService userAuthenticationService;
+
+    public CompanyController(CompanyService companyService, PermissionService permissionService,
+            UserAuthenticationService userAuthenticationService) {
         this.companyService = companyService;
+        this.permissionService = permissionService;
         this.userAuthenticationService = userAuthenticationService;
-
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?>  createCompany(@Valid @RequestBody CreateCompnayRequest createCompnayRequest,@AuthenticationPrincipal DefaultUser authentication){
+    public ResponseEntity<?>  createCompany(@Valid @RequestBody CreateCompnayRequest createCompnayRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        var user = userAuthenticationService.findById(authentication.getId());
+        permissionService.isTherePermission(currentUser, 12); 
 
-        if(user == null || user.getCompanyId() != null) return new ResponseEntity<String>("Something went wrong!", HttpStatusCode.valueOf(404));
+        var manager = userAuthenticationService.findById(createCompnayRequest.getManagerId());
+        
+        if(manager == null) throw new UserNotFoundException();
 
         Company newCompany = new Company();
 
         newCompany.setName(createCompnayRequest.getName());
-        newCompany.setManagerId(user);
+        newCompany.setManagerId(manager);
         newCompany.setDescription(createCompnayRequest.getDescription());
 
         var company = companyService.createCompany(newCompany);
         if(company == null) return new ResponseEntity<String>("Something went wrong!", HttpStatusCode.valueOf(404));
-        user.setCompanyId(newCompany);
-        var updateduser = userAuthenticationService.updateUser(user);
+        manager.setCompanyId(newCompany);
+        var updateduser = userAuthenticationService.updateUserWithCompany(manager);
         if(updateduser == null) return new ResponseEntity<String>("Something went wrong!", HttpStatusCode.valueOf(404));
 
         GeneralCompanyResponse companyResponse = new GeneralCompanyResponse();
@@ -75,10 +83,13 @@ public class CompanyController {
     }
 
     @PostMapping("/addemployee/{id}")
-    public ResponseEntity<?> addEmployeeToCompany(@PathVariable long id,@RequestBody PostAddUserToCompanyRequest postAddUserToCompanyRequest){
+    public ResponseEntity<?> addEmployeeToCompany(@PathVariable long id,@RequestBody PostAddUserToCompanyRequest postAddUserToCompanyRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        permissionService.isTherePermission(currentUser, 4);
 
         var user = userAuthenticationService.findByEmail(postAddUserToCompanyRequest.getEmail());
-        if(user == null) return new ResponseEntity<String>("Something went wrong!",  HttpStatusCode.valueOf(404));
+
+        if(user == null) throw new UserNotFoundException();
 
         var company = companyService.getCompany(id);
 
@@ -94,31 +105,38 @@ public class CompanyController {
         
 
         user.setCompanyId(company);
-        userAuthenticationService.updateUser(user);
+        userAuthenticationService.addUserToCompany(user);
 
         return new ResponseEntity<String>("User added",  HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/members")
-    public List<GeneralUserAuthenticationResponse> getcompanyMembers(@AuthenticationPrincipal DefaultUser user){
-        var chosenUser = userAuthenticationService.findById(user.getId());
+    @PostMapping("/members")
+    public List<GeneralUserAuthenticationResponse> getcompanyMembers(@RequestBody PostSearchCompanyMembersRequest postSearchCompanyMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        var chosenUser = permissionService.isTherePermission(currentUser, -1);
+
         if(chosenUser.getCompanyId() == null){
             List<GeneralUserAuthenticationResponse> onlyHimself = new ArrayList<>();
             onlyHimself.add(chosenUser.toGeneralUserAuthenticationResponse());
             return onlyHimself;
         }
-        var company = companyService.getCompany(chosenUser.getCompanyId().getCompanyId());
+        Company company = companyService.getCompany(chosenUser.getCompanyId().getCompanyId());
 
-        return company.toListGeneralUserAuthenticationResponses();
+        var users = userAuthenticationService.getUsersBycompany(company, postSearchCompanyMembersRequest);
+
+        List<GeneralUserAuthenticationResponse> generalUsers = new ArrayList<>();
+        for(var user : users){
+            generalUsers.add(user.toGeneralUserAuthenticationResponse());
+        }
+
+        return generalUsers;
 
     }
 
 
     @GetMapping("/projects")
     public List<GeneralProjectResponse> getCompanyProjects(@AuthenticationPrincipal DefaultUser user){
-        var currentUser = userAuthenticationService.findById(user.getId());
-
-        if(currentUser == null) return null;
+        var currentUser = permissionService.isTherePermission(user, -1);
 
         if(currentUser.getCompanyId() != null){
             if(currentUser.getCompanyId().getManagerId().getUserId() == currentUser.getUserId()){
@@ -139,14 +157,13 @@ public class CompanyController {
     @PostMapping("/createcompanymember")
     public ResponseEntity<?> createCompanyMember(@Valid @RequestBody CreateCompanyMemberRequest CreateCompanyMemberRequest ,@AuthenticationPrincipal DefaultUser user){
 
-        var createdUser = userAuthenticationService.findById(user.getId());
-        if(createdUser == null) return new ResponseEntity<String>("Something went Wrong", HttpStatusCode.valueOf(400));
+        var createdUser = permissionService.isTherePermission(user, 5);
 
         UserAuthentication newMember = CreateCompanyMemberRequest.toUserAuthentication();
         newMember.setCreatedById(createdUser);
         newMember.setCompanyId(createdUser.getCompanyId());
 
-        var newCreatedUser = userAuthenticationService.save(newMember);
+        var newCreatedUser = userAuthenticationService.addUserToCompany(newMember);
 
         GeneralUserAuthenticationResponse generalUser = newCreatedUser.toGeneralUserAuthenticationResponse();
 
