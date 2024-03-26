@@ -29,7 +29,7 @@
   align-items: center;
   width: 30%;
   height: 180px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(26, 26, 79, 0.24) 0px 3px 8px;
   background-color: white;
   border-radius: 10px;
 }
@@ -40,6 +40,16 @@
   width: 100%;
   margin-left: 30px;
   height: 70px;
+}
+.total {
+  display: flex;
+  gap: 10px;
+  font-family: monospace;
+}
+.square {
+  background-color: blue;
+  width: 20px;
+  border-radius: 2px;
 }
 .dashboard_img {
   width: 60%;

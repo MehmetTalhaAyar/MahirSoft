@@ -1,5 +1,5 @@
 import "./index.css";
-import { HiDotsHorizontal } from "react-icons/hi";
+
 import { CgProfile } from "react-icons/cg";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
@@ -9,13 +9,23 @@ import DatePicker from "react-datepicker";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../state/context";
-import { getTaskInfo, deleteTaskById, addComment,getprojectMembers, updateTaskInfo } from "./api";
+import {
+  getTaskInfo,
+  deleteTaskById,
+  addComment,
+  getprojectMembers,
+  updateTaskInfo,
+} from "./api";
 import { MONTHS } from "../../Constants/Constants";
+import Description from "./description";
+import Dropdown from "./dropdown";
 
 export function TaskPage() {
-  const [dropDownMenu, setDropDownMenu] = useState(false);
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
+  const [editedComment, setEditedComment] = useState("");
+  const [editingCommentIndex, setEditingCommentIndex] = useState(null);
+
   const location = useLocation();
   const authState = useAuthState();
 
@@ -29,14 +39,14 @@ export function TaskPage() {
   const [taskReporter, setTaskReporter] = useState();
   const [createdDate, setCreatedDate] = useState({});
   const [userDefaultLogo, setUserDefaultLogo] = useState();
-  const [responsibleLogo,setResponsibleLogo] = useState();
-  const [reporterLogo,setReporterLogo] = useState();
+  const [responsibleLogo, setResponsibleLogo] = useState();
+  const [reporterLogo, setReporterLogo] = useState();
   const [selectedDate, setSelectedDate] = useState();
-  const [projectMembers,setProjectMembers] = useState({});
-  const [stageOptions,setStageOptions] = useState({})
-  const [selectedStage,setSelectedStage] = useState();
-  const [selectedResponsible,setSelectedResponsible] = useState();
-  const [selectedReporter,setSelectedReporter] = useState();
+  const [projectMembers, setProjectMembers] = useState({});
+  const [stageOptions, setStageOptions] = useState({});
+  const [selectedStage, setSelectedStage] = useState();
+  const [selectedResponsible, setSelectedResponsible] = useState();
+  const [selectedReporter, setSelectedReporter] = useState();
 
   useEffect(() => {
     if (authState.userId > 0) {
@@ -54,10 +64,15 @@ export function TaskPage() {
     if (response.status == 200) {
       setStage(response.data.stage.name);
       setTaskReporter(response.data.reportsTo.fullName);
-      setReporterLogo(response.data.reportsTo.name[0] + response.data.reportsTo.surname[0])
+      setReporterLogo(
+        response.data.reportsTo.name[0] + response.data.reportsTo.surname[0]
+      );
 
       setTaskResponsible(response.data.responsibleId.fullName);
-      setResponsibleLogo(response.data.responsibleId.name[0] +response.data.responsibleId.surname[0])
+      setResponsibleLogo(
+        response.data.responsibleId.name[0] +
+          response.data.responsibleId.surname[0]
+      );
       setCreatedDate({
         day: response.data.createdOn[2],
         month: `${response.data.createdOn[1]}`,
@@ -74,8 +89,8 @@ export function TaskPage() {
           };
         })
       );
-      if(response.data.taskDeadlineDate !== null){
-        setSelectedDate(new Date(response.data.taskDeadlineDate))
+      if (response.data.taskDeadlineDate !== null) {
+        setSelectedDate(new Date(response.data.taskDeadlineDate));
       }
       await getProjectMembersAndStage({stageId: response.data.stage.id,searchKey: ""})
     } else {
@@ -83,6 +98,7 @@ export function TaskPage() {
     }
   }, []);
 
+  
 
   const getProjectMembersAndStage = useCallback( async(body)=>{
     const response = await getprojectMembers(body)
@@ -90,41 +106,35 @@ export function TaskPage() {
     if(response.status === 200){
 
       setProjectMembers(
-        response.data.users.map((user)=>{
+        response.data.users.map((user) => {
           return {
             value: user.id,
-            label: user.fullName
-          }
+            label: user.fullName,
+          };
         })
-      )
+      );
 
       setStageOptions(
-        response.data.stages.map((stage)=>{
+        response.data.stages.map((stage) => {
           return {
-            value:stage.id,
-            label:stage.name
-          }
+            value: stage.id,
+            label: stage.name,
+          };
         })
-      )
-
+      );
     }
-
-  },[])
+  }, []);
 
   const handleStageSelector = (selectedValue) => {
     setSelectedStage(selectedValue);
-  }
+  };
 
   const handleResponsibleSelector = (selectedValue) => {
     setSelectedResponsible(selectedValue);
-  }
+  };
 
   const handleReporterSelector = (selectedValue) => {
     setSelectedReporter(selectedValue);
-  }
-
-  const openDropdownMenu2 = () => {
-    setDropDownMenu(!dropDownMenu);
   };
 
   const handleCommentSubmit = async () => {
@@ -138,7 +148,6 @@ export function TaskPage() {
     });
 
     if (response.status === 201) {
-
       const newComment = {
         author: response.data.writtenById.fullName, // Replace with actual user information
         time: `${response.data.createdOn[2]} ${
@@ -156,30 +165,35 @@ export function TaskPage() {
   };
 
   const handleChanges = async () => {
-    if(selectedDate === undefined && selectedReporter === undefined && selectedResponsible === undefined && selectedStage === undefined)
-      return ;
+    if (
+      selectedDate === undefined &&
+      selectedReporter === undefined &&
+      selectedResponsible === undefined &&
+      selectedStage === undefined
+    )
+      return;
 
-    const response = await updateTaskInfo({
-      responsibleId : selectedResponsible !== undefined ? selectedResponsible.value : null,
-      stageId : selectedStage !== undefined ? selectedStage.value : null,
-      endDate : selectedDate,
-      reportsToId : selectedReporter !== undefined ? selectedReporter.value : null
+    const response = await updateTaskInfo(
+      {
+        responsibleId:
+          selectedResponsible !== undefined ? selectedResponsible.value : null,
+        stageId: selectedStage !== undefined ? selectedStage.value : null,
+        endDate: selectedDate,
+        reportsToId:
+          selectedReporter !== undefined ? selectedReporter.value : null,
+      },
+      location.state.id
+    );
 
-    },location.state.id)
-
-    if(response.status === 200){
-
-      setReporterLogo(response.data.reporterUser.name[0] +response.data.reporterUser.surname[0])
-      setResponsibleLogo(response.data.responsibleId.name[0] +response.data.responsibleId.surname[0])
-    }
-
-
-  }
-
-  const deleteTask = async (id) => {
-    const response = await deleteTaskById(id);
     if (response.status === 200) {
-      window.history.back();
+      setReporterLogo(
+        response.data.reporterUser.name[0] +
+          response.data.reporterUser.surname[0]
+      );
+      setResponsibleLogo(
+        response.data.responsibleId.name[0] +
+          response.data.responsibleId.surname[0]
+      );
     }
   };
 
@@ -192,7 +206,7 @@ export function TaskPage() {
       }
     } );
     
-  };
+  }
 
   const promiseOptions = async (inputValue) =>{
   
@@ -209,33 +223,23 @@ export function TaskPage() {
 
     
   }
+
+
+  
   return (
     <main>
       <div className="task_page_container">
         <div className="task_page_container_header">
           <h1 className="task_title">{taskName}</h1>
-          <div>
-            <HiDotsHorizontal
-              className="_dot"
-              onClick={() => openDropdownMenu2()}
-            />
-
-            <div
-              className={`dropdown-content2 ${
-                dropDownMenu ? "openDropdown2" : " "
-              }`}
-            >
-              <a onClick={() => deleteTask(location.state.id)}>Delete</a>
-              <a href="">Edit</a>
-            </div>
-          </div>
+          <Dropdown />
         </div>
         <div className="alt_container">
           <div className="left_container">
-            <h4 className="task_description_header">Description</h4>
-            <p className="task_description">{taskDescription}</p>
-
-            <h4>Activity</h4>
+            <Description />
+            <div className="activity">
+              <AiOutlineAlignLeft />
+              <h4>Activity</h4>
+            </div>
 
             <div className="photo_input_container">
               <p className="logo">{userDefaultLogo}</p>
@@ -255,6 +259,7 @@ export function TaskPage() {
               </button>
             </div>
             <div className="comment_container">
+              <AiOutlineMenu />
               <div className="comments_title">Comments</div>
             </div>
             <div className="show_comment_container">
@@ -264,11 +269,65 @@ export function TaskPage() {
                     <CgProfile className="photo" />
                   </h4>
                   <div className="show_comment_right">
-                    <div className="send_time">
-                      <h4>{comment.author}</h4>
-                      <p className="time">{comment.time}</p>
+                    <div className="author_title">
+                      <section className="send_time">
+                        <h4>{comment.author}</h4>
+                        <p className="time">{comment.time}</p>
+                      </section>
+                      <div className="clickable_icon">
+                        <div className="like_container">
+                          <span className="like_number">
+                            {comment.likesCount || 0}
+                          </span>
+                          <section className="like_img">
+                            <AiOutlineLike
+                              onClick={() => handleLikeChange(index)}
+                            />
+                          </section>
+                        </div>
+                        <section className="replay_img">
+                          <BsReply />
+                        </section>
+                        <section className="edit_img">
+                          {editingCommentIndex === index ? (
+                            <MdOutlineModeEditOutline />
+                          ) : (
+                            <MdOutlineModeEditOutline
+                              onClick={() =>
+                                handleEditClick(index, comment.text)
+                              }
+                            />
+                          )}
+                        </section>
+                        <section className="delete_img">
+                          <MdDelete
+                            onClick={() => handleDeleteComment(index)}
+                          />
+                        </section>
+                      </div>
                     </div>
-                    <p className="show">{comment.text}</p>
+                    {editingCommentIndex === index ? (
+                      <div>
+                        <textarea
+                          className="edit_comment_area"
+                          value={editedComment}
+                          onChange={(e) => setEditedComment(e.target.value)}
+                        />
+                        <span className="save_cancel">
+                          <button
+                            className="save"
+                            onClick={() => handleSaveEdit(index)}
+                          >
+                            Save
+                          </button>
+                          <span className="cancel" onClick={handleCancelEdit}>
+                            Cancel
+                          </span>
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="show">{comment.text}</p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -276,10 +335,10 @@ export function TaskPage() {
           </div>
           <div className="right_container">
             <div className="selection_menu">
-              <Select 
+              <Select
                 selected={selectedStage}
                 options={stageOptions}
-                placeholder={stage} 
+                placeholder={stage}
                 className="task_name"
                 onChange={handleStageSelector}
               />
@@ -321,14 +380,18 @@ export function TaskPage() {
               />
             </div>
             <div className="task_button_container">
-              <button className="save_task_button" type="submit" onClick={handleChanges}>
+              <button
+                className="save_task_button"
+                type="submit"
+                onClick={handleChanges}
+              >
                 Save Changes
               </button>
             </div>
             <hr className="tree" />
             <p className="task_created">
               Created on{" "}
-              {`${MONTHS[createdDate.month]} ${createdDate.day},${
+              {`${MONTHS[createdDate.month]} ${createdDate.day} ,${
                 createdDate.year
               }`}
             </p>

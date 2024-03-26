@@ -65,13 +65,14 @@
   text-indent: 5px;
   border-radius: 5px;
   border: solid 1.5px #d3d3d3;
-  transition: 1s;
-  resize: vertical;
+  transition: 0.2s;
+  resize: none;
 }
 .textarea-control:focus {
-  box-shadow: 0 0 2px 2px #3498db;
-  transition: 0.3s;
+  box-shadow: 0 0 1px 2px #3498db;
+  transition: 0.2s;
   outline-width: 0px;
+  border: none;
 }
 
 .form-control {
@@ -81,13 +82,14 @@
   text-indent: 5px;
   border-radius: 5px;
   border: solid 1.5px #d3d3d3;
-  transition: 1s;
+  transition: 0.2s;
 }
 
 .form-control:focus {
-  box-shadow: 0 0 2px 2px #3498db;
-  transition: 0.3s;
+  box-shadow: 0 0 0px 2px #3498db;
+  transition: 0.2s;
   outline-width: 0px;
+  border: none;
 }
 
 .end_button {

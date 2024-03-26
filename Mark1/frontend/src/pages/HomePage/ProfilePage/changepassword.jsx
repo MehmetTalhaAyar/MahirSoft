@@ -9,7 +9,7 @@ function ChangePasswordPage() {
         <div className="details2">
           <div className="current_password">Current Password</div>
           <input
-            type="text"
+            type="password"
             className="password-control"
             id="nametext"
             aria-describedby="name"
@@ -18,7 +18,7 @@ function ChangePasswordPage() {
         <div className="details2">
           <div className="new_password">New Password</div>
           <input
-            type="text"
+            type="password"
             className="password-control"
             id="nametext"
             aria-describedby="name"
@@ -27,7 +27,7 @@ function ChangePasswordPage() {
         <div className="details2">
           <div className="re-enter_password">Re-enter New Password</div>
           <input
-            type="text"
+            type="password"
             className="password-control"
             id="nametext"
             aria-describedby="name"

@@ -8,16 +8,19 @@
   margin-bottom: 15px;
   height: 9em;
   display: flex;
-  align-items: end;
-  justify-content: center;
-}
+  flex-direction: column;
 
-.column1 {
-  width: 50%;
+  justify-content: space-between;
+}
+.stage {
   display: flex;
-  justify-content: space-around;
+  padding: 20px 30px;
 }
-
+.filter_bar {
+  display: flex;
+  padding-left: 20%;
+  gap: 50px;
+}
 .search_bar {
   width: 500px;
   padding: 6px 20px;

@@ -68,7 +68,7 @@ function Task(props) {
               className={`task-input-label ${error ? "error" : ""}`}
               htmlFor="task-name-field"
             >
-              {error ? error.taskName : "Enter a task name"}
+              {error ? error.taskName : "Enter a task name "}
             </label>
           </div>
           <div className="input-container">

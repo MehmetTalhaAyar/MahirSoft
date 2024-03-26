@@ -3,6 +3,7 @@
   padding: 15px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  min-height: 100%;
 }
 .task_page_container_header {
   display: flex;
@@ -38,27 +39,18 @@
   border-left: 1px solid gray;
 }
 
-.task_description_header {
-  margin-bottom: 10px;
-}
-.task_description {
-  margin-bottom: 40px;
-  font-size: 16px;
-}
-
 .activity_container {
   width: 50%;
 }
 
 .comment_container {
   display: flex;
-  justify-content: c;
-
   align-items: center;
   margin-top: 5px;
   margin-bottom: 10px;
   font-size: 18px;
-  padding-left: 40px;
+  padding-left: 15px;
+  gap: 10px;
 }
 .comments_title {
   border-bottom: 1px solid black;
@@ -69,8 +61,8 @@
   padding: 11px;
   border: 1px double rgb(211, 211, 211);
   border-radius: 4px;
-  transition: 1s;
-  resize: vertical;
+  transition: 0.1s;
+  resize: none;
 }
 .comment_input:focus {
   box-shadow: 0 0 2px 2px #3498db;
@@ -137,21 +129,80 @@
   width: 100%;
   padding: 5px 10px;
   border-radius: 10px;
+  border: 1px solid rgb(239, 239, 239);
+  box-shadow: rgba(151, 151, 151, 0.24) 0px 3px 8px;
 }
 .show {
   font-size: 12px;
 }
+.author_title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
 .send_time {
   display: flex;
   align-items: end;
-  margin-bottom: 5px;
 }
 .time {
   font-size: 12px;
   margin-left: 15px;
   color: #666666;
 }
+.clickable_icon {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.like_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+}
 
+.like_img {
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 19px;
+}
+.like_img:hover {
+  background-color: rgb(206, 206, 206);
+  transition: 0.3s;
+}
+.replay_img {
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 19px;
+}
+.replay_img:hover {
+  background-color: rgb(206, 206, 206);
+  transition: 0.3s;
+}
+.edit_img {
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 19px;
+}
+.edit_img:hover {
+  background-color: rgb(206, 206, 206);
+  transition: 0.3s;
+}
+.delete_img {
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 19px;
+  color: rgb(217, 3, 3);
+}
+.delete_img:hover {
+  background-color: rgb(206, 206, 206);
+  transition: 0.3s;
+}
 .photo {
   font-size: 28px;
 }
@@ -219,33 +270,8 @@
 .task_updated {
   color: #707070;
 }
-.dropdown-content2 {
-  border: 1px solid #cdcbcb;
-  border-radius: 5px;
-  display: none;
-  position: absolute;
-  right: 20px;
-  background-color: #f0f0f0;
-  min-width: 100px;
-  box-shadow: rgba(50, 48, 48, 0.2) 0px 2px 8px 0px;
-  z-index: 1;
-}
-.dropdown-content2 a {
-  padding: 5px 10px;
-  text-decoration: none;
-  display: block;
-}
-.dropdown-content2 a:hover {
-  color: red;
-  background-color: #ddd;
-}
-.openDropdown2 {
-  display: block;
-}
 
 /* Date Picker Container */
-.date_picker_container {
-}
 
 /* Date Picker */
 .date_picker {
@@ -282,4 +308,50 @@
   &:hover {
     background-color: #f0f0f0;
   }
+}
+.activity {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.edit_comment_area {
+  width: 100%;
+  padding: 2px 5px;
+  border: 1px double rgb(145, 145, 145);
+  border-radius: 4px;
+  transition: 0.1s;
+  resize: none;
+}
+.edit_comment_area:focus {
+  box-shadow: 0 0 1px 1px #979595;
+  transition: 0.1s;
+  outline-width: 0px;
+}
+.save_cancel {
+  display: flex;
+
+  gap: 10px;
+}
+.save {
+  padding: 5px 7px;
+  border: none;
+  background-color: #007bff;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+.save:hover {
+  background-color: #006ee3;
+  transition: 0.3s;
+}
+.cancel {
+  display: flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  color: black;
+}
+.cancel:hover {
+  color: rgb(103, 103, 103);
+  transition: 0.3s;
 }

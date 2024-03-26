@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdDashboard } from "react-icons/md";
 import { RiTaskLine } from "react-icons/ri";
+import { FaTasks } from "react-icons/fa";
 import { GoProjectSymlink } from "react-icons/go";
 import { FaRegCalendarAlt, FaUsers } from "react-icons/fa";
 import { LiaEllipsisHSolid } from "react-icons/lia";

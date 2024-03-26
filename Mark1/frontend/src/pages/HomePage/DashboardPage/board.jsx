@@ -5,26 +5,24 @@ import { getResponsibleTaskCount } from "./api";
 
 function Board() {
   const authState = useAuthState();
-  const [totalTaskCount,setTotalTaskCount] = useState(0);
-  const [pendingTaskCount,setPendingTaskCount] = useState(0);
-  const [dueTaskCount,setDueTaskCount] = useState(0);
+  const [totalTaskCount, setTotalTaskCount] = useState(0);
+  const [pendingTaskCount, setPendingTaskCount] = useState(0);
+  const [dueTaskCount, setDueTaskCount] = useState(0);
 
-  useEffect(()=>{
+  useEffect(() => {
     getTaskCounts();
+  }, []);
 
-    
-  },[])
-
-  const getTaskCounts = useCallback(async ()=>{
+  const getTaskCounts = useCallback(async () => {
     const response = await getResponsibleTaskCount();
 
-    if(response.status === 200){
-      setTotalTaskCount(response.data.totalTaskCount)
-      setPendingTaskCount(response.data.pendingTaskCount)
-      setDueTaskCount(response.data.dueTaskCount)
+    if (response.status === 200) {
+      setTotalTaskCount(response.data.totalTaskCount);
+      setPendingTaskCount(response.data.pendingTaskCount);
+      setDueTaskCount(response.data.dueTaskCount);
     }
-  },[])
-  
+  }, []);
+
   return (
     <main>
       <h1>Dashboard Page</h1>
@@ -40,21 +38,27 @@ function Board() {
         <div className="dashboard_task">
           <div className="total_tasks">
             <h1>{totalTaskCount}</h1>
-            <span>Total Task</span>
+            <span className="total">
+              <p className="square"></p>Total Task
+            </span>
           </div>
           <img src="/src/assets/images.jpg" className="dashboard_img" />
         </div>
         <div className="dashboard_task">
           <div className="total_tasks">
             <h1>{pendingTaskCount}</h1>
-            <span>Pending</span>
+            <span className="total">
+              <p className="square"></p>Pending
+            </span>
           </div>
           <img src="/src/assets/images.jpg" className="dashboard_img" />
         </div>
         <div className="dashboard_task">
           <div className="total_tasks">
             <h1>{dueTaskCount}</h1>
-            <span>Due Today</span>
+            <span className="total">
+              <p className="square"></p>Due Today
+            </span>
           </div>
           <img src="/src/assets/images.jpg" className="dashboard_img" />
         </div>

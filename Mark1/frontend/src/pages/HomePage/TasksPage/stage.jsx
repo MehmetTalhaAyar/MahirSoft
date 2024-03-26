@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { getTasks } from "./api";
 import "./stage.css";
 import Task from "./task";
+import { IoIosAdd } from "react-icons/io";
 import React, { useState, useEffect, useCallback } from "react";
 
 function Stage(props) {
@@ -69,7 +70,7 @@ function Stage(props) {
         <div className="card_header">
           <div className="header_name">{stageName}</div>
           <button className="new" onClick={handleNewButtonClick}>
-            New
+            <IoIosAdd />
           </button>
         </div>
 
