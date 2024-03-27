@@ -2,6 +2,7 @@ package com.mahirsoft.webservice.WebApi.Controllers;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.ProjectService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectResponse;
+import com.mahirsoft.webservice.security.DefaultUser;
 
 import jakarta.validation.Valid;
 
@@ -22,14 +26,23 @@ public class ProjectController {
 
     ProjectService projectService;
 
-    public ProjectController(ProjectService projectService) {
+    PermissionService permissionService;
+
+
+    
+
+    public ProjectController(ProjectService projectService, PermissionService permissionService) {
         this.projectService = projectService;
+        this.permissionService = permissionService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProjectById(@PathVariable long id){
+    @GetMapping("/{id}") // test için kullanılıyor
+    public ResponseEntity<?> getProjectById(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN);
+        
         String body = "Project Not Found";
         var project = projectService.getProject(id);
+
 
         if(project == null){
             return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
@@ -55,8 +68,11 @@ public class ProjectController {
 
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addProject(@Valid @RequestBody CreateProjectRequest createProjectRequest){
+    @PostMapping("/add") 
+    public ResponseEntity<?> addProject(@Valid @RequestBody CreateProjectRequest createProjectRequest,@AuthenticationPrincipal DefaultUser currentUser){
+        
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN);
+
         String body = "Project created";
 
         projectService.createProject(createProjectRequest);

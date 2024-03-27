@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.StageService;
 import com.mahirsoft.webservice.Business.concretes.TaskService;
-import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Models.Task;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
@@ -31,21 +32,23 @@ public class TaskAndStageController {
 
     StageService stageService;
 
-    UserAuthenticationService userAuthenticationService;
+    PermissionService permissionService;
 
-    public TaskAndStageController(TaskService taskService, StageService stageService,UserAuthenticationService userAuthenticationService) {
+   
+
+    public TaskAndStageController(TaskService taskService, StageService stageService,
+            PermissionService permissionService) {
         this.taskService = taskService;
         this.stageService = stageService;
-        this.userAuthenticationService = userAuthenticationService;
+        this.permissionService = permissionService;
     }
 
 
     @PostMapping("/{stageId}")
-    public ResponseEntity<?> addTaskToStage(@PathVariable long stageId,@Valid @RequestBody CreateTaskRequest createTaskRequest,@AuthenticationPrincipal DefaultUser user){
+    public ResponseEntity<?> addTaskToStage(@PathVariable long stageId,@Valid @RequestBody CreateTaskRequest createTaskRequest,@AuthenticationPrincipal DefaultUser currentUser){
         
-        var currentUser = userAuthenticationService.findById(user.getId());
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.TASK_CREATE);
 
-        if(currentUser == null) return null;
 
         var stage = stageService.getStage(stageId);
 
@@ -53,10 +56,10 @@ public class TaskAndStageController {
 
         Task task = new Task();
         
-        task.setCreatedById(currentUser);
-        task.setReportsToId(currentUser);
+        task.setCreatedById(user);
+        task.setReportsToId(user);
         task.setStageId(stage);
-        task.setResposibleId(currentUser);
+        task.setResposibleId(user);
         task.setTaskName(createTaskRequest.getTaskName());
         task.setTaskDescription(createTaskRequest.getTaskDescription());
 
@@ -67,7 +70,7 @@ public class TaskAndStageController {
         generalTask.setId(createdTask.getTaskId());
         generalTask.setDescription(createdTask.getTaskDescription());
         generalTask.setName(createdTask.getTaskName());
-        generalTask.setResponsiblePerson(currentUser.toGeneralUserAuthenticationResponse());
+        generalTask.setResponsiblePerson(user.toGeneralUserAuthenticationResponse());
         generalTask.setStage(stage.toGeneralStageResponse());
 
 
@@ -75,8 +78,11 @@ public class TaskAndStageController {
     }
 
 
-    @GetMapping("/alltasks/{stageId}")
-    public GeneralStageResponse getAllTaskByStage(@PathVariable long stageId){
+    @GetMapping("/alltasks/{stageId}")// burada istek atan kişinin projede olması kontrol edilecek
+    public GeneralStageResponse getAllTaskByStage(@PathVariable long stageId,@AuthenticationPrincipal DefaultUser currentUser){
+
+
+
         var stage = stageService.getStage(stageId);
 
         if(stage == null ) return null;
@@ -88,14 +94,10 @@ public class TaskAndStageController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
         String body = "Task Not Found";
-        var user = userAuthenticationService.findById(currentUser.getId());
-        if(user == null ) return null;
+
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.TASK_DELETE);
 
         var task = taskService.findById(id);
-
-        if(user.getUserId() != task.getCreatedById().getUserId()){
-            return new ResponseEntity<String>("You Can't Delete this task!", HttpStatusCode.valueOf(400));
-        }
 
         var message = taskService.softDeleteTask(task);
 

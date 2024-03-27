@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.abstracts.TokenService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateUserAuthtenticationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostImageUpdateRequest;
@@ -34,14 +36,17 @@ public class UserAuthenticationController {
 
     UserAuthenticationService userAuthenticationService;
 
+    PermissionService permissionService;
+
     TokenService tokenService;
 
-    UserAuthenticationController (UserAuthenticationService userAuthenticationService,TokenService tokenService){
+
+    public UserAuthenticationController(UserAuthenticationService userAuthenticationService,
+            PermissionService permissionService, TokenService tokenService) {
         this.userAuthenticationService = userAuthenticationService;
+        this.permissionService = permissionService;
         this.tokenService = tokenService;
     }
-
-    
 
     @PostMapping("/add")
     ResponseEntity<String> createUser(@Valid @RequestBody CreateUserAuthtenticationRequest createUserAuthtenticationRequest){
@@ -77,8 +82,10 @@ public class UserAuthenticationController {
         return new ResponseEntity<PostUserAuthenticationResponse>( userAuthenticationResponse, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/users")
-    List<GetAllUserAuthenticationResponse> getUsers(){
+    @GetMapping("/users") // bu endpoint e sadece superadmin ulaşabilir
+    List<GetAllUserAuthenticationResponse> getUsers(@AuthenticationPrincipal DefaultUser currentUser){
+
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN); 
 
 
         var items = userAuthenticationService.getAllUsers();
@@ -100,8 +107,9 @@ public class UserAuthenticationController {
     }
 
     @GetMapping("/{id}")
-    public UserAuthentication getuser(@PathVariable long id){
+    public UserAuthentication getuser(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
 
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN); 
         var user = userAuthenticationService.findById(id);
         if(user == null) return null;
 
@@ -109,12 +117,10 @@ public class UserAuthenticationController {
         return user;
     }
 
-    @GetMapping("/taskcount")
+    @GetMapping("/taskcount") // buraya istek atan üzerinden dönüş yapıldığı için yetki kontrolu yok
     public ResponseEntity<?> getTaskCount(@AuthenticationPrincipal DefaultUser currentUser){
         
-        var user = userAuthenticationService.findById(currentUser.getId());
-
-        if(user == null) return new ResponseEntity<String>("Something went Wrong", HttpStatusCode.valueOf(400));
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION);
 
         return new ResponseEntity<TaskCountResponse>(user.toTaskCountResponse(), HttpStatusCode.valueOf(200));
     }
@@ -122,8 +128,9 @@ public class UserAuthenticationController {
     @PostMapping("/updateimage")
     public ResponseEntity<?> handleUpdateImage( @Valid @RequestBody PostImageUpdateRequest postImageUpdateRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION); 
 
-        userAuthenticationService.updateUserImage(currentUser.getId(),postImageUpdateRequest);
+        userAuthenticationService.updateUserImage(user,postImageUpdateRequest);
 
         return new ResponseEntity<>(HttpStatusCode.valueOf(200));
 

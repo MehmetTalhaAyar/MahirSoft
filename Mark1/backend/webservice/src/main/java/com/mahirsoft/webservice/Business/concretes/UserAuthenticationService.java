@@ -101,11 +101,8 @@ public class UserAuthenticationService {
     }
 
 
-    public UserAuthentication updateUserImage(long id, @Valid PostImageUpdateRequest postImageUpdateRequest) {
+    public UserAuthentication updateUserImage(UserAuthentication user,PostImageUpdateRequest postImageUpdateRequest) {
 
-        var user = userAuthenticationRepository.findById(id);
-
-        if(user == null) return null;
 
         String image = fileService.saveBase64StringAsFile(postImageUpdateRequest.getImage());
 

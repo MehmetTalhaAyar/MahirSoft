@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.ProjectAndStageService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateProjectRequest;
@@ -29,19 +31,28 @@ import jakarta.validation.Valid;
 public class ProjectAndStageController {
 
     ProjectAndStageService projectAndStageService;
+
+    PermissionService permissionService;
     
 
-    public ProjectAndStageController(ProjectAndStageService projectAndStageService) {
+
+
+    public ProjectAndStageController(ProjectAndStageService projectAndStageService,
+            PermissionService permissionService) {
         this.projectAndStageService = projectAndStageService;
+        this.permissionService = permissionService;
     }
 
-
-
     @PostMapping("/{id}")
-    public ResponseEntity<?> addStage(@PathVariable long id,@Valid @RequestBody CreateStageRequest createStageRequest){
+    public ResponseEntity<?> addStage(@PathVariable long id,@Valid @RequestBody CreateStageRequest createStageRequest,@AuthenticationPrincipal DefaultUser currentUser){
+        
+        
         String body = "Project Not Found";
 
-        var response = projectAndStageService.addStageToProject(id, createStageRequest);
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.STAGE_CREATE);
+
+
+        var response = projectAndStageService.addStageToProject(id, createStageRequest,user);
         if(response == null){
             return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
         }
@@ -56,9 +67,12 @@ public class ProjectAndStageController {
 
     }
 
-    @PostMapping("/defaultProject")
-    public ResponseEntity<?> addDefaultProject(@Valid @RequestBody CreateProjectRequest createProjectRequest,@AuthenticationPrincipal DefaultUser user){
-        var project = projectAndStageService.createDefaultProject(createProjectRequest, user.getId());
+    @PostMapping("/defaultProject") // test için sadece super admin istek atabilir
+    public ResponseEntity<?> addDefaultProject(@Valid @RequestBody CreateProjectRequest createProjectRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        var user = permissionService.isTherePermission(currentUser,AuthorizationCodes.SUPER_ADMIN);
+
+        var project = projectAndStageService.createDefaultProject(createProjectRequest,createProjectRequest.getLeadPersonId(), user);
 
         GeneralProjectResponse generalProjectResponse = new GeneralProjectResponse();
 
@@ -75,7 +89,10 @@ public class ProjectAndStageController {
     @PostMapping("/createproject")
     public ResponseEntity<?> addProject(@Valid @RequestBody PostCreateProjectRequest postCreateProjectRequest ,@AuthenticationPrincipal DefaultUser currentUser){
 
-        var project = projectAndStageService.createProject(postCreateProjectRequest, currentUser.getId());
+
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.PROJECT_CREATE); // proje oluşturma yetkisi
+
+        var project = projectAndStageService.createProject(postCreateProjectRequest, user);
 
         if(project == null) return new ResponseEntity<String>("Something Went Wrong!", HttpStatusCode.valueOf(400));
 
@@ -85,7 +102,7 @@ public class ProjectAndStageController {
     }
 
 
-    @PostMapping("/getallmembersandstage")
+    @PostMapping("/getallmembersandstage")//burada isteği atan kişinin proje içinde olup olmadığı kontrolu yapması gerekiyor
     public ResponseEntity<?> getAllMembersAndStage(@RequestBody PostGetStageAndProjectMembersRequest postGetStageAndProjectMembersRequest){
 
         var projectMemberAndStages = projectAndStageService.getProjectMembersAndStageByStageId(postGetStageAndProjectMembersRequest);
@@ -97,7 +114,9 @@ public class ProjectAndStageController {
     }
 
     @PutMapping("/updatetask/{taskId}")
-    public ResponseEntity<?> updateTask(@PathVariable long taskId,@RequestBody UpdateTaskRequest updateTaskRequest){
+    public ResponseEntity<?> updateTask(@PathVariable long taskId,@RequestBody UpdateTaskRequest updateTaskRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.TASK_ASSIGNMENT); // burada task atama işlemi yapılıyor
 
         String body = "Task not Found";
         var updatedTask = projectAndStageService.updateTask(taskId, updateTaskRequest);

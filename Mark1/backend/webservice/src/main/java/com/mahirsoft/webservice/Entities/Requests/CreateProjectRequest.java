@@ -9,11 +9,22 @@ public class CreateProjectRequest {
     @NotBlank(message = "Project name can not be null")
     String name;
 
+    long leadPersonId;
+
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getLeadPersonId() {
+        return leadPersonId;
+    }
+
+    public void setLeadPersonId(long leadPersonId) {
+        this.leadPersonId = leadPersonId;
     }
 }

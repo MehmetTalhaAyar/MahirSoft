@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mahirsoft.webservice.Business.concretes.CompanyService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
@@ -50,7 +51,7 @@ public class CompanyController {
     @PostMapping("/create")
     public ResponseEntity<?>  createCompany(@Valid @RequestBody CreateCompnayRequest createCompnayRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isTherePermission(currentUser, 12); 
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.CREATE_COMPANY); 
 
         var manager = userAuthenticationService.findById(createCompnayRequest.getManagerId());
         
@@ -85,7 +86,7 @@ public class CompanyController {
     @PostMapping("/addemployee/{id}")
     public ResponseEntity<?> addEmployeeToCompany(@PathVariable long id,@RequestBody PostAddUserToCompanyRequest postAddUserToCompanyRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isTherePermission(currentUser, 4);
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.INVITATION_TO_THE_COMPANY);
 
         var user = userAuthenticationService.findByEmail(postAddUserToCompanyRequest.getEmail());
 
@@ -110,10 +111,10 @@ public class CompanyController {
         return new ResponseEntity<String>("User added",  HttpStatusCode.valueOf(200));
     }
 
-    @PostMapping("/members")
+    @PostMapping("/members") // kullanıcının bu şirket içinde olduğuna emin ol
     public List<GeneralUserAuthenticationResponse> getcompanyMembers(@RequestBody PostSearchCompanyMembersRequest postSearchCompanyMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        var chosenUser = permissionService.isTherePermission(currentUser, -1);
+        var chosenUser = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION);
 
         if(chosenUser.getCompanyId() == null){
             List<GeneralUserAuthenticationResponse> onlyHimself = new ArrayList<>();
@@ -134,9 +135,9 @@ public class CompanyController {
     }
 
 
-    @GetMapping("/projects")
+    @GetMapping("/projects") // kullanıcının şirket içinde olduğuna emin ol
     public List<GeneralProjectResponse> getCompanyProjects(@AuthenticationPrincipal DefaultUser user){
-        var currentUser = permissionService.isTherePermission(user, -1);
+        var currentUser = permissionService.isTherePermission(user, AuthorizationCodes.ANY_AUTHORIZATION);
 
         if(currentUser.getCompanyId() != null){
             if(currentUser.getCompanyId().getManagerId().getUserId() == currentUser.getUserId()){
@@ -157,7 +158,7 @@ public class CompanyController {
     @PostMapping("/createcompanymember")
     public ResponseEntity<?> createCompanyMember(@Valid @RequestBody CreateCompanyMemberRequest CreateCompanyMemberRequest ,@AuthenticationPrincipal DefaultUser user){
 
-        var createdUser = permissionService.isTherePermission(user, 5);
+        var createdUser = permissionService.isTherePermission(user, AuthorizationCodes.CREATING_A_REGISTERED_USER_FOR_THE_COMPANY);
 
         UserAuthentication newMember = CreateCompanyMemberRequest.toUserAuthentication();
         newMember.setCreatedById(createdUser);

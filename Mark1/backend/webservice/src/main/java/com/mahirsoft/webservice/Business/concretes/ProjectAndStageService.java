@@ -38,7 +38,7 @@ public class ProjectAndStageService {
         this.taskService = taskService;
     }
 
-    public Stage addStageToProject(long projectId,CreateStageRequest createStageRequest){
+    public Stage addStageToProject(long projectId,CreateStageRequest createStageRequest,UserAuthentication createdBy){
         var project = projectService.getProject(projectId);
 
         if(project == null){
@@ -47,6 +47,7 @@ public class ProjectAndStageService {
         Stage stage = new Stage();
         stage.setName(createStageRequest.getName());
         stage.setProjectId(project);
+        stage.setCreatedById(createdBy);
         
         stageService.createStage(stage);
 
@@ -54,28 +55,26 @@ public class ProjectAndStageService {
 
     }
 
-    public Project createDefaultProject(CreateProjectRequest createProjectRequest,long userId){
+    public Project createDefaultProject(CreateProjectRequest createProjectRequest,long userId,UserAuthentication createdBy){
 
         
-        var user = userAuthenticationService.findById(userId);
-        if(user == null) return null;
+        var leadPerson = userAuthenticationService.findById(userId);
+        if(leadPerson == null) return null;
 
-        var project = defaultProject(createProjectRequest,user,user);
+        var project = defaultProject(createProjectRequest,createdBy,leadPerson);
 
         return project;
     }
 
 
-    public Project createProject(PostCreateProjectRequest postCreateProjectRequest,long createdUserId){
+    public Project createProject(PostCreateProjectRequest postCreateProjectRequest,UserAuthentication createdBy){
 
-        var createdUser = userAuthenticationService.findById(createdUserId);
-        if(createdUser == null ) return null;
 
         var leadPerson = userAuthenticationService.findById(postCreateProjectRequest.getAdminId());
         if(leadPerson == null) return null;
 
 
-        var project = defaultProject(postCreateProjectRequest.getProject(),createdUser,leadPerson);
+        var project = defaultProject(postCreateProjectRequest.getProject(),createdBy,leadPerson);
         if(project == null) return null;
 
         if(!postCreateProjectRequest.getProjectUserIds().contains(postCreateProjectRequest.getAdminId())){

@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.mahirsoft.webservice.Business.concretes.PermissionService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.DataAccess.AuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleAuthorizationRepository;
@@ -35,10 +37,13 @@ public class BeginingConfiguration {
 
 
 
+    
+
+
     public BeginingConfiguration(UserAuthenticationRepository userAuthenticationRepository,
             AuthorizationRepository authorizationRepository,
             UserRoleAuthorizationRepository userRoleAuthorizationRepository, UserRoleRepository userRoleRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, PermissionService permissionService) {
         this.userAuthenticationRepository = userAuthenticationRepository;
         this.authorizationRepository = authorizationRepository;
         this.userRoleAuthorizationRepository = userRoleAuthorizationRepository;
@@ -50,35 +55,68 @@ public class BeginingConfiguration {
     @Bean
     public CommandLineRunner beginingCommands(){
         return args ->{
-
             var user = userAuthenticationRepository.findByEmail("mehmettalhaayar61@gmail.com");
 
             if(user == null){
 
+                 
                 List<Authorization> authorizations = new ArrayList<>();
             
-            List<Integer> normalUserAuthorizations = List.of(2,3,6,9);
+            List<Integer> normalUserAuthorizations = List.of(
+                AuthorizationCodes.TASK_CREATE,
+                AuthorizationCodes.TASK_DELETE,
+                AuthorizationCodes.STAGE_CREATE,
+                AuthorizationCodes.STAGE_UPDATE,
+                AuthorizationCodes.STAGE_DELETE,
+                AuthorizationCodes.PROJECT_CREATE,
+                AuthorizationCodes.PROJECT_UPDATE,
+                AuthorizationCodes.PROJECT_DELETE,
+                AuthorizationCodes.COMPANY_CREATION_REQUEST
+                );
 
             List<Integer> normalEmployeeAuthorizations = List.of(); // nothing
 
-            List<Integer> adminAuthorizations = List.of(1,2,3,4,5,6,7,8,11);
+            List<Integer> adminAuthorizations = List.of(
+                AuthorizationCodes.TASK_ASSIGNMENT,
+                AuthorizationCodes.TASK_CREATE,
+                AuthorizationCodes.TASK_DELETE,
+                AuthorizationCodes.STAGE_CREATE,
+                AuthorizationCodes.STAGE_UPDATE,
+                AuthorizationCodes.STAGE_DELETE,
+                AuthorizationCodes.INVITATION_TO_THE_COMPANY,
+                AuthorizationCodes.CREATING_A_REGISTERED_USER_FOR_THE_COMPANY,
+                AuthorizationCodes.PROJECT_CREATE,
+                AuthorizationCodes.PROJECT_UPDATE,
+                AuthorizationCodes.PROJECT_DELETE,
+                AuthorizationCodes.ADDING_SOMEONE_TO_THE_PROJECT,
+                AuthorizationCodes.CHANGING_PROJECT_MANAGER,
+                AuthorizationCodes.GRANTING_PERMISSIONS
+                );
 
-            List<Integer> superAdminAuthorizations = List.of(12,13);
+            List<Integer> superAdminAuthorizations = List.of(
+                AuthorizationCodes.CREATE_COMPANY,
+                AuthorizationCodes.SUPER_ADMIN
+            );
 
             List<String> authorizationNameList = List.of(
                 "Görev atama", // 1
                 "Görev oluşturma", // 2
-                "Stage oluşturma", // 3
-                "Şirkete Katılma Daveti atabilme", // 4
-                "Şirkete kayıtlı kullanıcı oluşturma", // 5
-                "Proje oluşturma", // 6
-                "Proje sorumlusu değiştirebilme", // 7
-                "Projeye yeni birini ekleme", // 8
-                "Şirket oluşturmak için bir istek atabilmek", // 9
-                "Sadece kendi yetkilerini verebilme", // 10
-                "Yetki verme", // 11
-                "Şirket oluşturma", // 12
-                "Super Admin Yetkisi" // 13
+                "Görev silme", // 3
+                "Stage oluşturma", // 4
+                "Stage güncelleme", // 5
+                "Stage silme" , // 6
+                "Şirkete Katılma Daveti atabilme", // 7
+                "Şirkete kayıtlı kullanıcı oluşturma", // 8
+                "Proje oluşturma", // 9
+                "Proje güncelleme", // 10
+                "Proje silme", // 11
+                "Projeye yeni birini ekleme", // 12
+                "Proje sorumlusu değiştirebilme", // 13
+                "Şirket oluşturmak için bir istek atabilmek", // 14
+                "Sadece kendi yetkilerini verebilme", // 15
+                "Yetki verme", // 16
+                "Şirket oluşturma", // 17
+                "Super Admin Yetkisi" // 18
                 );
 
             for(var authorizationDefination : authorizationNameList){

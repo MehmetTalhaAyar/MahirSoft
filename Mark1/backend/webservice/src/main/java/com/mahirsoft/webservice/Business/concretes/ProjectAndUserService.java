@@ -3,6 +3,7 @@ package com.mahirsoft.webservice.Business.concretes;
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.Entities.Models.Project;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 
 @Service
@@ -44,10 +45,8 @@ public class ProjectAndUserService {
 
 
 
-    public Project softDeleteProject(long id,long userId) {
+    public Project softDeleteProject(long id,UserAuthentication user) {
 
-        var user = userAuthenticationService.findById(userId);
-        if(user == null ) return null;
         
         var project = projectService.findById(id);
         if(project == null) return null;

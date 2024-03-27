@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mahirsoft.webservice.Business.concretes.CommentService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.TaskService;
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Models.Comment;
 import com.mahirsoft.webservice.Entities.Requests.CreateCommentRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCommentResponse;
@@ -42,7 +43,7 @@ public class CommentController {
 
         if(linkedTask == null) return new ResponseEntity<String>("SomeThing went wrong!", HttpStatusCode.valueOf(400));
 
-        var writtenBy = permissionService.isTherePermission(currentUser, -1); // yorum yapma yetkisi olmadığı için -1 konuldu.
+        var writtenBy = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION); // yorum yapma yetkisi olmadığı için -1 konuldu.
 
         Comment newComment = new Comment();
         newComment.setContent(createCommentRequest.getContent());
