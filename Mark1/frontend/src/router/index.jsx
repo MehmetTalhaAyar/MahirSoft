@@ -9,6 +9,7 @@ import App from "../App.jsx";
 import Home from "../pages/HomePage/home.jsx";
 import { CompanyPage } from "../pages/HomePage/CompanyPage/company.jsx";
 import { TaskPage } from "../pages/TaskPage/index.jsx";
+import ProjectDetails from "../pages/HomePage/Project/projectDetails.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "projects",
         element: <Project />,
+      },
+      {
+        path: "projectDetailss",
+        element: <ProjectDetails />,
       },
       {
         path: "projects/:projectname",

@@ -15,7 +15,7 @@ import {
 } from "./api";
 import { MONTHS } from "../../../Constants/Constants";
 import { Link } from "react-router-dom";
-import defaultProfileImage from "../../../assets/profileImage.jpg"
+import defaultProfileImage from "../../../assets/profileImage.jpg";
 
 function Project() {
   const [projectFormOpen, setProjectFormOpen] = useState(false);
@@ -28,15 +28,15 @@ function Project() {
   const [projectTitle, setProjectTitle] = useState("");
   const [adminName, setAdminName] = useState([]);
   const [options, setOptions] = useState("");
+
   const [filterInput, setFilterInput] = useState("");
   const [filteredProjectCards, setFilteredProjectCards] = useState([]);
 
   // console.log(adminName.label)
   // console.log()
 
-  const getMembers = useCallback( async ()=>{
-    
-    const response = await getCompanyMembers({searchKey:""});
+  const getMembers = useCallback(async () => {
+    const response = await getCompanyMembers({ searchKey: "" });
 
     if (response.status === 200 && response.data) {
       setOptions(
@@ -53,22 +53,23 @@ function Project() {
   const getProjects = useCallback(async () => {
     const response = await getCompanyProjects();
 
-    if(response.status === 200 && response.data ){
-      setProjectCards(response.data.map((project)=>{
-        return {
-          id: project.id,
-          title: project.name,
-          admin: project.leadingPerson.fullName,
-          adminId: project.leadingPerson.userId,
-          stages: project.stages,
-          createdOn: {
-            day: project.createdOn[2],
-            month: project.createdOn[1],
-            year :project.createdOn[0]
-          }
-        }
-      }))
-
+    if (response.status === 200 && response.data) {
+      setProjectCards(
+        response.data.map((project) => {
+          return {
+            id: project.id,
+            title: project.name,
+            admin: project.leadingPerson.fullName,
+            adminId: project.leadingPerson.userId,
+            stages: project.stages,
+            createdOn: {
+              day: project.createdOn[2],
+              month: project.createdOn[1],
+              year: project.createdOn[0],
+            },
+          };
+        })
+      );
     }
   }, []);
 
@@ -122,8 +123,8 @@ function Project() {
             createdOn: {
               day: response.data.createdOn[2],
               month: response.data.createdOn[1],
-              year :response.data.createdOn[0]
-            }
+              year: response.data.createdOn[0],
+            },
           },
         ];
         const newDropdownStates = [...dropdownStates, false];
@@ -169,37 +170,33 @@ function Project() {
 
   const handleSelectChange = (selectedValues) => {
     setSelectedOptions(selectedValues);
-    console.log(selectedValues)
+    console.log(selectedValues);
   };
-  
+
   const handleAdminChange = (selectedValue) => {
     // console.log(selectedValue)
-    setAdminName(selectedValue)
-  }
-
-  const filterMembers = (inputValue) => {
-    return inputValue.map((user)=>{
-      return {
-        value:user.userId,
-        label:user.fullName
-      }
-    } );
-    
+    setAdminName(selectedValue);
   };
 
-  const promiseOptions = async (inputValue) =>{
-  
+  const filterMembers = (inputValue) => {
+    return inputValue.map((user) => {
+      return {
+        value: user.userId,
+        label: user.fullName,
+      };
+    });
+  };
+
+  const promiseOptions = async (inputValue) => {
     const response = await getCompanyMembers({
-      searchKey:inputValue
+      searchKey: inputValue,
     });
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(filterMembers(response.data));
       }, 100);
     });
-
-    
-  }
+  };
 
   // Function to handle filter input change
   const handleFilterInput = (event) => {
@@ -214,6 +211,15 @@ function Project() {
     setFilteredProjectCards(filteredProjects);
   };
 
+  const members = [
+    { id: 1, imageSrc: defaultProfileImage },
+    { id: 2, imageSrc: defaultProfileImage },
+    { id: 3, imageSrc: defaultProfileImage },
+    { id: 4, imageSrc: defaultProfileImage },
+    { id: 5, imageSrc: defaultProfileImage },
+    { id: 6, imageSrc: defaultProfileImage },
+    { id: 7, imageSrc: defaultProfileImage },
+  ];
   return (
     <main>
       <h1>My Project</h1>
@@ -257,12 +263,11 @@ function Project() {
               projectFormOpen ? "isVisible_select" : ""
             }`}
             isClearable="true"
-            cacheOptions 
-            defaultOptions ={options}
+            cacheOptions
+            defaultOptions={options}
             value={adminName}
             onChange={handleAdminChange}
             loadOptions={promiseOptions}
-
           />
           {adminError && <p className="error-message">{adminError}</p>}
           <AsyncSelect
@@ -270,8 +275,8 @@ function Project() {
               projectFormOpen ? "isVisible_select" : ""
             }`}
             placeholder="Project Members"
-            cacheOptions 
-            defaultOptions ={options}
+            cacheOptions
+            defaultOptions={options}
             isMulti
             loadOptions={promiseOptions}
             closeMenuOnSelect={false}
@@ -323,38 +328,44 @@ function Project() {
                       alt="Manager Image"
                       className="manager_image"
                     />
-                    <span>{project.admin}</span>
                   </div>
+                  <span className="manager_name">{project.admin}</span>
                 </section>
                 <section className="member_side">
                   <p className="member_header">Members</p>
-                  <div className="proje_member_container">
-                    <div className="member_list">
-                      <img
-                        src={defaultProfileImage}
-                        alt="Manager Image"
-                        className="member_image"
-                      />
-                      <span className="member_name">{project.admin}</span>
-                    </div>
-                    <div className="member_list">
-                      <img
-                        src={defaultProfileImage}
-                        alt="Manager Image"
-                        className="member_image"
-                      />
-                      <span className="member_name">{project.admin}</span>
-                    </div>
+                  <ul className="proje_member_list">
+                    {members.map((member, index) => {
+                      if (index >= 6) {
+                        return (
+                          <span key={member.id} className="plus_7">
+                            +{index - 5 >= 9 ? "9" : index - 5}
+                          </span>
+                        );
+                      }
+
+                      return (
+                        <li key={member.id} className="member_list">
+                          <img
+                            src={member.imageSrc}
+                            alt="Manager Image"
+                            className="member_image"
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+
+                  <div className="task_link_button">
+                    <Link
+                      className="to-links"
+                      to={project.title.toLowerCase()}
+                      state={{ admin: project.admin, stages: project.stages }}
+                    >
+                      <button className="go_into_tasks">
+                        Go to Tasks <IoIosArrowForward />
+                      </button>
+                    </Link>
                   </div>
-                  <Link
-                    className="to-links"
-                    to={project.title.toLowerCase()}
-                    state={{ admin: project.admin, stages: project.stages }}
-                  >
-                    <button className="go_into_tasks">
-                      Go to Tasks <IoIosArrowForward />
-                    </button>
-                  </Link>
                 </section>
               </div>
 

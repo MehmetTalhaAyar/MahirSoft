@@ -165,6 +165,10 @@
   padding: 5px;
   border-bottom: 1px solid rgb(218, 217, 217);
 }
+.project_header:hover {
+  background-color: rgb(120, 201, 120);
+  transition: 0.4s;
+}
 ._dot {
   cursor: pointer;
 }
@@ -196,6 +200,11 @@
 .openDropdown {
   display: block;
 }
+.to-link {
+  color: #c8a2c8;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 .to-links {
   color: #c8a2c8;
@@ -223,19 +232,33 @@
   border-bottom: 1px solid rgb(218, 217, 217);
 }
 .manager_image {
-  width: 60%;
+  width: 80px;
+  height: 80px;
   border: 1px solid rgb(193, 193, 193);
   border-radius: 50%;
 }
 .member_image {
-  width: 60%;
-  border: 1px solid rgb(193, 193, 193);
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  border: 1px solid rgb(187, 187, 187);
 }
+.member_image:hover {
+  border-color: #91969c; /* Change border color on hover */
+}
+.plus_7 {
+  position: absolute;
+  right: 0px;
+  top: 25%;
+  border-radius: 50%;
+  padding: 5px;
+  background-color: #38ab5a;
+  color: rgb(255, 255, 255);
+}
+
 .member_side {
   display: flex;
   flex-direction: column;
-  align-items: end;
   padding-left: 5px;
   color: black;
   width: 70%;
@@ -257,25 +280,34 @@
   align-items: center;
   padding: 10px;
   width: 100%;
-  height: 90%;
+  height: 60%;
   gap: 10px;
 }
-.proje_member_container {
+.manager_name {
   display: flex;
+  justify-content: center;
 
-  padding: 5px;
   width: 100%;
 }
-.member_list {
-  border-right: 1px solid rgb(197, 197, 197);
+.proje_member_list {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 35%;
-  height: 100%;
+  list-style-type: none; /* Remove default list styling */
+  width: 100%;
+  height: 41%;
 }
+.member_list {
+  overflow: hidden;
 
+  border-radius: 50%;
+}
+.proje_member_list .member_list:not(:first-child) {
+  margin-left: -20px;
+}
+.task_link_button {
+  justify-content: end;
+  display: flex;
+}
 .go_into_tasks {
   display: flex;
   gap: 7px;
@@ -292,10 +324,6 @@
 .go_into_tasks:hover {
   transition: 0.3s;
   background-color: #37a44b;
-}
-.member_name {
-  font-size: 12px;
-  text-align: center;
 }
 
 .created_on {

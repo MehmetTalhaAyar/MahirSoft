@@ -1,3 +1,15 @@
+.message_profile_icon {
+  display: flex;
+  gap: 30px;
+}
+.notification_icone {
+  font-size: 25px;
+  cursor: pointer;
+}
+.notification_icone:hover {
+  color: rgb(193, 122, 105);
+  transition: 0.3s;
+}
 .homepage_navbar {
   display: flex;
   background-image: linear-gradient(
@@ -7,7 +19,7 @@
     #6e7ff3 100%
   );
   color: white;
-  padding: 17px;
+  padding: 10px 20px;
   align-items: center;
   justify-content: space-between;
 }

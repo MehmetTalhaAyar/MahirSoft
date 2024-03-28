@@ -5,28 +5,9 @@ import { LuUpload } from "react-icons/lu";
 import { MdDeleteOutline } from "react-icons/md";
 import defaultProfileImage from "/src/assets/profileImage.jpg";
 
-
-function EditProfilePage({
-  onProfileImageChange,
-  onFullNameChange,
-  onJobChange,
-  onAboutChange,
-  onCompanyChange,
-  onCountryChange,
-  onAdressChange,
-  onPhoneChange,
-  onEmailChange,
-}) {
+function EditProfilePage({ onProfileImageChange }) {
   const [profileImage, setProfileImage] = useState(null); // Upload the image on the editpage
   const fileInputRef = useRef(null);
-  const [fullName, setFullName] = useState(null);
-  const [job, setJob] = useState(null);
-  const [about, setAbout] = useState(null);
-  const [company, setCompany] = useState(null);
-  const [country, setCountry] = useState(null);
-  const [adress, setAdress] = useState(null);
-  const [phone, setPhone] = useState(null);
-  const [email, setEmail] = useState(null);
 
   // Upload the image function
   const handleImageChange = (e) => {
@@ -43,49 +24,6 @@ function EditProfilePage({
   //Save the image on the Profile Card function
   const saveChanges = () => {
     setProfileImage(onProfileImageChange);
-    onFullNameChange(fullName);
-    onJobChange(job);
-    onAboutChange(about);
-    onCompanyChange(company);
-    onCountryChange(country);
-    onAdressChange(adress);
-    onPhoneChange(phone);
-    onEmailChange(email);
-  };
-
-  const handleFullNameChange = (e) => {
-    const newName = e.target.value;
-    setFullName(newName);
-  };
-
-  const handleJobChange = (newJob) => {
-    const newJobName = newJob.target.value;
-    setJob(newJobName);
-  };
-
-  const handleAboutChange = (about) => {
-    const newAbout = about.target.value;
-    setAbout(newAbout);
-  };
-
-  const handleCompanyChange = (newCompany) => {
-    setCompany(newCompany);
-  };
-
-  const handleCountryChange = (newCountry) => {
-    setCountry(newCountry);
-  };
-
-  const handleAdressChange = (newAdress) => {
-    setAdress(newAdress);
-  };
-
-  const handlePhoneChange = (newPhone) => {
-    setPhone(newPhone);
-  };
-
-  const handleEmailChange = (newEmail) => {
-    setEmail(newEmail);
   };
 
   return (
@@ -126,8 +64,6 @@ function EditProfilePage({
             className="form-control"
             id="nametext"
             aria-describedby="name"
-            value={fullName}
-            onChange={handleFullNameChange}
           />
         </div>
         <div className="details2">
@@ -137,8 +73,6 @@ function EditProfilePage({
             className="form-control"
             id="nametext"
             aria-describedby="name"
-            value={company}
-            onChange={(e) => handleCompanyChange(e.target.value)}
           />
         </div>
         <div className="details2">
@@ -148,8 +82,6 @@ function EditProfilePage({
             className="form-control"
             id="nametext"
             aria-describedby="name"
-            value={job}
-            onChange={handleJobChange}
           />
         </div>
         <div className="details2">
@@ -159,8 +91,6 @@ function EditProfilePage({
             className="textarea-control"
             id="textArea"
             aria-describedby="name"
-            value={about}
-            onChange={handleAboutChange}
           />
         </div>
         <div className="details2">
@@ -170,8 +100,6 @@ function EditProfilePage({
             className="form-control"
             id="nametext"
             aria-describedby="name"
-            value={country}
-            onChange={(e) => handleCountryChange(e.target.value)}
           />
         </div>
         <div className="details2">
@@ -181,8 +109,6 @@ function EditProfilePage({
             className="form-control"
             id="nametext"
             aria-describedby="name"
-            value={adress}
-            onChange={(e) => handleAdressChange(e.target.value)}
           />
         </div>
 
@@ -193,8 +119,6 @@ function EditProfilePage({
             className="form-control"
             id="nametext"
             aria-describedby="name"
-            value={phone}
-            onChange={(e) => handlePhoneChange(e.target.value)}
           />
         </div>
         <div className="details2">
@@ -204,8 +128,6 @@ function EditProfilePage({
             className="form-control"
             id="nametext"
             aria-describedby="name"
-            value={email}
-            onChange={(e) => handleEmailChange(e.target.value)}
           />
         </div>
       </div>
