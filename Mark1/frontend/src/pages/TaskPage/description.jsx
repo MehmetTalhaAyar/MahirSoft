@@ -1,26 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import { AiOutlineBars } from "react-icons/ai";
 
 import "./description.css";
+import { updateDescription } from "./api";
 
-export default function Description() {
+export default function Description(props) {
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const [editedTaskDescription, setEditedTaskDescription] = useState(
-    location.state.description
+    props.description
   );
-  const [taskDescription, setTaskDescription] = useState(
-    location.state.description
-  );
+  const [taskDescription,setTaskDescription] = useState(props.description);
 
   const handleEditClick = () => {
     setIsEditing((isEditing) => !isEditing);
   };
+  
+  useEffect(()=>{
+    if(props.taskDescription !== undefined){
+      setTaskDescription(props.taskDescription);
+      
+    }
+  },[])
 
-  const handleSaveClick = () => {
-    setTaskDescription(editedTaskDescription);
+  const handleSaveClick = async() => {
+
+    const response = await updateDescription({
+      taskId: location.state.id,
+      description: editedTaskDescription
+    })
+
+    if(response.status === 200){
+      setTaskDescription(editedTaskDescription);
+    }
+
+
+
+    
     setIsEditing(false);
   };
 

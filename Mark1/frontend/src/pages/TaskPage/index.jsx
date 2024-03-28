@@ -15,6 +15,9 @@ import {
   addComment,
   getprojectMembers,
   updateTaskInfo,
+  updateComment,
+  updateLikeCount,
+  deleteComment,
 } from "./api";
 import { MONTHS } from "../../Constants/Constants";
 import Description from "./description";
@@ -50,6 +53,8 @@ export function TaskPage() {
   const [selectedResponsible, setSelectedResponsible] = useState();
   const [selectedReporter, setSelectedReporter] = useState();
 
+  const [isShow,setIsShow] = useState(false);
+
   useEffect(() => {
     if (authState.userId > 0) {
       setUserDefaultLogo(authState.name[0] + authState.surname[0]);
@@ -57,8 +62,13 @@ export function TaskPage() {
   }, [authState]);
 
   useEffect(() => {
-    getInfo();
+    const response = getInfo();
+    console.log(response)
+    response.finally(()=>{
+      setIsShow(true);
+    })
   }, []);
+
 
   const getInfo = useCallback(async () => {
     const response = await getTaskInfo(location.state.id);
@@ -66,6 +76,9 @@ export function TaskPage() {
     if (response.status == 200) {
       setStage(response.data.stage.name);
       setTaskReporter(response.data.reportsTo.fullName);
+
+      setTaskDescription(response.data.taskDescripton);
+
       setReporterLogo(
         response.data.reportsTo.name[0] + response.data.reportsTo.surname[0]
       );
@@ -83,11 +96,14 @@ export function TaskPage() {
       setComments(
         response.data.comments.map((comment) => {
           return {
+            commentId:comment.commentId,
+            authorId: comment.writtenById.userId,
             author: comment.writtenById.fullName,
             time: `${comment.createdOn[2]} ${
               MONTHS[comment.createdOn[1]]
             } ${comment.createdOn[0]}`,
             text: comment.content,
+            likeCount : comment.likeCount
           };
         })
       );
@@ -150,7 +166,9 @@ export function TaskPage() {
 
     if (response.status === 201) {
       const newComment = {
+        commentId: response.data.commentId,
         author: response.data.writtenById.fullName, // Replace with actual user information
+        authorId: response.data.writtenById.userId,
         time: `${response.data.createdOn[2]} ${
           MONTHS[response.data.createdOn[1]]
         } ${response.data.createdOn[0]}`,
@@ -164,6 +182,7 @@ export function TaskPage() {
       console.log("Something went wrong!");
     }
   };
+
 
   const handleChanges = async () => {
     if (
@@ -223,28 +242,50 @@ export function TaskPage() {
     });
   }
 
-  const handleLikeChange = (index) => {
+  const handleLikeChange = async (index) => {
     const updatedComments = [...comments];
-    updatedComments[index].likesCount =
-      (updatedComments[index].likesCount || 0) + 1;
+    
+    const response = await updateLikeCount(updatedComments[index].commentId);
+
+
+    if(response.status === 200){
+      console.log(response.data.likeCount)
+      updatedComments[index].likeCount = response.data.likeCount
+    }
+
     setComments(updatedComments);
   };
 
-  const handleDeleteComment = (index) => {
+  const handleDeleteComment = async(index) => {
     const updatedComments = [...comments];
-    updatedComments.splice(index, 1);
-    setComments(updatedComments);
+    const response = await deleteComment(updatedComments[index].commentId);
+    if(response.status === 200){
+      updatedComments.splice(index, 1);
+      setComments(updatedComments);
+    }
+    
   };
 
-  const handleEditClick = (index, text) => {
+  const handleEditClick = (index, text) => {    
     setEditingCommentIndex(index);
     setEditedComment(text);
   };
 
-  const handleSaveEdit = (index) => {
+  const handleSaveEdit = async(index) => {
     const updatedComments = [...comments];
-    updatedComments[index].text = editedComment; // Update the text of the comment
-    setComments(updatedComments);
+    const response  = await updateComment({
+      commentId:updatedComments[index].commentId ,
+      content:editedComment ,
+      taskId: location.state.id
+      
+    })
+
+    if(response.status === 200){
+      updatedComments[index].text = editedComment; // Update the text of the comment
+      setComments(updatedComments);
+    }
+
+
     setEditingCommentIndex(null); // Reset editing state
   };
 
@@ -254,8 +295,7 @@ export function TaskPage() {
   };
 
 
-  
-  return (
+  return ( isShow ?
     <main>
       <div className="task_page_container">
         <div className="task_page_container_header">
@@ -264,7 +304,7 @@ export function TaskPage() {
         </div>
         <div className="alt_container">
           <div className="left_container">
-            <Description />
+            <Description description={taskDescription} />
             <div className="activity">
               <AiOutlineAlignLeft />
               <h4>Activity</h4>
@@ -306,7 +346,7 @@ export function TaskPage() {
                       <div className="clickable_icon">
                         <div className="like_container">
                           <span className="like_number">
-                            {comment.likesCount || 0}
+                            {comment.likeCount || 0}
                           </span>
                           <section className="like_img">
                             <AiOutlineLike
@@ -317,7 +357,7 @@ export function TaskPage() {
                         <section className="replay_img">
                           <BsReply />
                         </section>
-                        <section className="edit_img">
+                        {comment.authorId === authState.userId ?  <section className="edit_img">
                           {editingCommentIndex === index ? (
                             <MdOutlineModeEditOutline />
                           ) : (
@@ -327,12 +367,12 @@ export function TaskPage() {
                               }
                             />
                           )}
-                        </section>
-                        <section className="delete_img">
+                        </section> : <></> }
+                        {comment.authorId === authState.userId ? <section className="delete_img">
                           <MdDelete
                             onClick={() => handleDeleteComment(index)}
                           />
-                        </section>
+                        </section> : <></>}
                       </div>
                     </div>
                     {editingCommentIndex === index ? (
@@ -429,5 +469,5 @@ export function TaskPage() {
         </div>
       </div>
     </main>
-  );
+  : <></>);
 }

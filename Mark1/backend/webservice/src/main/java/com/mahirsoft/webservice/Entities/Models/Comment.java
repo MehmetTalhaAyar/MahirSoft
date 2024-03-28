@@ -1,7 +1,10 @@
 package com.mahirsoft.webservice.Entities.Models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mahirsoft.webservice.Entities.Response.CommentResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralCommentResponse;
 
 import jakarta.persistence.Column;
@@ -10,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,24 +36,32 @@ public class Comment {
     @JoinColumn(name = "linkedTaskId", referencedColumnName = "taskId")
     private Task linkedTaskId;
 
-    @Column(name = "likeCount")
-    private int likeCount = 0;
-
     @Column(name = "deletionStateCode")
     private int deletionStateCode = 0;
 
     @Column(name = "createdOn")
     private LocalDateTime createdOn = LocalDateTime.now();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "commentId")
+    private List<CommentLike> likes;
+
+
 
     public GeneralCommentResponse toGeneralCommentResponse(){
         GeneralCommentResponse generalCommentResponse = new GeneralCommentResponse();
         generalCommentResponse.setCommentId(commentId);
         generalCommentResponse.setContent(content);
-        generalCommentResponse.setLikeCount(likeCount);
         generalCommentResponse.setWrittenById(writtenById.toGeneralUserAuthenticationResponse());
         generalCommentResponse.setCreatedOn(createdOn);
         return generalCommentResponse;
+    }
+
+    public CommentResponse toCommentResponse(){
+        CommentResponse commentResponse = new CommentResponse();
+        commentResponse.setCommentId(commentId);
+        commentResponse.setContent(content);
+        return commentResponse;
     }
 
     public long getCommentId() {
@@ -66,14 +78,6 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
     }
 
     public int getDeletionStateCode() {
@@ -107,6 +111,14 @@ public class Comment {
 
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public List<CommentLike> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<CommentLike> likes) {
+        this.likes = likes;
     }
 
 
