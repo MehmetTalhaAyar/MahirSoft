@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import defaultProfileImage from "/src/assets/profileImage.jpg";
 import { useAuthDispatch, useAuthState } from "../../../state/context";
 
-
 function Profile({ isVisible }) {
   const authState = useAuthState();
   const dispatch = useAuthDispatch();
@@ -17,10 +16,10 @@ function Profile({ isVisible }) {
     return null;
   }
 
-  const onclick = () =>{
-    dispatch({type:'logout-success'})
-    navigate("/")
-  }
+  const onclick = () => {
+    dispatch({ type: "logout-success" });
+    navigate("/");
+  };
 
   return (
     <div className={`profile ${isVisible ? "visible animate_profile" : ""}`}>

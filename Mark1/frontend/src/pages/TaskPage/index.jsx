@@ -11,7 +11,6 @@ import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../state/context";
 import {
   getTaskInfo,
-  deleteTaskById,
   addComment,
   getprojectMembers,
   updateTaskInfo,
@@ -19,7 +18,11 @@ import {
 import { MONTHS } from "../../Constants/Constants";
 import Description from "./description";
 import Dropdown from "./dropdown";
-import { AiOutlineAlignLeft, AiOutlineLike, AiOutlineMenu } from "react-icons/ai";
+import {
+  AiOutlineAlignLeft,
+  AiOutlineLike,
+  AiOutlineMenu,
+} from "react-icons/ai";
 import { BsReply } from "react-icons/bs";
 import { MdDelete, MdOutlineModeEditOutline } from "react-icons/md";
 
@@ -32,7 +35,7 @@ export function TaskPage() {
   const authState = useAuthState();
 
   const [taskName, setTaskName] = useState(location.state.name);
-  const [stageId,setStageId] = useState(location.state.id);
+  const [stageId, setStageId] = useState(location.state.id);
   const [taskDescription, setTaskDescription] = useState(
     location.state.description
   );
@@ -84,9 +87,9 @@ export function TaskPage() {
         response.data.comments.map((comment) => {
           return {
             author: comment.writtenById.fullName,
-            time: `${comment.createdOn[2]} ${
-              MONTHS[comment.createdOn[1]]
-            } ${comment.createdOn[0]}`,
+            time: `${comment.createdOn[2]} ${MONTHS[comment.createdOn[1]]} ${
+              comment.createdOn[0]
+            }`,
             text: comment.content,
           };
         })
@@ -94,18 +97,19 @@ export function TaskPage() {
       if (response.data.taskDeadlineDate !== null) {
         setSelectedDate(new Date(response.data.taskDeadlineDate));
       }
-      await getProjectMembersAndStage({stageId: response.data.stage.id,searchKey: ""})
+      await getProjectMembersAndStage({
+        stageId: response.data.stage.id,
+        searchKey: "",
+      });
     } else {
       console.log("Some Thing Went Wrong!");
     }
   }, []);
 
-  
-  const getProjectMembersAndStage = useCallback( async(body)=>{
-    const response = await getprojectMembers(body)
+  const getProjectMembersAndStage = useCallback(async (body) => {
+    const response = await getprojectMembers(body);
 
-    if(response.status === 200){
-
+    if (response.status === 200) {
       setProjectMembers(
         response.data.users.map((user) => {
           return {
@@ -156,7 +160,6 @@ export function TaskPage() {
         } ${response.data.createdOn[0]}`,
         text: commentText,
       };
-      
 
       setComments([...comments, newComment]);
       setCommentText("");
@@ -198,30 +201,26 @@ export function TaskPage() {
     }
   };
 
-
   const filterMembers = (inputValue) => {
-    return inputValue.users.map((user)=>{
+    return inputValue.users.map((user) => {
       return {
-        value:user.userId,
-        label:user.fullName
-      }
-    } );
-    
-  }
+        value: user.userId,
+        label: user.fullName,
+      };
+    });
+  };
 
-  const promiseOptions = async (inputValue) =>{
-  
+  const promiseOptions = async (inputValue) => {
     const response = await getprojectMembers({
       stageId: stageId,
-      searchKey : inputValue
-
-    })
+      searchKey: inputValue,
+    });
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(filterMembers(response.data));
       }, 100);
     });
-  }
+  };
 
   const handleLikeChange = (index) => {
     const updatedComments = [...comments];
@@ -253,8 +252,6 @@ export function TaskPage() {
     setEditingCommentIndex(null); // Reset editing state
   };
 
-
-  
   return (
     <main>
       <div className="task_page_container">
