@@ -2,6 +2,9 @@ package com.mahirsoft.webservice.Business.concretes;
 
 import org.springframework.stereotype.Service;
 
+import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
+import com.mahirsoft.webservice.DataAccess.StageRepository;
+import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
@@ -13,9 +16,21 @@ public class PermissionService {
 
     private UserAuthenticationService userAuthenticationService;
 
-    public PermissionService(UserAuthenticationService userAuthenticationService) {
+    private StageRepository stageRepository;
+
+    private ProjectUserRepository projectUserRepository;
+
+    private TaskRepository taskRepository;
+
+
+    public PermissionService(UserAuthenticationService userAuthenticationService, StageRepository stageRepository,
+            ProjectUserRepository projectUserRepository, TaskRepository taskRepository) {
         this.userAuthenticationService = userAuthenticationService;
+        this.stageRepository = stageRepository;
+        this.projectUserRepository = projectUserRepository;
+        this.taskRepository = taskRepository;
     }
+
 
     public UserAuthentication isTherePermission(DefaultUser currentUser,Integer authorityNumber){
 
@@ -33,6 +48,40 @@ public class PermissionService {
 
         throw new PermissionDeniedException();
         
+    }
+
+
+    public UserAuthentication isInThisProjectFindByStageId(DefaultUser currentUser,long stageId){
+
+        var stage = stageRepository.findById(stageId);
+
+        if(stage == null) throw new PermissionDeniedException(); // buraya uygun bir exception yazılacak
+
+        var user = userAuthenticationService.findById(currentUser.getId());
+
+        if(user == null ) throw new UserNotFoundException();
+
+        var projectUser = projectUserRepository.findByProjectIdAndUserId(stage.getProjectId(), user);
+
+        if(projectUser == null) throw new PermissionDeniedException();
+        
+        return user;
+    }
+
+
+    public UserAuthentication isInThisProjectFindByTaskId(DefaultUser currentUser,long taskId){
+        
+        var user = userAuthenticationService.findById(currentUser.getId());
+
+        if(user == null) throw new UserNotFoundException();
+
+        var task = taskRepository.findById(taskId);
+
+        if(task == null) throw new PermissionDeniedException();
+
+        isInThisProjectFindByStageId(currentUser, task.getStageId().getStageId());
+        
+        return user;
     }
 
 

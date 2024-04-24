@@ -118,6 +118,10 @@ public class UserAuthentication {
     @OneToMany(mappedBy = "userId")
     private List<ProjectUser> projects;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId")
+    private List<CommentLike> likes;
+
 
     public GeneralUserAuthenticationResponse toGeneralUserAuthenticationResponse() {
         GeneralUserAuthenticationResponse generalUser = new GeneralUserAuthenticationResponse();
@@ -416,6 +420,14 @@ public class UserAuthentication {
 
     public void setUserRoleId(UserRole userRoleId) {
         this.userRoleId = userRoleId;
+    }
+
+    public List<CommentLike> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<CommentLike> likes) {
+        this.likes = likes;
     }
 
     

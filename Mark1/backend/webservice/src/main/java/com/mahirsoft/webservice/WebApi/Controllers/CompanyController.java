@@ -111,7 +111,7 @@ public class CompanyController {
         return new ResponseEntity<String>("User added",  HttpStatusCode.valueOf(200));
     }
 
-    @PostMapping("/members") // kullanıcının bu şirket içinde olduğuna emin ol
+    @PostMapping("/members") 
     public List<GeneralUserAuthenticationResponse> getcompanyMembers(@RequestBody PostSearchCompanyMembersRequest postSearchCompanyMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
         var chosenUser = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION);
@@ -135,7 +135,7 @@ public class CompanyController {
     }
 
 
-    @GetMapping("/projects") // kullanıcının şirket içinde olduğuna emin ol
+    @GetMapping("/projects")
     public List<GeneralProjectResponse> getCompanyProjects(@AuthenticationPrincipal DefaultUser user){
         var currentUser = permissionService.isTherePermission(user, AuthorizationCodes.ANY_AUTHORIZATION);
 

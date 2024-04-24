@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.GeneralCommentResponse;
+import com.mahirsoft.webservice.Entities.Response.TaskResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -76,10 +77,11 @@ public class Task {
         List<GeneralCommentResponse> generalComments = new ArrayList<>();
 
         for(var eleman : comments){
+            if(eleman.getDeletionStateCode() == 1) continue;
             GeneralCommentResponse currentComment = new GeneralCommentResponse();
             currentComment.setCommentId(eleman.getCommentId());
             currentComment.setContent(eleman.getContent());
-            currentComment.setLikeCount(eleman.getLikeCount());
+            currentComment.setLikeCount(eleman.getLikes().size());
             currentComment.setWrittenById(eleman.getWrittenById().toGeneralUserAuthenticationResponse());
             currentComment.setCreatedOn(eleman.getCreatedOn());
 
@@ -87,6 +89,14 @@ public class Task {
         }
 
         return generalComments;
+    }
+
+    public TaskResponse toTaskResponse(){
+        TaskResponse taskResponse = new TaskResponse();
+        taskResponse.setId(taskId);
+        taskResponse.setDescription(taskDescription);
+        taskResponse.setName(taskName);
+        return taskResponse;
     }
 
 

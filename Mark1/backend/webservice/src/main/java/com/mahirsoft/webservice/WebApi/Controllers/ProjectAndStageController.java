@@ -102,8 +102,11 @@ public class ProjectAndStageController {
     }
 
 
-    @PostMapping("/getallmembersandstage")//burada isteği atan kişinin proje içinde olup olmadığı kontrolu yapması gerekiyor
-    public ResponseEntity<?> getAllMembersAndStage(@RequestBody PostGetStageAndProjectMembersRequest postGetStageAndProjectMembersRequest){
+    @PostMapping("/getallmembersandstage")
+    public ResponseEntity<?> getAllMembersAndStage(@RequestBody PostGetStageAndProjectMembersRequest postGetStageAndProjectMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+
+        permissionService.isInThisProjectFindByStageId(currentUser,postGetStageAndProjectMembersRequest.getStageId()); // proje içinde olup olmadığı kontrol ediliyor
 
         var projectMemberAndStages = projectAndStageService.getProjectMembersAndStageByStageId(postGetStageAndProjectMembersRequest);
 

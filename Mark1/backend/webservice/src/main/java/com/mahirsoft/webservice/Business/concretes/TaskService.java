@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.Entities.Models.Task;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostUpdateTaskDescriptionRequest;
+
+import jakarta.validation.Valid;
 
 @Service
 public class TaskService {
@@ -71,6 +74,17 @@ public class TaskService {
         return taskRepository.save(task);
         
         
+    }
+
+
+    public Task ChangeTaskDescription(@Valid PostUpdateTaskDescriptionRequest postUpdateTaskDescriptionRequest) {
+
+        var task = taskRepository.findById(postUpdateTaskDescriptionRequest.getTaskId());
+        
+        if(task == null) return null;
+        task.setTaskDescription(postUpdateTaskDescriptionRequest.getDescription());
+        
+        return taskRepository.save(task);
     }
 
 

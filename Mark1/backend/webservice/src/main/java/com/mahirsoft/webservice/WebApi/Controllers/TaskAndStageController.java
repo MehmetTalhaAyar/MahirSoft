@@ -81,7 +81,7 @@ public class TaskAndStageController {
     @GetMapping("/alltasks/{stageId}")// burada istek atan kişinin projede olması kontrol edilecek
     public GeneralStageResponse getAllTaskByStage(@PathVariable long stageId,@AuthenticationPrincipal DefaultUser currentUser){
 
-
+        permissionService.isInThisProjectFindByStageId(currentUser, stageId);
 
         var stage = stageService.getStage(stageId);
 

@@ -20,3 +20,20 @@ export function getprojectMembers(body){
 export function updateTaskInfo(body,taskId){
     return http.put(`/api/v1/projectandstage/updatetask/${taskId}`,body)
 }
+
+export function updateComment(body){
+    return http.put("/api/v1/comment/update",body)
+}
+
+
+export function updateLikeCount(commentId){
+    return http.patch(`/api/v1/comment/likes/${commentId}`)
+}
+
+export function updateDescription(body){
+    return http.put("/api/v1/tasks/changedescription",body);
+}
+
+export function deleteComment(commentId){
+    return http.delete(`/api/v1/comment/${commentId}`);
+}

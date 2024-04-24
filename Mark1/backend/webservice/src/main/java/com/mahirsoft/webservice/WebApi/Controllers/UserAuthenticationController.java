@@ -125,7 +125,7 @@ public class UserAuthenticationController {
         return new ResponseEntity<TaskCountResponse>(user.toTaskCountResponse(), HttpStatusCode.valueOf(200));
     }
 
-    @PostMapping("/updateimage")
+    @PostMapping("/updateimage") //istek atan üzerinden cevap veriliyor.
     public ResponseEntity<?> handleUpdateImage( @Valid @RequestBody PostImageUpdateRequest postImageUpdateRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
         var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION); 

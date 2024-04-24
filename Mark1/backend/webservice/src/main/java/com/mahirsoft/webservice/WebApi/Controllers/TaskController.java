@@ -7,8 +7,10 @@ import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.TaskService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostUpdateTaskDescriptionRequest;
 import com.mahirsoft.webservice.Entities.Response.GetAllTaskResponse;
 import com.mahirsoft.webservice.Entities.Response.GetTaskResponse;
+import com.mahirsoft.webservice.Entities.Response.TaskResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
 import jakarta.validation.Valid;
@@ -22,6 +24,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -82,7 +85,8 @@ public class TaskController {
     @GetMapping("/{id}") // burada bu projede var mı diye bakılacak
     public ResponseEntity<?> getTaskById(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isTherePermission(currentUser, -1);// şuan yetki bakılmıyor
+
+        permissionService.isInThisProjectFindByTaskId(currentUser, id ); // taskın sahip olduğu projenin içinde mi diye kontrol ediliyor.
 
         String body = "Task not found";
         var task = taskService.getTaskById(id);
@@ -106,6 +110,18 @@ public class TaskController {
         getTaskResponse.setStage(task.getStageId().toStageResponse());
 
         return new ResponseEntity<GetTaskResponse>(getTaskResponse,HttpStatusCode.valueOf(200));
+    }
+
+
+    @PutMapping("/changedescription")
+    public ResponseEntity<?> handleChangeTaskDescription(@Valid @RequestBody PostUpdateTaskDescriptionRequest postUpdateTaskDescriptionRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateTaskDescriptionRequest.getTaskId());
+
+        var task = taskService.ChangeTaskDescription(postUpdateTaskDescriptionRequest);
+
+
+        return new ResponseEntity<TaskResponse>(task.toTaskResponse(), HttpStatusCode.valueOf(200));
     }
 
     
