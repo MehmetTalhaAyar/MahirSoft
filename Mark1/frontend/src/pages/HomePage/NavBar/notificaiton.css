@@ -17,11 +17,14 @@
   display: flex;
   cursor: pointer;
 }
-.wraper {
-  height: 90%;
+.message_wraper {
+  height: 100%;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
-.wraper::-webkit-scrollbar {
+.message_wraper::-webkit-scrollbar {
   display: none;
 }
 .notification {
@@ -41,8 +44,8 @@
   display: flex;
   align-items: start;
   gap: 7px;
-  border-bottom: 1px solid rgb(205, 204, 204);
-
+  border-radius: 10px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);
   padding: 10px 20px;
 }
 .notification_container:hover {
@@ -51,8 +54,10 @@
   cursor: pointer;
   transition: 0.3s;
 }
+
 .email_container {
   display: flex;
+  width: 100%;
   align-items: start;
   gap: 7px;
   border-bottom: 1px solid rgb(205, 204, 204);
@@ -74,13 +79,14 @@
 }
 
 .email_img {
-  padding: 4px;
+  padding: 6px;
   font-size: 37px;
 }
 
 .notification_desc {
   color: rgb(87, 87, 87);
 }
+
 .posta_desc {
   color: rgb(87, 87, 87);
 }

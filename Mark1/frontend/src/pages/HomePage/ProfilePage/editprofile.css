@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   color: #716e6e;
 }
 .section2 {
@@ -14,18 +13,22 @@
 }
 ._img {
   display: flex;
+  width: 65%;
   flex-direction: column;
 }
 
 ._image3 {
   border: 1px solid #454679;
-  width: 40%;
+  border-radius: 2%;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
 }
 .import_photo {
   margin-top: 5px;
   display: flex;
   justify-content: space-between;
-  width: 25%;
+  width: 10%;
 }
 .upload {
   border-radius: 5px;

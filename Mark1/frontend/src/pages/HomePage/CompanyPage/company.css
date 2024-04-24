@@ -12,19 +12,23 @@
   margin-bottom: 10px;
   border-left: 7px solid rgb(46, 9, 196);
   padding: 0 10px;
+  cursor: default;
 }
 .company_description {
   margin-bottom: 5px;
   padding: 0 18px;
+  cursor: default;
 }
 .description {
   margin-bottom: 15px;
   padding: 0 18px;
+  cursor: default;
 }
 
 .socialmedia_company {
   margin-bottom: 5px;
   padding: 0 18px;
+  cursor: default;
 }
 
 .right_container {
@@ -39,6 +43,7 @@
 
 .register_form_company {
   margin-bottom: 20px;
+  cursor: default;
 }
 
 .company_input {

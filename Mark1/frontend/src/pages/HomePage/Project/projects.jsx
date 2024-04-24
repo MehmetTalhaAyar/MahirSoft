@@ -216,9 +216,6 @@ function Project() {
     { id: 2, imageSrc: defaultProfileImage },
     { id: 3, imageSrc: defaultProfileImage },
     { id: 4, imageSrc: defaultProfileImage },
-    { id: 5, imageSrc: defaultProfileImage },
-    { id: 6, imageSrc: defaultProfileImage },
-    { id: 7, imageSrc: defaultProfileImage },
   ];
   return (
     <main>
@@ -302,7 +299,7 @@ function Project() {
               <header className="project_header">
                 <h2 className="proje_title">{project.title}</h2>
                 <HiDotsHorizontal
-                  className="_dot"
+                  className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
                   onClick={() => openDropdownMenu(index)}
                 />
 

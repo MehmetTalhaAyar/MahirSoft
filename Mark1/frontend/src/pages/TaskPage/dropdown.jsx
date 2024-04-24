@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import { deleteTaskById } from "./api";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function Dropdown() {
   const [dropDownMenu, setDropDownMenu] = useState(false);
@@ -24,8 +25,9 @@ export default function Dropdown() {
       <div
         className={`dropdown-content2 ${dropDownMenu ? "openDropdown2" : " "}`}
       >
-        <a onClick={() => deleteTask(location.state.id)}>Delete</a>
-        <a href="">Edit</a>
+        <a onClick={() => deleteTask(location.state.id)}>
+          Delete <FaRegTrashAlt />
+        </a>
       </div>
     </div>
   );

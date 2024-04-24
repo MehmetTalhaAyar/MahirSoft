@@ -311,9 +311,6 @@ export function TaskPage() {
                             />
                           </section>
                         </div>
-                        <section className="replay_img">
-                          <BsReply />
-                        </section>
                         <section className="edit_img">
                           {editingCommentIndex === index ? (
                             <MdOutlineModeEditOutline />

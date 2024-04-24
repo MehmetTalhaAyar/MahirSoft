@@ -130,22 +130,22 @@ export function CompanyPage(props) {
           <h4 className="socialmedia_company">Social Media:</h4>
           <ul>
             <li>
-              <a href="https://www.linkedin.com/" className="tw">
+              <a href="#" className="tw">
                 <IoLogoLinkedin className="linkedin" />
               </a>
             </li>
             <li>
-              <a href="https://www.instagram.com/" className="tw">
+              <a href="#" className="tw">
                 <FaInstagramSquare className="instagram" />
               </a>
             </li>
             <li>
-              <a href="https://www.facebook.com/" className="tw">
+              <a href="#" className="tw">
                 <FaFacebook className="facebook" />
               </a>
             </li>
             <li>
-              <a href="https://twitter.com/" className="tw">
+              <a href="#" className="tw">
                 <FaTwitter className="twitter" />
               </a>
             </li>

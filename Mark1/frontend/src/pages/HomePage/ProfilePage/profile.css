@@ -25,7 +25,8 @@
   margin-bottom: 15px;
   border: 1px solid #454679;
   box-shadow: 1px 1px 4px #454679;
-  width: 50%;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 }
 
@@ -35,7 +36,7 @@
 }
 .profile_text {
   color: #9f9f9f;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .profile_container {

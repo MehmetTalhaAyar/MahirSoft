@@ -25,7 +25,7 @@ function Board() {
 
   return (
     <main>
-      <h1>Dashboard Page</h1>
+      <h1 className="dashboard_header">Dashboard Page</h1>
       <div className="dashboard_container">
         <h1 className="dashboard_title">Hi, {authState.fullName}</h1>
         <p className="dashboard_paragraph">

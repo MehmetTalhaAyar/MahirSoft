@@ -44,25 +44,35 @@ main {
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  height: 250px;
+  height: 100%;
   width: 360px;
   background-color: white;
   box-shadow: 1px 1px 4px #454679;
+  padding: 15px;
 }
-.logo_img {
-  margin-top: 5px;
-  width: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.profile_name {
+  font-size: 22px;
+}
+.profile_text {
 }
 ._image2 {
   margin-bottom: 15px;
   border: 1px solid #454679;
   box-shadow: 1px 1px 4px #454679;
-  width: 40%;
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
   border-radius: 50%;
 }
+.logo_img {
+  margin-top: 5px;
+  padding: 5px 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .section {
   margin-top: 20px;
   display: flex;
@@ -85,13 +95,18 @@ main {
 }
 .linkedin {
   cursor: pointer;
+  font-size: 20px;
 }
+
 .instagram {
   cursor: pointer;
+  font-size: 20px;
 }
 .facebook {
   cursor: pointer;
+  font-size: 20px;
 }
 .twitter {
   cursor: pointer;
+  font-size: 20px;
 }

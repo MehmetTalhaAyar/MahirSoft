@@ -1,3 +1,6 @@
+.dashboard_header {
+  cursor: default;
+}
 .dashboard_container {
   margin-top: 20px;
   box-shadow: rgba(99, 99, 99, 0.7) 0px 2px 8px 0px;
@@ -14,9 +17,11 @@
 }
 .dashboard_title {
   margin-bottom: 20px;
+  cursor: default;
 }
 .dashboard_paragraph {
   color: #e6e6e6;
+  cursor: default;
 }
 .dashboard_cards {
   margin-top: 80px;
@@ -40,11 +45,13 @@
   width: 100%;
   margin-left: 30px;
   height: 70px;
+  cursor: default;
 }
 .total {
   display: flex;
   gap: 10px;
   font-family: monospace;
+  cursor: default;
 }
 .square {
   background-color: blue;

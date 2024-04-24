@@ -12,6 +12,46 @@ export default function Notification() {
   };
 
   const authState = useAuthState();
+
+  const notificaiton = [
+    {
+      imageSrc: notificationImage,
+      name: authState.fullName,
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: authState.fullName,
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: authState.fullName,
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: authState.fullName,
+      description: "Gelen notification burada gelecek",
+    },
+  ];
+  const email = [
+    {
+      imageSrc: notificationImage,
+      name: authState.fullName,
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: authState.fullName,
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: authState.fullName,
+      description: "Gelen email burada gelecek",
+    },
+  ];
   return (
     <>
       <div className="dropdown_notification animate_profile">
@@ -33,83 +73,35 @@ export default function Notification() {
         </header>
 
         {currentPage === "notification" && (
-          <aside className="wraper">
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
-            <div className="notification_container">
-              <img src={notificationImage} className="notification_image" />
-              <div className="notification_message">
-                <p className="notification_desc">
-                  <b>{authState.fullName}</b> Gelen notification burada gelecek
-                </p>
-              </div>
-            </div>
+          <aside className="message_wraper">
+            {notificaiton.map((member) => {
+              return (
+                <li className="notification_container" key={notificaiton.name}>
+                  <img src={member.imageSrc} className="notification_image" />
+                  <div className="notification_message">
+                    <p className="notification_desc">
+                      <b>{member.name}</b>&nbsp;
+                      {member.description}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
           </aside>
         )}
         {currentPage === "posta" && (
-          <aside className="wraper">
-            <div className="email_container">
-              {/* Email icon hala düzenlenmedi */}
-              <TfiEmail className="email_img" />
-              <div className="posta_message">
-                <b>{authState.fullName}</b>
-                <p className="notification_desc">Gelen email burada gelecek </p>
-              </div>
-            </div>
+          <aside className="message_wraper">
+            {email.map((member) => {
+              return (
+                <li className="email_container" key={member.name}>
+                  <TfiEmail className="email_img" />
+                  <div className="posta_message">
+                    <b>{member.name}</b>
+                    <p className="posta_desc">Gelen email burada gelecek </p>
+                  </div>
+                </li>
+              );
+            })}
           </aside>
         )}
       </div>

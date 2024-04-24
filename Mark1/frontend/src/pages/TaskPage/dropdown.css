@@ -14,11 +14,13 @@
 .dropdown-content2 a {
   padding: 0.5rem 1rem;
   text-decoration: none;
-  display: block;
-  color: rgb(98, 98, 98);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgb(255, 95, 95);
 }
 .dropdown-content2 a:hover {
-  color: #000;
+  color: #ff0000;
   background-color: #e0e0e0;
 }
 .openDropdown2 {

@@ -170,8 +170,25 @@
   transition: 0.4s;
 }
 ._dot {
+  border-radius: 50%;
+  padding: 4px;
+  font-size: 30px;
   cursor: pointer;
 }
+._dot:hover {
+  background-color: #cdcbcb;
+  transition: 0.3s;
+}
+
+._dot2 {
+  border-radius: 50%;
+  padding: 4px;
+  font-size: 30px;
+  background-color: #cdcbcb;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
 .dropdown-content {
   top: 40px;
   right: 0px;
