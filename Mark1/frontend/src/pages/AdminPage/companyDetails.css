@@ -1,0 +1,40 @@
+/* CompanyDetails.css */
+.company-details {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.company-details h1 {
+  border-left: 7px solid green;
+  padding-left: 5px;
+  font-size: 26px;
+}
+.company-details span {
+  color: rgb(243, 136, 136);
+  padding-left: 12px;
+}
+
+.company-details p {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: rgb(183, 183, 183);
+}
+
+.company-details button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.company-details button:hover {
+  background-color: #45a049;
+}

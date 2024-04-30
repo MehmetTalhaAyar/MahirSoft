@@ -17,14 +17,15 @@
   display: flex;
   cursor: pointer;
 }
-.message_wraper {
+.notification_wraper {
   height: 100%;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   justify-content: start;
+  padding-bottom: 100px;
 }
-.message_wraper::-webkit-scrollbar {
+.notification_wraper::-webkit-scrollbar {
   display: none;
 }
 .notification {
@@ -46,7 +47,7 @@
   gap: 7px;
   border-radius: 10px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);
-  padding: 10px 20px;
+  padding: 10px 15px;
 }
 .notification_container:hover {
   display: flex;
@@ -54,14 +55,21 @@
   cursor: pointer;
   transition: 0.3s;
 }
+.posta_wraper {
+  height: 100%;
+  overflow-y: scroll;
+  padding-bottom: 100px;
+}
+.posta_wraper::-webkit-scrollbar {
+  display: none;
+}
 
 .email_container {
   display: flex;
-  width: 100%;
-  align-items: start;
+  margin: 5px 0;
   gap: 7px;
-  border-bottom: 1px solid rgb(205, 204, 204);
-  padding: 10px 20px;
+
+  padding: 10px 15px;
 }
 .email_container:hover {
   display: flex;

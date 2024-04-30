@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { getTasks } from "./api";
 import "./stage.css";
 import Task from "./task";

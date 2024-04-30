@@ -1,0 +1,32 @@
+body {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif "Arial",
+    sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f7f6;
+}
+.admin_sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #333;
+  color: #fff;
+}
+.sidebar_elements {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 15px;
+  list-style: none;
+}
+
+.admin_sidebar ul li {
+  padding: 15px 20px;
+  border-bottom: 1px solid #444;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  cursor: pointer;
+}
+.admin_sidebar ul li:hover {
+  border-radius: 15px;
+  background: #444;
+}

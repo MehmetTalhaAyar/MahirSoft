@@ -13,7 +13,6 @@ function EditProfilePage({ onProfileImageChange }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setProfileImage(file);
-    console.log("Image uploaded:", file);
   };
 
   const handleUploadClick = () => {
@@ -23,7 +22,8 @@ function EditProfilePage({ onProfileImageChange }) {
 
   //Save the image on the Profile Card function
   const saveChanges = () => {
-    setProfileImage(onProfileImageChange);
+    onProfileImageChange(profileImage);
+    setProfileImage(false);
   };
 
   return (

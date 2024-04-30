@@ -16,39 +16,124 @@ export default function Notification() {
   const notificaiton = [
     {
       imageSrc: notificationImage,
-      name: authState.fullName,
+      name: "Redon Çapuni",
       description: "Gelen notification burada gelecek",
     },
     {
       imageSrc: notificationImage,
-      name: authState.fullName,
+      name: "Mehmet Tahla",
       description: "Gelen notification burada gelecek",
     },
     {
       imageSrc: notificationImage,
-      name: authState.fullName,
+      name: "Abdullah Vural",
       description: "Gelen notification burada gelecek",
     },
     {
       imageSrc: notificationImage,
-      name: authState.fullName,
+      name: "Redon Çapuni",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Mehmet Tahla",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Abdullah Vural",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Redon Çapuni",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Mehmet Tahla",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Abdullah Vural",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Redon Çapuni",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Mehmet Tahla",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Abdullah Vural",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Redon Çapuni",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Mehmet Tahla",
+      description: "Gelen notification burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Abdullah Vural",
       description: "Gelen notification burada gelecek",
     },
   ];
   const email = [
     {
       imageSrc: notificationImage,
-      name: authState.fullName,
+      name: "Redon Çapuni",
       description: "Gelen email burada gelecek",
     },
     {
       imageSrc: notificationImage,
-      name: authState.fullName,
+      name: "Mehmet Tahla",
       description: "Gelen email burada gelecek",
     },
     {
       imageSrc: notificationImage,
-      name: authState.fullName,
+      name: "Abdullah Vurall",
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Redon Çapuni",
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Mehmet Tahla",
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Abdullah Vurall",
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Redon Çapuni",
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Mehmet Tahla",
+      description: "Gelen email burada gelecek",
+    },
+    {
+      imageSrc: notificationImage,
+      name: "Abdullah Vurall",
       description: "Gelen email burada gelecek",
     },
   ];
@@ -73,7 +158,7 @@ export default function Notification() {
         </header>
 
         {currentPage === "notification" && (
-          <aside className="message_wraper">
+          <aside className="notification_wraper">
             {notificaiton.map((member) => {
               return (
                 <li className="notification_container" key={notificaiton.name}>
@@ -90,7 +175,7 @@ export default function Notification() {
           </aside>
         )}
         {currentPage === "posta" && (
-          <aside className="message_wraper">
+          <aside className="posta_wraper">
             {email.map((member) => {
               return (
                 <li className="email_container" key={member.name}>

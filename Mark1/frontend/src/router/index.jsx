@@ -10,6 +10,9 @@ import Home from "../pages/HomePage/home.jsx";
 import { CompanyPage } from "../pages/HomePage/CompanyPage/company.jsx";
 import { TaskPage } from "../pages/TaskPage/index.jsx";
 import ProjectDetails from "../pages/HomePage/Project/projectDetails.jsx";
+import AdminPanel from "../pages/AdminPage/AdminPanel.jsx";
+import AdminDashboard from "../pages/AdminPage/AdminDashboard.jsx";
+import Users from "../pages/AdminPage/users.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -20,11 +23,6 @@ export const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
     children: [
-      // {
-      //   path: "",
-      //   index: true,
-      //   element: <Dashboard />,
-      // },
       {
         path: "",
         element: <Board />,
@@ -64,5 +62,13 @@ export const router = createBrowserRouter([
   {
     path: "/forgotpassword",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/admin",
+    element: <AdminPanel />,
+    children: [
+      { path: "adminDashboard", element: <AdminDashboard /> },
+      { path: "users", element: <Users /> },
+    ],
   },
 ]);
