@@ -3,9 +3,10 @@ import "./stage.css";
 import Task from "./task";
 import { IoIosAdd } from "react-icons/io";
 import React, { useState, useEffect, useCallback } from "react";
+import DropArea from "./dropArea";
 
 function Stage(props) {
-  const { stageName, stageId } = props;
+  const { stageName, stageId, setActiveCard, onDrop, updateTasks } = props;
   const [tasks, setTasks] = useState([]);
   const [newTaskCount, setNewTaskCount] = useState(0);
 
@@ -27,6 +28,7 @@ function Stage(props) {
 
     if (response.status === 200) {
       setTasks(response.data.tasks);
+      updateTasks(response.data.tasks);
     }
   }, []);
 
@@ -56,13 +58,12 @@ function Stage(props) {
       };
       setNewTaskCount(1);
 
-      console.log(newTask);
-
       setTasks([newTask, ...tasks]);
     } else {
       console.log("tek seferde 1 tane görev eklenebilir.");
     }
   };
+
   return (
     <ul className="cards">
       <li className="card">
@@ -74,16 +75,20 @@ function Stage(props) {
         </div>
 
         <div className={`scrolling_vertically ${stageName.replace(" ", "-")}`}>
+          <DropArea onDrop={() => onDrop(stageName, 0)} />
           {tasks.map((task) => (
-            <Task
-              key={task.id}
-              isNew={task.isNew ? task.isNew : false}
-              taskNameSend={task.name}
-              taskDescriptionSend={task.description}
-              changeState={saveTask}
-              stageId={stageId}
-              taskId={task.id}
-            />
+            <React.Fragment key={task.id}>
+              <Task
+                isNew={task.isNew ? task.isNew : false}
+                taskNameSend={task.name}
+                taskDescriptionSend={task.description}
+                changeState={saveTask}
+                stageId={stageId}
+                taskId={task.id}
+                setActiveCard={setActiveCard}
+              />
+              <DropArea onDrop={() => onDrop(stageName, task.id + 1)} />
+            </React.Fragment>
           ))}
         </div>
       </li>

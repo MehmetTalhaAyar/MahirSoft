@@ -8,6 +8,8 @@ import { useLocation } from "react-router-dom";
 function Dashboard() {
   const location = useLocation();
   const [stages, setStages] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [activeCard, setActiveCard] = useState(null);
 
   useEffect(() => {
     if (location.state) {
@@ -15,7 +17,20 @@ function Dashboard() {
     }
   }, []);
 
-  //bir callback fonksiyonu yazılacak ve proje isminin var olup olmadığına bakılacak.
+  const onDrop = (stage, position) => {
+    console.log(
+      `${activeCard} is going to place into ${stage} and at the position ${position}`
+    );
+    if (activeCard === null || activeCard === undefined) return;
+    const taskToMove = tasks[activeCard]; // hatalı
+    const updatedTasks = tasks.filter((task, index) => index !== activeCard); // hatalı
+
+    updatedTasks.splice(stage.name, 0, {
+      ...taskToMove,
+      status: stage.name,
+    });
+    setTasks(updatedTasks);
+  };
 
   return (
     <div className="wraper">
@@ -32,9 +47,18 @@ function Dashboard() {
       <hr></hr>
       <div className="container2">
         {stages.map((stage) => (
-          <Stage key={stage.id} stageName={stage.name} stageId={stage.id} />
+          <Stage
+            key={stage.id}
+            stageName={stage.name}
+            stageId={stage.id}
+            setActiveCard={setActiveCard}
+            onDrop={onDrop}
+            updateTasks={updateAllTasks}
+            setTasks={setTasks}
+          />
         ))}
       </div>
+      <h1>Task = {activeCard}</h1>
     </div>
   );
 }

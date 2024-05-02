@@ -13,6 +13,8 @@ function Task(props) {
     taskDescriptionSend,
     stageId,
     taskId,
+
+    setActiveCard,
   } = props;
   const [taskName, setTaskName] = useState();
   const [taskDescription, setTaskDescription] = useState();
@@ -25,7 +27,6 @@ function Task(props) {
         taskDescription,
       });
 
-      console.log(response);
       if (response.status === 201) {
         changeState(response.data);
       }
@@ -41,7 +42,6 @@ function Task(props) {
     if (taskNameSend !== undefined) {
       setTaskName(taskNameSend);
     }
-    console.log(taskDescriptionSend);
     if (taskDescriptionSend !== undefined) {
       setTaskDescription(taskDescriptionSend);
     }
@@ -50,7 +50,12 @@ function Task(props) {
   if (isNew === true) {
     return (
       <>
-        <div className="task">
+        <div
+          draggable
+          onDragStart={() => setActiveCard(taskId)}
+          onDragEnd={() => setActiveCard(null)}
+          className="task"
+        >
           <button className="save-button" onClick={saveElements}>
             <FaCheck />
           </button>
@@ -105,7 +110,12 @@ function Task(props) {
             description: taskDescriptionSend,
           }}
         >
-          <div className="task">
+          <div
+            draggable
+            onDragStart={() => setActiveCard(taskId)}
+            onDragEnd={() => setActiveCard(null)}
+            className="task"
+          >
             <div className="task-name">
               <h1
                 className="task-readOnly-input name-field"
