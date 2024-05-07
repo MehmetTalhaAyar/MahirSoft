@@ -1,6 +1,7 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,18 +9,22 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.StageService;
+import com.mahirsoft.webservice.Business.concretes.TaskAndStageService;
 import com.mahirsoft.webservice.Business.concretes.TaskService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Models.Task;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
+import com.mahirsoft.webservice.Entities.Requests.UpdateTaskStageRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralTaskResponse;
+import com.mahirsoft.webservice.Entities.Response.TaskResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
 import jakarta.validation.Valid;
@@ -33,14 +38,17 @@ public class TaskAndStageController {
     StageService stageService;
 
     PermissionService permissionService;
+    
+    TaskAndStageService taskAndStageService;
 
-   
+
 
     public TaskAndStageController(TaskService taskService, StageService stageService,
-            PermissionService permissionService) {
+            PermissionService permissionService, TaskAndStageService taskAndStageService) {
         this.taskService = taskService;
         this.stageService = stageService;
         this.permissionService = permissionService;
+        this.taskAndStageService = taskAndStageService;
     }
 
 
@@ -53,6 +61,9 @@ public class TaskAndStageController {
         var stage = stageService.getStage(stageId);
 
         if (stage == null) return null;
+
+        // farklı bir şirketten birinin task yetkisi ile farklı bir şirketin stage ine task eklemesi engelleniyor.
+        permissionService.isInThisProjectFindByStageId(currentUser, stageId); 
 
         Task task = new Task();
         
@@ -78,7 +89,7 @@ public class TaskAndStageController {
     }
 
 
-    @GetMapping("/alltasks/{stageId}")// burada istek atan kişinin projede olması kontrol edilecek
+    @GetMapping("/alltasks/{stageId}")
     public GeneralStageResponse getAllTaskByStage(@PathVariable long stageId,@AuthenticationPrincipal DefaultUser currentUser){
 
         permissionService.isInThisProjectFindByStageId(currentUser, stageId);
@@ -95,9 +106,13 @@ public class TaskAndStageController {
     public ResponseEntity<?> deleteTask(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
         String body = "Task Not Found";
 
-        permissionService.isTherePermission(currentUser, AuthorizationCodes.TASK_DELETE);
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.TASK_DELETE);
 
         var task = taskService.findById(id);
+        
+        if(task == null) return null;
+
+        permissionService.isInThisProjectFindByTaskId(currentUser, task.getTaskId());
 
         var message = taskService.softDeleteTask(task);
 
@@ -107,6 +122,22 @@ public class TaskAndStageController {
         return new ResponseEntity<>(HttpStatusCode.valueOf(200));
 
     }
+
+
+    @PutMapping("/updatetaskstage")
+    public ResponseEntity<?> handleUpdateTaskStage(@RequestBody UpdateTaskStageRequest updateTaskStageRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+
+        var task = taskAndStageService.updateTaskStage(updateTaskStageRequest);
+
+        if(task == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400));
+
+        TaskResponse taskResponse = task.toTaskResponse();
+        
+
+        return new ResponseEntity<TaskResponse>(taskResponse,HttpStatusCode.valueOf(200));
+    }
+
 
 
     

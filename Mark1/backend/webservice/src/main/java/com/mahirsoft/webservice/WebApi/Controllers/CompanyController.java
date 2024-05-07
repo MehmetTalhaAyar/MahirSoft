@@ -83,7 +83,7 @@ public class CompanyController {
         return new ResponseEntity<GeneralCompanyResponse>(companyResponse, HttpStatusCode.valueOf(201));
     }
 
-    @PostMapping("/addemployee/{id}")
+    @PostMapping("/addemployee/{id}") // burada artık istek atılacak ve o isteğin yanıtına göre işlem yapılacak burası düzenlenecek
     public ResponseEntity<?> addEmployeeToCompany(@PathVariable long id,@RequestBody PostAddUserToCompanyRequest postAddUserToCompanyRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
         permissionService.isTherePermission(currentUser, AuthorizationCodes.INVITATION_TO_THE_COMPANY);

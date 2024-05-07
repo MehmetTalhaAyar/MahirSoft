@@ -51,6 +51,16 @@ public class Company {
     @OneToMany(mappedBy = "companyId")
     List<UserRole> userRoles;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "companyId")
+    List<CompanyInvitation> invitationsList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "companyId")
+    List<CompanyCreateRequest> createRequests;
+
+
+
     public CompanyResponse toCompanyResponse(){
         CompanyResponse companyResponse = new CompanyResponse();
 

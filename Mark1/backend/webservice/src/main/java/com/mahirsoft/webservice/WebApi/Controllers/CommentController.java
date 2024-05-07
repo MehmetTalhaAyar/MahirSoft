@@ -70,9 +70,9 @@ public class CommentController {
     @PutMapping("/update")
     public ResponseEntity<?> handleUpdateCommentRequest(@RequestBody PostUpdateCommentRequest postUpdateCommentRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateCommentRequest.getTaskId());
+        var user = permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateCommentRequest.getTaskId());
 
-        var comment = commentService.UpdateComment(postUpdateCommentRequest);
+        var comment = commentService.UpdateComment(postUpdateCommentRequest,user);
 
         if(comment == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400));
 
@@ -100,7 +100,9 @@ public class CommentController {
     @DeleteMapping("/{commentId}")
     public ResponseEntity<?> handleDeleteComment(@PathVariable long commentId,@AuthenticationPrincipal DefaultUser currentUser){
 
-        var comment = commentService.softDeleteComment(commentId);
+        var user = permissionService.isTherePermission(currentUser, -1);
+
+        var comment = commentService.softDeleteComment(commentId,user);
 
         if(comment == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400));
 

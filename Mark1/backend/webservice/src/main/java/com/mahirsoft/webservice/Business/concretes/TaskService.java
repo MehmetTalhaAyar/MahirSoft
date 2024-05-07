@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.Entities.Models.Task;
+import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUpdateTaskDescriptionRequest;
 
@@ -69,7 +70,7 @@ public class TaskService {
 
     
     public Task softDeleteTask(Task task) {
-        
+    
         task.setDeletionStateCode(1);            
         return taskRepository.save(task);
         
