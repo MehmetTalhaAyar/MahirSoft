@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.CommentLikeRepository;
 import com.mahirsoft.webservice.DataAccess.CommentRepository;
+import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
 import com.mahirsoft.webservice.Entities.Models.Comment;
 import com.mahirsoft.webservice.Entities.Models.CommentLike;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
@@ -31,11 +32,13 @@ public class CommentService {
     }
 
 
-    public Comment UpdateComment(PostUpdateCommentRequest postUpdateCommentRequest) {
+    public Comment UpdateComment(PostUpdateCommentRequest postUpdateCommentRequest,UserAuthentication user) {
         
         var comment = commentRepository.findById(postUpdateCommentRequest.getCommentId()).orElse(null);
 
         if(comment == null) return null;
+
+        if(comment.getWrittenById().getUserId() != user.getUserId()) throw new PermissionDeniedException(); // buradaki hatayı farklı bir hata ile değiştirebiliriz
 
         comment.setContent(postUpdateCommentRequest.getContent());
 
@@ -72,11 +75,13 @@ public class CommentService {
     }
 
 
-    public Comment softDeleteComment(long commentId) {
+    public Comment softDeleteComment(long commentId,UserAuthentication user) {
         
         var comment = commentRepository.findById(commentId).orElse(null);
 
         if(comment == null) return null;
+
+        if(comment.getWrittenById().getUserId() != user.getUserId()) throw new PermissionDeniedException(); // buradaki hatayı farklı bir hata ile değiştirebiliriz
 
         comment.setDeletionStateCode(1);
         

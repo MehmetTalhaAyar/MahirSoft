@@ -358,7 +358,7 @@ function Project() {
                     <Link
                       className="to-links"
                       to={project.title.toLowerCase()}
-                      state={{ admin: project.admin, stages: project.stages }}
+                      state={{projectId:project.id}}
                     >
                       <button className="go_into_tasks">
                         Go to Tasks <IoIosArrowForward />

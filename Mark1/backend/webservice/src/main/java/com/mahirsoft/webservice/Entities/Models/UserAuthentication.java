@@ -122,6 +122,20 @@ public class UserAuthentication {
     @OneToMany(mappedBy = "userId")
     private List<CommentLike> likes;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId")
+    private List<CompanyInvitation> recievedCompanyInvitations;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId")
+    private List<CompanyCreateRequest> companyCreateRequests;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId")
+    private List<Notification> notifications;
+    
+
+
 
     public GeneralUserAuthenticationResponse toGeneralUserAuthenticationResponse() {
         GeneralUserAuthenticationResponse generalUser = new GeneralUserAuthenticationResponse();

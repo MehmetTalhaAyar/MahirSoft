@@ -117,7 +117,7 @@ public class TaskController {
     public ResponseEntity<?> handleChangeTaskDescription(@Valid @RequestBody PostUpdateTaskDescriptionRequest postUpdateTaskDescriptionRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
         permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateTaskDescriptionRequest.getTaskId());
-
+        // ilerde burada history oluşturulması sağlanacak
         var task = taskService.ChangeTaskDescription(postUpdateTaskDescriptionRequest);
 
 

@@ -52,7 +52,7 @@ function Task(props) {
       <>
         <div
           draggable
-          onDragStart={() => setActiveCard(taskId)}
+          onDragStart={() => setActiveCard(taskId,stageId)}
           onDragEnd={() => setActiveCard(null)}
           className="task"
         >
@@ -112,7 +112,7 @@ function Task(props) {
         >
           <div
             draggable
-            onDragStart={() => setActiveCard(taskId)}
+            onDragStart={() => setActiveCard(taskId,stageId)}
             onDragEnd={() => setActiveCard(null)}
             className="task"
           >

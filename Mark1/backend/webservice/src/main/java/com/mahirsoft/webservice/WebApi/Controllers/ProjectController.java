@@ -14,11 +14,16 @@ import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.ProjectService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.GetProjectDetailsResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectResponse;
+import com.mahirsoft.webservice.Entities.Response.TaskResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("api/v1/projects")
@@ -80,6 +85,25 @@ public class ProjectController {
         return new ResponseEntity<String>(body,HttpStatusCode.valueOf(201));
     }
 
+
+    @GetMapping("/details/{projectId}") // burada projenin içinde mi diye kontrol edilcek
+    public ResponseEntity<?> projectDetails(@PathVariable long projectId,@AuthenticationPrincipal DefaultUser currentUser){
+
+
+
+        var projectDetails = projectService.getProject(projectId);
+
+        if(projectDetails == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400));
+        List<GeneralStageResponse> stages = new ArrayList<>();
+        for(var eleman : projectDetails.getStages()){
+            stages.add(eleman.toGeneralStageResponse());
+        }
+
+        GetProjectDetailsResponse getProjectDetailsResponse = new GetProjectDetailsResponse();
+        getProjectDetailsResponse.setStages(stages);
+
+        return new ResponseEntity<GetProjectDetailsResponse>(getProjectDetailsResponse,HttpStatusCode.valueOf(200));
+    }
     
 
 }

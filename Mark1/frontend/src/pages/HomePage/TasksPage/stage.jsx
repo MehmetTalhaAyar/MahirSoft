@@ -1,19 +1,18 @@
-import { getTasks } from "./api";
 import "./stage.css";
 import Task from "./task";
 import { IoIosAdd } from "react-icons/io";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import DropArea from "./dropArea";
 
 function Stage(props) {
-  const { stageName, stageId, setActiveCard, onDrop } = props;
+  const { stage, setActiveCard, onDrop } = props;
   const [tasks, setTasks] = useState([]);
   const [newTaskCount, setNewTaskCount] = useState(0);
 
   useEffect(() => {
     // Add a class to trigger the slide-down animation when tasks change
     const scrollingVertically = document.querySelector(
-      `.${stageName.replace(" ", "-")}`
+      `.${stage.name.replace(" ", "-")}`
     );
     scrollingVertically.classList.add("slide-down");
 
@@ -23,17 +22,9 @@ function Stage(props) {
     }, animationDuration);
   }, [tasks, newTaskCount]);
 
-  const getTask = useCallback(async () => {
-    const response = await getTasks(stageId);
-
-    if (response.status === 200) {
-      setTasks(response.data.tasks);
-    }
-  }, []);
-
   useEffect(() => {
-    getTask();
-  }, []);
+    setTasks(stage.tasks);
+  }, [stage.tasks.length]);
 
   const saveTask = (response) => {
     const oldTasks = tasks.map((task) => {
@@ -67,26 +58,27 @@ function Stage(props) {
     <ul className="cards">
       <li className="card">
         <div className="card_header">
-          <div className="header_name">{stageName}</div>
+          <div className="header_name">{stage.name}</div>
           <button className="new" onClick={handleNewButtonClick}>
             <IoIosAdd />
           </button>
         </div>
 
-        <div className={`scrolling_vertically ${stageName.replace(" ", "-")}`}>
-          <DropArea onDrop={() => onDrop(stageName, 0)} />
+        <div className={`scrolling_vertically ${stage.name.replace(" ", "-")}`}>
+          <DropArea onDrop={() => onDrop(stage.id)} />
           {tasks.map((task) => (
             <React.Fragment key={task.id}>
               <Task
+                key={task.id}
                 isNew={task.isNew ? task.isNew : false}
                 taskNameSend={task.name}
                 taskDescriptionSend={task.description}
                 changeState={saveTask}
-                stageId={stageId}
+                stageId={stage.id}
                 taskId={task.id}
                 setActiveCard={setActiveCard}
               />
-              <DropArea onDrop={() => onDrop(stageName, task.id + 1)} />
+              <DropArea onDrop={() => onDrop(stage.id)} />
             </React.Fragment>
           ))}
         </div>

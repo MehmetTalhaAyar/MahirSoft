@@ -278,16 +278,16 @@ export function TaskPage() {
     });
 
     if (response.status === 200) {
-      updatedComments[index].text = editedComment; // Update the text of the comment
+      updatedComments[index].text = editedComment;
       setComments(updatedComments);
     }
 
-    setEditingCommentIndex(null); // Reset editing state
+    setEditingCommentIndex(null);
   };
 
   const handleCancelEdit = () => {
-    setEditedComment(""); // Clear the edited comment
-    setEditingCommentIndex(null); // Reset editing state
+    setEditedComment("");
+    setEditingCommentIndex(null);
   };
 
   return isShow ? (
