@@ -6,7 +6,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import DropArea from "./dropArea";
 
 function Stage(props) {
-  const { stageName, stageId, setActiveCard, onDrop, updateTasks } = props;
+  const { stageName, stageId, setActiveCard, onDrop } = props;
   const [tasks, setTasks] = useState([]);
   const [newTaskCount, setNewTaskCount] = useState(0);
 
@@ -28,7 +28,6 @@ function Stage(props) {
 
     if (response.status === 200) {
       setTasks(response.data.tasks);
-      updateTasks(response.data.tasks);
     }
   }, []);
 

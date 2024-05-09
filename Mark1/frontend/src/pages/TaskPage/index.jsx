@@ -55,8 +55,8 @@ export function TaskPage() {
   const [selectedStage, setSelectedStage] = useState();
   const [selectedResponsible, setSelectedResponsible] = useState();
   const [selectedReporter, setSelectedReporter] = useState();
-
   const [isShow, setIsShow] = useState(false);
+  const [saveChanges, setSaveChanges] = useState(false);
 
   useEffect(() => {
     if (authState.userId > 0) {
@@ -66,7 +66,7 @@ export function TaskPage() {
 
   useEffect(() => {
     const response = getInfo();
-    console.log(response);
+
     response.finally(() => {
       setIsShow(true);
     });
@@ -216,6 +216,10 @@ export function TaskPage() {
           response.data.responsibleId.surname[0]
       );
     }
+    setSaveChanges(true);
+    return setTimeout(() => {
+      setSaveChanges(false);
+    }, 1500);
   };
 
   const filterMembers = (inputValue) => {
@@ -245,7 +249,6 @@ export function TaskPage() {
     const response = await updateLikeCount(updatedComments[index].commentId);
 
     if (response.status === 200) {
-      console.log(response.data.likeCount);
       updatedComments[index].likeCount = response.data.likeCount;
     }
 
@@ -326,9 +329,7 @@ export function TaskPage() {
             <div className="show_comment_container">
               {comments.map((comment, index) => (
                 <div key={index} className="show_comment">
-                  <h4>
-                    <CgProfile className="photo" />
-                  </h4>
+                  <p className="logo2">{userDefaultLogo}</p>
                   <div className="show_comment_right">
                     <div className="author_title">
                       <section className="send_time">
@@ -455,6 +456,15 @@ export function TaskPage() {
                 Save Changes
               </button>
             </div>
+
+            {saveChanges ? (
+              <span className="change_successfully">
+                Successfully saved changes{" "}
+              </span>
+            ) : (
+              ""
+            )}
+
             <hr className="tree" />
             <p className="task_created">
               Created on{" "}

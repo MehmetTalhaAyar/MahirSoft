@@ -296,6 +296,7 @@ function Project() {
         <div className="project_section">
           {filteredProjectCards.map((project, index) => (
             <div key={index} className="project_card">
+              {/* <Link to={"/home/projectDetailss"}> */}
               <header className="project_header">
                 <h2 className="proje_title">{project.title}</h2>
                 <HiDotsHorizontal
@@ -315,6 +316,7 @@ function Project() {
                   <a href="#edit">Edit</a>
                 </div>
               </header>
+              {/* </Link> */}
 
               <div className="proje_container">
                 <section className="manager_side">
@@ -334,9 +336,9 @@ function Project() {
                     {members.map((member, index) => {
                       if (index >= 6) {
                         return (
-                          <span key={member.id} className="plus_7">
+                          <li key={member.id} className="plus_7">
                             +{index - 5 >= 9 ? "9" : index - 5}
-                          </span>
+                          </li>
                         );
                       }
 
@@ -367,10 +369,10 @@ function Project() {
               </div>
 
               <span className="created_on">
-                Created on{" "}
-                {`${project.createdOn.day} ${MONTHS[project.createdOn.month]} ${
-                  project.createdOn.year
-                }`}
+                Created on
+                {` ${project.createdOn.day} ${
+                  MONTHS[project.createdOn.month]
+                } ${project.createdOn.year}`}
               </span>
             </div>
           ))}

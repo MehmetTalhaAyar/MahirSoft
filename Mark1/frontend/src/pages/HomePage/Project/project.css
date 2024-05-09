@@ -146,17 +146,19 @@
   grid-auto-rows: auto;
   border-radius: 5px;
 }
-.project_card:hover {
-  scale: 1.02;
-  transition: 0.3s;
-}
+
 .project_card {
   margin: 10px 15px;
   position: relative;
   background-color: white;
   overflow: hidden;
+  padding-bottom: 5px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.project_card:hover {
+  scale: 1.017;
+  transition: 0.2s;
 }
 .project_header {
   display: flex;
@@ -166,8 +168,8 @@
   border-bottom: 1px solid rgb(218, 217, 217);
 }
 .project_header:hover {
+  transition: 0.3s;
   background-color: rgb(120, 201, 120);
-  transition: 0.4s;
 }
 ._dot {
   border-radius: 50%;
@@ -176,15 +178,15 @@
   cursor: pointer;
 }
 ._dot:hover {
-  background-color: #cdcbcb;
-  transition: 0.3s;
+  background-color: rgb(194, 194, 194);
+  transition: 0.2s;
 }
 
 ._dot2 {
   border-radius: 50%;
   padding: 4px;
   font-size: 30px;
-  background-color: #cdcbcb;
+  background-color: rgb(194, 194, 194);
   transition: 0.3s;
   cursor: pointer;
 }
@@ -235,6 +237,7 @@
 
 .proje_container {
   display: flex;
+  width: 100%;
   padding: 10px;
   height: 170px;
 }
@@ -315,7 +318,6 @@
 }
 .member_list {
   overflow: hidden;
-
   border-radius: 50%;
 }
 .proje_member_list .member_list:not(:first-child) {

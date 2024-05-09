@@ -53,12 +53,11 @@ function Dashboard() {
             stageId={stage.id}
             setActiveCard={setActiveCard}
             onDrop={onDrop}
-            updateTasks={updateAllTasks}
+            task={tasks}
             setTasks={setTasks}
           />
         ))}
       </div>
-      <h1>Task = {activeCard}</h1>
     </div>
   );
 }
