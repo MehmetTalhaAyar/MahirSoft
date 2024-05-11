@@ -35,6 +35,18 @@
   font-weight: 700;
   color: white;
 }
+
+.card_draggable {
+  cursor: grab;
+  box-shadow: 0px 0px 10px 10px rgba(96, 115, 238, 0.75);
+}
+
+.card_on_draggable{
+  cursor: grab;
+  box-shadow: 0px 0px 10px 10px green;
+
+}
+
 .new {
   display: flex;
   justify-content: center;

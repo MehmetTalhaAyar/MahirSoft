@@ -103,6 +103,7 @@ function Dashboard() {
             stage={stage}
             setActiveCard={setActiveCardAndStage}
             onDrop={onDrop}
+            activeCard = {activeCard}
           />
         ))}
       </div>
