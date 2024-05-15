@@ -147,6 +147,7 @@ public class UserAuthentication {
         generalUser.setUserId(userId);
         generalUser.setSurname(surname);
         generalUser.setTitle(title);
+        generalUser.setImage(image);
         if(companyId != null)
             generalUser.setCompany(companyId.toCompanyResponse());
         
@@ -220,6 +221,7 @@ public class UserAuthentication {
             currentProject.setLeadingPerson(eleman.getProjectId().getLeadingPersonId().toGeneralUserAuthenticationResponse());
             currentProject.setStages(eleman.getProjectId().toGeneralStageResponse());
             currentProject.setName(eleman.getProjectId().getName());
+            currentProject.setMembers(eleman.getProjectId().toGeneralUserAuthenticationResponses());
 
             projectList.add(currentProject);
 

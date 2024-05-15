@@ -67,6 +67,8 @@ function Project() {
               month: project.createdOn[1],
               year: project.createdOn[0],
             },
+            adminImage: project.leadingPerson.image,
+            members: project.members,
           };
         })
       );
@@ -125,6 +127,8 @@ function Project() {
               month: response.data.createdOn[1],
               year: response.data.createdOn[0],
             },
+            adminImage: response.data.leadingPerson.image,
+            members: response.data.members,
           },
         ];
         const newDropdownStates = [...dropdownStates, false];
@@ -209,14 +213,9 @@ function Project() {
       project.title.toLowerCase().includes(filterInput.toLowerCase())
     );
     setFilteredProjectCards(filteredProjects);
+    console.log(filteredProjects);
   };
 
-  const members = [
-    { id: 1, imageSrc: defaultProfileImage },
-    { id: 2, imageSrc: defaultProfileImage },
-    { id: 3, imageSrc: defaultProfileImage },
-    { id: 4, imageSrc: defaultProfileImage },
-  ];
   return (
     <main>
       <h1>My Project</h1>
@@ -323,7 +322,11 @@ function Project() {
                   <p className="manager_header">Manager</p>
                   <div className="proje_manager_container">
                     <img
-                      src={defaultProfileImage}
+                      src={
+                        project.adminImage !== null
+                          ? `/assets/profile/${project.adminImage}`
+                          : defaultProfileImage
+                      }
                       alt="Manager Image"
                       className="manager_image"
                     />
@@ -333,19 +336,23 @@ function Project() {
                 <section className="member_side">
                   <p className="member_header">Members</p>
                   <ul className="proje_member_list">
-                    {members.map((member, index) => {
+                    {project.members.map((member, index) => {
                       if (index >= 6) {
                         return (
-                          <li key={member.id} className="plus_7">
+                          <span key={member.userId} className="plus_7">
                             +{index - 5 >= 9 ? "9" : index - 5}
-                          </li>
+                          </span>
                         );
                       }
 
                       return (
-                        <li key={member.id} className="member_list">
+                        <li key={member.userId} className="member_list">
                           <img
-                            src={member.imageSrc}
+                            src={
+                              member.image !== null
+                                ? `/assets/profile/${member.image}`
+                                : defaultProfileImage
+                            }
                             alt="Manager Image"
                             className="member_image"
                           />

@@ -7,6 +7,7 @@ import {
   loadSessionToken,
 } from "./sessionstorage";
 import { setSessionToken, setToken } from "../lib/http";
+import { act } from "react";
 
 export const AuthContext = createContext();
 

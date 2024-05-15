@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetAllUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.PostUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.PutImageResponse;
 import com.mahirsoft.webservice.Entities.Response.TaskCountResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
@@ -125,14 +127,17 @@ public class UserAuthenticationController {
         return new ResponseEntity<TaskCountResponse>(user.toTaskCountResponse(), HttpStatusCode.valueOf(200));
     }
 
-    @PostMapping("/updateimage") //istek atan üzerinden cevap veriliyor.
+    @PutMapping("/updateimage") //istek atan üzerinden cevap veriliyor.
     public ResponseEntity<?> handleUpdateImage( @Valid @RequestBody PostImageUpdateRequest postImageUpdateRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
         var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION); 
 
-        userAuthenticationService.updateUserImage(user,postImageUpdateRequest);
+        var image = userAuthenticationService.updateUserImage(user,postImageUpdateRequest);
 
-        return new ResponseEntity<>(HttpStatusCode.valueOf(200));
+        PutImageResponse putImageResponse = new PutImageResponse();
+        putImageResponse.setImage(image);
+
+        return new ResponseEntity<PutImageResponse>(putImageResponse,HttpStatusCode.valueOf(200));
 
     }
 

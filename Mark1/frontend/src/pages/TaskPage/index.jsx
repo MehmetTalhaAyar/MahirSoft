@@ -77,7 +77,7 @@ export function TaskPage() {
 
     if (response.status == 200) {
       setStage(response.data.stage.name);
-      setTaskReporter(response.data.reportsTo.fullName);
+      setTaskReporter(response.data.reportsTo);
 
       setTaskDescription(response.data.taskDescripton);
 
@@ -85,7 +85,7 @@ export function TaskPage() {
         response.data.reportsTo.name[0] + response.data.reportsTo.surname[0]
       );
 
-      setTaskResponsible(response.data.responsibleId.fullName);
+      setTaskResponsible(response.data.responsibleId);
       setResponsibleLogo(
         response.data.responsibleId.name[0] +
           response.data.responsibleId.surname[0]
@@ -101,6 +101,7 @@ export function TaskPage() {
             commentId: comment.commentId,
             authorId: comment.writtenById.userId,
             author: comment.writtenById.fullName,
+            authorImg: comment.writtenById.image,
             time: `${comment.createdOn[2]} ${MONTHS[comment.createdOn[1]]} ${
               comment.createdOn[0]
             }`,
@@ -172,6 +173,7 @@ export function TaskPage() {
         commentId: response.data.commentId,
         author: response.data.writtenById.fullName, // Replace with actual user information
         authorId: response.data.writtenById.userId,
+        authorImg: response.data.writtenById.image,
         time: `${response.data.createdOn[2]} ${
           MONTHS[response.data.createdOn[1]]
         } ${response.data.createdOn[0]}`,
@@ -207,6 +209,8 @@ export function TaskPage() {
     );
 
     if (response.status === 200) {
+      setTaskResponsible(response.data.responsibleId);
+      setTaskReporter(response.data.reporterUser);
       setReporterLogo(
         response.data.reporterUser.name[0] +
           response.data.reporterUser.surname[0]
@@ -306,7 +310,12 @@ export function TaskPage() {
             </div>
 
             <div className="photo_input_container">
-              <p className="logo">{userDefaultLogo}</p>
+              {
+                authState.image !== null ? 
+                <img className="profile-image" src={`/assets/profile/${authState.image}`} alt="profile image" /> :
+                <p className="logo">{userDefaultLogo}</p>
+
+              }
               <textarea
                 type="text"
                 className="comment_input"
@@ -329,7 +338,13 @@ export function TaskPage() {
             <div className="show_comment_container">
               {comments.map((comment, index) => (
                 <div key={index} className="show_comment">
+<<<<<<< HEAD
                   <p className="logo2">{userDefaultLogo}</p>
+=======
+                  <h4>
+                    <img className="profile-image-comment" src={`/assets/profile/${comment.authorImg}`} alt="profile image" />
+                  </h4>
+>>>>>>> f16bd2276620bcaca204e736e76add5a5d207509
                   <div className="show_comment_right">
                     <div className="author_title">
                       <section className="send_time">
@@ -425,24 +440,30 @@ export function TaskPage() {
             </div>
             <h4 className="assignee_title">Assignee</h4>
             <div className="name_container">
+              {taskResponsible.image !== null ?  
+              <img className="profile-image-report" src={`/assets/profile/${taskResponsible.image}`} alt="profile image" /> :
               <p className="logo2">{responsibleLogo}</p>
+              }
               <AsyncSelect
                 defaultOptions={projectMembers}
                 cacheOptions
                 loadOptions={promiseOptions}
-                placeholder={taskResponsible}
+                placeholder={taskResponsible.fullName}
                 className="assignee_select_box"
                 onChange={handleResponsibleSelector}
               />
             </div>
             <h4 className="reporter_title">Reporter</h4>
             <div className="name_container">
+              {taskReporter.image !== null ?
+              <img className="profile-image-report" src={`/assets/profile/${taskReporter.image}`} alt="profile image" /> :
               <p className="logo3">{reporterLogo}</p>
+              }
               <AsyncSelect
                 defaultOptions={projectMembers}
                 cacheOptions
                 loadOptions={promiseOptions}
-                placeholder={taskReporter}
+                placeholder={taskReporter.fullName}
                 className="assignee_select_box"
                 onChange={handleReporterSelector}
               />

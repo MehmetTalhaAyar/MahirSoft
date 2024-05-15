@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./myprofile.css";
 
 import { IoLogoLinkedin } from "react-icons/io5";
@@ -21,6 +21,13 @@ function MyProfile() {
     setCurrentPage(page);
   };
 
+  useEffect(()=>{
+    if(authState.image !== null){
+
+      setProfileImage(authState.image);
+    }
+  },[])
+
   //Change Profile Function
   const handleProfileImage = (newImage) => {
     setProfileImage(newImage);
@@ -38,7 +45,7 @@ function MyProfile() {
           <img
             src={
               profileImage
-                ? URL.createObjectURL(profileImage)
+                ? `/assets/profile/${profileImage}`
                 : defaultProfileImage
             }
             alt="Profile"
