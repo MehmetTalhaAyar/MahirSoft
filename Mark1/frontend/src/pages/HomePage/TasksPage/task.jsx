@@ -51,9 +51,6 @@ function Task(props) {
     return (
       <>
         <div
-          draggable
-          onDragStart={() => setActiveCard(taskId,stageId)}
-          onDragEnd={() => setActiveCard(null)}
           className="task"
         >
           <button className="save-button" onClick={saveElements}>

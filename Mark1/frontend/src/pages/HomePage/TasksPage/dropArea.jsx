@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./dropArea.css";
 
+
+// şuan kullanılmıyor
 function DropArea({ onDrop }) {
   const [showDrop, setShowDrop] = useState(false);
 

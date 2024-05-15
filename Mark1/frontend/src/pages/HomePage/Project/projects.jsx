@@ -296,27 +296,27 @@ function Project() {
         <div className="project_section">
           {filteredProjectCards.map((project, index) => (
             <div key={index} className="project_card">
-              {/* <Link to={"/home/projectDetailss"}> */}
-              <header className="project_header">
-                <h2 className="proje_title">{project.title}</h2>
-                <HiDotsHorizontal
-                  className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
-                  onClick={() => openDropdownMenu(index)}
-                />
+              <Link to={"/home/projectDetailss"}>
+                <header className="project_header">
+                  <h2 className="proje_title">{project.title}</h2>
+                  <HiDotsHorizontal
+                    className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
+                    onClick={() => openDropdownMenu(index)}
+                  />
 
-                <div
-                  id={`myDropdown${index}`}
-                  className={`dropdown-content ${
-                    dropdownStates[index] ? "openDropdown" : ""
-                  }`}
-                >
-                  <a href="#delete" onClick={() => deleteProject(project.id)}>
-                    Delete
-                  </a>
-                  <a href="#edit">Edit</a>
-                </div>
-              </header>
-              {/* </Link> */}
+                  <div
+                    id={`myDropdown${index}`}
+                    className={`dropdown-content ${
+                      dropdownStates[index] ? "openDropdown" : ""
+                    }`}
+                  >
+                    <a href="#delete" onClick={() => deleteProject(project.id)}>
+                      Delete
+                    </a>
+                    <a href="#edit">Edit</a>
+                  </div>
+                </header>
+              </Link>
 
               <div className="proje_container">
                 <section className="manager_side">
@@ -358,7 +358,7 @@ function Project() {
                     <Link
                       className="to-links"
                       to={project.title.toLowerCase()}
-                      state={{projectId:project.id}}
+                      state={{ projectId: project.id }}
                     >
                       <button className="go_into_tasks">
                         Go to Tasks <IoIosArrowForward />

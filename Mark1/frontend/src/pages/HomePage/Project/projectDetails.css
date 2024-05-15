@@ -1,0 +1,52 @@
+.project_details_name {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 20px;
+}
+.project_leader_name {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+.project_member_stages {
+  display: flex;
+  height: 75%;
+}
+.project_member {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  border: 1px solid blue;
+}
+.project_stages {
+  display: flex;
+  width: 50%;
+  border: 1px solid blue;
+}
+.table-container {
+  overflow-y: scroll;
+}
+.table-container::-webkit-scrollbar {
+  display: none;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #e4e4e4;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
