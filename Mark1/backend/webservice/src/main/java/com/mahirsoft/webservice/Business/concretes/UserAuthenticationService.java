@@ -100,7 +100,7 @@ public class UserAuthenticationService {
     }
 
 
-    public UserAuthentication updateUserImage(UserAuthentication user,PostImageUpdateRequest postImageUpdateRequest) {
+    public String updateUserImage(UserAuthentication user,PostImageUpdateRequest postImageUpdateRequest) {
 
 
         String image = fileService.saveBase64StringAsFile(postImageUpdateRequest.getImage());
@@ -110,7 +110,8 @@ public class UserAuthenticationService {
 
         user.setImage(image);
 
-        return userAuthenticationRepository.save(user);
+        userAuthenticationRepository.save(user);
+        return image;
 
     }
 

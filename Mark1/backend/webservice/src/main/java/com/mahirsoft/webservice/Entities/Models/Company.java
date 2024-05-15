@@ -84,6 +84,8 @@ public class Company {
             user.setName(eleman.getName());
             user.setSurname(eleman.getSurname());
             user.setUserId(eleman.getUserId());
+            user.setTitle(eleman.getTitle());
+            user.setImage(eleman.getImage());
 
             members.add(user);
 
@@ -105,6 +107,7 @@ public class Company {
             currentProject.setLeadingPerson(eleman.getLeadingPersonId().toGeneralUserAuthenticationResponse());
             currentProject.setName(eleman.getName());
             currentProject.setStages(eleman.toGeneralStageResponse());
+            currentProject.setMembers(eleman.toGeneralUserAuthenticationResponses());
 
             projectList.add(currentProject);
         }

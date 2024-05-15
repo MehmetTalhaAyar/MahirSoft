@@ -12,6 +12,8 @@ function Profile({ isVisible }) {
   const dispatch = useAuthDispatch();
   const navigate = useNavigate();
 
+  const profileImage = authState.image !== null ? `/assets/profile/${authState.image}` : defaultProfileImage;
+
   if (!isVisible) {
     return null;
   }
@@ -24,7 +26,7 @@ function Profile({ isVisible }) {
   return (
     <div className={`profile ${isVisible ? "visible animate_profile" : ""}`}>
       <div className="profile_image">
-        <img src={defaultProfileImage} className="_image" />
+        <img src={profileImage} className="_image" />
         <h3 className="profile_name">{authState.fullName}</h3>
         <p className="profile_text">{authState.title}</p>
       </div>

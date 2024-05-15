@@ -18,6 +18,8 @@ public class GeneralProjectResponse {
 
     private List<GeneralStageResponse> stages;
 
+    private List<GeneralUserAuthenticationResponse> members;
+
     public String getName() {
         return name;
     }
@@ -57,6 +59,15 @@ public class GeneralProjectResponse {
     public void setStages(List<GeneralStageResponse> stages) {
         this.stages = stages;
     }
+
+    public List<GeneralUserAuthenticationResponse> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<GeneralUserAuthenticationResponse> members) {
+        this.members = members;
+    }
+
 
     
 }

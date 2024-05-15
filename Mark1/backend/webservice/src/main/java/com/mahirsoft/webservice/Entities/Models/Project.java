@@ -67,9 +67,33 @@ public class Project {
         response.setName(name);
         response.setLeadingPerson(leadPerson);
         response.setStages(toGeneralStageResponse());
+        response.setMembers(toGeneralUserAuthenticationResponses());
 
         return response;
 
+    }
+
+    public List<GeneralUserAuthenticationResponse> toGeneralUserAuthenticationResponses(){
+        List<GeneralUserAuthenticationResponse> members = new ArrayList<>();
+
+        for(var eleman : projectMembers){
+            GeneralUserAuthenticationResponse user = new GeneralUserAuthenticationResponse();
+            var currentUser = eleman.getUserId();
+            user.setCompany(currentUser.getCompanyId().toCompanyResponse());
+            user.setEmail(currentUser.getEmail());
+            user.setFullName(currentUser.getName() + " " +currentUser.getSurname());
+            user.setGsm(currentUser.getGsm());
+            user.setName(currentUser.getName());
+            user.setSurname(currentUser.getSurname());
+            user.setUserId(currentUser.getUserId());
+            user.setTitle(currentUser.getTitle());
+            user.setImage(currentUser.getImage());
+
+            members.add(user);
+
+        }
+
+        return members;
     }
 
     public List<GeneralStageResponse> toGeneralStageResponse(){
@@ -117,6 +141,7 @@ public class Project {
         leadPerson.setName(leadingPersonId.getName());
         leadPerson.setSurname(leadingPersonId.getSurname());
         leadPerson.setUserId(leadingPersonId.getUserId());
+        leadPerson.setImage(leadingPersonId.getImage());
 
         if(leadingPersonId.getCompanyId() != null) //companysi olmayan kullanıcı için
             leadPerson.setCompany(leadingPersonId.getCompanyId().toCompanyResponse());

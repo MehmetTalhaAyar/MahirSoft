@@ -101,6 +101,7 @@ function Task(props) {
         <Link
           className="task_link_decoration"
           to={`/home/task/${taskId}`}
+          // target="blank"
           state={{
             id: taskId,
             name: taskNameSend,

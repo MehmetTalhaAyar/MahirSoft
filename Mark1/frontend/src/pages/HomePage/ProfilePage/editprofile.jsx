@@ -1,19 +1,41 @@
 // EditProfilePage.js
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./editprofile.css";
 import { LuUpload } from "react-icons/lu";
 import { MdDeleteOutline } from "react-icons/md";
 import defaultProfileImage from "/src/assets/profileImage.jpg";
+import { EditProfileImage } from "./api";
+import { useAuthDispatch, useAuthState } from "../../../state/context";
 
 function EditProfilePage({ onProfileImageChange }) {
-  const [profileImage, setProfileImage] = useState(null); // Upload the image on the editpage
+  const authState = useAuthState();
+  const [profileImage, setProfileImage] = useState(defaultProfileImage); // Upload the image on the editpage
+  const [tempImage,setTempImage] = useState(null);
   const fileInputRef = useRef(null);
-
+  const dispatch = useAuthDispatch();
   // Upload the image function
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setProfileImage(file);
+    const fileReader = new FileReader();
+
+        fileReader.onloadend = () => {
+            const data = fileReader.result
+            setTempImage(data);
+        }
+    fileReader.readAsDataURL(file)
+    
   };
+
+  useEffect(()=>{
+
+    if(authState.image !== null && authState !== undefined){
+      console.log(authState.image);
+
+      setProfileImage(`/assets/profile/${authState.image}`);
+    }
+
+  },[])
+
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -21,9 +43,21 @@ function EditProfilePage({ onProfileImageChange }) {
   };
 
   //Save the image on the Profile Card function
-  const saveChanges = () => {
-    onProfileImageChange(profileImage);
-    setProfileImage(false);
+  const saveChanges = async () => {
+
+    if(tempImage !== null){
+      const response = await EditProfileImage({
+        image:tempImage
+      })
+
+      if(response.status === 200){
+        setProfileImage(`/assets/profile/${response.data.image}`);
+        dispatch({type:'update-image',image:response.data.image});
+        onProfileImageChange(response.data.image);
+      }
+    }
+    
+    setTempImage(null);
   };
 
   return (
@@ -33,9 +67,9 @@ function EditProfilePage({ onProfileImageChange }) {
         <div className="_img">
           <img
             src={
-              profileImage
-                ? URL.createObjectURL(profileImage)
-                : defaultProfileImage
+              tempImage
+                ? tempImage
+                : profileImage
             }
             alt="Profile"
             className="_image3"
@@ -44,7 +78,7 @@ function EditProfilePage({ onProfileImageChange }) {
             <LuUpload className="upload" onClick={handleUploadClick} />
             <MdDeleteOutline
               className="delete"
-              onClick={() => setProfileImage(null)}
+              onClick={() => setTempImage(null)}
             />
             <input
               type="file"
