@@ -310,12 +310,15 @@ export function TaskPage() {
             </div>
 
             <div className="photo_input_container">
-              {
-                authState.image !== null ? 
-                <img className="profile-image" src={`/assets/profile/${authState.image}`} alt="profile image" /> :
+              {authState.image !== null ? (
+                <img
+                  className="profile-image"
+                  src={`/assets/profile/${authState.image}`}
+                  alt="profile image"
+                />
+              ) : (
                 <p className="logo">{userDefaultLogo}</p>
-
-              }
+              )}
               <textarea
                 type="text"
                 className="comment_input"
@@ -338,13 +341,14 @@ export function TaskPage() {
             <div className="show_comment_container">
               {comments.map((comment, index) => (
                 <div key={index} className="show_comment">
-<<<<<<< HEAD
-                  <p className="logo2">{userDefaultLogo}</p>
-=======
                   <h4>
-                    <img className="profile-image-comment" src={`/assets/profile/${comment.authorImg}`} alt="profile image" />
+                    <img
+                      className="profile-image-comment"
+                      src={`/assets/profile/${comment.authorImg}`}
+                      alt="profile image"
+                    />
                   </h4>
->>>>>>> f16bd2276620bcaca204e736e76add5a5d207509
+
                   <div className="show_comment_right">
                     <div className="author_title">
                       <section className="send_time">
@@ -440,10 +444,15 @@ export function TaskPage() {
             </div>
             <h4 className="assignee_title">Assignee</h4>
             <div className="name_container">
-              {taskResponsible.image !== null ?  
-              <img className="profile-image-report" src={`/assets/profile/${taskResponsible.image}`} alt="profile image" /> :
-              <p className="logo2">{responsibleLogo}</p>
-              }
+              {taskResponsible.image !== null ? (
+                <img
+                  className="profile-image-report"
+                  src={`/assets/profile/${taskResponsible.image}`}
+                  alt="profile image"
+                />
+              ) : (
+                <p className="logo2">{responsibleLogo}</p>
+              )}
               <AsyncSelect
                 defaultOptions={projectMembers}
                 cacheOptions
@@ -455,10 +464,15 @@ export function TaskPage() {
             </div>
             <h4 className="reporter_title">Reporter</h4>
             <div className="name_container">
-              {taskReporter.image !== null ?
-              <img className="profile-image-report" src={`/assets/profile/${taskReporter.image}`} alt="profile image" /> :
-              <p className="logo3">{reporterLogo}</p>
-              }
+              {taskReporter.image !== null ? (
+                <img
+                  className="profile-image-report"
+                  src={`/assets/profile/${taskReporter.image}`}
+                  alt="profile image"
+                />
+              ) : (
+                <p className="logo3">{reporterLogo}</p>
+              )}
               <AsyncSelect
                 defaultOptions={projectMembers}
                 cacheOptions

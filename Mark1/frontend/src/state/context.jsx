@@ -1,5 +1,10 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { loadAuthState, storeAuthState } from "./storage";
+import {
+  loadAuthState,
+  loadToken,
+  storeAuthState,
+  storeToken,
+} from "./storage";
 import {
   loadSessionAuthState,
   storeSessionAuthState,
@@ -41,6 +46,10 @@ const authReducer = (authState, action) => {
     case "session-storage":
       setSessionToken(loadSessionToken());
       return loadSessionAuthState();
+    case "update-image":
+      storeAuthState({ ...authState, image: action.image });
+      return action.image;
+
     default:
       throw new Error(`unknown action : ${action.type}`);
   }

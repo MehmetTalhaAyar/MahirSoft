@@ -298,7 +298,7 @@ function Project() {
               <Link to={"/home/projectDetailss"}>
                 <header className="project_header">
                   <h2 className="proje_title">{project.title}</h2>
-                  <HiDotsHorizontal
+                  {/* <HiDotsHorizontal
                     className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
                     onClick={() => openDropdownMenu(index)}
                   />
@@ -313,7 +313,7 @@ function Project() {
                       Delete
                     </a>
                     <a href="#edit">Edit</a>
-                  </div>
+                  </div> */}
                 </header>
               </Link>
 

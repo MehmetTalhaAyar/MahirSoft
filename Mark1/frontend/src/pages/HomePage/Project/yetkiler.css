@@ -1,0 +1,87 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  width: 80%;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+}
+.modal-close:hover {
+  color: red;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.yetki-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.yetki-table th,
+.yetki-table td {
+  border: 1px solid gray;
+  padding: 8px;
+  text-align: center;
+}
+
+.yetki-header {
+  font-size: 12px;
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.user-name {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
+
+.yetki-cell {
+  background-color: #e9f7df;
+}
+
+.yetki-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.yetki-table tr:hover {
+  background-color: #ddd;
+}
+.apply-button {
+  padding: 10px 20px;
+  margin-top: 5px;
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  float: inline-end;
+}
+
+.apply-button:hover {
+  background-color: #45a049;
+}

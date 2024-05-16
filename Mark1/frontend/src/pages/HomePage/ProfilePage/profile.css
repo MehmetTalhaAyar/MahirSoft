@@ -27,6 +27,7 @@
   box-shadow: 1px 1px 4px #454679;
   width: 120px;
   height: 120px;
+  object-fit: cover;
   border-radius: 50%;
 }
 
