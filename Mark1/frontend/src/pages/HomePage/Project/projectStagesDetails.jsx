@@ -4,6 +4,7 @@ import { FaCheck } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { FaList } from "react-icons/fa6";
+
 import "./projectStagesDetails.css";
 
 export default function ProjectStagesDetails() {
@@ -29,16 +30,30 @@ export default function ProjectStagesDetails() {
   const handleNewStage = () => {
     setNewStage(true);
   };
+
   const handleCancel = () => {
     setNewStage(false);
     setStageName("");
   };
-  const handleEdit = () => {
-    setEditStage(true);
+
+  const handleEdit = (index) => {
+    setEditStage(index);
   };
+
   const handleDelete = (index) => {
     setStagesName(stagesName.filter((_, i) => i !== index));
+    setEditStage(null);
   };
+
+  const handleUpdateStageName = (index, newName) => {
+    const updatedStages = [...stagesName];
+    updatedStages[index].fullName = newName;
+    setStagesName(updatedStages);
+  };
+  const handleSaveEdit = () => {
+    setEditStage(null); // Exit editing mode
+  };
+
   return (
     <section className="project_stages">
       <div className="project_stage_container">
@@ -71,9 +86,26 @@ export default function ProjectStagesDetails() {
         <ul>
           {stagesName.map((item, index) => (
             <li className="stages_list" key={index}>
-              {editStage === index ? <input /> : <>{item.fullName}</>}
+              {editStage === index ? (
+                <input
+                  className="edit_input_stage"
+                  value={stagesName[index].fullName}
+                  onChange={(e) => handleUpdateStageName(index, e.target.value)}
+                />
+              ) : (
+                <span className="stage_name">{item.fullName}</span>
+              )}
               <div className="update_remove">
-                <MdEdit onClick={handleEdit} className="edit_stage" />
+                {editStage === index ? (
+                  <span onClick={handleSave} className="check">
+                    <FaCheck onClick={handleSaveEdit} />
+                  </span>
+                ) : (
+                  <MdEdit
+                    onClick={() => handleEdit(index)}
+                    className="edit_stage"
+                  />
+                )}
                 <MdDelete
                   onClick={() => handleDelete(index)}
                   className="delete_stage"
@@ -93,7 +125,7 @@ export default function ProjectStagesDetails() {
           <span>0</span>
         </div>
         <div className="project_falied_task">
-          <label>Falied Task</label>
+          <label>Failed Task</label>
           <span>0</span>
         </div>
       </div>

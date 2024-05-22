@@ -295,10 +295,12 @@ function Project() {
         <div className="project_section">
           {filteredProjectCards.map((project, index) => (
             <div key={index} className="project_card">
-              <Link to={"/home/projectDetailss"}>
-                <header className="project_header">
+              <header className="project_header">
+                <Link to={"/home/projectDetailss"}>
                   <h2 className="proje_title">{project.title}</h2>
-                  {/* <HiDotsHorizontal
+                </Link>
+                <div className="project_delete">
+                  <HiDotsHorizontal
                     className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
                     onClick={() => openDropdownMenu(index)}
                   />
@@ -313,9 +315,9 @@ function Project() {
                       Delete
                     </a>
                     <a href="#edit">Edit</a>
-                  </div> */}
-                </header>
-              </Link>
+                  </div>
+                </div>
+              </header>
 
               <div className="proje_container">
                 <section className="manager_side">

@@ -1,7 +1,7 @@
 .project_details_container {
-  padding: 20px 15px;
+  padding: 15px 15px;
   background-color: white;
-
+  font-family: Arial, Helvetica, sans-serif;
   box-shadow: 2px 2px 5px 3px #e3e3e3;
   border-radius: 10px;
 }
@@ -9,8 +9,14 @@
   display: flex;
   gap: 5px;
   border-left: 7px solid green;
+  border-radius: 5px;
   padding-left: 5px;
   width: 50%;
+}
+.project_details span {
+  font-size: 32px;
+  padding: 5px;
+  font-weight: 700;
 }
 .edit_projectName {
   cursor: pointer;
@@ -50,4 +56,20 @@
   border-right: 1px solid gray;
   width: 55%;
   height: 500px;
+}
+
+.change_ProjectName {
+  width: 100%;
+  padding: 5px;
+  font-size: 32px;
+  font-weight: 600;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.change_ProjectName:focus {
+  outline: none;
+  border-color: rgb(0, 128, 0);
+  box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
 }

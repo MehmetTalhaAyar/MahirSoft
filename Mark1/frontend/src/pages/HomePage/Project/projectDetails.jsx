@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./projectDetails.css";
 import Yetki from "./yetkiler";
 import ProjectMembersDetails from "./projectMembersDetails";
@@ -9,29 +9,37 @@ import ProjectDetailsDescription from "./projectDetailsDescription";
 
 export default function ProjectDetails() {
   const [editProjectName, setEditProjectName] = useState(false);
+  const [projectName, setProjectName] = useState("To Do List");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleEditProjectName = () => {
     setEditProjectName(true);
   };
 
-  let projectName = "To Do List";
+  const handleProjectNameChange = (e) => {
+    setProjectName(e.target.value);
+  };
+
+  const handleSaveProjectName = () => {
+    setEditProjectName(false);
+  };
+
   return (
     <main>
       <div className="project_details_container">
         <div className="project_details">
           {editProjectName ? (
-            <form>
-              <input
-                value={editProjectName}
-                onChange={(e) => setEditProjectName(e.target.value)}
-                className="change_ProjectName"
-                placeholder="Enter New Name"
-              />
-            </form>
+            <input
+              value={projectName}
+              onChange={handleProjectNameChange}
+              onBlur={handleSaveProjectName}
+              className="change_ProjectName"
+              placeholder="Enter New Name"
+              autoFocus
+            />
           ) : (
             <>
-              <h1>{projectName}</h1>
+              <span>{projectName}</span>
               <FaRegEdit
                 onClick={handleEditProjectName}
                 className="edit_projectName"
@@ -47,6 +55,7 @@ export default function ProjectDetails() {
               <img
                 src={defaultProfileImage}
                 className="manager_image_details"
+                alt="Manager"
               />
               <h2 className="project_leader_name">Redon</h2>
             </div>

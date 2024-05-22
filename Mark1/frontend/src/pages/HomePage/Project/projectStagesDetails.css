@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 44%;
+  height: 500px;
   background-color: white;
 }
 .project_stage_container {
@@ -30,7 +31,8 @@
 }
 
 .stages_list_container {
-  overflow: scroll;
+  overflow-y: scroll;
+  max-height: 60%;
 
   border-bottom: 1px solid gray;
 }
@@ -41,7 +43,7 @@
 .stages_list {
   box-shadow: 2px 2px 5px 3px #e3e3e3;
   display: flex;
-  padding-left: 10px;
+
   justify-content: space-between;
   align-items: center;
   border-radius: 7px;
@@ -71,7 +73,6 @@
 
 .input_container input {
   padding: 8px;
-
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
@@ -119,7 +120,7 @@
   width: 30%;
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid rgb(9, 26, 179);
+  border: 2px solid rgb(99, 110, 206);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .project_finished_task {
@@ -128,7 +129,7 @@
   width: 30%;
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid rgb(4, 153, 39);
+  border: 2px solid rgb(66, 195, 96);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .project_falied_task {
@@ -137,6 +138,23 @@
   width: 30%;
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid rgb(171, 40, 40);
+  border: 2px solid rgb(198, 81, 81);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.edit_input_stage {
+  border: 1px solid #ccc;
+
+  padding: 10px;
+  width: 100%;
+  border-radius: 3px;
+
+  box-sizing: border-box;
+}
+
+.edit_input_stage:focus {
+  outline: none;
+  border-color: rgb(4, 153, 39); /* Change the border color when focused */
+}
+.stage_name {
+  margin-left: 10px;
 }
