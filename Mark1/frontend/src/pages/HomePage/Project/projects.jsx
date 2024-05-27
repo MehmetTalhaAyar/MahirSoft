@@ -215,7 +215,7 @@ function Project() {
     setFilteredProjectCards(filteredProjects);
     console.log(filteredProjects)
   };
-  
+
   return (
     <main>
       <h1>My Project</h1>

@@ -61,6 +61,10 @@ public class PermissionService {
 
         if(user == null ) throw new UserNotFoundException();
 
+        if(user.getUserId() == stage.getProjectId().getCompanyId().getManagerId().getUserId()){
+            return user;
+        }
+
         var projectUser = projectUserRepository.findByProjectIdAndUserId(stage.getProjectId(), user);
 
         if(projectUser == null) throw new PermissionDeniedException();

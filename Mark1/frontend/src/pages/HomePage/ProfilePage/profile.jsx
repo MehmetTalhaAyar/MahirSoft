@@ -12,7 +12,7 @@ function Profile({ isVisible }) {
   const dispatch = useAuthDispatch();
   const navigate = useNavigate();
 
-  const profileImage = authState.image !== null ? `/assets/profile/${authState.image}` : defaultProfileImage;
+  const profileImage = authState.image !== null && authState.image !== undefined ? `/assets/profile/${authState.image}` : defaultProfileImage;
 
   if (!isVisible) {
     return null;

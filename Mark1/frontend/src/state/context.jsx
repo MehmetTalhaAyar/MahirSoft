@@ -37,8 +37,8 @@ const authReducer = (authState,action) => {
             setSessionToken(loadSessionToken())
             return loadSessionAuthState();
         case 'update-image':
-            storeAuthState({...authState ,image :action.image})
-            return action.image;
+            storeSessionAuthState({...authState ,image :action.image})
+            return loadSessionAuthState();
 
         
         default:

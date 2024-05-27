@@ -76,6 +76,10 @@ public class Project {
     public List<GeneralUserAuthenticationResponse> toGeneralUserAuthenticationResponses(){
         List<GeneralUserAuthenticationResponse> members = new ArrayList<>();
 
+        if(projectMembers == null) {
+            System.out.println(projectMembers.size());
+        }
+
         for(var eleman : projectMembers){
             GeneralUserAuthenticationResponse user = new GeneralUserAuthenticationResponse();
             var currentUser = eleman.getUserId();
@@ -142,6 +146,7 @@ public class Project {
         leadPerson.setSurname(leadingPersonId.getSurname());
         leadPerson.setUserId(leadingPersonId.getUserId());
         leadPerson.setImage(leadingPersonId.getImage());
+        leadPerson.setTitle(leadingPersonId.getTitle());
 
         if(leadingPersonId.getCompanyId() != null) //companysi olmayan kullanıcı için
             leadPerson.setCompany(leadingPersonId.getCompanyId().toCompanyResponse());

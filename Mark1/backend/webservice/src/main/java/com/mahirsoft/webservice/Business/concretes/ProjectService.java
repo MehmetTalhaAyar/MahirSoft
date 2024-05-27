@@ -26,8 +26,8 @@ public class ProjectService {
 
     }
 
-    public void createProject(Project project){
-        projectRepository.save(project);
+    public Project createProject(Project project){
+        return projectRepository.save(project);
     }
 
     public Project getProject(long id){
