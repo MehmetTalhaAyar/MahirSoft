@@ -106,7 +106,7 @@
 }
 
 .logo {
-  background-color: rgb(177, 53, 53);
+  background-color: rgb(42, 165, 89);
   padding: 10px;
   text-align: center;
   border-radius: 50%;
@@ -253,7 +253,6 @@
   margin-bottom: 10px;
 }
 .task_button_container {
-  margin-bottom: 15px;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -275,6 +274,15 @@
   background-color: #0070e6;
 }
 
+.change_successfully {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  color: rgb(19, 178, 19);
+
+  font-size: 16px;
+  margin-bottom: 5px;
+}
 .tree {
   margin-bottom: 15px;
 }

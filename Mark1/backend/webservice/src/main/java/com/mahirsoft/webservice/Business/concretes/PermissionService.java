@@ -2,11 +2,13 @@ package com.mahirsoft.webservice.Business.concretes;
 
 import org.springframework.stereotype.Service;
 
+import com.mahirsoft.webservice.DataAccess.ProjectRepository;
 import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.DataAccess.StageRepository;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
+import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.security.DefaultUser;
 
@@ -22,13 +24,19 @@ public class PermissionService {
 
     private TaskRepository taskRepository;
 
+    private ProjectRepository projectRepository;
+
+    
+
 
     public PermissionService(UserAuthenticationService userAuthenticationService, StageRepository stageRepository,
-            ProjectUserRepository projectUserRepository, TaskRepository taskRepository) {
+            ProjectUserRepository projectUserRepository, TaskRepository taskRepository,
+            ProjectRepository projectRepository) {
         this.userAuthenticationService = userAuthenticationService;
         this.stageRepository = stageRepository;
         this.projectUserRepository = projectUserRepository;
         this.taskRepository = taskRepository;
+        this.projectRepository = projectRepository;
     }
 
 
@@ -40,40 +48,24 @@ public class PermissionService {
 
         if(authorityNumber == -1) return user; // permission listesinde bulunmayan bir işlem için user dondurme
 
-        for(var authorization : user.getUserRoleId().getUserRoleAuthorizations()){
-            if( Long.valueOf(authorization.getAuthorizationId().getAuthorizationId()).intValue() == authorityNumber){
-                return user;
-            }
-        }
-
-        throw new PermissionDeniedException();
+        
+        return checkUserPermission(user, authorityNumber);
         
     }
 
-
-    public UserAuthentication isInThisProjectFindByStageId(DefaultUser currentUser,long stageId){
+    public UserAuthentication isInThisProjectFindByStageId(DefaultUser currentUser,long stageId,int authorizationCode ){
 
         var stage = stageRepository.findById(stageId);
 
         if(stage == null) throw new PermissionDeniedException(); // buraya uygun bir exception yazılacak
 
-        var user = userAuthenticationService.findById(currentUser.getId());
-
-        if(user == null ) throw new UserNotFoundException();
-
-        if(user.getUserId() == stage.getProjectId().getCompanyId().getManagerId().getUserId()){
-            return user;
-        }
-
-        var projectUser = projectUserRepository.findByProjectIdAndUserId(stage.getProjectId(), user);
-
-        if(projectUser == null) throw new PermissionDeniedException();
+        var user = isInThisProject(currentUser,stage.getProjectId(),authorizationCode);
         
         return user;
     }
 
-
-    public UserAuthentication isInThisProjectFindByTaskId(DefaultUser currentUser,long taskId){
+    // tamamlandı
+    public UserAuthentication isInThisProjectFindByTaskId(DefaultUser currentUser,long taskId,int authorizationCode){
         
         var user = userAuthenticationService.findById(currentUser.getId());
 
@@ -83,9 +75,52 @@ public class PermissionService {
 
         if(task == null) throw new PermissionDeniedException();
 
-        isInThisProjectFindByStageId(currentUser, task.getStageId().getStageId());
+        isInThisProjectFindByStageId(currentUser, task.getStageId().getStageId(),authorizationCode);
         
         return user;
+    }
+
+    // tamamlandı
+    public UserAuthentication isInThisProject(DefaultUser currentUser,Project project,int authorizationCode ){
+
+        var user = userAuthenticationService.findById(currentUser.getId());
+
+        if(user == null ) throw new UserNotFoundException();
+
+        if(user.getUserId() == project.getCompanyId().getManagerId().getUserId()){
+            return user;
+        }
+
+        var projectUser = projectUserRepository.findByProjectIdAndUserId(project, user);
+
+        if(projectUser == null) throw new PermissionDeniedException();
+
+        if(authorizationCode != -1){
+            return checkUserPermission(user, authorizationCode);
+        }
+
+        return user;
+    }
+
+
+    // tamamlandı
+    public UserAuthentication isInThisProject(DefaultUser currentUser,long projectId,int authorizationCode){
+
+        var project = projectRepository.findById(projectId);
+
+        if(project == null) throw new PermissionDeniedException(); // buraya uygun bir exception yaz
+        
+        return isInThisProject(currentUser, project,authorizationCode);
+    }
+
+    private UserAuthentication checkUserPermission(UserAuthentication user, int authorityNumber){
+        for(var authorization : user.getUserRoleId().getUserRoleAuthorizations()){
+            if( Long.valueOf(authorization.getAuthorizationId().getAuthorizationId()).intValue() == authorityNumber){
+                return user;
+            }
+        }
+
+        throw new PermissionDeniedException();
     }
 
 

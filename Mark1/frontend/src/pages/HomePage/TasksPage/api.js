@@ -5,7 +5,7 @@ export function addTask(stageId,body){
 }
 
 export function getProjectDetails(projectId){
-    return http.get(`/api/v1/projects/details/${projectId}`)
+    return http.get(`/api/v1/projects/details/stage/${projectId}`)
 }
 
 export function updateTaskStage(body){

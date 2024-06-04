@@ -16,6 +16,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -32,6 +33,10 @@ public class Project {
 
     @Column(name = "name")
     private String name;
+
+    @Lob
+    @Column(name = "description")
+    private String description = "New Project";
 
     @ManyToOne
     @JoinColumn(name = "leadingPersonId", referencedColumnName = "userId")
@@ -65,8 +70,9 @@ public class Project {
         response.setId(projectId);
         response.setCreatedOn(createdOn);
         response.setName(name);
+        response.setDescription(description);
         response.setLeadingPerson(leadPerson);
-        response.setStages(toGeneralStageResponse());
+        response.setStages(toGeneralStageResponses());
         response.setMembers(toGeneralUserAuthenticationResponses());
 
         return response;
@@ -75,10 +81,6 @@ public class Project {
 
     public List<GeneralUserAuthenticationResponse> toGeneralUserAuthenticationResponses(){
         List<GeneralUserAuthenticationResponse> members = new ArrayList<>();
-
-        if(projectMembers == null) {
-            System.out.println(projectMembers.size());
-        }
 
         for(var eleman : projectMembers){
             GeneralUserAuthenticationResponse user = new GeneralUserAuthenticationResponse();
@@ -100,18 +102,19 @@ public class Project {
         return members;
     }
 
-    public List<GeneralStageResponse> toGeneralStageResponse(){
-        List<GeneralStageResponse> stageResponse = new ArrayList<>();
+    public List<GeneralStageResponse> toGeneralStageResponses(){
+        List<GeneralStageResponse> stageResponses = new ArrayList<>();
         for(var eleman : stages){
             GeneralStageResponse generalStageResponse = new GeneralStageResponse();
             generalStageResponse.setId(eleman.getStageId());
             generalStageResponse.setName(eleman.getName());
             generalStageResponse.setTasks(eleman.toTaskResponses());
+            generalStageResponse.setSequence(eleman.getSequence());
 
-            stageResponse.add(generalStageResponse);
+            stageResponses.add(generalStageResponse);
         }
 
-        return stageResponse;
+        return stageResponses;
     }
 
 
@@ -220,6 +223,14 @@ public class Project {
 
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

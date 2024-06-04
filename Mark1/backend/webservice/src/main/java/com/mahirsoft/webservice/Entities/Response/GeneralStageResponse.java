@@ -8,6 +8,8 @@ public class GeneralStageResponse {
 
     private String name;
 
+    private int sequence;
+
     private List<TaskResponse> tasks;
 
     public String getName() {
@@ -32,6 +34,14 @@ public class GeneralStageResponse {
 
     public void setTasks(List<TaskResponse> tasks) {
         this.tasks = tasks;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
     }
 
     

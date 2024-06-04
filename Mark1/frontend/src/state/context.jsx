@@ -1,6 +1,16 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import { loadAuthState, loadToken, storeAuthState, storeToken } from "./storage";
-import { loadSessionAuthState, storeSessionAuthState ,deleteSessionAuthState, loadSessionToken } from "./sessionstorage";
+import {
+  loadAuthState,
+  loadToken,
+  storeAuthState,
+  storeToken,
+} from "./storage";
+import {
+  loadSessionAuthState,
+  storeSessionAuthState,
+  deleteSessionAuthState,
+  loadSessionToken,
+} from "./sessionstorage";
 import { setSessionToken, setToken } from "../lib/http";
 import { act } from "react";
 
@@ -8,19 +18,19 @@ export const AuthContext = createContext();
 
 export const AuthDispatchContext = createContext();
 
-export function useAuthState(){
-    return useContext(AuthContext);
+export function useAuthState() {
+  return useContext(AuthContext);
 }
 
-export function useAuthDispatch(){
-    return useContext(AuthDispatchContext);
+export function useAuthDispatch() {
+  return useContext(AuthDispatchContext);
 }
 
-const authReducer = (authState,action) => {
-    switch(action.type){
-        case 'login-success':
-            storeSessionAuthState(action.data.user)
-            setSessionToken(action.data.token)
+const authReducer = (authState, action) => {
+  switch (action.type) {
+    case "login-success":
+      storeSessionAuthState(action.data.user);
+      setSessionToken(action.data.token);
 
             return action.data.user;
         case 'remember-login-success':
@@ -40,37 +50,26 @@ const authReducer = (authState,action) => {
             storeSessionAuthState({...authState ,image :action.image})
             return loadSessionAuthState();
 
-        
-        default:
-            throw new Error(`unknown action : ${action.type}`)
+    default:
+      throw new Error(`unknown action : ${action.type}`);
+  }
+};
+
+export function AuthenticationContext({ children }) {
+  const [authState, dispatch] = useReducer(authReducer, loadAuthState());
+
+  useEffect(() => {
+    if (!(authState.userId > 0)) {
+      dispatch({ type: "session-storage" });
     }
-}
+  }, []);
 
-export function AuthenticationContext({children}){
-    const [authState,dispatch] = useReducer(authReducer,loadAuthState());
 
-    useEffect(()=>{
-        
-        if(!(authState.userId > 0)) {
-            dispatch({type:'session-storage'});
-            
-            
-        }
-        
-    },[])
-
-    // useEffect(()=>{
-    //     console.log("buraya girdix")
-    //     storeSessionAuthState(authState)
-        
-
-    // },[authState])
-
-    return <AuthContext.Provider value={authState}>
-        <AuthDispatchContext.Provider value={dispatch}>
-            {children}
-        </AuthDispatchContext.Provider>
+  return (
+    <AuthContext.Provider value={authState}>
+      <AuthDispatchContext.Provider value={dispatch}>
+        {children}
+      </AuthDispatchContext.Provider>
     </AuthContext.Provider>
-
-
+  );
 }

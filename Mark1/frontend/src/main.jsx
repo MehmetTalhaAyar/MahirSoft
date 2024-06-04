@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 
 import { AuthenticationContext } from "./state/context.jsx";
 import { router } from "./router";
+import { Toaster } from "react-hot-toast";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -12,6 +13,8 @@ const root = createRoot(rootElement);
 root.render(
   <StrictMode>
     <AuthenticationContext>
+      <Toaster position="top-right" />
+
       <RouterProvider router={router} />
     </AuthenticationContext>
   </StrictMode>

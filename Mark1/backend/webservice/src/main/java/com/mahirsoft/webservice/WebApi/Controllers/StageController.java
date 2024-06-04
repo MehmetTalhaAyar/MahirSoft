@@ -1,19 +1,28 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.StageService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
+import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
+import com.mahirsoft.webservice.Entities.Requests.PutUpdateStageNameRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
+import jakarta.validation.Valid;
+
 @RestController
-@RequestMapping("api/v1/stage")
+@RequestMapping("/api/v1/stage")
 public class StageController {
 
     StageService service;
@@ -38,6 +47,34 @@ public class StageController {
 
     
         return stage.toGeneralStageResponse();
+    }
+
+    @PostMapping("/create/{projectId}")
+    public ResponseEntity<?> createStage(@PathVariable long projectId ,@Valid @RequestBody CreateStageRequest createStageRequest, @AuthenticationPrincipal DefaultUser currentUser){
+
+        var user =permissionService.isInThisProject(currentUser, projectId,AuthorizationCodes.STAGE_CREATE);
+
+        var stage = service.createStage(createStageRequest,user,projectId);
+
+        if(stage == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        GeneralStageResponse generalStageResponse = stage.toGeneralStageResponse();
+
+        return new ResponseEntity<GeneralStageResponse>(generalStageResponse,HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update") 
+    public ResponseEntity<?> updateStage(@Valid @RequestBody PutUpdateStageNameRequest putUpdateStageNameRequest, @AuthenticationPrincipal DefaultUser currentUser ){
+
+        permissionService.isInThisProjectFindByStageId(currentUser, putUpdateStageNameRequest.getStageId(),AuthorizationCodes.STAGE_UPDATE);
+
+        var stage = service.updateStage(putUpdateStageNameRequest);
+
+        if(stage == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        GeneralStageResponse generalStageResponse = stage.toGeneralStageResponse();
+
+        return new ResponseEntity<GeneralStageResponse>(generalStageResponse,HttpStatus.OK);
     }
 
 

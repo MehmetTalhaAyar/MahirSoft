@@ -1,7 +1,6 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -63,7 +62,7 @@ public class TaskAndStageController {
         if (stage == null) return null;
 
         // farklı bir şirketten birinin task yetkisi ile farklı bir şirketin stage ine task eklemesi engelleniyor.
-        permissionService.isInThisProjectFindByStageId(currentUser, stageId); 
+        permissionService.isInThisProjectFindByStageId(currentUser, stageId,AuthorizationCodes.TASK_CREATE); 
 
         Task task = new Task();
         
@@ -92,7 +91,7 @@ public class TaskAndStageController {
     @GetMapping("/alltasks/{stageId}")
     public GeneralStageResponse getAllTaskByStage(@PathVariable long stageId,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isInThisProjectFindByStageId(currentUser, stageId);
+        permissionService.isInThisProjectFindByStageId(currentUser, stageId,AuthorizationCodes.ANY_AUTHORIZATION);
 
         var stage = stageService.getStage(stageId);
 
@@ -106,14 +105,13 @@ public class TaskAndStageController {
     public ResponseEntity<?> deleteTask(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
         String body = "Task Not Found";
 
-        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.TASK_DELETE);
-
         var task = taskService.findById(id);
-        
+
         if(task == null) return null;
 
-        permissionService.isInThisProjectFindByTaskId(currentUser, task.getTaskId());
+        permissionService.isInThisProjectFindByTaskId(currentUser, task.getTaskId(),AuthorizationCodes.TASK_DELETE);
 
+    
         var message = taskService.softDeleteTask(task);
 
         if(message == null){

@@ -1,6 +1,7 @@
 package com.mahirsoft.webservice.DataAccess;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,7 +12,7 @@ public interface UserAuthenticationRepository  extends JpaRepository<UserAuthent
 
     UserAuthentication findById(long id);
 
-    UserAuthentication findByEmail(String email);
+    Optional<UserAuthentication> findByEmail(String email);
 
     List<UserAuthentication> findFirst5ByCompanyIdAndNameContaining(Company company,String searchKey);
 

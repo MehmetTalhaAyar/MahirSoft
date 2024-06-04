@@ -1,14 +1,16 @@
 import "./stage.css";
 import Task from "./task";
 import { IoIosAdd } from "react-icons/io";
-import React, { useState, useEffect, useRef} from "react";
+
+import React, { useState, useEffect, useRef } from "react";
 import DropArea from "./dropArea";
 
 function Stage(props) {
-  const {stage,activeCard, setActiveCard, onDrop } = props;
+  const { stage, activeCard, setActiveCard, onDrop } = props;
+
   const [tasks, setTasks] = useState([]);
   const [newTaskCount, setNewTaskCount] = useState(0);
-  const [showDrop,setShowDrop] = useState(false);
+  const [showDrop, setShowDrop] = useState(false);
   const myRef = useRef(null);
 
   useEffect(() => {
@@ -27,39 +29,30 @@ function Stage(props) {
   }, [tasks, newTaskCount]);
 
   useEffect(() => {
-
     setTasks(stage.tasks);
   }, [stage.tasks.length]);
 
-  useEffect(()=>{
-
-    if(activeCard === null){
-
+  useEffect(() => {
+    if (activeCard === null) {
       const stageCards = document.querySelectorAll(".card");
-      stageCards.forEach((card)=>{card.classList.remove("card_draggable");})
-
-    }
-    else{
+      stageCards.forEach((card) => {
+        card.classList.remove("card_draggable");
+      });
+    } else {
       const stageCards = document.querySelectorAll(".card");
-      stageCards.forEach((card)=>{card.classList.add("card_draggable");})
-      
+      stageCards.forEach((card) => {
+        card.classList.add("card_draggable");
+      });
     }
+  }, [activeCard]);
 
-  },[activeCard])
-
-  useEffect(()=>{
-    if(showDrop){
-
-
+  useEffect(() => {
+    if (showDrop) {
       myRef.current.classList.add("card_on_draggable");
-
-    }else{
-
+    } else {
       myRef.current.classList.remove("card_on_draggable");
-
     }
-
-  },[showDrop])
+  }, [showDrop]);
 
   const saveTask = (response) => {
     const oldTasks = tasks.map((task) => {
@@ -91,16 +84,17 @@ function Stage(props) {
 
   return (
     <ul className="cards">
-      <li onDragEnter={() => setShowDrop(true)}
+      <li
+        onDragEnter={() => setShowDrop(true)}
         onDragLeave={() => setShowDrop(false)}
         onDrop={() => {
           onDrop(stage.id);
           setShowDrop(false);
         }}
         onDragOver={(e) => e.preventDefault()}
-       className="card"
-       ref={myRef}
-       >
+        className="card"
+        ref={myRef}
+      >
         <div className="card_header">
           <div className="header_name">{stage.name}</div>
           <button className="new" onClick={handleNewButtonClick}>
@@ -110,17 +104,17 @@ function Stage(props) {
 
         <div className={`scrolling_vertically ${stage.name.replace(" ", "-")}`}>
           {tasks.map((task) => (
-              <Task
-                key={task.id}
-                isNew={task.isNew ? task.isNew : false}
-                taskNameSend={task.name}
-                taskDescriptionSend={task.description}
-                changeState={saveTask}
-                stageId={stage.id}
-                taskId={task.id}
-                setActiveCard={setActiveCard}
-                setShowDrop={setShowDrop}
-              />
+            <Task
+              key={task.id}
+              isNew={task.isNew ? task.isNew : false}
+              taskNameSend={task.name}
+              taskDescriptionSend={task.description}
+              changeState={saveTask}
+              stageId={stage.id}
+              taskId={task.id}
+              setActiveCard={setActiveCard}
+              setShowDrop={setShowDrop}
+            />
           ))}
         </div>
       </li>

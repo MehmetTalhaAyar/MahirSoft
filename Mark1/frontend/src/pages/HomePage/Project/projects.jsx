@@ -68,7 +68,7 @@ function Project() {
               year: project.createdOn[0],
             },
             adminImage: project.leadingPerson.image,
-            members : project.members
+            members: project.members,
           };
         })
       );
@@ -128,7 +128,7 @@ function Project() {
               year: response.data.createdOn[0],
             },
             adminImage: response.data.leadingPerson.image,
-            members : response.data.members
+            members: response.data.members,
           },
         ];
         const newDropdownStates = [...dropdownStates, false];
@@ -213,7 +213,7 @@ function Project() {
       project.title.toLowerCase().includes(filterInput.toLowerCase())
     );
     setFilteredProjectCards(filteredProjects);
-    console.log(filteredProjects)
+    console.log(filteredProjects);
   };
 
   return (
@@ -296,22 +296,29 @@ function Project() {
           {filteredProjectCards.map((project, index) => (
             <div key={index} className="project_card">
               <header className="project_header">
-                <h2 className="proje_title">{project.title}</h2>
-                <HiDotsHorizontal
-                  className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
-                  onClick={() => openDropdownMenu(index)}
-                />
-
-                <div
-                  id={`myDropdown${index}`}
-                  className={`dropdown-content ${
-                    dropdownStates[index] ? "openDropdown" : ""
-                  }`}
+                <Link 
+                to={"/home/projectdetails"}
+                state={{ projectId: project.id }}
                 >
-                  <a href="#delete" onClick={() => deleteProject(project.id)}>
-                    Delete
-                  </a>
-                  <a href="#edit">Edit</a>
+                  <h2 className="proje_title">{project.title}</h2>
+                </Link>
+                <div className="project_delete">
+                  <HiDotsHorizontal
+                    className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
+                    onClick={() => openDropdownMenu(index)}
+                  />
+
+                  <div
+                    id={`myDropdown${index}`}
+                    className={`dropdown-content ${
+                      dropdownStates[index] ? "openDropdown" : ""
+                    }`}
+                  >
+                    <a href="#delete" onClick={() => deleteProject(project.id)}>
+                      Delete
+                    </a>
+                    <a href="#edit">Edit</a>
+                  </div>
                 </div>
               </header>
 
@@ -320,7 +327,11 @@ function Project() {
                   <p className="manager_header">Manager</p>
                   <div className="proje_manager_container">
                     <img
-                      src={project.adminImage !== null ? `/assets/profile/${project.adminImage}` : defaultProfileImage }
+                      src={
+                        project.adminImage !== null
+                          ? `/assets/profile/${project.adminImage}`
+                          : defaultProfileImage
+                      }
                       alt="Manager Image"
                       className="manager_image"
                     />
@@ -342,7 +353,11 @@ function Project() {
                       return (
                         <li key={member.userId} className="member_list">
                           <img
-                            src={member.image !== null ? `/assets/profile/${member.image}` : defaultProfileImage }
+                            src={
+                              member.image !== null
+                                ? `/assets/profile/${member.image}`
+                                : defaultProfileImage
+                            }
                             alt="Manager Image"
                             className="member_image"
                           />
@@ -355,7 +370,7 @@ function Project() {
                     <Link
                       className="to-links"
                       to={project.title.toLowerCase()}
-                      state={{projectId:project.id}}
+                      state={{ projectId: project.id }}
                     >
                       <button className="go_into_tasks">
                         Go to Tasks <IoIosArrowForward />
@@ -366,10 +381,10 @@ function Project() {
               </div>
 
               <span className="created_on">
-                Created on{" "}
-                {`${project.createdOn.day} ${MONTHS[project.createdOn.month]} ${
-                  project.createdOn.year
-                }`}
+                Created on
+                {` ${project.createdOn.day} ${
+                  MONTHS[project.createdOn.month]
+                } ${project.createdOn.year}`}
               </span>
             </div>
           ))}

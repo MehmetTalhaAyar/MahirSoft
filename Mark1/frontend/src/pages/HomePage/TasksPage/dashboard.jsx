@@ -10,36 +10,29 @@ function Dashboard() {
   const location = useLocation();
   const [stages, setStages] = useState([]);
   const [activeCard, setActiveCard] = useState(null);
-  const [activeCardStageId,setActiveCardStageId] = useState(null);
+  const [activeCardStageId, setActiveCardStageId] = useState(null);
 
   useEffect(() => {
     getDetails(location.state.projectId);
-    
   }, []);
 
-
-
-
-  const setActiveCardAndStage = (taskId,stageId) => {
-    if(taskId !== null && stageId !== null){
+  const setActiveCardAndStage = (taskId, stageId) => {
+    if (taskId !== null && stageId !== null) {
       setActiveCard(taskId);
       setActiveCardStageId(stageId);
-    }
-    else{
+    } else {
       setActiveCard(null);
       setActiveCardStageId(null);
-      
     }
+  };
 
-  }
+  const getDetails = useCallback(async (projectId) => {
+    const response = await getProjectDetails(projectId);
 
-  const getDetails = useCallback( async(projectId)=>{
-      const response = await getProjectDetails(projectId);
-
-      if(response.status === 200){
-        setStages(response.data.stages)
-      }
-  })
+    if (response.status === 200) {
+      setStages(response.data.stages);
+    }
+  });
 
   const onDrop = async (stageId) => {
     console.log(
@@ -47,41 +40,32 @@ function Dashboard() {
     );
     if (activeCard === null || activeCard === undefined) return;
 
-    if(stageId === activeCardStageId ) return; // aynı stage e işlem yapılmasını engelliyoruz
+    if (stageId === activeCardStageId) return; // aynı stage e işlem yapılmasını engelliyoruz
 
-    const response = await updateTaskStage(
-      {
-        taskId : activeCard,
-        stageId: stageId
-      }
-    );
-    if(response.status === 200){  
-
-      const updatedStages = stages.map((stage)=>{
-        if(stage.id === stageId){  
-          stage.tasks.splice(0,0,response.data);
-        }else if(stage.id === activeCardStageId){
-          stage.tasks = stage.tasks.filter((eleman)=>{
-            if(eleman.id === activeCard)
-                return ;
-            else 
-              return eleman;
+    const response = await updateTaskStage({
+      taskId: activeCard,
+      stageId: stageId,
+    });
+    if (response.status === 200) {
+      const updatedStages = stages.map((stage) => {
+        if (stage.id === stageId) {
+          stage.tasks.splice(0, 0, response.data);
+        } else if (stage.id === activeCardStageId) {
+          stage.tasks = stage.tasks.filter((eleman) => {
+            if (eleman.id === activeCard) return;
+            else return eleman;
           });
-          
         }
 
         return stage;
-
       });
-      
-      setStages(updatedStages);
-      console.log(updatedStages)
 
+      setStages(updatedStages);
+      console.log(updatedStages);
     }
     setActiveCard(null);
     setActiveCardStageId(null);
   };
-
 
   return (
     <div className="wraper">
@@ -107,7 +91,7 @@ function Dashboard() {
           />
         ))}
       </div>
-      <h1>Task = {activeCard}</h1> 
+      <h1>Task = {activeCard}</h1>
     </div>
   );
 }

@@ -12,6 +12,8 @@ public class GeneralProjectResponse {
 
     private String name;
 
+    private String description;
+
     private GeneralUserAuthenticationResponse leadingPerson;
 
     private LocalDateTime createdOn;
@@ -66,6 +68,14 @@ public class GeneralProjectResponse {
 
     public void setMembers(List<GeneralUserAuthenticationResponse> members) {
         this.members = members;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 

@@ -35,6 +35,9 @@ public class Stage {
     @JoinColumn(name = "createdById" ,referencedColumnName = "userId")
     private UserAuthentication createdById;
 
+    @Column(name = "sequence")
+    private int sequence;
+
     @Column(name = "createdOn")
     private LocalDateTime createdOn = LocalDateTime.now();
 
@@ -54,6 +57,7 @@ public class Stage {
         GeneralStageResponse newstage = new GeneralStageResponse();
         newstage.setId(stageId);
         newstage.setName(name);
+        newstage.setSequence(sequence);
         newstage.setTasks(toTaskResponses());
 
         return newstage;
@@ -153,6 +157,14 @@ public class Stage {
 
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
     }
 
     

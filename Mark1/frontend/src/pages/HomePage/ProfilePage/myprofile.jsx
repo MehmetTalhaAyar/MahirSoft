@@ -22,11 +22,12 @@ function MyProfile() {
   };
 
   useEffect(()=>{
-    if(authState.image !== null){
+
+    if(authState.image !== null && authState !== undefined){
 
       setProfileImage(authState.image);
     }
-  },[])
+  },[authState])
 
   //Change Profile Function
   const handleProfileImage = (newImage) => {

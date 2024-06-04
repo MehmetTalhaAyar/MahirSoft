@@ -3,6 +3,8 @@ package com.mahirsoft.webservice.WebApi.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.internal.lang.annotation.ajcDeclareAnnotation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,16 +15,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.mahirsoft.webservice.Business.concretes.CompanyService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
+import com.mahirsoft.webservice.Entities.ResponseMessage;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Company;
+import com.mahirsoft.webservice.Entities.Models.CompanyInvitation;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.CompanyInvitation.CompanyInvitationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateCompanyMemberRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateCompnayRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddUserToCompanyRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostReplyToCompanyInvitationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyMembersRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
@@ -83,33 +90,47 @@ public class CompanyController {
         return new ResponseEntity<GeneralCompanyResponse>(companyResponse, HttpStatusCode.valueOf(201));
     }
 
-    @PostMapping("/addemployee/{id}") // burada artık istek atılacak ve o isteğin yanıtına göre işlem yapılacak burası düzenlenecek
-    public ResponseEntity<?> addEmployeeToCompany(@PathVariable long id,@RequestBody PostAddUserToCompanyRequest postAddUserToCompanyRequest,@AuthenticationPrincipal DefaultUser currentUser){
+    @PostMapping("/add/employee/{companyId}")
+    public ResponseEntity<?> addEmployeeToCompany(@PathVariable long companyId,@RequestBody PostAddUserToCompanyRequest postAddUserToCompanyRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isTherePermission(currentUser, AuthorizationCodes.INVITATION_TO_THE_COMPANY);
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.INVITATION_TO_THE_COMPANY);
 
-        var user = userAuthenticationService.findByEmail(postAddUserToCompanyRequest.getEmail());
+        var companyInvitation = companyService.addANewMember(companyId,postAddUserToCompanyRequest,user);
 
-        if(user == null) throw new UserNotFoundException();
+        if(companyInvitation == null) return new ResponseEntity<String>("Something went wrong!",  HttpStatusCode.valueOf(404));
 
-        var company = companyService.getCompany(id);
+        return new ResponseEntity<ResponseMessage>( new ResponseMessage("User Invitation Sent."),  HttpStatusCode.valueOf(200));
+    }
 
-        if(company == null) return new ResponseEntity<String>("Something went wrong!",  HttpStatusCode.valueOf(404));
+    @PostMapping("/reply/invitation")
+    public ResponseEntity<?> handleReplyToCompanyInvitations(@Valid @RequestBody PostReplyToCompanyInvitationRequest postReplyToCompanyInvitationRequest,  @AuthenticationPrincipal DefaultUser currentUser){
 
-        for(var eleman : company.getCompanyMembers()){
-            if (eleman.getUserId() == user.getUserId()){
-                
-                return new ResponseEntity<String>("User already in",  HttpStatusCode.valueOf(400));
-            } 
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION);
+
+        companyService.replyCompanyInvitation(postReplyToCompanyInvitationRequest,user);
+        
+        
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage("Message received."),HttpStatus.OK);
+    }
+
+    @GetMapping("/check/invitations") // burada reject ve accepted durumu için birşeyler düşünülecek
+    public ResponseEntity<?> handleCheckCompanyInvitations(@AuthenticationPrincipal DefaultUser currentUser){
+
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION);
+
+        List<CompanyInvitation> invitations = companyService.checkCompanyInvitations(user,CompanyInvitationCodes.PENDING);
+
+        List<GeneralCompanyResponse> generalCompanyResponses = new ArrayList<>();
+
+        for(var invitation : invitations){
+            GeneralCompanyResponse generalCompanyResponse = invitation.getCompanyId().toGeneralCompanyResponse();
+            generalCompanyResponses.add(generalCompanyResponse);
         }
 
-        
-
-        user.setCompanyId(company);
-        userAuthenticationService.addUserToCompany(user);
-
-        return new ResponseEntity<String>("User added",  HttpStatusCode.valueOf(200));
+        return new ResponseEntity<List<GeneralCompanyResponse>>(generalCompanyResponses,HttpStatus.OK);
     }
+
+
 
     @PostMapping("/members") 
     public List<GeneralUserAuthenticationResponse> getcompanyMembers(@RequestBody PostSearchCompanyMembersRequest postSearchCompanyMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){

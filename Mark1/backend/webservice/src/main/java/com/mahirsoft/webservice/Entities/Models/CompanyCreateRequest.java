@@ -10,8 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CompanyCreateRequests")
-public class CompanyCreateRequest {
-    
+public class CompanyCreateRequest { // şirket oluşturmak için bir request 
     
     @Id
     @GeneratedValue

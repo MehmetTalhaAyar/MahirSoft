@@ -86,7 +86,7 @@ public class TaskController {
     public ResponseEntity<?> getTaskById(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
 
 
-        permissionService.isInThisProjectFindByTaskId(currentUser, id ); // taskın sahip olduğu projenin içinde mi diye kontrol ediliyor.
+        permissionService.isInThisProjectFindByTaskId(currentUser, id ,AuthorizationCodes.ANY_AUTHORIZATION ); // taskın sahip olduğu projenin içinde mi diye kontrol ediliyor.
 
         String body = "Task not found";
         var task = taskService.getTaskById(id);
@@ -116,7 +116,7 @@ public class TaskController {
     @PutMapping("/changedescription")
     public ResponseEntity<?> handleChangeTaskDescription(@Valid @RequestBody PostUpdateTaskDescriptionRequest postUpdateTaskDescriptionRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateTaskDescriptionRequest.getTaskId());
+        permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateTaskDescriptionRequest.getTaskId(),AuthorizationCodes.TASK_CREATE);
         // ilerde burada history oluşturulması sağlanacak
         var task = taskService.ChangeTaskDescription(postUpdateTaskDescriptionRequest);
 
@@ -125,30 +125,4 @@ public class TaskController {
     }
 
     
-
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

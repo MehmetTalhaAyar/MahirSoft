@@ -1,0 +1,160 @@
+.project_stages {
+  display: flex;
+  flex-direction: column;
+  width: 44%;
+  height: 500px;
+  background-color: white;
+}
+.project_stage_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border-bottom: 1px solid gray;
+}
+.stages_container {
+  display: flex;
+  gap: 7px;
+
+  align-items: center;
+}
+.add_stages {
+  display: flex;
+  border: 1px solid gray;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.add_stages:hover {
+  transition: 0.3s;
+  background-color: rgb(232, 232, 232);
+}
+
+.stages_list_container {
+  overflow-y: scroll;
+  max-height: 60%;
+
+  border-bottom: 1px solid gray;
+}
+.stages_list_container::-webkit-scrollbar {
+  display: none;
+}
+
+.stages_list {
+  box-shadow: 2px 2px 5px 3px #e3e3e3;
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 7px;
+  border-left: 2px solid rgb(49, 166, 49);
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.update_remove {
+  display: flex;
+  gap: 7px;
+  border-left: 1px solid gray;
+  padding: 10px;
+}
+.edit_stage:hover {
+  color: rgb(114, 114, 12);
+  cursor: pointer;
+}
+.delete_stage:hover {
+  color: red;
+  cursor: pointer;
+}
+.input_container {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+}
+
+.input_container input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+.input_container input:focus {
+  border: 1px solid #4caf50;
+  box-shadow: 1px 1px 3px rgba(76, 175, 80, 0.5);
+  outline: none;
+}
+
+.save_cancel_stages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding-right: 10px;
+}
+.check {
+  cursor: pointer;
+  border-radius: 4px;
+}
+.check:hover {
+  color: rgb(54, 165, 54);
+}
+.remove {
+  cursor: pointer;
+  border-radius: 4px;
+}
+.remove:hover {
+  color: red;
+}
+.project_tasks_number {
+  display: flex;
+  margin-top: 10px;
+  padding: 0px 15px;
+  justify-content: space-between;
+  color: rgb(81, 81, 81);
+  font-size: 20px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+.project_total_task {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid rgb(99, 110, 206);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.project_finished_task {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid rgb(66, 195, 96);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.project_falied_task {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid rgb(198, 81, 81);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.edit_input_stage {
+  border: 1px solid #ccc;
+
+  padding: 10px;
+  width: 100%;
+  border-radius: 3px;
+
+  box-sizing: border-box;
+}
+
+.edit_input_stage:focus {
+  outline: none;
+  border-color: rgb(4, 153, 39); /* Change the border color when focused */
+}
+.stage_name {
+  margin-left: 10px;
+}

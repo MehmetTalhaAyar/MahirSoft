@@ -55,8 +55,8 @@ export function TaskPage() {
   const [selectedStage, setSelectedStage] = useState();
   const [selectedResponsible, setSelectedResponsible] = useState();
   const [selectedReporter, setSelectedReporter] = useState();
-
   const [isShow, setIsShow] = useState(false);
+  const [saveChanges, setSaveChanges] = useState(false);
 
   useEffect(() => {
     if (authState.userId > 0) {
@@ -66,7 +66,7 @@ export function TaskPage() {
 
   useEffect(() => {
     const response = getInfo();
-    console.log(response);
+
     response.finally(() => {
       setIsShow(true);
     });
@@ -220,6 +220,10 @@ export function TaskPage() {
           response.data.responsibleId.surname[0]
       );
     }
+    setSaveChanges(true);
+    return setTimeout(() => {
+      setSaveChanges(false);
+    }, 1500);
   };
 
   const filterMembers = (inputValue) => {
@@ -249,7 +253,6 @@ export function TaskPage() {
     const response = await updateLikeCount(updatedComments[index].commentId);
 
     if (response.status === 200) {
-      console.log(response.data.likeCount);
       updatedComments[index].likeCount = response.data.likeCount;
     }
 
@@ -279,16 +282,16 @@ export function TaskPage() {
     });
 
     if (response.status === 200) {
-      updatedComments[index].text = editedComment; // Update the text of the comment
+      updatedComments[index].text = editedComment;
       setComments(updatedComments);
     }
 
-    setEditingCommentIndex(null); // Reset editing state
+    setEditingCommentIndex(null);
   };
 
   const handleCancelEdit = () => {
-    setEditedComment(""); // Clear the edited comment
-    setEditingCommentIndex(null); // Reset editing state
+    setEditedComment("");
+    setEditingCommentIndex(null);
   };
 
   return isShow ? (
@@ -307,12 +310,15 @@ export function TaskPage() {
             </div>
 
             <div className="photo_input_container">
-              {
-                authState.image !== null ? 
-                <img className="profile-image" src={`/assets/profile/${authState.image}`} alt="profile image" /> :
+              {authState.image !== null ? (
+                <img
+                  className="profile-image"
+                  src={`/assets/profile/${authState.image}`}
+                  alt="profile image"
+                />
+              ) : (
                 <p className="logo">{userDefaultLogo}</p>
-
-              }
+              )}
               <textarea
                 type="text"
                 className="comment_input"
@@ -336,8 +342,13 @@ export function TaskPage() {
               {comments.map((comment, index) => (
                 <div key={index} className="show_comment">
                   <h4>
-                    <img className="profile-image-comment" src={`/assets/profile/${comment.authorImg}`} alt="profile image" />
+                    <img
+                      className="profile-image-comment"
+                      src={`/assets/profile/${comment.authorImg}`}
+                      alt="profile image"
+                    />
                   </h4>
+
                   <div className="show_comment_right">
                     <div className="author_title">
                       <section className="send_time">
@@ -433,10 +444,15 @@ export function TaskPage() {
             </div>
             <h4 className="assignee_title">Assignee</h4>
             <div className="name_container">
-              {taskResponsible.image !== null ?  
-              <img className="profile-image-report" src={`/assets/profile/${taskResponsible.image}`} alt="profile image" /> :
-              <p className="logo2">{responsibleLogo}</p>
-              }
+              {taskResponsible.image !== null ? (
+                <img
+                  className="profile-image-report"
+                  src={`/assets/profile/${taskResponsible.image}`}
+                  alt="profile image"
+                />
+              ) : (
+                <p className="logo2">{responsibleLogo}</p>
+              )}
               <AsyncSelect
                 defaultOptions={projectMembers}
                 cacheOptions
@@ -448,10 +464,15 @@ export function TaskPage() {
             </div>
             <h4 className="reporter_title">Reporter</h4>
             <div className="name_container">
-              {taskReporter.image !== null ?
-              <img className="profile-image-report" src={`/assets/profile/${taskReporter.image}`} alt="profile image" /> :
-              <p className="logo3">{reporterLogo}</p>
-              }
+              {taskReporter.image !== null ? (
+                <img
+                  className="profile-image-report"
+                  src={`/assets/profile/${taskReporter.image}`}
+                  alt="profile image"
+                />
+              ) : (
+                <p className="logo3">{reporterLogo}</p>
+              )}
               <AsyncSelect
                 defaultOptions={projectMembers}
                 cacheOptions
@@ -470,6 +491,15 @@ export function TaskPage() {
                 Save Changes
               </button>
             </div>
+
+            {saveChanges ? (
+              <span className="change_successfully">
+                Successfully saved changes{" "}
+              </span>
+            ) : (
+              ""
+            )}
+
             <hr className="tree" />
             <p className="task_created">
               Created on{" "}

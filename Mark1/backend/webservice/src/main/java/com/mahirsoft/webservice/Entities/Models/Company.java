@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.CompanyResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 
@@ -94,6 +95,17 @@ public class Company {
         return members;
     }
 
+
+    public GeneralCompanyResponse toGeneralCompanyResponse(){
+        GeneralCompanyResponse generalCompanyResponse = new GeneralCompanyResponse();
+        generalCompanyResponse.setDescription(description);
+        generalCompanyResponse.setId(companyId);
+        generalCompanyResponse.setManager(managerId.toGeneralUserAuthenticationResponse());
+        generalCompanyResponse.setName(name);
+
+        return generalCompanyResponse;
+    }
+
     public List<GeneralProjectResponse> toGeneralProjectResponses(){
         List<GeneralProjectResponse> projectList = new ArrayList<>();
 
@@ -106,7 +118,7 @@ public class Company {
             currentProject.setCreatedOn(eleman.getCreatedOn());
             currentProject.setLeadingPerson(eleman.getLeadingPersonId().toGeneralUserAuthenticationResponse());
             currentProject.setName(eleman.getName());
-            currentProject.setStages(eleman.toGeneralStageResponse());
+            currentProject.setStages(eleman.toGeneralStageResponses());
             currentProject.setMembers(eleman.toGeneralUserAuthenticationResponses());
 
             projectList.add(currentProject);

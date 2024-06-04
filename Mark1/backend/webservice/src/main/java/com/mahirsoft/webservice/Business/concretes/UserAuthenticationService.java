@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
+import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.PostImageUpdateRequest;
@@ -53,13 +54,12 @@ public class UserAuthenticationService {
     }
 
     public UserAuthentication findByEmail(String email){
-        return userAuthenticationRepository.findByEmail(email);
+        return userAuthenticationRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException());
     }
 
     public UserAuthentication getUserInfo(PostUserAuthenticationRequest PostUserAuthenticationRequest){
         
-        UserAuthentication userAuthentication = userAuthenticationRepository.findByEmail(PostUserAuthenticationRequest.getEmail());
-        if (userAuthentication == null) return null;
+        UserAuthentication userAuthentication = userAuthenticationRepository.findByEmail(PostUserAuthenticationRequest.getEmail()).orElseThrow(()-> new ResourceNotFoundException());
 
         if(!passwordEncoder.matches(PostUserAuthenticationRequest.getPassword(), userAuthentication.getPassword())) return null;
 
