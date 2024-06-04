@@ -13,8 +13,22 @@ const yetkiData = [
   { yetkiName: "TASK_CREATE" },
   { yetkiName: "TASK_EDIT" },
   { yetkiName: "TASK_DELETE" },
+  { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
   { yetkiName: "TASK_CREATE" },
   { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
+  { yetkiName: "TASK_CREATE" },
+  { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
+  { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
+  { yetkiName: "TASK_CREATE" },
+  { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
+  { yetkiName: "TASK_CREATE" },
+  { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
 ];
 
 const userData = [
@@ -22,8 +36,20 @@ const userData = [
   { fullName: "Normal User" },
   { fullName: "Company User" },
   { fullName: "Administrator" },
+  { fullName: "Administrator" },
+  { fullName: "Normal User" },
+  { fullName: "Administrator" },
   { fullName: "Normal User" },
   { fullName: "Company User" },
+  { fullName: "Administrator" },
+  { fullName: "Administrator" },
+  { fullName: "Normal User" },
+  { fullName: "Administrator" },
+  { fullName: "Normal User" },
+  { fullName: "Company User" },
+  { fullName: "Administrator" },
+  { fullName: "Administrator" },
+  { fullName: "Normal User" },
 ];
 
 const Yetki = ({ isOpen, onClose }) => {
@@ -54,7 +80,7 @@ const Yetki = ({ isOpen, onClose }) => {
           <AiOutlineClose />
         </span>
         <h2>Yetkiler</h2>
-        <div className="table-container">
+        <div className="yetki-container">
           <table className="yetki-table">
             <thead>
               <tr>

@@ -24,11 +24,14 @@
   justify-content: space-between;
 }
 .home_page_logo {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   text-decoration: none;
   letter-spacing: 0.15em;
   color: white;
   text-transform: uppercase;
   font-weight: bold;
+  font-size: 22px;
 }
 
 .nav-links {

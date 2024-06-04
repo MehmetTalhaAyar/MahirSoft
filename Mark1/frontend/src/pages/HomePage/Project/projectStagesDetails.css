@@ -61,9 +61,13 @@
   color: rgb(114, 114, 12);
   cursor: pointer;
 }
-.delete_stage:hover {
+.delete_stage {
   color: red;
   cursor: pointer;
+}
+.delete_stage:hover {
+  color: rgb(255, 111, 111);
+  transition: 0.3s;
 }
 .input_container {
   display: flex;

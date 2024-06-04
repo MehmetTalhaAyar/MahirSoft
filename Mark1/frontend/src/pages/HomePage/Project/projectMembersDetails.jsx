@@ -9,81 +9,81 @@ export default function ProjectMembersDetails({ setIsModalOpen }) {
       fullName: "John Doe",
       email: "john@example.com",
       GSB: "5363935530",
-      company: "ABC Inc",
+      company: "MahirSoft",
     },
     {
-      fullName: "John Doe",
-      email: "john@example.com",
+      fullName: "Redon",
+      email: "redon@gmail.com",
       GSB: "5363935530",
-      company: "ABC Inc",
+      company: "MahirSoft",
     },
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Sara",
+      email: "sara@example.com",
+      GSB: "531561144452",
+      company: "MahirSoft",
     },
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Ahmed",
+      email: "ahmed@example.com",
+      GSB: "245245254",
+      company: "MahirSoft",
     },
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Sabo",
+      email: "sabo@example.com",
+      GSB: "752752752",
+      company: "MahirSoft",
     },
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
-    },
-
-    {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
-    },
-    {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Mehmet",
+      email: "mehmet@example.com",
+      GSB: "75275252",
+      company: "MahirSoft",
     },
 
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Juli",
+      email: "juli@example.com",
+      GSB: "752752752",
+      company: "MahirSoft",
     },
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Uvejs",
+      email: "uvejs@example.com",
+      GSB: "75275257",
+      company: "MahirSoft",
     },
 
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Aqif",
+      email: "aqif@example.com",
+      GSB: "75272752",
+      company: "MahirSoft",
     },
     {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "ABC Inc",
+      fullName: "Emir",
+      email: "emir@example.com",
+      GSB: "752752752",
+      company: "MahirSoft",
+    },
+
+    {
+      fullName: "Abdullah",
+      email: "abdullah@example.com",
+      GSB: "7252572456",
+      company: "MahirSoft",
+    },
+    {
+      fullName: "Nokee",
+      email: "noke@example.com",
+      GSB: "5434989",
+      company: "MahirSoft",
     },
   ]);
 
   const handleDeleteMembers = (index) => {
-    setMemberNames(memberNames.filter((_, i) => i != index));
+    setMemberNames(memberNames.filter((_, i) => i !== index));
   };
 
   return (
@@ -104,7 +104,7 @@ export default function ProjectMembersDetails({ setIsModalOpen }) {
               <th>Full Name</th>
               <th>Email</th>
               <th>GSM</th>
-              <th>Role</th>
+              <th>Company</th>
               <th>Action</th>
             </tr>
           </thead>

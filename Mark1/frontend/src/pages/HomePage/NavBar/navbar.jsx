@@ -25,7 +25,7 @@ function NavBar() {
     <nav>
       <div className="homepage_navbar">
         <Link to={""} className="home_page_logo">
-          Home Page
+          MahirSoft
         </Link>
 
         <div className="message_profile_icon">

@@ -60,7 +60,9 @@ tr:nth-child(even) {
 .delete_member {
   font-size: 22px;
   cursor: pointer;
+  color: red;
 }
 .delete_member:hover {
-  color: red;
+  color: rgb(255, 111, 111);
+  transition: 0.3s;
 }

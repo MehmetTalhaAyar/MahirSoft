@@ -87,11 +87,10 @@ function Dashboard() {
             stage={stage}
             setActiveCard={setActiveCardAndStage}
             onDrop={onDrop}
-            activeCard = {activeCard}
+            activeCard={activeCard}
           />
         ))}
       </div>
-      <h1>Task = {activeCard}</h1>
     </div>
   );
 }

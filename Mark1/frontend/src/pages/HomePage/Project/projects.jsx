@@ -16,6 +16,7 @@ import {
 import { MONTHS } from "../../../Constants/Constants";
 import { Link } from "react-router-dom";
 import defaultProfileImage from "../../../assets/profileImage.jpg";
+import { MdDelete } from "react-icons/md";
 
 function Project() {
   const [projectFormOpen, setProjectFormOpen] = useState(false);
@@ -31,9 +32,6 @@ function Project() {
 
   const [filterInput, setFilterInput] = useState("");
   const [filteredProjectCards, setFilteredProjectCards] = useState([]);
-
-  // console.log(adminName.label)
-  // console.log()
 
   const getMembers = useCallback(async () => {
     const response = await getCompanyMembers({ searchKey: "" });
@@ -174,11 +172,9 @@ function Project() {
 
   const handleSelectChange = (selectedValues) => {
     setSelectedOptions(selectedValues);
-    console.log(selectedValues);
   };
 
   const handleAdminChange = (selectedValue) => {
-    // console.log(selectedValue)
     setAdminName(selectedValue);
   };
 
@@ -213,7 +209,6 @@ function Project() {
       project.title.toLowerCase().includes(filterInput.toLowerCase())
     );
     setFilteredProjectCards(filteredProjects);
-    console.log(filteredProjects);
   };
 
   return (
@@ -240,6 +235,7 @@ function Project() {
       >
         <div className="project_form">
           <input
+            required
             type="text"
             placeholder="Project Title"
             className={`project_input ${
@@ -313,8 +309,8 @@ function Project() {
                   >
                     <a href="#delete" onClick={() => deleteProject(project.id)}>
                       Delete
+                      <MdDelete />
                     </a>
-                    <a href="#edit">Edit</a>
                   </div>
                 </div>
               </header>
