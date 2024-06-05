@@ -6,6 +6,8 @@ import { MdDeleteOutline } from "react-icons/md";
 import defaultProfileImage from "/src/assets/profileImage.jpg";
 import { EditProfileImage } from "./api";
 import { useAuthDispatch, useAuthState } from "../../../state/context";
+import { toast } from "react-hot-toast";
+
 
 function EditProfilePage({ onProfileImageChange }) {
   const authState = useAuthState();
@@ -54,13 +56,17 @@ function EditProfilePage({ onProfileImageChange }) {
         setProfileImage(`/assets/profile/${response.data.image}`);
         dispatch({type:'update-image',image:response.data.image});
         onProfileImageChange(response.data.image);
+        toast.error("resim yüklendi.");
       }
     }
     
     setTempImage(null);
   };
 
+  
+
   return (
+    <>
     <div className="edit_profile_page">
       <div className="section2">
         <div className="profile_container2">Profile Image</div>
@@ -90,6 +96,7 @@ function EditProfilePage({ onProfileImageChange }) {
           </div>
         </div>
       </div>
+      
       <div className="profile_details2">
         <div className="details2">
           <div className="full_name">Full Name</div>
@@ -171,6 +178,7 @@ function EditProfilePage({ onProfileImageChange }) {
         </button>
       </div>
     </div>
+    </>
   );
 }
 

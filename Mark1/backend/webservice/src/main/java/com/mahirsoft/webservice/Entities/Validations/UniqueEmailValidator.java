@@ -19,7 +19,7 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail,Str
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         
-        UserAuthentication inDB = userAuthenticationRepository.findByEmail(value);
+        UserAuthentication inDB = userAuthenticationRepository.findByEmail(value).orElse(null);
         
         return inDB == null;
     }

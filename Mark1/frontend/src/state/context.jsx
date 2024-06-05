@@ -32,23 +32,23 @@ const authReducer = (authState, action) => {
       storeSessionAuthState(action.data.user);
       setSessionToken(action.data.token);
 
-      return action.data.user;
-    case "remember-login-success":
-      storeAuthState(action.data.user);
-      setToken(action.data.token);
-      return action.data;
-    case "logout-success":
-      deleteSessionAuthState();
-      storeAuthState({ userId: 0 });
-      setSessionToken();
-      setToken();
-      return { userId: 0 };
-    case "session-storage":
-      setSessionToken(loadSessionToken());
-      return loadSessionAuthState();
-    case "update-image":
-      storeAuthState({ ...authState, image: action.image });
-      return action.image;
+            return action.data.user;
+        case 'remember-login-success':
+            storeAuthState(action.data.user)
+            setToken(action.data.token)
+            return action.data;
+        case 'logout-success':
+            deleteSessionAuthState()
+            storeAuthState({ userId: 0 })
+            setSessionToken()
+            setToken()
+            return { userId: 0 }
+        case 'session-storage':
+            setSessionToken(loadSessionToken())
+            return loadSessionAuthState();
+        case 'update-image':
+            storeSessionAuthState({...authState ,image :action.image})
+            return loadSessionAuthState();
 
     default:
       throw new Error(`unknown action : ${action.type}`);
@@ -64,11 +64,6 @@ export function AuthenticationContext({ children }) {
     }
   }, []);
 
-  // useEffect(()=>{
-  //     console.log("buraya girdix")
-  //     storeSessionAuthState(authState)
-
-  // },[authState])
 
   return (
     <AuthContext.Provider value={authState}>

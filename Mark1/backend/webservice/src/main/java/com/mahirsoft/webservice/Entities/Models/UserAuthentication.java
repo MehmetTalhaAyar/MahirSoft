@@ -123,8 +123,12 @@ public class UserAuthentication {
     private List<CommentLike> likes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "userWhoReceiveInvitation")
     private List<CompanyInvitation> recievedCompanyInvitations;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userWhoSendInvitation")
+    private List<CompanyInvitation> sentCompanyInvitations;
 
     @JsonIgnore
     @OneToMany(mappedBy = "userId")
@@ -219,7 +223,7 @@ public class UserAuthentication {
             currentProject.setId(eleman.getProjectId().getProjectId());
             currentProject.setCreatedOn(eleman.getProjectId().getCreatedOn());
             currentProject.setLeadingPerson(eleman.getProjectId().getLeadingPersonId().toGeneralUserAuthenticationResponse());
-            currentProject.setStages(eleman.getProjectId().toGeneralStageResponse());
+            currentProject.setStages(eleman.getProjectId().toGeneralStageResponses());
             currentProject.setName(eleman.getProjectId().getName());
             currentProject.setMembers(eleman.getProjectId().toGeneralUserAuthenticationResponses());
 

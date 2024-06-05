@@ -79,7 +79,7 @@ public class ProjectAndStageController {
         generalProjectResponse.setCreatedOn(project.getCreatedOn());
         generalProjectResponse.setLeadingPerson(project.toLeadPerson());
         generalProjectResponse.setName(project.getName());
-        generalProjectResponse.setStages(project.toGeneralStageResponse());
+        generalProjectResponse.setStages(project.toGeneralStageResponses());
 
 
         return new ResponseEntity<GeneralProjectResponse>(generalProjectResponse, HttpStatusCode.valueOf(200));
@@ -106,7 +106,7 @@ public class ProjectAndStageController {
     public ResponseEntity<?> getAllMembersAndStage(@RequestBody PostGetStageAndProjectMembersRequest postGetStageAndProjectMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
 
-        permissionService.isInThisProjectFindByStageId(currentUser,postGetStageAndProjectMembersRequest.getStageId()); // proje içinde olup olmadığı kontrol ediliyor
+        permissionService.isInThisProjectFindByStageId(currentUser,postGetStageAndProjectMembersRequest.getStageId(),AuthorizationCodes.ANY_AUTHORIZATION); // proje içinde olup olmadığı kontrol ediliyor
 
         var projectMemberAndStages = projectAndStageService.getProjectMembersAndStageByStageId(postGetStageAndProjectMembersRequest);
 

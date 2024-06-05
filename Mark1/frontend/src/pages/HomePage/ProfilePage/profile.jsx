@@ -13,7 +13,7 @@ function Profile({ isVisible }) {
   const navigate = useNavigate();
 
   const profileImage =
-    authState.image !== null
+    authState.image !== null && authState.image !== undefined
       ? `/assets/profile/${authState.image}`
       : defaultProfileImage;
 

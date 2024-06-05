@@ -2,24 +2,42 @@ import React, { useState, useEffect } from "react";
 import { BsTextLeft } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import "./projectDetailsDescription.css";
+import { useLocation } from "react-router-dom";
+import { updateDescription } from "../../TaskPage/api";
+import { updateProjectDescription } from "./api";
 
-export default function ProjectDetailsDescription() {
+export default function ProjectDetailsDescription(props) {
+  const {descriptionArrived} = props;
   const [isEditing, setIsEditing] = useState(false);
-  const [description, setDescription] = useState("No description provided.");
-  const [originalDescription, setOriginalDescription] = useState("");
+  const [description, setDescription] = useState(descriptionArrived);
+  const [originalDescription, setOriginalDescription] = useState(descriptionArrived);
+  const location = useLocation();
+  const [project,setProject] = useState({});
 
   // Set the original description when component mounts
   useEffect(() => {
     setOriginalDescription(description);
+    
   }, []);
+
+  useEffect(()=>{
+    setOriginalDescription(descriptionArrived);
+  },[descriptionArrived])
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setDescription(originalDescription);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async() => {
     setIsEditing(false);
-    setOriginalDescription(description); // Update original description after save
+
+    const response = await updateProjectDescription(location.state.projectId,{description :description});
+    if(response.status === 200){
+      
+      setOriginalDescription(response.data.description); // Update original description after save
+    }
+
   };
 
   const handleCancelClick = () => {
@@ -61,7 +79,7 @@ export default function ProjectDetailsDescription() {
           onChange={(e) => setDescription(e.target.value)}
         />
       ) : (
-        <p>{description}</p>
+        <p>{originalDescription}</p>
       )}
     </div>
   );

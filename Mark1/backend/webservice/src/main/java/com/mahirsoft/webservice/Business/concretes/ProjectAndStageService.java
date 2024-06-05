@@ -77,6 +77,8 @@ public class ProjectAndStageService {
         var project = defaultProject(postCreateProjectRequest.getProject(),createdBy,leadPerson);
         if(project == null) return null;
 
+        List<ProjectUser> projectUsers = new ArrayList<>();
+
         if(!postCreateProjectRequest.getProjectUserIds().contains(postCreateProjectRequest.getAdminId())){
             postCreateProjectRequest.getProjectUserIds().add(postCreateProjectRequest.getAdminId());
         }
@@ -87,8 +89,11 @@ public class ProjectAndStageService {
             projectUser.setProjectId(project);
             projectUser.setUserId(projectMember);
 
-            projectUserRepository.save(projectUser);
+            projectUsers.add(projectUserRepository.save(projectUser));
+
         }
+
+        project.setProjectMembers(projectUsers);
 
         return project;
     }
@@ -101,22 +106,27 @@ public class ProjectAndStageService {
         Stage newStage = new Stage();
         newStage.setCreatedById(createdUser);
         newStage.setName("New");
+        newStage.setSequence(1);
 
         Stage pendingStage = new Stage();
         pendingStage.setCreatedById(createdUser);
         pendingStage.setName("Pending");
+        pendingStage.setSequence(2);
 
         Stage inProgressStage = new Stage();
         inProgressStage.setCreatedById(createdUser);
         inProgressStage.setName("In Proggress");
+        inProgressStage.setSequence(3);
 
         Stage finishedStage = new Stage();
         finishedStage.setCreatedById(createdUser);
         finishedStage.setName("Finished");
+        finishedStage.setSequence(4);
 
         Stage failedStage = new Stage();
         failedStage.setCreatedById(createdUser);
         failedStage.setName("Failed");
+        failedStage.setSequence(5);
 
         stages.add(newStage);
         stages.add(pendingStage);
@@ -130,6 +140,7 @@ public class ProjectAndStageService {
         project.setName(createProjectRequest.getName());
         project.setCompanyId(leadPerson.getCompanyId());
         project.setLeadingPersonId(leadPerson);
+        project.setDescription("New Project");
         project.setStages(stages);        
         
         projectService.createProject(project);

@@ -1,86 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./projectMembersDetails.css";
 import { FaUsers } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
-export default function ProjectMembersDetails({ setIsModalOpen }) {
-  const [memberNames, setMemberNames] = useState([
-    {
-      fullName: "John Doe",
-      email: "john@example.com",
-      GSB: "5363935530",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Redon",
-      email: "redon@gmail.com",
-      GSB: "5363935530",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Sara",
-      email: "sara@example.com",
-      GSB: "531561144452",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Ahmed",
-      email: "ahmed@example.com",
-      GSB: "245245254",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Sabo",
-      email: "sabo@example.com",
-      GSB: "752752752",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Mehmet",
-      email: "mehmet@example.com",
-      GSB: "75275252",
-      company: "MahirSoft",
-    },
+export default function ProjectMembersDetails({ members, setIsModalOpen }) {
+  const [memberNames, setMemberNames] = useState([]);
 
-    {
-      fullName: "Juli",
-      email: "juli@example.com",
-      GSB: "752752752",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Uvejs",
-      email: "uvejs@example.com",
-      GSB: "75275257",
-      company: "MahirSoft",
-    },
-
-    {
-      fullName: "Aqif",
-      email: "aqif@example.com",
-      GSB: "75272752",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Emir",
-      email: "emir@example.com",
-      GSB: "752752752",
-      company: "MahirSoft",
-    },
-
-    {
-      fullName: "Abdullah",
-      email: "abdullah@example.com",
-      GSB: "7252572456",
-      company: "MahirSoft",
-    },
-    {
-      fullName: "Nokee",
-      email: "noke@example.com",
-      GSB: "5434989",
-      company: "MahirSoft",
-    },
-  ]);
+  useEffect(() => {
+    if (members.length > 0) {
+      setMemberNames(members);
+    }
+  }, [members]);
 
   const handleDeleteMembers = (index) => {
     setMemberNames(memberNames.filter((_, i) => i !== index));
@@ -113,8 +43,8 @@ export default function ProjectMembersDetails({ setIsModalOpen }) {
               <tr key={index}>
                 <td>{item.fullName}</td>
                 <td>{item.email}</td>
-                <td>{item.GSB}</td>
-                <td>{item.company}</td>
+                <td>{item.gsm}</td>
+                <td>{item.company.name}</td>
                 <td>
                   <MdDelete
                     onClick={() => handleDeleteMembers(index)}

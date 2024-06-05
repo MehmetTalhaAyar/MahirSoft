@@ -1,11 +1,9 @@
 package com.mahirsoft.webservice.Entities.Requests;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-public class CreateStageRequest {
-
-    @Size(max = 32)
+public class PutProjectNameRequest {
+    
     @NotBlank
     private String name;
 
@@ -16,5 +14,6 @@ public class CreateStageRequest {
     public void setName(String name) {
         this.name = name;
     }
+
     
 }

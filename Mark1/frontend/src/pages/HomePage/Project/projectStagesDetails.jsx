@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
@@ -6,26 +6,39 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { FaList } from "react-icons/fa6";
 
 import "./projectStagesDetails.css";
+import { createStage, updateStage } from "./api";
 
-export default function ProjectStagesDetails() {
+export default function ProjectStagesDetails({stages,totalTaskCount,projectId}) {
   const [newStage, setNewStage] = useState(false);
   const [stageName, setStageName] = useState("");
   const [editStage, setEditStage] = useState(null);
-  const [stagesName, setStagesName] = useState([
-    { fullName: "New" },
-    { fullName: "Pending" },
-    { fullName: "In Progress" },
-    { fullName: "Finished" },
-    { fullName: "Failed" },
-  ]);
+  const [stagesName, setStagesName] = useState([]);
+  const [totalTasks,setTotalTasks] = useState(undefined);
+  const [updatedTask,setUpdatedTask] = useState(undefined);
 
-  const handleSave = () => {
-    if (stageName) {
-      setStagesName([{ fullName: stageName }, ...stagesName]);
-      setStageName("");
+
+  const handleSave = async () => {
+
+    // burada bir evet hayır yeri açılacak
+    if (stageName && projectId !== undefined) {
+      const response = await createStage(projectId,{name : stageName})
+
+      if(response.status === 201) {
+        console.log(response.data);
+        setStagesName([{ name: stageName }, ...stagesName]);
+        setStageName("");
+
+      }
+
+      
       setNewStage(false);
     }
   };
+
+  useEffect(()=>{
+    setTotalTasks(totalTaskCount);
+    console.log(totalTasks)
+  },[totalTaskCount])
 
   const handleNewStage = () => {
     setNewStage(true);
@@ -38,6 +51,7 @@ export default function ProjectStagesDetails() {
 
   const handleEdit = (index) => {
     setEditStage(index);
+    
   };
 
   const handleDelete = (index) => {
@@ -46,13 +60,30 @@ export default function ProjectStagesDetails() {
   };
 
   const handleUpdateStageName = (index, newName) => {
+    setUpdatedTask({name : newName, index : index})
+    
+  };
+  const handleSaveEdit = async () => {
+
     const updatedStages = [...stagesName];
-    updatedStages[index].fullName = newName;
-    setStagesName(updatedStages);
-  };
-  const handleSaveEdit = () => {
+
+    const response = await updateStage({
+      stageId : updatedStages[updatedTask.index].id,
+      name : updatedTask.name
+    });
+
+    if(response.status === 200){
+      console.log(response.data)
+      updatedStages[index].name = updatedTask.name;
+      setStagesName(updatedStages);
+    }
     setEditStage(null); // Exit editing mode
+    setUpdatedTask(undefined);
   };
+
+  useEffect(()=>{
+    setStagesName(stages);
+  },[stages])
 
   return (
     <section className="project_stages">
@@ -89,11 +120,11 @@ export default function ProjectStagesDetails() {
               {editStage === index ? (
                 <input
                   className="edit_input_stage"
-                  value={stagesName[index].fullName}
+                  value={updatedTask !== undefined ? updatedTask.name : stagesName[index].name}
                   onChange={(e) => handleUpdateStageName(index, e.target.value)}
                 />
               ) : (
-                <span className="stage_name">{item.fullName}</span>
+                <span className="stage_name">{item.name}</span>
               )}
               <div className="update_remove">
                 {editStage === index ? (
@@ -118,15 +149,15 @@ export default function ProjectStagesDetails() {
       <div className="project_tasks_number">
         <div className="project_total_task">
           <label>Total Task</label>
-          <span>0</span>
+          <span>{totalTaskCount !== undefined ? totalTaskCount.totalTaskCount : 0}</span>
         </div>
         <div className="project_finished_task">
           <label>Finished Task</label>
-          <span>0</span>
+          <span>{totalTaskCount !== undefined ? totalTaskCount.finishedTask : 0}</span>
         </div>
         <div className="project_falied_task">
           <label>Failed Task</label>
-          <span>0</span>
+          <span>{totalTaskCount !== undefined ? totalTaskCount.failedTask : 0}</span>
         </div>
       </div>
     </section>

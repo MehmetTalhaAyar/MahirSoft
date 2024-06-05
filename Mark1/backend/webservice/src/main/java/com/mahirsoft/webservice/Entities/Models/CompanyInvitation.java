@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "CompanyInvitations")
-public class CompanyInvitation {
+public class CompanyInvitation { // şirkete davet için bir entity
 
     @Id
     @GeneratedValue
@@ -26,23 +26,21 @@ public class CompanyInvitation {
     private Company companyId;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
-    private UserAuthentication userId;
+    @JoinColumn(name = "userWhoReceiveInvitation")
+    private UserAuthentication userWhoReceiveInvitation;
 
-
+    @ManyToOne
+    @JoinColumn(name = "userWhoSendInvitation")
+    private UserAuthentication userWhoSendInvitation;
 
 
     public static class CompanyInvitationCodes {
 
         public static int ACCEPTED = 1;
         public static int REJECTED = 2;
-        public static int PENDING = 3;
-
-    
+        public static int PENDING = 3;    
         
     }
-
-
 
 
     public long getCompanyInvitationId() {
@@ -87,14 +85,33 @@ public class CompanyInvitation {
 
 
 
-    public UserAuthentication getUserId() {
-        return userId;
+    public UserAuthentication getUserWhoReceiveInvitation() {
+        return userWhoReceiveInvitation;
     }
 
 
 
 
-    public void setUserId(UserAuthentication userId) {
-        this.userId = userId;
-    } 
+    public void setUserWhoReceiveInvitation(UserAuthentication userWhoReceiveInvitation) {
+        this.userWhoReceiveInvitation = userWhoReceiveInvitation;
+    }
+
+
+
+
+    public UserAuthentication getUserWhoSendInvitation() {
+        return userWhoSendInvitation;
+    }
+
+
+
+
+    public void setUserWhoSendInvitation(UserAuthentication userWhoSendInvitation) {
+        this.userWhoSendInvitation = userWhoSendInvitation;
+    }
+
+
+
+
+    
 }

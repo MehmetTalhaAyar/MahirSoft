@@ -70,7 +70,7 @@ public class CommentController {
     @PutMapping("/update")
     public ResponseEntity<?> handleUpdateCommentRequest(@RequestBody PostUpdateCommentRequest postUpdateCommentRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        var user = permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateCommentRequest.getTaskId());
+        var user = permissionService.isInThisProjectFindByTaskId(currentUser, postUpdateCommentRequest.getTaskId(),AuthorizationCodes.ANY_AUTHORIZATION);
 
         var comment = commentService.UpdateComment(postUpdateCommentRequest,user);
 
@@ -90,7 +90,7 @@ public class CommentController {
 
         if(comment == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400));
 
-        var user = permissionService.isInThisProjectFindByTaskId(currentUser, comment.getLinkedTaskId().getTaskId());
+        var user = permissionService.isInThisProjectFindByTaskId(currentUser, comment.getLinkedTaskId().getTaskId(),AuthorizationCodes.ANY_AUTHORIZATION);
 
         var commentResponse = commentService.updateLikeCount(user,comment);
 
