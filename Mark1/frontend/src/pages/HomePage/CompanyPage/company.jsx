@@ -9,6 +9,7 @@ import { FaInstagramSquare } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { useAuthState } from "../../../state/context";
+import CompanyRequest from "./CompanyRequest";
 
 export function CompanyPage(props) {
   const [name, setName] = useState("");
@@ -111,7 +112,7 @@ export function CompanyPage(props) {
   return (
     <main>
       <h1>Company</h1>
-      <div className="company_container">
+      {/* <div className="company_container">
         <div className="left_container">
           <h1 className="company_name">
             {authState.company !== undefined ? authState.company.name : ""}
@@ -161,14 +162,13 @@ export function CompanyPage(props) {
                 onChange={(event) => setTitle(event.target.value)}
                 value={title}
               />
-              {/* {errors.title && <span className=""> {errors.title} </span> } */}
+
               <input
                 placeholder="Name"
                 className="company_input"
                 onChange={(event) => setName(event.target.value)}
                 value={name}
               />
-              {/* {errors.name && <span className=""> {errors.name} </span> } */}
 
               <input
                 placeholder="Surname"
@@ -176,21 +176,20 @@ export function CompanyPage(props) {
                 onChange={(event) => setSurname(event.target.value)}
                 value={surname}
               />
-              {/* {errors.surname && <span className=""> {errors.surname} </span> } */}
+
               <input
                 placeholder="Gsm"
                 className="company_input"
                 onChange={(event) => setGsm(event.target.value)}
                 value={gsm}
               />
-              {/* {errors.gsm && <span className=""> {errors.gsm} </span> } */}
+
               <input
                 placeholder="Email"
                 className="company_input"
                 onChange={(event) => setEmail(event.target.value)}
                 value={email}
               />
-              {/* {errors.email && <span className=""> {errors.email} </span> } */}
 
               <input
                 type="password"
@@ -199,7 +198,6 @@ export function CompanyPage(props) {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               />
-              {/* {errors.password && <span className=""> {errors.password} </span> } */}
 
               <div className="company_submit_button">
                 <button type="submit" onClick={saveUser}>
@@ -209,6 +207,10 @@ export function CompanyPage(props) {
             </form>
           )}
         </div>
+      </div> */}
+
+      <div className="request_component">
+        <CompanyRequest />
       </div>
     </main>
   );

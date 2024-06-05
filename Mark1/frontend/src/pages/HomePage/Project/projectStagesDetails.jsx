@@ -4,86 +4,111 @@ import { FaCheck } from "react-icons/fa6";
 import { IoMdAdd } from "react-icons/io";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { FaList } from "react-icons/fa6";
+import { IoIosWarning } from "react-icons/io";
+import { RiEdit2Fill } from "react-icons/ri";
 
 import "./projectStagesDetails.css";
 import { createStage, updateStage } from "./api";
+import WarningModal from "./WarningModal";
 
-export default function ProjectStagesDetails({stages,totalTaskCount,projectId}) {
+export default function ProjectStagesDetails({
+  stages,
+  totalTaskCount,
+  projectId,
+}) {
   const [newStage, setNewStage] = useState(false);
   const [stageName, setStageName] = useState("");
   const [editStage, setEditStage] = useState(null);
   const [stagesName, setStagesName] = useState([]);
-  const [totalTasks,setTotalTasks] = useState(undefined);
-  const [updatedTask,setUpdatedTask] = useState(undefined);
-
+  const [totalTasks, setTotalTasks] = useState(undefined);
+  const [updatedTask, setUpdatedTask] = useState(undefined);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
+  const [confirmAction, setConfirmAction] = useState(null);
 
   const handleSave = async () => {
-
-    // burada bir evet hayır yeri açılacak
     if (stageName && projectId !== undefined) {
-      const response = await createStage(projectId,{name : stageName})
+      const response = await createStage(projectId, { name: stageName });
 
-      if(response.status === 201) {
+      if (response.status === 201) {
         console.log(response.data);
         setStagesName([{ name: stageName }, ...stagesName]);
         setStageName("");
-
       }
 
-      
       setNewStage(false);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setTotalTasks(totalTaskCount);
-    console.log(totalTasks)
-  },[totalTaskCount])
+    console.log(totalTasks);
+  }, [totalTaskCount]);
 
   const handleNewStage = () => {
     setNewStage(true);
   };
 
-  const handleCancel = () => {
+  const handleCancelInput = () => {
     setNewStage(false);
     setStageName("");
+  };
+  const handleCancelUpdate = () => {
+    setEditStage(null);
   };
 
   const handleEdit = (index) => {
     setEditStage(index);
-    
   };
 
   const handleDelete = (index) => {
-    setStagesName(stagesName.filter((_, i) => i !== index));
+    setShowConfirmModal(true);
+    setDeleteIndex(index);
+    setConfirmAction("delete");
+  };
+
+  const handleConfirmDelete = () => {
+    setStagesName(stagesName.filter((_, i) => i !== deleteIndex));
+    setShowConfirmModal(false);
+    setDeleteIndex(null);
     setEditStage(null);
   };
 
-  const handleUpdateStageName = (index, newName) => {
-    setUpdatedTask({name : newName, index : index})
-    
+  const handleCancelDelete = () => {
+    setShowConfirmModal(false);
+    setDeleteIndex(null);
   };
-  const handleSaveEdit = async () => {
 
+  const handleUpdateStageName = (index, newName) => {
+    setUpdatedTask({ name: newName, index: index });
+  };
+
+  const handleSaveEdit = () => {
+    setShowConfirmModal(true);
+    setConfirmAction("edit");
+  };
+
+  const handleConfirmEdit = async () => {
     const updatedStages = [...stagesName];
 
     const response = await updateStage({
-      stageId : updatedStages[updatedTask.index].id,
-      name : updatedTask.name
+      stageId: updatedStages[updatedTask.index].id,
+      name: updatedTask.name,
     });
 
-    if(response.status === 200){
-      console.log(response.data)
-      updatedStages[index].name = updatedTask.name;
+    if (response.status === 200) {
+      console.log(response.data);
+      updatedStages[updatedTask.index].name = updatedTask.name;
       setStagesName(updatedStages);
     }
     setEditStage(null); // Exit editing mode
     setUpdatedTask(undefined);
+    setShowConfirmModal(false);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setStagesName(stages);
-  },[stages])
+  }, [stages]);
 
   return (
     <section className="project_stages">
@@ -108,7 +133,7 @@ export default function ProjectStagesDetails({stages,totalTaskCount,projectId}) 
               <span onClick={handleSave} className="check">
                 <FaCheck />
               </span>
-              <span onClick={handleCancel} className="remove">
+              <span onClick={handleCancelInput} className="remove">
                 <AiOutlineClose />
               </span>
             </div>
@@ -120,7 +145,11 @@ export default function ProjectStagesDetails({stages,totalTaskCount,projectId}) 
               {editStage === index ? (
                 <input
                   className="edit_input_stage"
-                  value={updatedTask !== undefined ? updatedTask.name : stagesName[index].name}
+                  value={
+                    updatedTask !== undefined
+                      ? updatedTask.name
+                      : stagesName[index].name
+                  }
                   onChange={(e) => handleUpdateStageName(index, e.target.value)}
                 />
               ) : (
@@ -128,8 +157,8 @@ export default function ProjectStagesDetails({stages,totalTaskCount,projectId}) 
               )}
               <div className="update_remove">
                 {editStage === index ? (
-                  <span onClick={handleSave} className="check">
-                    <FaCheck onClick={handleSaveEdit} />
+                  <span onClick={handleSaveEdit} className="check">
+                    <FaCheck />
                   </span>
                 ) : (
                   <MdEdit
@@ -137,10 +166,16 @@ export default function ProjectStagesDetails({stages,totalTaskCount,projectId}) 
                     className="edit_stage"
                   />
                 )}
-                <MdDelete
-                  onClick={() => handleDelete(index)}
-                  className="delete_stage"
-                />
+                {editStage === index ? (
+                  <span onClick={handleCancelUpdate} className="remove">
+                    <AiOutlineClose />
+                  </span>
+                ) : (
+                  <MdDelete
+                    onClick={() => handleDelete(index)}
+                    className="delete_stage"
+                  />
+                )}
               </div>
             </li>
           ))}
@@ -149,17 +184,46 @@ export default function ProjectStagesDetails({stages,totalTaskCount,projectId}) 
       <div className="project_tasks_number">
         <div className="project_total_task">
           <label>Total Task</label>
-          <span>{totalTaskCount !== undefined ? totalTaskCount.totalTaskCount : 0}</span>
+          <span>
+            {totalTaskCount !== undefined ? totalTaskCount.totalTaskCount : 0}
+          </span>
         </div>
         <div className="project_finished_task">
           <label>Finished Task</label>
-          <span>{totalTaskCount !== undefined ? totalTaskCount.finishedTask : 0}</span>
+          <span>
+            {totalTaskCount !== undefined ? totalTaskCount.finishedTask : 0}
+          </span>
         </div>
-        <div className="project_falied_task">
+        <div className="project_failed_task">
           <label>Failed Task</label>
-          <span>{totalTaskCount !== undefined ? totalTaskCount.failedTask : 0}</span>
+          <span>
+            {totalTaskCount !== undefined ? totalTaskCount.failedTask : 0}
+          </span>
         </div>
       </div>
+      {showConfirmModal && confirmAction === "delete" && (
+        <WarningModal
+          icon={<IoIosWarning />}
+          title="Are you sure?"
+          paragraph="You won't be able to revert this"
+          delete="Delete"
+          cancel="Cancel"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
+      {showConfirmModal && confirmAction === "edit" && (
+        <WarningModal
+          icon={<RiEdit2Fill />}
+          title="Are you sure to save the changes?"
+          paragraph=""
+          delete="Save"
+          cancel="Cancel"
+          onConfirm={handleConfirmEdit}
+          onCancel={() => setShowConfirmModal(false)}
+          isEditMode={true}
+        />
+      )}
     </section>
   );
 }

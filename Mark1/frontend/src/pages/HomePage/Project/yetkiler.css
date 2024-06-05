@@ -18,7 +18,18 @@
   width: 80%;
   max-height: 94%;
 }
-
+.modal_header {
+  display: flex;
+  width: 95%;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal_header span {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: rgb(114, 114, 163);
+  cursor: pointer;
+}
 .modal-close {
   position: absolute;
   top: 10px;
@@ -70,6 +81,15 @@
 .yetki-table tr:hover {
   background-color: #ddd;
 }
+.delete_yetki {
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}
+.delete_yetki:hover {
+  color: rgb(255, 90, 90);
+  transition: 0.3s;
+}
 .apply-button {
   padding: 10px 20px;
   margin-top: 5px;
@@ -85,4 +105,39 @@
 
 .apply-button:hover {
   background-color: #45a049;
+}
+.add_cancel_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.add-button {
+  background-color: #c6c6c6;
+
+  border: 1px solid rgb(165, 165, 165);
+  padding: 8px 40px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.add-button:hover {
+  background-color: #b6b6b6;
+  transition: 0.3s;
+}
+.cancel_button {
+  cursor: pointer;
+  transition: 0.3s;
+}
+.full-name-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.full-name-input::placeholder {
+  color: #aaa;
 }

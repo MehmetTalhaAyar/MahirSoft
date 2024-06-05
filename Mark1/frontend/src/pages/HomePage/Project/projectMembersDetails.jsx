@@ -2,9 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./projectMembersDetails.css";
 import { FaUsers } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { IoIosWarning } from "react-icons/io";
+import AsyncSelect from "react-select/async";
+import WarningModal from "./WarningModal";
 
 export default function ProjectMembersDetails({ members, setIsModalOpen }) {
   const [memberNames, setMemberNames] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
 
   useEffect(() => {
     if (members.length > 0) {
@@ -13,7 +18,17 @@ export default function ProjectMembersDetails({ members, setIsModalOpen }) {
   }, [members]);
 
   const handleDeleteMembers = (index) => {
-    setMemberNames(memberNames.filter((_, i) => i !== index));
+    setDeleteIndex(index);
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setMemberNames(memberNames.filter((_, i) => i !== deleteIndex));
+    setShowConfirmModal(false);
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmModal(false);
   };
 
   return (
@@ -23,9 +38,20 @@ export default function ProjectMembersDetails({ members, setIsModalOpen }) {
           <FaUsers className="member_icon" />
           <h1 className="project_member_title">Project Member</h1>
         </div>
-        <span className="yetki_button" onClick={() => setIsModalOpen(true)}>
-          Yetki Verme
-        </span>
+        <div className="yetki_and_members">
+          <div className="add_members_container">
+            <AsyncSelect
+              className="add_members "
+              placeholder="Members"
+              cacheOptions
+              isMulti
+            />
+            <button>Add Members</button>
+          </div>
+          <span className="yetki_button" onClick={() => setIsModalOpen(true)}>
+            Yetki Verme
+          </span>
+        </div>
       </div>
       <div className="table-container">
         <table>
@@ -34,7 +60,7 @@ export default function ProjectMembersDetails({ members, setIsModalOpen }) {
               <th>Full Name</th>
               <th>Email</th>
               <th>GSM</th>
-              <th>Company</th>
+              <th>Role</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -56,6 +82,18 @@ export default function ProjectMembersDetails({ members, setIsModalOpen }) {
           </tbody>
         </table>
       </div>
+      {showConfirmModal && (
+        <WarningModal
+          icon={<IoIosWarning />}
+          title="Are you sure?"
+          paragraph="You won't be able to revert this"
+          delete="Delete"
+          cancel="Cancel"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+          isEditMode={false}
+        />
+      )}
     </section>
   );
 }

@@ -292,9 +292,10 @@ function Project() {
           {filteredProjectCards.map((project, index) => (
             <div key={index} className="project_card">
               <header className="project_header">
-                <Link 
-                to={"/home/projectdetails"}
-                state={{ projectId: project.id }}
+                <Link
+                  className="to-links"
+                  to={"/home/projectdetails"}
+                  state={{ projectId: project.id }}
                 >
                   <h2 className="proje_title">{project.title}</h2>
                 </Link>

@@ -1,7 +1,7 @@
 .project_member_container {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   padding-bottom: 7px;
   border-bottom: 1px solid gray;
 }
@@ -13,6 +13,34 @@
 .member_icon {
   font-size: 22px;
 }
+.yetki_and_members {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+  margin-top: 10px;
+}
+.add_members_container {
+  display: flex;
+  gap: 10px;
+  width: 80%;
+}
+.add_members {
+  width: 50%;
+}
+.add_members_container button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.add_members_container button:hover {
+  background-color: #006cde;
+  transition: 0.3s;
+}
+
 .project_member {
   display: flex;
   flex-direction: column;
@@ -49,8 +77,11 @@ tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 .yetki_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 1px solid red;
-  padding: 5px 10px;
+  padding: 0px 10px;
   border-radius: 5px;
   cursor: pointer;
 }

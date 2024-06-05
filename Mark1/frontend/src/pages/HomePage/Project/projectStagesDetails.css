@@ -104,9 +104,11 @@
 .remove {
   cursor: pointer;
   border-radius: 4px;
+  color: red;
 }
 .remove:hover {
-  color: red;
+  transition: 0.3s;
+  color: rgb(255, 126, 126);
 }
 .project_tasks_number {
   display: flex;
@@ -136,7 +138,7 @@
   border: 2px solid rgb(66, 195, 96);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.project_falied_task {
+.project_failed_task {
   display: flex;
   flex-direction: column;
   width: 30%;
