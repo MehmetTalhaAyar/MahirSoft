@@ -1,7 +1,8 @@
-.cards {
+.card_containers {
+  flex: 0 0 auto; /* Prevent shrinking and ensure fixed width */
+  width: 20%; /* Set a fixed width or adjust as needed */
+
   display: flex;
-  width: 100%;
-  height: 95%;
 }
 
 .card {
@@ -10,7 +11,7 @@
   align-items: start;
   justify-content: center;
   flex-direction: column;
-  flex: 0 100%;
+  flex: 1; /* Allow card to take up the full width of the container */
   border-radius: 10px;
   box-shadow: 1px 1px 5px #454679;
   background-color: white;

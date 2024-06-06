@@ -83,7 +83,7 @@ function Stage(props) {
   };
 
   return (
-    <ul className="cards">
+    <div className="card_containers">
       <li
         onDragEnter={() => setShowDrop(true)}
         onDragLeave={() => setShowDrop(false)}
@@ -118,7 +118,7 @@ function Stage(props) {
           ))}
         </div>
       </li>
-    </ul>
+    </div>
   );
 }
 export default Stage;

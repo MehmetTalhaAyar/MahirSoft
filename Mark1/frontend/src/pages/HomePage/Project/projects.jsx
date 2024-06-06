@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./project.css";
 import AsyncSelect from "react-select/async";
-
 import { CiSearch } from "react-icons/ci";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaChevronDown } from "react-icons/fa";
-import { FaChevronUp } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { IoIosArrowForward, IoIosWarning } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 import {
   createProject,
   getCompanyMembers,
@@ -16,22 +15,22 @@ import {
 import { MONTHS } from "../../../Constants/Constants";
 import { Link } from "react-router-dom";
 import defaultProfileImage from "../../../assets/profileImage.jpg";
-import { MdDelete } from "react-icons/md";
+import WarningModal from "./WarningModal"; // Import the WarningModal component
 
 function Project() {
   const [projectFormOpen, setProjectFormOpen] = useState(false);
   const [projectCards, setProjectCards] = useState([]);
   const [titleError, setTitleError] = useState("");
   const [adminError, setAdminError] = useState("");
-
   const [dropdownStates, setDropdownStates] = useState([false]);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [projectTitle, setProjectTitle] = useState("");
   const [adminName, setAdminName] = useState([]);
   const [options, setOptions] = useState("");
-
   const [filterInput, setFilterInput] = useState("");
   const [filteredProjectCards, setFilteredProjectCards] = useState([]);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null); // State to hold the project to delete
 
   const getMembers = useCallback(async () => {
     const response = await getCompanyMembers({ searchKey: "" });
@@ -152,22 +151,36 @@ function Project() {
   };
 
   //Function to delete a project card
-  const deleteProject = async (index) => {
-    const response = await deleteProjectById(index);
+  const confirmDeleteProject = (index) => {
+    setProjectToDelete(index);
+    setIsConfirmOpen(true); // Open the modal
+  };
 
-    if (response.status === 200) {
-      const myProjectCard = [...projectCards];
-      const deleteobjectindex = projectCards.findIndex(
-        (project) => project.id === index
-      );
+  const handleConfirmDelete = async () => {
+    if (projectToDelete !== null) {
+      const response = await deleteProjectById(projectToDelete);
 
-      myProjectCard.splice(deleteobjectindex, 1);
-      const myDropdownMenu = [...dropdownStates];
-      myDropdownMenu.splice(deleteobjectindex, 1);
+      if (response.status === 200) {
+        const myProjectCard = [...projectCards];
+        const deleteobjectindex = projectCards.findIndex(
+          (project) => project.id === projectToDelete
+        );
 
-      setProjectCards(myProjectCard);
-      setDropdownStates(myDropdownMenu);
+        myProjectCard.splice(deleteobjectindex, 1);
+        const myDropdownMenu = [...dropdownStates];
+        myDropdownMenu.splice(deleteobjectindex, 1);
+
+        setProjectCards(myProjectCard);
+        setDropdownStates(myDropdownMenu);
+      }
+      setIsConfirmOpen(false); // Close the modal
+      setProjectToDelete(null); // Reset the project to delete
     }
+  };
+
+  const handleCancelDelete = () => {
+    setIsConfirmOpen(false); // Close the modal
+    setProjectToDelete(null); // Reset the project to delete
   };
 
   const handleSelectChange = (selectedValues) => {
@@ -311,7 +324,10 @@ function Project() {
                       dropdownStates[index] ? "openDropdown" : ""
                     }`}
                   >
-                    <a href="#delete" onClick={() => deleteProject(project.id)}>
+                    <a
+                      href="#delete"
+                      onClick={() => confirmDeleteProject(project.id)}
+                    >
                       Delete
                       <MdDelete />
                     </a>
@@ -387,6 +403,18 @@ function Project() {
           ))}
         </div>
       </section>
+
+      {isConfirmOpen && (
+        <WarningModal
+          title="Are you sure?"
+          paragraph="You won't be able to revert this"
+          delete="Yes, Delete"
+          cancel="Cancel"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+          icon={<IoIosWarning />}
+        />
+      )}
     </main>
   );
 }

@@ -12,11 +12,27 @@ const yetkiData = [
   { yetkiName: "TASK_CREATE" },
   { yetkiName: "TASK_EDIT" },
   { yetkiName: "TASK_DELETE" },
+  { yetkiName: "TASK_CREATE" },
+  { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
+  { yetkiName: "TASK_CREATE" },
+  { yetkiName: "TASK_EDIT" },
+  { yetkiName: "TASK_DELETE" },
 ];
 
 function Yetki({ isOpen, onClose }) {
   const [fullName, setFullName] = useState("");
   const [userData, setUserData] = useState([
+    { fullName: "Administrator" },
+    { fullName: "Normal User" },
+    { fullName: "Company User" },
+    { fullName: "Administrator" },
+    { fullName: "Normal User" },
+    { fullName: "Administrator" },
+    { fullName: "Normal User" },
+    { fullName: "Company User" },
+    { fullName: "Administrator" },
+    { fullName: "Normal User" },
     { fullName: "Administrator" },
     { fullName: "Normal User" },
     { fullName: "Company User" },

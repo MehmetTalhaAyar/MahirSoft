@@ -112,7 +112,7 @@ export function CompanyPage(props) {
   return (
     <main>
       <h1>Company</h1>
-      {/* <div className="company_container">
+      <div className="company_container">
         <div className="left_container">
           <h1 className="company_name">
             {authState.company !== undefined ? authState.company.name : ""}
@@ -207,10 +207,6 @@ export function CompanyPage(props) {
             </form>
           )}
         </div>
-      </div> */}
-
-      <div className="request_component">
-        <CompanyRequest />
       </div>
     </main>
   );
