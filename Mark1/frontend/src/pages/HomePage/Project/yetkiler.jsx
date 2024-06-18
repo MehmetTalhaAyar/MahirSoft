@@ -164,17 +164,19 @@ function Yetki({ isOpen, onClose }) {
                 </tr>
               )}
 
-              <div className="add_cancel_container">
-                <button
-                  onClick={showInputRow ? handleSaveRow : handleAddRow}
-                  className="add-button"
-                >
-                  {showInputRow ? "Save" : "New"}
-                </button>
-                <span onClick={handleCancelRow} className="cancel_button">
-                  {showInputRow ? "Cancel" : ""}
-                </span>
-              </div>
+              <tr>
+                <td className="add_cancel_container">
+                  <button
+                    onClick={showInputRow ? handleSaveRow : handleAddRow}
+                    className="add-button"
+                  >
+                    {showInputRow ? "Save" : "New"}
+                  </button>
+                  <span onClick={handleCancelRow} className="cancel_button">
+                    {showInputRow ? "Cancel" : ""}
+                  </span>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

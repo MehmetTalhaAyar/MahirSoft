@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
-import { CreateUserItem } from "../../../components/CreateUserItems";
+import React, { useEffect, useState } from "react";
 import { createUser } from "./api";
 import "./company.css";
-import { SignFormItem } from "../../../components/SignFormItem";
-
+import CompanyRequest from "./CompanyRequest.jsx";
 import { IoLogoLinkedin } from "react-icons/io5";
-import { FaInstagramSquare } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
+import { FaInstagramSquare, FaFacebook, FaTwitter } from "react-icons/fa";
 import { useAuthState } from "../../../state/context";
-import CompanyRequest from "./CompanyRequest";
 
 export function CompanyPage(props) {
   const [name, setName] = useState("");
@@ -20,6 +15,7 @@ export function CompanyPage(props) {
   const [gsm, setGsm] = useState("");
   const [errors, setErrors] = useState({});
   const [condition, setCondition] = useState(false);
+  const [requestSuccess, setRequestSuccess] = useState(false);
   const authState = useAuthState();
 
   const saveUser = async (event) => {
@@ -42,63 +38,32 @@ export function CompanyPage(props) {
         setEmail("");
       }
     } catch (axiosError) {
-      // console.log(axiosError)
       setErrors(axiosError.response.data.validationErrors);
     }
   };
 
   useEffect(() => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        name: undefined,
-      };
-    });
+    setErrors((lastErrors) => ({ ...lastErrors, name: undefined }));
   }, [name]);
 
   useEffect(() => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        surname: undefined,
-      };
-    });
+    setErrors((lastErrors) => ({ ...lastErrors, surname: undefined }));
   }, [surname]);
 
   useEffect(() => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        title: undefined,
-      };
-    });
+    setErrors((lastErrors) => ({ ...lastErrors, title: undefined }));
   }, [title]);
 
   useEffect(() => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        gsm: undefined,
-      };
-    });
+    setErrors((lastErrors) => ({ ...lastErrors, gsm: undefined }));
   }, [gsm]);
 
   useEffect(() => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        email: undefined,
-      };
-    });
+    setErrors((lastErrors) => ({ ...lastErrors, email: undefined }));
   }, [email]);
 
   useEffect(() => {
-    setErrors(function (lastErrors) {
-      return {
-        ...lastErrors,
-        password: undefined,
-      };
-    });
+    setErrors((lastErrors) => ({ ...lastErrors, password: undefined }));
   }, [password]);
 
   useEffect(() => {
@@ -108,6 +73,10 @@ export function CompanyPage(props) {
   }, [authState]);
 
   console.log(errors);
+
+  if (!requestSuccess) {
+    return <CompanyRequest onRequestSuccess={() => setRequestSuccess(true)} />;
+  }
 
   return (
     <main>
@@ -127,7 +96,6 @@ export function CompanyPage(props) {
             sunt obcaecati saepe qui fugit repellat nesciunt minus aliquam.
             Error autem asperiores fugit facere!
           </p>
-
           <h4 className="socialmedia_company">Social Media:</h4>
           <ul>
             <li>
@@ -162,35 +130,30 @@ export function CompanyPage(props) {
                 onChange={(event) => setTitle(event.target.value)}
                 value={title}
               />
-
               <input
                 placeholder="Name"
                 className="company_input"
                 onChange={(event) => setName(event.target.value)}
                 value={name}
               />
-
               <input
                 placeholder="Surname"
                 className="company_input"
                 onChange={(event) => setSurname(event.target.value)}
                 value={surname}
               />
-
               <input
                 placeholder="Gsm"
                 className="company_input"
                 onChange={(event) => setGsm(event.target.value)}
                 value={gsm}
               />
-
               <input
                 placeholder="Email"
                 className="company_input"
                 onChange={(event) => setEmail(event.target.value)}
                 value={email}
               />
-
               <input
                 type="password"
                 placeholder="Password"
@@ -198,7 +161,6 @@ export function CompanyPage(props) {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               />
-
               <div className="company_submit_button">
                 <button type="submit" onClick={saveUser}>
                   Submit

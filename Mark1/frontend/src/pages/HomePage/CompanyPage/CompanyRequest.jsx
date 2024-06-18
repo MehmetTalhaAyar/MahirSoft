@@ -1,56 +1,54 @@
 import React, { useState } from "react";
+// import { joinCompany } from "./api"; // Make sure this API call exists
+import "./CompanyRequest.css"; // Ensure you have imported the CSS file
+import { IoIosArrowForward } from "react-icons/io";
 
-export default function CompanyRequest() {
+export default function JoinCompanyRequest({ onRequestSuccess }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log("Name:", name);
-    console.log("Description:", description);
+  const handleSubmit = async (event) => {
+    {
+      /*event.preventDefault();
+    try {
+      const response = await joinCompany({ name, email });
+      if (response.status === 201) {
+        onRequestSuccess();
+      }
+    } catch (axiosError) {
+      setErrors(axiosError.response.data.validationErrors);
+    } */
+    }
   };
 
   return (
-    <div className="request_container">
-      <section>
-        <h1>Create a new Company </h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-          odio at provident, distinctio quos iure inventore obcaecati atque,
-          odit ea facere cumque. Sit hic cumque doloremque, nihil quod adipisci
-          suscipit! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Illum vitae, dolorem eum suscipit neque, vel nihil sunt obcaecati
-          saepe qui fugit repellat nesciunt minus aliquam. Error autem
-          asperiores fugit facere!
+    <main className="main_request">
+      <form onSubmit={handleSubmit} className="join_company_form">
+        <h2 className="request_form_title">Request to Company</h2>
+        <p className="requestcomany_form_paragraph">
+          Please enter the name of the company you want to join and provide a
+          brief description of why you want to join this company.
         </p>
-      </section>
-      {/* <div className="form_request">
-        <form onSubmit={handleSubmit} className="request-form">
-          <div className="form-group">
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="description">Description:</label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="submit-button">
-            Submit Request
+        <input
+          placeholder="Name"
+          className="form_input_name"
+          onChange={(event) => setName(event.target.value)}
+          value={name}
+        />
+        <textarea
+          placeholder="Description"
+          className="form_textarea_name"
+          onChange={(event) => setDescription(event.target.value)}
+          value={description}
+        />
+        <div className="button_request_container">
+          <button className="request_company_button" type="submit">
+            Request
+            <IoIosArrowForward className="arrow-icon" />
           </button>
-        </form>
-      </div> */}
-    </div>
+        </div>
+      </form>
+    </main>
   );
 }

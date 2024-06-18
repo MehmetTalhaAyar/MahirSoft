@@ -159,14 +159,14 @@ export default function Notification() {
 
         {currentPage === "notification" && (
           <aside className="notification_wraper">
-            {notificaiton.map((member) => {
+            {notificaiton.map((notify) => {
               return (
-                <li className="notification_container" key={notificaiton.name}>
-                  <img src={member.imageSrc} className="notification_image" />
+                <li className="notification_container" key={notify.name}>
+                  <img src={notify.imageSrc} className="notification_image" />
                   <div className="notification_message">
                     <p className="notification_desc">
-                      <b>{member.name}</b>&nbsp;
-                      {member.description}
+                      <b>{notify.name}</b>&nbsp;
+                      {notify.description}
                     </p>
                   </div>
                 </li>
