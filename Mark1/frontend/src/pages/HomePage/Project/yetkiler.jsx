@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./yetkiler.css";
 import { AiOutlineClose } from "react-icons/ai";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 import { IoIosWarning } from "react-icons/io";
 import WarningModal from "./WarningModal";
+import { FaCheck } from "react-icons/fa";
 
 const yetkiData = [
   { yetkiName: "TASK_CREATE" },
@@ -45,14 +46,19 @@ function Yetki({ isOpen, onClose }) {
   const [showInputRow, setShowInputRow] = useState(false);
   const [deleteUserIndex, setDeleteUserIndex] = useState(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [EditId,setEditId] = useState(null);
+  const [checkboxUpdateState,setCheckboxUpdateState] = useState(
+    checkboxState
+  );
 
   const handleCheckboxChange = (userIndex, yetkiIndex) => {
-    const newCheckboxState = checkboxState.map((user, i) =>
+    const newCheckboxState = checkboxUpdateState.map((user, i) =>
       i === userIndex
         ? user.map((checked, j) => (j === yetkiIndex ? !checked : checked))
         : user
     );
-    setCheckboxState(newCheckboxState);
+
+    setCheckboxUpdateState(newCheckboxState);
   };
 
   const handleApply = () => {
@@ -85,6 +91,22 @@ function Yetki({ isOpen, onClose }) {
     setIsConfirmOpen(true);
   };
 
+  const handleEdit = (index) =>{
+    setEditId(index);
+  }
+
+  const handleCloseEdit = () =>{
+    setEditId(null)
+    setCheckboxUpdateState(checkboxState)
+  }
+
+  const handleSave = (index) => {
+    //burada gelen indexin rollerini alacak
+
+    setCheckboxState(checkboxUpdateState);
+    setEditId(null);
+  }
+
   const confirmDeleteUser = () => {
     const updatedUserData = userData.filter((_, i) => i !== deleteUserIndex);
     const updatedCheckboxState = checkboxState.filter(
@@ -102,7 +124,7 @@ function Yetki({ isOpen, onClose }) {
   };
 
   if (!isOpen) return null;
-
+ 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -112,42 +134,35 @@ function Yetki({ isOpen, onClose }) {
 
         <h2>Yetkiler</h2>
         <div className="yetki-container">
+
+        <div className="add_cancel_container">
+                <button
+                  onClick={showInputRow ? handleSaveRow : handleAddRow}
+                  className="add-button"
+                >
+                  {showInputRow ? "Save" : "New"}
+                </button>
+                <span onClick={handleCancelRow} className="cancel_button">
+                  {showInputRow ? "Cancel" : ""}
+                </span>
+          </div>
+
           <table className="yetki-table">
             <thead>
               <tr>
-                <th>User</th>
+                <th>Role</th>
                 {yetkiData.map((item, index) => (
                   <th key={index} className="yetki-header">
                     {item.yetkiName}
                   </th>
                 ))}
                 <th>Action</th>
+
               </tr>
             </thead>
             <tbody>
-              {userData.map((user, userIndex) => (
-                <tr key={userIndex}>
-                  <td className="user-name">{user.fullName}</td>
-                  {yetkiData.map((_, yetkiIndex) => (
-                    <td key={yetkiIndex} className="yetki-cell">
-                      <input
-                        type="checkbox"
-                        checked={checkboxState[userIndex][yetkiIndex]}
-                        onChange={() =>
-                          handleCheckboxChange(userIndex, yetkiIndex)
-                        }
-                      />
-                    </td>
-                  ))}
-                  <td>
-                    <MdDelete
-                      className="delete_yetki"
-                      onClick={() => handleDeleteUser(userIndex)}
-                    />
-                  </td>
-                </tr>
-              ))}
-              {showInputRow && (
+
+            {showInputRow && (
                 <tr>
                   <td>
                     <input
@@ -163,18 +178,54 @@ function Yetki({ isOpen, onClose }) {
                   ))}
                 </tr>
               )}
+              
+              {userData.map((user, userIndex) => (
+                <tr key={userIndex}>
+                  <td className="user-name">{user.fullName}</td>
+                  {yetkiData.map((_, yetkiIndex) => (
+                    <td key={yetkiIndex} className="yetki-cell">
+                      { userIndex !== EditId ?
+                        <input
+                          type="checkbox"
+                          disabled
+                          checked={checkboxState[userIndex][yetkiIndex]}
+                          onChange={() =>
+                            handleCheckboxChange(userIndex, yetkiIndex)
+                          }
+                        />
+                        :
+                        <input
+                          type="checkbox"
+                          checked={checkboxUpdateState[userIndex][yetkiIndex]}
+                          onChange={() =>
+                            handleCheckboxChange(userIndex, yetkiIndex)
+                        }
+                      />}
+                    </td>
+                  ))}
+                  <td>
+                    { userIndex !== EditId ? 
+                    <MdEdit
+                    onClick={() => handleEdit(userIndex)}
+                    className="edit_yetki"
+                    /> :
+                      <FaCheck className="save_yetki" onClick={()=> handleSave(userIndex)} />
+                    }
+                  </td>
+                  <td>
+                    { userIndex !== EditId ?
+                      <MdDelete
+                      className="delete_yetki"
+                      onClick={() => handleDeleteUser(userIndex)}
+                    /> :
+                    <AiOutlineClose className="close_yetki" onClick={() => handleCloseEdit()} />
+                    }
+                  </td>
+                </tr>
+              ))}
+              
 
-              <div className="add_cancel_container">
-                <button
-                  onClick={showInputRow ? handleSaveRow : handleAddRow}
-                  className="add-button"
-                >
-                  {showInputRow ? "Save" : "New"}
-                </button>
-                <span onClick={handleCancelRow} className="cancel_button">
-                  {showInputRow ? "Cancel" : ""}
-                </span>
-              </div>
+              
             </tbody>
           </table>
         </div>

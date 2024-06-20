@@ -36,7 +36,7 @@ export default function ProjectMembersDetails({ members, setIsModalOpen }) {
       <div className="project_member_container">
         <div className="project_member_icon">
           <FaUsers className="member_icon" />
-          <h1 className="project_member_title">Project Member</h1>
+          <h1 className="project_member_title">Project Members</h1>
         </div>
         <div className="yetki_and_members">
           <div className="add_members_container">

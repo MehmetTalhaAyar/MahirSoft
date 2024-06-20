@@ -1,5 +1,7 @@
 package com.mahirsoft.webservice.Business.concretes;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.ProjectRepository;
@@ -51,6 +53,15 @@ public class PermissionService {
         
         return checkUserPermission(user, authorityNumber);
         
+    }
+
+    public UserAuthentication isThereAnyOfThesePermissions(DefaultUser currentUser,List<Integer> authorityNumbers){
+
+        var user = userAuthenticationService.findById(currentUser.getId());
+
+        if(user == null) throw new UserNotFoundException();
+
+        return checkUserPermission(user, authorityNumbers);
     }
 
     public UserAuthentication isInThisProjectFindByStageId(DefaultUser currentUser,long stageId,int authorizationCode ){
@@ -116,6 +127,16 @@ public class PermissionService {
     private UserAuthentication checkUserPermission(UserAuthentication user, int authorityNumber){
         for(var authorization : user.getUserRoleId().getUserRoleAuthorizations()){
             if( Long.valueOf(authorization.getAuthorizationId().getAuthorizationId()).intValue() == authorityNumber){
+                return user;
+            }
+        }
+
+        throw new PermissionDeniedException();
+    }
+
+    private UserAuthentication checkUserPermission(UserAuthentication user, List<Integer> authorityNumbers){
+        for(var authorization : user.getUserRoleId().getUserRoleAuthorizations()){
+            if( authorityNumbers.contains(Long.valueOf(authorization.getAuthorizationId().getAuthorizationId()).intValue())){
                 return user;
             }
         }

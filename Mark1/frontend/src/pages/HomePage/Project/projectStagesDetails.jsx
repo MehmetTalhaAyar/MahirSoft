@@ -168,7 +168,7 @@ export default function ProjectStagesDetails({
                 )}
                 {editStage === index ? (
                   <span onClick={handleCancelUpdate} className="remove">
-                    <AiOutlineClose />
+                    
                   </span>
                 ) : (
                   <MdDelete

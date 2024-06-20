@@ -18,9 +18,10 @@ function Stage(props) {
     const scrollingVertically = document.querySelector(
       `.${stage.name.replace(" ", "-")}`
     );
-    scrollingVertically.classList.add("slide-down");
 
-    setNewTaskCount(0);
+    console.log("scroll")
+    console.log(scrollingVertically)
+    scrollingVertically.classList.add("slide-down");
 
     const animationDuration = 500; // Adjust this value based on your CSS animation duration
     setTimeout(() => {
@@ -63,7 +64,9 @@ function Stage(props) {
         task.isNew = false;
       }
     });
+
     setNewTaskCount(0);
+
   };
 
   const handleNewButtonClick = () => {
@@ -75,6 +78,8 @@ function Stage(props) {
         isNew: true,
       };
       setNewTaskCount(1);
+      console.log("new task count " + newTaskCount)
+      
 
       setTasks([newTask, ...tasks]);
     } else {
