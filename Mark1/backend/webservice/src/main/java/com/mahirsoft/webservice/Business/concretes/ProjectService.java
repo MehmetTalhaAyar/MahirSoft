@@ -1,6 +1,9 @@
 package com.mahirsoft.webservice.Business.concretes;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.ProjectRepository;
@@ -13,10 +16,16 @@ import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.ProjectUser;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.DeleteAMemberFromTheProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddMemberToProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostSearchProjectMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutProjectDescriptionRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutProjectNameRequest;
+import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectTaskCount;
+
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 
 @Service
 public class ProjectService {
@@ -119,19 +128,74 @@ public class ProjectService {
 
             if(userWhoAdd == null) return null;
 
-            var userWhoAdded = projectUserRepository.findByProjectIdAndUserId(project, member);
+            var userWhoAdded = projectUserRepository.findByProjectIdAndUserId(project, member); // projenin içinde mi diye bakılıyor
 
-            if( userWhoAdded == null ) return null;
+            if( userWhoAdded != null ) return null;
 
             ProjectUser projectUser = new ProjectUser();
             projectUser.setProjectId(project);
             projectUser.setUserId(member);
+
+            List<ProjectUser> projectUsers = project.getProjectMembers();
+            projectUsers.add(projectUser);
+            
+            project.setProjectMembers(projectUsers);
+            projectRepository.save(project);
 
             return projectUserRepository.save(projectUser);
 
         }
 
         return null;
+    }
+
+    public List<UserAuthentication> getMembersWhoNotInThisProject(PostSearchProjectMembersRequest postSearchProjectMembersRequest,UserAuthentication user) {
+
+
+        var project = projectRepository.findById(postSearchProjectMembersRequest.getProjectId());
+
+        if(project == null) throw new ResourceNotFoundException();
+
+        List<UserAuthentication> members = new ArrayList<>();
+
+        for(var eleman : project.getProjectMembers()){
+            members.add(eleman.getUserId());
+        }
+
+
+        List<UserAuthentication> companyUsers = new ArrayList<>();
+        
+        if(postSearchProjectMembersRequest.getSearchKey().strip().isBlank()){
+            companyUsers.addAll(userAuthenticationRepository.findFirst3ByCompanyId(user.getCompanyId(), members));
+        }
+        else {
+            companyUsers.addAll(userAuthenticationRepository.findFirst3ByCompanyIdAndNameContaining(user.getCompanyId(), postSearchProjectMembersRequest.getSearchKey(),members));
+        }
+
+
+        return companyUsers;
+    }
+
+    public GeneralProjectResponse deleteMemberFromProject(@Valid DeleteAMemberFromTheProjectRequest deleteAMemberFromTheProjectRequest,UserAuthentication user) {
+        
+
+        var deletedUser = userAuthenticationRepository.findByEmail(deleteAMemberFromTheProjectRequest.getEmail()).orElseThrow(()-> new ResourceNotFoundException());
+
+        var project = projectRepository.findById(deleteAMemberFromTheProjectRequest.getProjectId());
+
+        if(project == null) return null;
+
+        var projectUser = projectUserRepository.findByProjectIdAndUserId(project, deletedUser);
+    
+        if(projectUser == null) return null;
+
+        if(deletedUser.getUserId() == project.getLeadingPersonId().getUserId()){
+            return null;
+        }
+        
+        projectUserRepository.delete(projectUser);
+
+        return projectUser.getProjectId().toGeneralProjectResponse();
     }
 
 

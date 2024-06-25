@@ -12,33 +12,28 @@ export default function Description(props) {
   const [editedTaskDescription, setEditedTaskDescription] = useState(
     props.description
   );
-  const [taskDescription,setTaskDescription] = useState(props.description);
+  const [taskDescription, setTaskDescription] = useState(props.description);
 
   const handleEditClick = () => {
     setIsEditing((isEditing) => !isEditing);
   };
-  
-  useEffect(()=>{
-    if(props.taskDescription !== undefined){
+
+  useEffect(() => {
+    if (props.taskDescription !== undefined) {
       setTaskDescription(props.taskDescription);
-      
     }
-  },[])
+  }, []);
 
-  const handleSaveClick = async() => {
-
+  const handleSaveClick = async () => {
     const response = await updateDescription({
       taskId: location.state.id,
-      description: editedTaskDescription
-    })
+      description: editedTaskDescription,
+    });
 
-    if(response.status === 200){
+    if (response.status === 200) {
       setTaskDescription(editedTaskDescription);
     }
 
-
-
-    
     setIsEditing(false);
   };
 
@@ -68,7 +63,7 @@ export default function Description(props) {
           </span>
         </div>
       </section>
-      <p className="task_description">
+      <div className="task_description">
         {isEditing ? (
           <textarea
             placeholder="Update description"
@@ -89,7 +84,7 @@ export default function Description(props) {
             </span>
           </span>
         )}
-      </p>
+      </div>
     </>
   );
 }

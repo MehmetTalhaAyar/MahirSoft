@@ -4,6 +4,7 @@
   font-family: Arial, Helvetica, sans-serif;
   box-shadow: 2px 2px 5px 3px #e3e3e3;
   border-radius: 10px;
+  font-family: "Roboto", sans-serif;
 }
 .project_details {
   display: flex;

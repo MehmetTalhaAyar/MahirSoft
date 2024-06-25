@@ -115,18 +115,20 @@
 }
 .add_cancel_container {
   display: flex;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
   gap: 10px;
   margin-top: 1rem;
 }
-.add-button {
-  background-color: #c6c6c6;
 
-  border: 1px solid rgb(165, 165, 165);
+.add-button {
+  display: flex;
+  background-color: #c6c6c6;
+  border: none;
   padding: 8px 40px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 0px 0px 4px 4px;
+  border-radius: 4px;
 }
 
 .add-button:hover {

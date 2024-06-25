@@ -8,6 +8,7 @@ import com.mahirsoft.webservice.Entities.Response.CompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserRoleResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -104,6 +105,20 @@ public class Company {
         generalCompanyResponse.setName(name);
 
         return generalCompanyResponse;
+    }
+
+    public List<GeneralUserRoleResponse> toGeneralUserRoleResponse(){
+
+        List<GeneralUserRoleResponse> generalUserRoles = new ArrayList<>();
+        for(var eleman : userRoles){
+            GeneralUserRoleResponse generalUserRoleResponse = new GeneralUserRoleResponse();
+            generalUserRoleResponse.setName(eleman.getName());
+            generalUserRoleResponse.setUserRoleId(eleman.getUserRoleId());
+
+            generalUserRoles.add(generalUserRoleResponse);
+        }
+        
+        return generalUserRoles;
     }
 
     public List<GeneralProjectResponse> toGeneralProjectResponses(){

@@ -3,6 +3,7 @@ package com.mahirsoft.webservice.Entities.Models;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserRoleResponse;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -77,6 +78,11 @@ public class UserRole {
         this.userRoleAuthorizations = userRoleAuthorizations;
     }
 
-
+    public GeneralUserRoleResponse toGeneralUserRoleResponse(){
+        GeneralUserRoleResponse generalUserRoleResponse = new GeneralUserRoleResponse();
+        generalUserRoleResponse.setName(name);
+        generalUserRoleResponse.setUserRoleId(userRoleId);
+        return generalUserRoleResponse;
+    }
 
 }

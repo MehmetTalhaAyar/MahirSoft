@@ -8,14 +8,6 @@ public class PostUpdateAuthorityLevelsRequest {
     
     private List<Integer> authorityNumbers;
 
-    public List<Integer> getAuthorityNumber() {
-        return authorityNumbers;
-    }
-
-    public void setAuthorityNumber(List<Integer> authorityNumbers) {
-        this.authorityNumbers = authorityNumbers;
-    }
-
     public long getUserRoleId() {
         return userRoleId;
     }

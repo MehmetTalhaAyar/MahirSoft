@@ -36,3 +36,27 @@ export function createStage(projectId,body){
 export function updateStage(body){
     return http.put("/api/v1/stage/update",body);
 }
+
+export function getAuthorization(){
+    return http.get("/api/v1/authority/role");
+}
+
+export function createRole(body){
+    return http.post("/api/v1/authority/create",body);
+}
+
+export function updateRole(body){
+    return http.post("/api/v1/authority/update",body);
+}
+
+export function getAvaibleMembers(body){
+    return http.post("/api/v1/projects/members",body);
+}
+
+export function AddingANewMember(body){
+    return http.post("/api/v1/projects/add/employee",body);
+}
+
+export function removeMember(body){
+    return http.post("/api/v1/projects/delete",body);
+}

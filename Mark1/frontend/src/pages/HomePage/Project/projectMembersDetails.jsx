@@ -5,11 +5,14 @@ import { MdDelete } from "react-icons/md";
 import { IoIosWarning } from "react-icons/io";
 import AsyncSelect from "react-select/async";
 import WarningModal from "./WarningModal";
+import { AddingANewMember, getAvaibleMembers, getCompanyMembers, removeMember } from "./api";
 
-export default function ProjectMembersDetails({ members, setIsModalOpen }) {
+export default function ProjectMembersDetails({projectId, members, setIsModalOpen }) {
   const [memberNames, setMemberNames] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
+  const [newMember,SetNewMember] = useState({value: -2,label:"Enter a email address"});
+  const [options,setOptions] = useState({});
 
   useEffect(() => {
     if (members.length > 0) {
@@ -22,13 +25,81 @@ export default function ProjectMembersDetails({ members, setIsModalOpen }) {
     setShowConfirmModal(true);
   };
 
-  const handleConfirmDelete = () => {
-    setMemberNames(memberNames.filter((_, i) => i !== deleteIndex));
+  const handleConfirmDelete = async() => {
+     
+    
+    if(deleteIndex ?? true){
+
+      const response = await removeMember({
+        projectId: projectId,
+        email : memberNames[deleteIndex].email
+      })
+
+
+      if(response.status === 200){
+
+        setMemberNames(response.data.members);
+        
+      }
+    }
+    
+    
     setShowConfirmModal(false);
+    
   };
 
   const handleCancelDelete = () => {
     setShowConfirmModal(false);
+  };
+
+  const filterMembers = (inputValue) => {
+    return inputValue.map((user) => {
+      return {
+        value: user.userId,
+        label: user.email,
+      };
+    });
+  };
+
+  const addNewMember = async() =>{
+    
+    if(newMember.label ?? true){
+
+      const response = await AddingANewMember({
+        projectId:projectId,
+        email:newMember.label
+      })
+
+      if(response.status === 200){
+
+        setMemberNames(response.data.members);
+        
+
+        // notification yolla
+
+      }
+    }
+    
+    SetNewMember(null);
+
+  }
+
+
+  const handleNewMemberChange = (selectedMember) => {
+    console.log(selectedMember);
+    SetNewMember(selectedMember);
+  }
+
+  const promiseOptions = async (inputValue) => {
+    const response = await getAvaibleMembers({
+      searchKey : inputValue,
+      projectId : projectId
+    });
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(filterMembers(response.data));
+      }, 100);
+    });
   };
 
   return (
@@ -44,9 +115,13 @@ export default function ProjectMembersDetails({ members, setIsModalOpen }) {
               className="add_members "
               placeholder="Members"
               cacheOptions
-              isMulti
+              defaultOptions={options}
+              value={newMember}
+              onChange={handleNewMemberChange}
+              loadOptions={promiseOptions}
             />
-            <button>Add Members</button>
+            
+            <button onClick={addNewMember}>Add Members</button>
           </div>
           <span className="yetki_button" onClick={() => setIsModalOpen(true)}>
             Yetki Verme

@@ -9,6 +9,5 @@ import com.mahirsoft.webservice.Entities.Models.Authorization;
 
 public interface AuthorizationRepository extends JpaRepository<Authorization,Long> {
 
-    List<Authorization> findByAuthorizationIdNot(long authorizationId);
     
 }

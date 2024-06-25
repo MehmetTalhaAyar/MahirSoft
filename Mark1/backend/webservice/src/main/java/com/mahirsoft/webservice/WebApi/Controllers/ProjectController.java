@@ -1,9 +1,13 @@
 package com.mahirsoft.webservice.WebApi.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.ProjectService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
+import com.mahirsoft.webservice.Entities.ResponseMessage;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.DeleteAMemberFromTheProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddMemberToProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostSearchProjectMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutProjectDescriptionRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutProjectNameRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
@@ -88,7 +95,7 @@ public class ProjectController {
     }
 
 
-    @GetMapping("/details/stage/{projectId}") // burada projenin içinde mi diye kontrol edilcek
+    @GetMapping("/details/stage/{projectId}") 
     public ResponseEntity<?> stageDetails(@PathVariable long projectId,@AuthenticationPrincipal DefaultUser currentUser){
 
         permissionService.isInThisProject(currentUser, projectId, AuthorizationCodes.ANY_AUTHORIZATION);
@@ -166,5 +173,37 @@ public class ProjectController {
         return new ResponseEntity<GeneralProjectResponse>(generalProjectResponse,HttpStatus.OK);
     }
 
+    @PostMapping("/members")
+    public ResponseEntity<?> handleGetProjectMembersBySearchKey( @Valid @RequestBody PostSearchProjectMembersRequest postSearchProjectMembersRequest, @AuthenticationPrincipal DefaultUser currentUser ){
+
+        var user = permissionService.isInThisProject(currentUser, postSearchProjectMembersRequest.getProjectId(), AuthorizationCodes.ADDING_SOMEONE_TO_THE_PROJECT);
+
+        var users = projectService.getMembersWhoNotInThisProject(postSearchProjectMembersRequest,user);
+
+        List<GeneralUserAuthenticationResponse> generalUsers = new ArrayList<>();
+    
+        for(var eleman : users){
+
+            GeneralUserAuthenticationResponse generalUserAuthenticationResponse = eleman.toGeneralUserAuthenticationResponse();
+            generalUsers.add(generalUserAuthenticationResponse);
+        }
+
+
+        return new ResponseEntity<List<GeneralUserAuthenticationResponse>>(generalUsers,HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> handleDeleteAMemberFromTheProject(@Valid @RequestBody DeleteAMemberFromTheProjectRequest deleteAMemberFromTheProjectRequest, @AuthenticationPrincipal DefaultUser currentUser ){
+
+        var user = permissionService.isInThisProject(currentUser, deleteAMemberFromTheProjectRequest.getProjectId(), AuthorizationCodes.ADDING_SOMEONE_TO_THE_PROJECT);
+
+        var projectResponse = projectService.deleteMemberFromProject(deleteAMemberFromTheProjectRequest,user);
+
+        if(projectResponse == null) return new ResponseEntity<ResponseMessage>(new ResponseMessage("Something went wrong!"),HttpStatus.BAD_REQUEST);
+
+
+
+        return new ResponseEntity<GeneralProjectResponse>(projectResponse,HttpStatus.OK);
+    }
 
 }

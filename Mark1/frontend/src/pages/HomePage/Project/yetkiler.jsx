@@ -1,47 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./yetkiler.css";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { IoIosWarning } from "react-icons/io";
 import WarningModal from "./WarningModal";
 import { FaCheck } from "react-icons/fa";
+import { createRole, getAuthorization, updateRole } from "./api";
 
-const yetkiData = [
-  { yetkiName: "TASK_CREATE" },
-  { yetkiName: "TASK_EDIT" },
-  { yetkiName: "TASK_DELETE" },
-  { yetkiName: "TASK_CREATE" },
-  { yetkiName: "TASK_EDIT" },
-  { yetkiName: "TASK_DELETE" },
-  { yetkiName: "TASK_CREATE" },
-  { yetkiName: "TASK_EDIT" },
-  { yetkiName: "TASK_DELETE" },
-  { yetkiName: "TASK_CREATE" },
-  { yetkiName: "TASK_EDIT" },
-  { yetkiName: "TASK_DELETE" },
-];
+
 
 function Yetki({ isOpen, onClose }) {
   const [fullName, setFullName] = useState("");
-  const [userData, setUserData] = useState([
-    { fullName: "Administrator" },
-    { fullName: "Normal User" },
-    { fullName: "Company User" },
-    { fullName: "Administrator" },
-    { fullName: "Normal User" },
-    { fullName: "Administrator" },
-    { fullName: "Normal User" },
-    { fullName: "Company User" },
-    { fullName: "Administrator" },
-    { fullName: "Normal User" },
-    { fullName: "Administrator" },
-    { fullName: "Normal User" },
-    { fullName: "Company User" },
-    { fullName: "Administrator" },
-    { fullName: "Normal User" },
-  ]);
+  const [userData, setUserData] = useState([]);
+  const [authData,setAuthData] = useState([]);
   const [checkboxState, setCheckboxState] = useState(
-    userData.map(() => yetkiData.map(() => false))
+    userData.map(() => authData.map(() => false))
   );
   const [showInputRow, setShowInputRow] = useState(false);
   const [deleteUserIndex, setDeleteUserIndex] = useState(null);
@@ -50,16 +23,18 @@ function Yetki({ isOpen, onClose }) {
   const [checkboxUpdateState,setCheckboxUpdateState] = useState(
     checkboxState
   );
+  const [userAuths,setUserAuths] = useState();
 
-  const handleCheckboxChange = (userIndex, yetkiIndex) => {
+  const handleCheckboxChange = (userIndex, authIndex) => {
     const newCheckboxState = checkboxUpdateState.map((user, i) =>
       i === userIndex
-        ? user.map((checked, j) => (j === yetkiIndex ? !checked : checked))
+        ? user.map((checked, j) => (j === authIndex ? !checked : checked))
         : user
     );
 
     setCheckboxUpdateState(newCheckboxState);
   };
+
 
   const handleApply = () => {
     console.log("Applied permissions:", checkboxState);
@@ -69,13 +44,57 @@ function Yetki({ isOpen, onClose }) {
     setShowInputRow(true);
   };
 
-  const handleSaveRow = () => {
-    if (fullName.trim() !== "") {
-      const newUser = { fullName };
-      const newRowCheckboxState = yetkiData.map(() => false);
+  useEffect(()=>{
+    getAuthorizationData();
+  },[])
 
-      setUserData([...userData, newUser]);
-      setCheckboxState([...checkboxState, newRowCheckboxState]);
+  useEffect(()=>{
+    let newCheckBoxState = userData.map(() => authData.map(() => false));
+    
+    userData.map((user,userIndex)=>{
+      authData.map((auth,authIndex)=>{
+        if(userAuths[user.userRoleId].length !== 0 && userAuths[user.userRoleId].includes(auth.authorizationId)){
+          return newCheckBoxState[userIndex][authIndex] = true;
+        }else {
+          return newCheckBoxState[userIndex][authIndex] = false;
+          
+        }
+        
+      });
+    });
+
+    setCheckboxState(newCheckBoxState);
+    setCheckboxUpdateState(newCheckBoxState);
+},[userAuths])
+
+  const getAuthorizationData = async () =>{
+    const response = await getAuthorization();
+
+    if(response.status === 200){
+      setAuthData(response.data.authorizations)
+      setUserData(response.data.userRoles)
+      setUserAuths(response.data.userRoleAuths)
+
+      
+      
+    }
+
+  }
+
+  const handleSaveRow = async() => {
+    if (fullName.trim() !== "") {
+      const newRowCheckboxState = authData.map(() => false);
+
+      const response = await createRole({name:fullName})
+      if(response.status === 201){
+
+        console.log(response.data)
+
+        setUserData([...userData, response.data]);
+        setCheckboxState([...checkboxState, newRowCheckboxState]);
+        setCheckboxUpdateState([...checkboxUpdateState , newRowCheckboxState]);
+      }
+
       setFullName("");
       setShowInputRow(false);
     }
@@ -100,10 +119,28 @@ function Yetki({ isOpen, onClose }) {
     setCheckboxUpdateState(checkboxState)
   }
 
-  const handleSave = (index) => {
+  const handleSave = async (index) => {
     //burada gelen indexin rollerini alacak
+    
+    let data = authData.map((auth,authIndex)=>{
+      if(checkboxUpdateState[index][authIndex]){
+        return auth.authorizationId
+      }
+      
+    }).filter((auth) => auth ?? auth)
 
-    setCheckboxState(checkboxUpdateState);
+    const response = await updateRole({
+      userRoleId: userData[index].userRoleId,
+      authorityNumbers: data
+    })
+
+    if(response.status === 200){
+
+      setCheckboxState(checkboxUpdateState);
+    }
+    else{
+      setCheckboxUpdateState(checkboxState);
+    }
     setEditId(null);
   }
 
@@ -124,7 +161,7 @@ function Yetki({ isOpen, onClose }) {
   };
 
   if (!isOpen) return null;
- 
+  
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -150,10 +187,10 @@ function Yetki({ isOpen, onClose }) {
           <table className="yetki-table">
             <thead>
               <tr>
-                <th>Role</th>
-                {yetkiData.map((item, index) => (
+                <th >Role</th>
+                {authData.map((item, index) => (
                   <th key={index} className="yetki-header">
-                    {item.yetkiName}
+                    {item.definition}
                   </th>
                 ))}
                 <th>Action</th>
@@ -173,7 +210,7 @@ function Yetki({ isOpen, onClose }) {
                       className="full-name-input"
                     />
                   </td>
-                  {yetkiData.map((_, yetkiIndex) => (
+                  {authData.map((_, yetkiIndex) => (
                     <td key={yetkiIndex} className="yetki-cell"></td>
                   ))}
                 </tr>
@@ -181,28 +218,25 @@ function Yetki({ isOpen, onClose }) {
               
               {userData.map((user, userIndex) => (
                 <tr key={userIndex}>
-                  <td className="user-name">{user.fullName}</td>
-                  {yetkiData.map((_, yetkiIndex) => (
-                    <td key={yetkiIndex} className="yetki-cell">
+                  <td className="user-name">{user.name}</td>
+                  {authData.length !== 0 ? authData.map((_, authIndex) => (
+                    <td key={authIndex} className="yetki-cell">
                       { userIndex !== EditId ?
                         <input
                           type="checkbox"
                           disabled
-                          checked={checkboxState[userIndex][yetkiIndex]}
-                          onChange={() =>
-                            handleCheckboxChange(userIndex, yetkiIndex)
-                          }
+                          checked={checkboxState[userIndex][authIndex]}
                         />
                         :
                         <input
                           type="checkbox"
-                          checked={checkboxUpdateState[userIndex][yetkiIndex]}
+                          checked={checkboxUpdateState[userIndex][authIndex]}
                           onChange={() =>
-                            handleCheckboxChange(userIndex, yetkiIndex)
+                            handleCheckboxChange(userIndex, authIndex)
                         }
                       />}
                     </td>
-                  ))}
+                  )) : <></>}
                   <td>
                     { userIndex !== EditId ? 
                     <MdEdit
@@ -223,16 +257,11 @@ function Yetki({ isOpen, onClose }) {
                   </td>
                 </tr>
               ))}
-              
-
-              
+            
             </tbody>
           </table>
         </div>
-
-        <button onClick={handleApply} className="apply-button">
-          Apply
-        </button>
+        
         {isConfirmOpen && (
           <WarningModal
             icon={<IoIosWarning />}

@@ -149,6 +149,7 @@ public class PermissionService {
 
     public static class AuthorizationCodes {
 
+
         public static final int ANY_AUTHORIZATION = -1;
         public static final int TASK_ASSIGNMENT = 1; // görev atama
         public static final int TASK_CREATE = 2; // görev oluşturma
@@ -168,6 +169,26 @@ public class PermissionService {
         public static final int GRANTING_PERMISSIONS = 16; // yetki verebilme
         public static final int CREATE_COMPANY = 17; // şirket oluşturma
         public static final int SUPER_ADMIN = 18; // super admin
+
+
+        public static final List<Integer> COMPANY_AUTHORIZATIONS = List.of(
+        TASK_ASSIGNMENT,
+        TASK_CREATE,
+        TASK_DELETE,
+        STAGE_CREATE,
+        STAGE_UPDATE,
+        STAGE_DELETE,
+        INVITATION_TO_THE_COMPANY,
+        CREATING_A_REGISTERED_USER_FOR_THE_COMPANY,
+        PROJECT_CREATE,
+        PROJECT_UPDATE,
+        PROJECT_DELETE,
+        ADDING_SOMEONE_TO_THE_PROJECT,
+        CHANGING_PROJECT_MANAGER,
+        GRANTING_OWN_PERMISSIONS,
+        GRANTING_PERMISSIONS
+        );
+
 
     }
 

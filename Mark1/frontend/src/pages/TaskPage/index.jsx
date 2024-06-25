@@ -17,6 +17,7 @@ import {
   updateComment,
   updateLikeCount,
   deleteComment,
+  // updateTaskName, // Create a API updateTaskName for changing name in backend
 } from "./api";
 import { MONTHS } from "../../Constants/Constants";
 import Description from "./description";
@@ -26,8 +27,8 @@ import {
   AiOutlineLike,
   AiOutlineMenu,
 } from "react-icons/ai";
-import { BsReply } from "react-icons/bs";
 import { MdDelete, MdOutlineModeEditOutline } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 
 export function TaskPage() {
   const [comments, setComments] = useState([]);
@@ -38,6 +39,7 @@ export function TaskPage() {
   const authState = useAuthState();
 
   const [taskName, setTaskName] = useState(location.state.name);
+  const [editTaskName, setEditTaskName] = useState(false);
   const [stageId, setStageId] = useState(location.state.id);
   const [taskDescription, setTaskDescription] = useState(
     location.state.description
@@ -294,11 +296,48 @@ export function TaskPage() {
     setEditingCommentIndex(null);
   };
 
+  const handleEditTaskName = () => {
+    setEditTaskName(true);
+  };
+  const handleTaskNameChange = (e) => {
+    setTaskName(e.target.value);
+  };
+
+  const handleSaveTaskName = async () => {
+    setEditTaskName(false);
+
+    // Mehmet bu kod taskName değiştirmeyebilir, bir daha bak !!!
+    const response = await updateTaskName(location.state.id, {
+      name: taskName,
+    });
+    if (response.status === 200) {
+      setTaskName(response.data.name);
+    }
+  };
   return isShow ? (
     <main>
       <div className="task_page_container">
         <div className="task_page_container_header">
-          <h1 className="task_title">{taskName}</h1>
+          <div className="project_details">
+            {editTaskName ? (
+              <input
+                value={taskName}
+                onChange={handleTaskNameChange}
+                onBlur={handleSaveTaskName}
+                className="change_ProjectName"
+                placeholder="Enter New Name"
+                autoFocus
+              />
+            ) : (
+              <>
+                <span>{taskName}</span>
+                <FaRegEdit
+                  onClick={handleEditTaskName}
+                  className="edit_projectName"
+                />
+              </>
+            )}
+          </div>
           <Dropdown />
         </div>
         <div className="alt_container">
@@ -507,7 +546,6 @@ export function TaskPage() {
                 createdDate.year
               }`}
             </p>
-            {/* <p className="task_updated">Updated February 3,2024, 15:51 PM</p> */}
           </div>
         </div>
       </div>
