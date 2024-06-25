@@ -138,7 +138,8 @@ public class ProjectAndStageService {
         Project project = new Project();
 
         project.setName(createProjectRequest.getName());
-        project.setCompanyId(leadPerson.getCompanyId());
+        if(leadPerson.getCompanyId() != null)
+            project.setCompanyId(leadPerson.getCompanyId());
         project.setLeadingPersonId(leadPerson);
         project.setDescription("New Project");
         project.setStages(stages);        

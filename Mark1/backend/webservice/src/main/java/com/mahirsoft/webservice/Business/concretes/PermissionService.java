@@ -98,6 +98,11 @@ public class PermissionService {
 
         if(user == null ) throw new UserNotFoundException();
 
+        if(user.getCompanyId() == null && user.getUserId() == project.getLeadingPersonId().getUserId()){
+            return user;
+        }
+
+
         if(user.getUserId() == project.getCompanyId().getManagerId().getUserId()){
             return user;
         }

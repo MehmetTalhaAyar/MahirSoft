@@ -7,7 +7,8 @@ import defaultProfileImage from "/src/assets/profileImage.jpg";
 import { FaRegEdit } from "react-icons/fa";
 import ProjectDetailsDescription from "./projectDetailsDescription";
 import { projectDetails, updateProjectName } from "./api";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuthState } from "../../../state/context";
 
 export default function ProjectDetails() {
   const [editProjectName, setEditProjectName] = useState(false);
@@ -18,8 +19,11 @@ export default function ProjectDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [project, setProject] = useState(undefined);
   const location = useLocation();
+  const authState = useAuthState();
+
 
   useEffect(() => {
+
     getProjectDetails();
   }, []);
 
@@ -99,19 +103,19 @@ export default function ProjectDetails() {
                   : "Leader"}
               </h2>
             </div>
-            <ProjectMembersDetails
+            {authState.company !== null && authState.company ? <ProjectMembersDetails
               members={project !== undefined ? project.projectMembers : []}
               setIsModalOpen={setIsModalOpen}
               projectId ={location.state.projectId}
-            />
+            /> : <></>}
           </div>
-          <ProjectStagesDetails
+          {authState.company !== null && authState.company ?<ProjectStagesDetails
             projectId={location.state.projectId}
             stages={project !== undefined ? project.projectStages : []}
             totalTaskCount={project !== undefined ? project.taskCounts : {}}
-          />
+          /> : <h1></h1>}
         </div>
-        <Yetki isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        {authState.company !== null && authState.company !==undefined ? <Yetki isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> : <></> }
       </div>
     </main>
   );

@@ -85,7 +85,10 @@ public class Project {
         for(var eleman : projectMembers){
             GeneralUserAuthenticationResponse user = new GeneralUserAuthenticationResponse();
             var currentUser = eleman.getUserId();
-            user.setCompany(currentUser.getCompanyId().toCompanyResponse());
+            
+            if(currentUser.getCompanyId() != null)
+                user.setCompany(currentUser.getCompanyId().toCompanyResponse());
+
             user.setEmail(currentUser.getEmail());
             user.setFullName(currentUser.getName() + " " +currentUser.getSurname());
             user.setGsm(currentUser.getGsm());

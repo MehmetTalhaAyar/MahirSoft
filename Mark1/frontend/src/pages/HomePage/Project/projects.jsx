@@ -16,6 +16,7 @@ import { MONTHS } from "../../../Constants/Constants";
 import { Link } from "react-router-dom";
 import defaultProfileImage from "../../../assets/profileImage.jpg";
 import WarningModal from "./WarningModal"; // Import the WarningModal component
+import { useAuthState } from "../../../state/context";
 
 function Project() {
   const [projectFormOpen, setProjectFormOpen] = useState(false);
@@ -311,7 +312,7 @@ function Project() {
                   state={{ projectId: project.id }}
                 >
                   <h2 className="proje_title">{project.title}</h2>
-                </Link>
+                </Link> 
                 <div className="project_delete">
                   <HiDotsHorizontal
                     className={`${dropdownStates[index] ? "_dot2" : "_dot"}`}
