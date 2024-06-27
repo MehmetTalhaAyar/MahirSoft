@@ -2,24 +2,28 @@ import React, { useState } from "react";
 // import { joinCompany } from "./api"; // Make sure this API call exists
 import "./CompanyRequest.css"; // Ensure you have imported the CSS file
 import { IoIosArrowForward } from "react-icons/io";
+import { companyRequest } from "./api";
 
-export default function JoinCompanyRequest({ onRequestSuccess }) {
+export default function JoinCompanyRequest() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (event) => {
-    {
-      /*event.preventDefault();
+    event.preventDefault();
+    
     try {
-      const response = await joinCompany({ name, email });
-      if (response.status === 201) {
-        onRequestSuccess();
+      const response = await companyRequest({ name, description });
+      if (response.status === 200) {
+        // burada notification at
+
+        setName("");
+        setDescription("");
       }
     } catch (axiosError) {
       setErrors(axiosError.response.data.validationErrors);
-    } */
-    }
+    } 
+    
   };
 
   return (

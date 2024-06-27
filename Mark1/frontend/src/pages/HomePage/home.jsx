@@ -12,17 +12,20 @@ function Home() {
   if (authState.userId <= 0) {
     navigate("/");
   }
-
-  return (
-    <div>
-      <NavBar />
-      <div className="home_page_wraper">
-        <SideBar />
-
-        <Outlet />
+  else{
+    return (
+      <div>
+        <NavBar />
+        <div className="home_page_wraper">
+          <SideBar />
+  
+          <Outlet />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  
 }
 
 export default Home;

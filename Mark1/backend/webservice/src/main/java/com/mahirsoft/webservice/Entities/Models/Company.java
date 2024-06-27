@@ -57,10 +57,6 @@ public class Company {
     @OneToMany(mappedBy = "companyId")
     List<CompanyInvitation> invitationsList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "companyId")
-    List<CompanyCreateRequest> createRequests;
-
 
 
     public CompanyResponse toCompanyResponse(){

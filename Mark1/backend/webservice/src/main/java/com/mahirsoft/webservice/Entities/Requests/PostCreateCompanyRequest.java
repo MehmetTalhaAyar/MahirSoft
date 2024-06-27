@@ -1,15 +1,16 @@
 package com.mahirsoft.webservice.Entities.Requests;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-public class CreateCompnayRequest {
+public class PostCreateCompanyRequest {
 
+    @Size(min = 4,max = 32)
+    @NotBlank
     private String name;
 
     @NotBlank
     private String description;
-
-    private long managerId;
 
     public String getDescription() {
         return description;
@@ -27,12 +28,6 @@ public class CreateCompnayRequest {
         this.name = name;
     }
 
-    public long getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(long managerId) {
-        this.managerId = managerId;
-    }
+ 
     
 }

@@ -1,66 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AdminDashboard.css";
 import CompanyDetails from "./companyDetails";
+import { getAllRequests } from "./api";
 
 function AdminDashboard() {
-  const data = [
-    {
-      id: 1,
-      companyName: "Company A",
-      requestFor: "Product X",
-      description: "Description for Product X ",
-    },
-    {
-      id: 2,
-      companyName: "Company B",
-      requestFor: "Service Y",
-      description: "Description for Service Y",
-    },
-    {
-      id: 4,
-      companyName: "Company C",
-      requestFor: "Product X",
-      description: "Description for Product X",
-    },
-    {
-      id: 5,
-      companyName: "Company D",
-      requestFor: "Service Y",
-      description: "Description for Service Y",
-    },
-    {
-      id: 6,
-      companyName: "Company E",
-      requestFor: "Product X",
-      description: "Description for Product X",
-    },
-    {
-      id: 7,
-      companyName: "Company F",
-      requestFor: "Service Y",
-      description: "Description for Service Y",
-    },
-    {
-      id: 8,
-      companyName: "Company E",
-      requestFor: "Product X",
-      description: "Description for Product X",
-    },
-    {
-      id: 9,
-      companyName: "Company F",
-      requestFor: "Service Y",
-      description: "Description for Service Y",
-    },
-    // Add more data as needed
-  ];
-
-  const [selectedCompany, setSelectedCompany] = useState(data[0]);
+  
+  const [requestDatas,setRequestDatas] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState();
 
   // Function to handle click on company item
   const handleCompanyClick = (company) => {
     setSelectedCompany(company);
   };
+
+  useEffect(()=>{
+    handleGettingAllRequests()
+  },[])
+
+  const handleReply = (selectedValue) =>{
+    const newRequests = requestDatas.filter((request)=>{
+      if(request.id !== selectedValue.id){
+        return request;
+      }
+    })
+
+    setRequestDatas(newRequests);
+
+  }
+
+  const handleGettingAllRequests = async() =>{
+
+    const response = await getAllRequests();
+
+    if(response.status === 200){
+      setRequestDatas(response.data.map((request) => {
+        return {
+        id : request.companyCreateRequestId,
+        companyName : request.name,
+        requestFor : request.user.fullName,
+        description : request.description
+      }
+      }));
+
+    }
+
+
+
+  }
 
   return (
     <main className="dashboard_company">
@@ -76,7 +62,7 @@ function AdminDashboard() {
           <tr>
             <td>
               <ul className="requests">
-                {data.map((item) => (
+                {requestDatas.map((item) => (
                   <li
                     key={item.id}
                     className="companylist"
@@ -88,7 +74,7 @@ function AdminDashboard() {
               </ul>
             </td>
             <td>
-              <CompanyDetails company={selectedCompany} />
+              {selectedCompany !== undefined && selectedCompany !== null ? <CompanyDetails handleReply={handleReply} company={selectedCompany} /> : <></>}
             </td>
           </tr>
         </tbody>

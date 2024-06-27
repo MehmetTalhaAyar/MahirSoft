@@ -55,19 +55,17 @@ public class BeginingConfiguration {
     @Bean
     public CommandLineRunner beginingCommands(){
         return args ->{
-            var user = userAuthenticationRepository.findByEmail("mehmettalhaayar61@gmail.com");
-
+            var user = userAuthenticationRepository.findByEmail("mehmettalhaayar61@gmail.com").orElse(null);
+            
             if(user == null){
 
                  
                 List<Authorization> authorizations = new ArrayList<>();
             
             List<Integer> normalUserAuthorizations = List.of(
+                AuthorizationCodes.TASK_ASSIGNMENT,
                 AuthorizationCodes.TASK_CREATE,
                 AuthorizationCodes.TASK_DELETE,
-                AuthorizationCodes.STAGE_CREATE,
-                AuthorizationCodes.STAGE_UPDATE,
-                AuthorizationCodes.STAGE_DELETE,
                 AuthorizationCodes.PROJECT_CREATE,
                 AuthorizationCodes.PROJECT_UPDATE,
                 AuthorizationCodes.PROJECT_DELETE,

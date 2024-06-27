@@ -31,7 +31,13 @@ function Form({ isVisible, changeVisible,changeForm, isChangeActive}) {
   
           dispatch({type:'login-success',data:response.data})
         }
-        navigate("/home")
+        if(response.data.user.userId === 1){
+          navigate("/admin")
+        }else{
+
+          navigate("/home")
+        }
+
       } else if (response.status === 400) {
         console.log("bad request.");
       } else if (response.status === 204) {

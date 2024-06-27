@@ -49,8 +49,10 @@ function Dashboard() {
     if (response.status === 200) {
       const updatedStages = stages.map((stage) => {
         if (stage.id === stageId) {
-          stage.tasks.splice(0, 0, response.data);
+          stage.tasks.splice(0, 0, response.data)
+
         } else if (stage.id === activeCardStageId) {
+
           stage.tasks = stage.tasks.filter((eleman) => {
             if (eleman.id === activeCard) return;
             else return eleman;
@@ -61,7 +63,7 @@ function Dashboard() {
       });
 
       setStages(updatedStages);
-      console.log(updatedStages);
+      console.log(updatedStages)
     }
     setActiveCard(null);
     setActiveCardStageId(null);
@@ -71,13 +73,13 @@ function Dashboard() {
     <div className="wraper">
       <div className="container1">
         <h1 className="stage">Stage Page</h1>
-        <section className="filter_bar">
+        {/* <section className="filter_bar">
           <input className="search_bar" type="text" id="fname" name="fname" />
           <button className="filter_button">
             <IoSettingsOutline fontSize={18} />
             Filter
           </button>
-        </section>
+        </section> */}
       </div>
       <hr></hr>
       <div className="container2">

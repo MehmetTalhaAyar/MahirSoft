@@ -109,6 +109,7 @@ export function TaskPage() {
             }`,
             text: comment.content,
             likeCount: comment.likeCount,
+            logo: comment.writtenById.name[0]+comment.writtenById.surname[0]
           };
         })
       );
@@ -180,6 +181,7 @@ export function TaskPage() {
           MONTHS[response.data.createdOn[1]]
         } ${response.data.createdOn[0]}`,
         text: commentText,
+        logo: response.data.writtenById.name[0]+response.data.writtenById.surname[0]
       };
 
       setComments([...comments, newComment]);
@@ -349,7 +351,7 @@ export function TaskPage() {
             </div>
 
             <div className="photo_input_container">
-              {authState.image !== null ? (
+              {authState.image !== null & authState.image !== undefined ? (
                 <img
                   className="profile-image"
                   src={`/assets/profile/${authState.image}`}
@@ -381,11 +383,11 @@ export function TaskPage() {
               {comments.map((comment, index) => (
                 <div key={index} className="show_comment">
                   <h4>
-                    <img
+                    {comment.authorImg !== null && comment.authorImg !== undefined ? <img
                       className="profile-image-comment"
                       src={`/assets/profile/${comment.authorImg}`}
                       alt="profile image"
-                    />
+                    /> : <p className="logo">{comment.logo}</p>}
                   </h4>
 
                   <div className="show_comment_right">

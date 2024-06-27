@@ -19,8 +19,7 @@ function Stage(props) {
       `.${stage.name.replace(" ", "-")}`
     );
 
-    console.log("scroll")
-    console.log(scrollingVertically)
+
     scrollingVertically.classList.add("slide-down");
 
     const animationDuration = 500; // Adjust this value based on your CSS animation duration
@@ -58,13 +57,15 @@ function Stage(props) {
   const saveTask = (response) => {
     const oldTasks = tasks.map((task) => {
       if (task.isNew === true) {
-        task.id = response.id;
-        task.name = response.name;
-        task.description = response.description;
-        task.isNew = false;
+        return {
+        id : response.id,
+        name : response.name,
+        description : response.description
       }
+      }
+      return task;
     });
-
+    stage.tasks = oldTasks;
     setNewTaskCount(0);
 
   };

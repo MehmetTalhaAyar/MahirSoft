@@ -90,7 +90,7 @@ export default function ProjectDetails() {
             <div className="project_lider">
               <img
                 src={
-                  project !== undefined
+                  project !== undefined && project.projectLead.image !== null && project.projectLead.image !== undefined
                     ? `/assets/profile/${project.projectLead.image}`
                     : defaultProfileImage
                 }
@@ -103,19 +103,19 @@ export default function ProjectDetails() {
                   : "Leader"}
               </h2>
             </div>
-            {authState.company !== null && authState.company ? <ProjectMembersDetails
+            {authState.company !== null && authState.company !== undefined ? <ProjectMembersDetails
               members={project !== undefined ? project.projectMembers : []}
               setIsModalOpen={setIsModalOpen}
               projectId ={location.state.projectId}
             /> : <></>}
           </div>
-          {authState.company !== null && authState.company ?<ProjectStagesDetails
+          {authState.company !== null && authState.company !== undefined  ? <ProjectStagesDetails
             projectId={location.state.projectId}
             stages={project !== undefined ? project.projectStages : []}
             totalTaskCount={project !== undefined ? project.taskCounts : {}}
           /> : <h1></h1>}
         </div>
-        {authState.company !== null && authState.company !==undefined ? <Yetki isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> : <></> }
+        {authState.company !== null && authState.company !== undefined ? <Yetki isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> : <></> }
       </div>
     </main>
   );

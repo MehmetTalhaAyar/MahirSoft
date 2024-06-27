@@ -14,28 +14,31 @@ public class CompanyCreateRequest { // şirket oluşturmak için bir request
     
     @Id
     @GeneratedValue
-    @Column(name = "companyInvitationId")
-    private long companyInvitationId;
+    @Column(name = "companyCreateRequestId")
+    private long companyCreateRequestId;
 
     @Column(name = "status")
     private int status; // 1 accepted // 2 rejected // 3 pending 
 
-    @ManyToOne
-    @JoinColumn(name = "companyId",referencedColumnName = "companyId")
-    private Company companyId;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserAuthentication userId;
 
-    public long getCompanyInvitationId() {
-        return companyInvitationId;
+    public static class CompanyCreateRequestCodes {
+
+        public static int ACCEPTED = 1;
+        public static int REJECTED = 2;
+        public static int PENDING = 3;    
+        
     }
 
-    public void setCompanyInvitationId(long companyInvitationId) {
-        this.companyInvitationId = companyInvitationId;
-    }
-
+    
     public int getStatus() {
         return status;
     }
@@ -44,13 +47,7 @@ public class CompanyCreateRequest { // şirket oluşturmak için bir request
         this.status = status;
     }
 
-    public Company getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Company companyId) {
-        this.companyId = companyId;
-    }
+   
 
     public UserAuthentication getUserId() {
         return userId;
@@ -58,6 +55,30 @@ public class CompanyCreateRequest { // şirket oluşturmak için bir request
 
     public void setUserId(UserAuthentication userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public long getCompanyCreateRequestId() {
+        return companyCreateRequestId;
+    }
+
+    public void setCompanyCreateRequestId(long companyCreateRequestId) {
+        this.companyCreateRequestId = companyCreateRequestId;
     }
 
     

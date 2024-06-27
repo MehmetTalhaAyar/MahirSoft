@@ -3,7 +3,6 @@ package com.mahirsoft.webservice.WebApi.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.aspectj.internal.lang.annotation.ajcDeclareAnnotation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -15,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.mahirsoft.webservice.Business.concretes.CompanyService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.ResponseMessage;
-import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation.CompanyInvitationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateCompanyMemberRequest;
-import com.mahirsoft.webservice.Entities.Requests.CreateCompnayRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddUserToCompanyRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostCompanyCreateRequestReplyRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostCreateCompanyRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostReplyToCompanyInvitationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyMembersRequest;
+import com.mahirsoft.webservice.Entities.Response.GeneralCompanyCreateRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
@@ -39,7 +38,7 @@ import com.mahirsoft.webservice.security.DefaultUser;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1/company")
+@RequestMapping("/api/v1/company")
 public class CompanyController {
 
     private CompanyService companyService;
@@ -55,40 +54,56 @@ public class CompanyController {
         this.userAuthenticationService = userAuthenticationService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?>  createCompany(@Valid @RequestBody CreateCompnayRequest createCompnayRequest,@AuthenticationPrincipal DefaultUser currentUser){
+    @PostMapping("/create/request")
+    public ResponseEntity<?> handleCreateCompanyRequest(@Valid @RequestBody PostCreateCompanyRequest createCompnayRequest ,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isTherePermission(currentUser, AuthorizationCodes.CREATE_COMPANY); 
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.COMPANY_CREATION_REQUEST);
 
-        var manager = userAuthenticationService.findById(createCompnayRequest.getManagerId());
-        
-        if(manager == null) throw new UserNotFoundException();
+        var response = companyService.createCompanyCreationRequest(createCompnayRequest,user);
 
-        Company newCompany = new Company();
+        if(response == null) return new ResponseEntity<ResponseMessage>(new ResponseMessage("Something went wrong! or already sent this request."), HttpStatus.BAD_REQUEST);
 
-        newCompany.setName(createCompnayRequest.getName());
-        newCompany.setManagerId(manager);
-        newCompany.setDescription(createCompnayRequest.getDescription());
-
-        var company = companyService.createCompany(newCompany);
-        if(company == null) return new ResponseEntity<String>("Something went wrong!", HttpStatusCode.valueOf(404));
-        manager.setCompanyId(newCompany);
-        var updateduser = userAuthenticationService.updateUserWithCompany(manager);
-        if(updateduser == null) return new ResponseEntity<String>("Something went wrong!", HttpStatusCode.valueOf(404));
-
-        GeneralCompanyResponse companyResponse = new GeneralCompanyResponse();
-        companyResponse.setDescription(company.getDescription());
-        companyResponse.setId(company.getCompanyId());
-        companyResponse.setName(company.getName());
-        
-        GeneralUserAuthenticationResponse generaluser = updateduser.toGeneralUserAuthenticationResponse();
-        generaluser.setCompany(company.toCompanyResponse());
-        
-        companyResponse.setManager(generaluser);
-
-
-        return new ResponseEntity<GeneralCompanyResponse>(companyResponse, HttpStatusCode.valueOf(201));
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage("Company creation request sent."),HttpStatus.OK);
     }
+
+    @GetMapping("/all/requests")
+    public ResponseEntity<?> handleGetAllCompanyCreateRequests(@AuthenticationPrincipal DefaultUser currentUser){
+
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN);
+
+        var requests = companyService.getAllCompanyCreateRequests();
+
+        if(requests == null) return new ResponseEntity<ResponseMessage>(new ResponseMessage("Something went wrong!"),HttpStatus.BAD_REQUEST);
+
+        List<GeneralCompanyCreateRequest> allRequests = new ArrayList<>();
+
+        for(var request : requests){
+            GeneralCompanyCreateRequest companyCreateRequest = new GeneralCompanyCreateRequest();
+            companyCreateRequest.setCompanyCreateRequestId(request.getCompanyCreateRequestId());
+            companyCreateRequest.setDescription(request.getDescription());
+            companyCreateRequest.setName(request.getName());
+            companyCreateRequest.setUser(request.getUserId().toGeneralUserAuthenticationResponse());
+            
+            allRequests.add(companyCreateRequest);
+
+        }
+
+        return new ResponseEntity<List<GeneralCompanyCreateRequest>>(allRequests,HttpStatus.OK);
+    }
+
+    @PostMapping("/create/request/response")
+    public ResponseEntity<?> handleCompanyCreateRequestResponse(@Valid @RequestBody PostCompanyCreateRequestReplyRequest postCompanyCreateRequestReplyRequest , @AuthenticationPrincipal DefaultUser currentUser ){
+
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN);
+
+        var response = companyService.createCompanyRequestResponse(postCompanyCreateRequestReplyRequest);
+
+        if(response == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     @PostMapping("/add/employee/{companyId}")
     public ResponseEntity<?> addEmployeeToCompany(@PathVariable long companyId,@RequestBody PostAddUserToCompanyRequest postAddUserToCompanyRequest,@AuthenticationPrincipal DefaultUser currentUser){

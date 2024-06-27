@@ -75,101 +75,105 @@ export function CompanyPage(props) {
   console.log(errors);
 
   if (!requestSuccess) {
-    return <CompanyRequest onRequestSuccess={() => setRequestSuccess(true)} />;
+    return <CompanyRequest />;
+  }
+  else{
+    return (
+      <main>
+        <h1>Company</h1>
+        <div className="company_container">
+          <div className="left_container">
+            <h1 className="company_name">
+              {authState.company !== undefined ? authState.company.name : ""}
+            </h1>
+            <h3 className="company_description">Description:</h3>
+            <p className="description">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
+              odio at provident, distinctio quos iure inventore obcaecati atque,
+              odit ea facere cumque. Sit hic cumque doloremque, nihil quod
+              adipisci suscipit! Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Illum vitae, dolorem eum suscipit neque, vel nihil
+              sunt obcaecati saepe qui fugit repellat nesciunt minus aliquam.
+              Error autem asperiores fugit facere!
+            </p>
+            <h4 className="socialmedia_company">Social Media:</h4>
+            <ul>
+              <li>
+                <a href="#" className="tw">
+                  <IoLogoLinkedin className="linkedin" />
+                </a>
+              </li>
+              <li>
+                <a href="#" className="tw">
+                  <FaInstagramSquare className="instagram" />
+                </a>
+              </li>
+              <li>
+                <a href="#" className="tw">
+                  <FaFacebook className="facebook" />
+                </a>
+              </li>
+              <li>
+                <a href="#" className="tw">
+                  <FaTwitter className="twitter" />
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="right_container">
+            {condition && (
+              <form className="user-form">
+                <h2 className="register_form_company">Register Form</h2>
+                <input
+                  placeholder="Title"
+                  className="company_input"
+                  onChange={(event) => setTitle(event.target.value)}
+                  value={title}
+                />
+                <input
+                  placeholder="Name"
+                  className="company_input"
+                  onChange={(event) => setName(event.target.value)}
+                  value={name}
+                />
+                <input
+                  placeholder="Surname"
+                  className="company_input"
+                  onChange={(event) => setSurname(event.target.value)}
+                  value={surname}
+                />
+                <input
+                  placeholder="Gsm"
+                  className="company_input"
+                  onChange={(event) => setGsm(event.target.value)}
+                  value={gsm}
+                />
+                <input
+                  placeholder="Email"
+                  className="company_input"
+                  onChange={(event) => setEmail(event.target.value)}
+                  value={email}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="company_input"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <div className="company_submit_button">
+                  <button type="submit" onClick={saveUser}>
+                    Submit
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      </main>
+    );
+
   }
 
-  return (
-    <main>
-      <h1>Company</h1>
-      <div className="company_container">
-        <div className="left_container">
-          <h1 className="company_name">
-            {authState.company !== undefined ? authState.company.name : ""}
-          </h1>
-          <h3 className="company_description">Description:</h3>
-          <p className="description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
-            odio at provident, distinctio quos iure inventore obcaecati atque,
-            odit ea facere cumque. Sit hic cumque doloremque, nihil quod
-            adipisci suscipit! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Illum vitae, dolorem eum suscipit neque, vel nihil
-            sunt obcaecati saepe qui fugit repellat nesciunt minus aliquam.
-            Error autem asperiores fugit facere!
-          </p>
-          <h4 className="socialmedia_company">Social Media:</h4>
-          <ul>
-            <li>
-              <a href="#" className="tw">
-                <IoLogoLinkedin className="linkedin" />
-              </a>
-            </li>
-            <li>
-              <a href="#" className="tw">
-                <FaInstagramSquare className="instagram" />
-              </a>
-            </li>
-            <li>
-              <a href="#" className="tw">
-                <FaFacebook className="facebook" />
-              </a>
-            </li>
-            <li>
-              <a href="#" className="tw">
-                <FaTwitter className="twitter" />
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="right_container">
-          {condition && (
-            <form className="user-form">
-              <h2 className="register_form_company">Register Form</h2>
-              <input
-                placeholder="Title"
-                className="company_input"
-                onChange={(event) => setTitle(event.target.value)}
-                value={title}
-              />
-              <input
-                placeholder="Name"
-                className="company_input"
-                onChange={(event) => setName(event.target.value)}
-                value={name}
-              />
-              <input
-                placeholder="Surname"
-                className="company_input"
-                onChange={(event) => setSurname(event.target.value)}
-                value={surname}
-              />
-              <input
-                placeholder="Gsm"
-                className="company_input"
-                onChange={(event) => setGsm(event.target.value)}
-                value={gsm}
-              />
-              <input
-                placeholder="Email"
-                className="company_input"
-                onChange={(event) => setEmail(event.target.value)}
-                value={email}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                className="company_input"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-              <div className="company_submit_button">
-                <button type="submit" onClick={saveUser}>
-                  Submit
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-      </div>
-    </main>
-  );
+  
 }
