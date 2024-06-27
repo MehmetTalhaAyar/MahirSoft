@@ -7,7 +7,7 @@ import defaultProfileImage from "/src/assets/profileImage.jpg";
 import { FaRegEdit } from "react-icons/fa";
 import ProjectDetailsDescription from "./projectDetailsDescription";
 import { projectDetails, updateProjectName } from "./api";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../../state/context";
 
 export default function ProjectDetails() {
@@ -21,9 +21,7 @@ export default function ProjectDetails() {
   const location = useLocation();
   const authState = useAuthState();
 
-
   useEffect(() => {
-
     getProjectDetails();
   }, []);
 
@@ -97,25 +95,40 @@ export default function ProjectDetails() {
                 className="manager_image_details"
                 alt="Manager"
               />
-              <h2 className="project_leader_name">
-                {project !== undefined
-                  ? project.projectLead.fullName
-                  : "Leader"}
-              </h2>
+              <div className="manager_label">
+                <label>Project Manager </label>
+                <h2>
+                  {project !== undefined
+                    ? project.projectLead.fullName
+                    : "Leader"}
+                </h2>
+              </div>
             </div>
-            {authState.company !== null && authState.company ? <ProjectMembersDetails
-              members={project !== undefined ? project.projectMembers : []}
-              setIsModalOpen={setIsModalOpen}
-              projectId ={location.state.projectId}
-            /> : <></>}
+            {authState.company !== null && authState.company ? (
+              <ProjectMembersDetails
+                members={project !== undefined ? project.projectMembers : []}
+                setIsModalOpen={setIsModalOpen}
+                projectId={location.state.projectId}
+              />
+            ) : (
+              <></>
+            )}
           </div>
-          {authState.company !== null && authState.company ?<ProjectStagesDetails
-            projectId={location.state.projectId}
-            stages={project !== undefined ? project.projectStages : []}
-            totalTaskCount={project !== undefined ? project.taskCounts : {}}
-          /> : <h1></h1>}
+          {authState.company !== null && authState.company ? (
+            <ProjectStagesDetails
+              projectId={location.state.projectId}
+              stages={project !== undefined ? project.projectStages : []}
+              totalTaskCount={project !== undefined ? project.taskCounts : {}}
+            />
+          ) : (
+            <h1></h1>
+          )}
         </div>
-        {authState.company !== null && authState.company !==undefined ? <Yetki isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> : <></> }
+        {authState.company !== null && authState.company !== undefined ? (
+          <Yetki isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        ) : (
+          <></>
+        )}
       </div>
     </main>
   );

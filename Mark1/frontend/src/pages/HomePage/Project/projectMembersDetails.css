@@ -1,3 +1,12 @@
+.project_member {
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px;
+  width: 100%;
+  background-color: white;
+  margin-top: 10px;
+}
+
 .project_member_container {
   display: flex;
   flex-direction: column;
@@ -9,6 +18,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  font-family: cursive;
 }
 .member_icon {
   font-size: 22px;
@@ -26,32 +36,25 @@
 }
 .add_members {
   width: 50%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .add_members_container button {
   background-color: #007bff;
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 8px 16px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
+  font-family: cursive;
 }
 .add_members_container button:hover {
   background-color: #006cde;
   transition: 0.3s;
 }
 
-.project_member {
-  display: flex;
-  flex-direction: column;
-
-  padding-right: 10px;
-  width: 100%;
-  overflow: hidden;
-  background-color: white;
-}
-
 .table-container {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   overflow-y: scroll;
 }
 .table-container::-webkit-scrollbar {
@@ -70,7 +73,7 @@ td {
 }
 
 th {
-  background-color: #e4e4e4;
+  background-color: #c6c6c6;
 }
 
 tr:nth-child(even) {

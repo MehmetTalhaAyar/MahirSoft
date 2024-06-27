@@ -54,7 +54,11 @@
 }
 
 .activity_container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   width: 50%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 .comment_container {
@@ -65,6 +69,7 @@
   font-size: 18px;
   padding-left: 15px;
   gap: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 .comments_title {
   border-bottom: 1px solid black;
@@ -133,7 +138,6 @@
 .show_comment {
   padding: 5px 10px;
   display: flex;
-
   align-items: start;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -149,6 +153,7 @@
 }
 .show {
   font-size: 12px;
+  color: rgb(87, 87, 87);
 }
 .author_title {
   display: flex;
@@ -159,10 +164,14 @@
   display: flex;
   align-items: end;
 }
+.send_time h4 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 .time {
   font-size: 12px;
   margin-left: 15px;
   color: #666666;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 .clickable_icon {
   align-items: center;
@@ -234,8 +243,8 @@
 .task_name {
   width: 50%;
   margin-bottom: 15px;
-  font-weight: 700;
   font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .name_container {
   display: flex;
@@ -246,12 +255,15 @@
 }
 .assignee_title {
   margin-bottom: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 .assignee_select_box {
   width: 80%;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 .reporter_title {
   margin-bottom: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 .task_button_container {
   display: flex;
@@ -265,7 +277,7 @@
   color: white;
 
   text-align: center;
-  padding: 7px;
+  padding: 8px 10px;
   cursor: pointer;
   background-color: #007bff;
   border: none;
@@ -290,9 +302,7 @@
 .task_created {
   margin-bottom: 5px;
   color: #707070;
-}
-.task_updated {
-  color: #707070;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 /* Date Picker Container */
@@ -305,6 +315,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .date_picker:focus {
   box-shadow: 0 0 2px 1px rgb(0, 89, 255);

@@ -115,7 +115,7 @@ export default function ProjectStagesDetails({
       <div className="project_stage_container">
         <div className="stages_container">
           <FaList />
-          <h1 className="project_stage_title">Project Stages</h1>
+          <h1>Project Stages</h1>
         </div>
         <span onClick={handleNewStage} className="add_stages">
           <IoMdAdd />
@@ -168,7 +168,8 @@ export default function ProjectStagesDetails({
                 )}
                 {editStage === index ? (
                   <span onClick={handleCancelUpdate} className="remove">
-                    
+                    {" "}
+                    <AiOutlineClose />
                   </span>
                 ) : (
                   <MdDelete

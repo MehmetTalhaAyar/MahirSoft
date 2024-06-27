@@ -54,11 +54,11 @@ export default function Description(props) {
             {isEditing ? (
               ""
             ) : (
-              <h4 className="edit">
+              <p className="edit">
                 {" "}
                 <FaRegEdit />
                 Edit
-              </h4>
+              </p>
             )}
           </span>
         </div>
@@ -72,7 +72,9 @@ export default function Description(props) {
             onChange={(event) => setEditedTaskDescription(event.target.value)}
           />
         ) : (
-          <div className="save_description"> • {taskDescription}</div>
+          <div className="save_description">
+            <pre>{taskDescription}</pre>
+          </div>
         )}
         {isEditing && (
           <span className="save_cancel">

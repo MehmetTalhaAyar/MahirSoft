@@ -343,7 +343,7 @@ export function TaskPage() {
         <div className="alt_container">
           <div className="left_container">
             <Description description={taskDescription} />
-            <div className="activity">
+            <div className="activity_container">
               <AiOutlineAlignLeft />
               <h4>Activity</h4>
             </div>

@@ -5,14 +5,26 @@ import { MdDelete } from "react-icons/md";
 import { IoIosWarning } from "react-icons/io";
 import AsyncSelect from "react-select/async";
 import WarningModal from "./WarningModal";
-import { AddingANewMember, getAvaibleMembers, getCompanyMembers, removeMember } from "./api";
+import {
+  AddingANewMember,
+  getAvaibleMembers,
+  getCompanyMembers,
+  removeMember,
+} from "./api";
 
-export default function ProjectMembersDetails({projectId, members, setIsModalOpen }) {
+export default function ProjectMembersDetails({
+  projectId,
+  members,
+  setIsModalOpen,
+}) {
   const [memberNames, setMemberNames] = useState([]);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
-  const [newMember,SetNewMember] = useState({value: -2,label:"Enter a email address"});
-  const [options,setOptions] = useState({});
+  const [newMember, SetNewMember] = useState({
+    value: -2,
+    label: "Enter a email adress",
+  });
+  const [options, setOptions] = useState({});
 
   useEffect(() => {
     if (members.length > 0) {
@@ -25,27 +37,19 @@ export default function ProjectMembersDetails({projectId, members, setIsModalOpe
     setShowConfirmModal(true);
   };
 
-  const handleConfirmDelete = async() => {
-     
-    
-    if(deleteIndex ?? true){
-
+  const handleConfirmDelete = async () => {
+    if (deleteIndex ?? true) {
       const response = await removeMember({
         projectId: projectId,
-        email : memberNames[deleteIndex].email
-      })
+        email: memberNames[deleteIndex].email,
+      });
 
-
-      if(response.status === 200){
-
+      if (response.status === 200) {
         setMemberNames(response.data.members);
-        
       }
     }
-    
-    
+
     setShowConfirmModal(false);
-    
   };
 
   const handleCancelDelete = () => {
@@ -61,39 +65,32 @@ export default function ProjectMembersDetails({projectId, members, setIsModalOpe
     });
   };
 
-  const addNewMember = async() =>{
-    
-    if(newMember.label ?? true){
-
+  const addNewMember = async () => {
+    if (newMember.label ?? true) {
       const response = await AddingANewMember({
-        projectId:projectId,
-        email:newMember.label
-      })
+        projectId: projectId,
+        email: newMember.label,
+      });
 
-      if(response.status === 200){
-
+      if (response.status === 200) {
         setMemberNames(response.data.members);
-        
 
         // notification yolla
-
       }
     }
-    
+
     SetNewMember(null);
-
-  }
-
+  };
 
   const handleNewMemberChange = (selectedMember) => {
     console.log(selectedMember);
     SetNewMember(selectedMember);
-  }
+  };
 
   const promiseOptions = async (inputValue) => {
     const response = await getAvaibleMembers({
-      searchKey : inputValue,
-      projectId : projectId
+      searchKey: inputValue,
+      projectId: projectId,
     });
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -107,20 +104,19 @@ export default function ProjectMembersDetails({projectId, members, setIsModalOpe
       <div className="project_member_container">
         <div className="project_member_icon">
           <FaUsers className="member_icon" />
-          <h1 className="project_member_title">Project Members</h1>
+          <h1>Project Members</h1>
         </div>
         <div className="yetki_and_members">
           <div className="add_members_container">
             <AsyncSelect
               className="add_members "
-              placeholder="Members"
               cacheOptions
               defaultOptions={options}
               value={newMember}
               onChange={handleNewMemberChange}
               loadOptions={promiseOptions}
             />
-            
+
             <button onClick={addNewMember}>Add Members</button>
           </div>
           <span className="yetki_button" onClick={() => setIsModalOpen(true)}>

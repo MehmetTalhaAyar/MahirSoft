@@ -1,10 +1,10 @@
 .project_details_container {
   padding: 15px 15px;
   background-color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Arial", sans-serif;
   box-shadow: 2px 2px 5px 3px #e3e3e3;
   border-radius: 10px;
-  font-family: "Roboto", sans-serif;
+  padding-bottom: 70px;
 }
 .project_details {
   display: flex;
@@ -13,16 +13,18 @@
   border-radius: 5px;
   padding-left: 5px;
   width: 54%;
-
   overflow-x: auto;
 }
 .project_details span {
   font-size: 32px;
   padding: 5px;
   font-weight: 700;
+  color: rgb(95, 95, 95);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .edit_projectName {
   cursor: pointer;
+  font-family: "Arial", sans-serif;
 }
 .edit_projectName:hover {
   color: rgb(194, 184, 1);
@@ -34,13 +36,22 @@
 
 .project_lider {
   margin-top: 10px;
-  margin-bottom: 5px;
-
   display: flex;
   align-items: center;
   gap: 10px;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
+  padding: 10px 5px;
 }
 
+.manager_label label {
+  font-size: 12px;
+  color: gray;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.manager_label h2 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 .manager_image_details {
   width: 40px;
   height: 40px;
@@ -58,17 +69,18 @@
   flex-direction: column;
   border-right: 1px solid gray;
   width: 55%;
-  height: 500px;
 }
 
 .change_ProjectName {
   width: 100%;
   padding: 5px;
+  color: rgb(95, 95, 95);
   font-size: 32px;
   font-weight: 600;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .change_ProjectName:focus {
