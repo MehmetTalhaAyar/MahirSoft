@@ -27,12 +27,15 @@ import com.mahirsoft.webservice.Entities.Requests.CreateCompanyMemberRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddUserToCompanyRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCompanyCreateRequestReplyRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateCompanyRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostGrantUserRoleRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostReplyToCompanyInvitationRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyMembersRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyRolesRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyCreateRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserRoleResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
 import jakarta.validation.Valid;
@@ -205,6 +208,41 @@ public class CompanyController {
         GeneralUserAuthenticationResponse generalUser = newCreatedUser.toGeneralUserAuthenticationResponse();
 
         return new ResponseEntity<GeneralUserAuthenticationResponse>(generalUser,HttpStatusCode.valueOf(201));
+    }
+
+    @PostMapping("/roles")
+    public ResponseEntity<?> getCompanyRoles(@RequestBody PostSearchCompanyRolesRequest postSearchCompanyRolesRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION);
+
+        var userRoleList = companyService.getCompanyRoles(postSearchCompanyRolesRequest,user);
+
+        if(userRoleList == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        List<GeneralUserRoleResponse> generalUserRoles = new ArrayList<>();
+        for(var userRole : userRoleList){
+            GeneralUserRoleResponse generalUserRoleResponse = new GeneralUserRoleResponse();
+            generalUserRoleResponse.setName(userRole.getName());
+            generalUserRoleResponse.setUserRoleId(userRole.getUserRoleId());
+
+            generalUserRoles.add(generalUserRoleResponse);
+        }
+
+        return new ResponseEntity<List<GeneralUserRoleResponse>>(generalUserRoles,HttpStatus.OK);
+    }
+
+    @PostMapping("/grant/role")
+    public ResponseEntity<?> handleGrantUserRole(@Valid @RequestBody PostGrantUserRoleRequest postGrantUserRoleRequest, @AuthenticationPrincipal DefaultUser currentUser){
+
+        var user = permissionService.isThereAnyOfThesePermissions(currentUser, List.of(AuthorizationCodes.GRANTING_PERMISSIONS,AuthorizationCodes.GRANTING_OWN_PERMISSIONS));
+
+        var userRole = companyService.grantUserRole(postGrantUserRoleRequest,user);
+
+        if(userRole == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        GeneralUserRoleResponse generalUserRoleResponse = userRole.toGeneralUserRoleResponse();
+
+        return new ResponseEntity<GeneralUserRoleResponse>(generalUserRoleResponse,HttpStatus.OK);
     }
 
 

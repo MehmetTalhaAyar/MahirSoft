@@ -154,6 +154,7 @@ public class UserAuthentication {
         generalUser.setImage(image);
         if(companyId != null)
             generalUser.setCompany(companyId.toCompanyResponse());
+        generalUser.setRoleName(userRoleId.getName());
         
         return generalUser;
     }

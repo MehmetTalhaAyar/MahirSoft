@@ -7,37 +7,37 @@ import { updateDescription } from "../../TaskPage/api";
 import { updateProjectDescription } from "./api";
 
 export default function ProjectDetailsDescription(props) {
-  const {descriptionArrived} = props;
+  const { descriptionArrived } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(descriptionArrived);
-  const [originalDescription, setOriginalDescription] = useState(descriptionArrived);
+  const [originalDescription, setOriginalDescription] =
+    useState(descriptionArrived);
   const location = useLocation();
-  const [project,setProject] = useState({});
+  const [project, setProject] = useState({});
 
   // Set the original description when component mounts
   useEffect(() => {
     setOriginalDescription(description);
-    
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setOriginalDescription(descriptionArrived);
-  },[descriptionArrived])
+  }, [descriptionArrived]);
 
   const handleEditClick = () => {
     setIsEditing(true);
     setDescription(originalDescription);
   };
 
-  const handleSaveClick = async() => {
+  const handleSaveClick = async () => {
     setIsEditing(false);
 
-    const response = await updateProjectDescription(location.state.projectId,{description :description});
-    if(response.status === 200){
-      
+    const response = await updateProjectDescription(location.state.projectId, {
+      description: description,
+    });
+    if (response.status === 200) {
       setOriginalDescription(response.data.description); // Update original description after save
     }
-
   };
 
   const handleCancelClick = () => {
@@ -64,10 +64,10 @@ export default function ProjectDetailsDescription(props) {
             </div>
           ) : (
             <span onClick={handleEditClick}>
-              <h4 className="edit">
+              <p className="edit">
                 <FaRegEdit />
                 Edit
-              </h4>
+              </p>
             </span>
           )}
         </div>
@@ -79,7 +79,9 @@ export default function ProjectDetailsDescription(props) {
           onChange={(e) => setDescription(e.target.value)}
         />
       ) : (
-        <p>{originalDescription}</p>
+        <p className="original_description">
+          <pre>{originalDescription}</pre>
+        </p>
       )}
     </div>
   );

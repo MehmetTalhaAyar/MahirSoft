@@ -66,7 +66,7 @@ public class PermissionService {
 
     public UserAuthentication isInThisProjectFindByStageId(DefaultUser currentUser,long stageId,int authorizationCode ){
 
-        var stage = stageRepository.findById(stageId);
+        var stage = stageRepository.findByStageIdAndDeletionStateCodeNot(stageId,1);
 
         if(stage == null) throw new PermissionDeniedException(); // buraya uygun bir exception yazılacak
 

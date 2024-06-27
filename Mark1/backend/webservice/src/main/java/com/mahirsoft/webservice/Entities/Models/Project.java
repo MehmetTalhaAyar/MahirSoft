@@ -97,6 +97,7 @@ public class Project {
             user.setUserId(currentUser.getUserId());
             user.setTitle(currentUser.getTitle());
             user.setImage(currentUser.getImage());
+            user.setRoleName(currentUser.getUserRoleId().getName());
 
             members.add(user);
 

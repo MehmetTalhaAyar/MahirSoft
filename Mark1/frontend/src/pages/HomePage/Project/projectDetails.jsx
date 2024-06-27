@@ -7,8 +7,9 @@ import defaultProfileImage from "/src/assets/profileImage.jpg";
 import { FaRegEdit } from "react-icons/fa";
 import ProjectDetailsDescription from "./projectDetailsDescription";
 import { projectDetails, updateProjectName } from "./api";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuthState } from "../../../state/context";
+import toast from "react-hot-toast";
 
 export default function ProjectDetails() {
   const [editProjectName, setEditProjectName] = useState(false);
@@ -21,9 +22,7 @@ export default function ProjectDetails() {
   const location = useLocation();
   const authState = useAuthState();
 
-
   useEffect(() => {
-
     getProjectDetails();
   }, []);
 
@@ -36,6 +35,9 @@ export default function ProjectDetails() {
       setProjectName(response.data.name);
       setProjectDescription(response.data.description);
       setProject(response.data);
+    }
+    else {
+      toast.error("Somethin went wrong!")
     }
   });
 

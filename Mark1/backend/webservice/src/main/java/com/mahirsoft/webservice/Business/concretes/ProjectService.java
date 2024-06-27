@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.mahirsoft.webservice.DataAccess.ProjectRepository;
 import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.DataAccess.StageRepository;
+import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
@@ -24,7 +25,6 @@ import com.mahirsoft.webservice.Entities.Requests.PutProjectNameRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectTaskCount;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 
 @Service
@@ -38,15 +38,21 @@ public class ProjectService {
 
     private ProjectUserRepository projectUserRepository;
 
+    private TaskRepository taskRepository;
+
   
 
 
+    
+
     public ProjectService(ProjectRepository projectRepository, StageRepository stageRepository,
-            UserAuthenticationRepository userAuthenticationRepository, ProjectUserRepository projectUserRepository) {
+            UserAuthenticationRepository userAuthenticationRepository, ProjectUserRepository projectUserRepository,
+            TaskRepository taskRepository) {
         this.projectRepository = projectRepository;
         this.stageRepository = stageRepository;
         this.userAuthenticationRepository = userAuthenticationRepository;
         this.projectUserRepository = projectUserRepository;
+        this.taskRepository = taskRepository;
     }
 
     public void createProject(CreateProjectRequest createProjectRequest){
@@ -69,6 +75,8 @@ public class ProjectService {
         if (project == null){
             return null;
         }
+        var stages = stageRepository.findByProjectIdAndDeletionStateCodeNotOrderBySequenceAsc(project,1);
+        project.setStages(stages);
         return project;
     }
 
@@ -83,9 +91,23 @@ public class ProjectService {
     public GetProjectTaskCount getTaskCounts(Project project) {
 
         GetProjectTaskCount taskCount = new GetProjectTaskCount();
-        taskCount.setFailedTask(stageRepository.countByProjectIdAndName(project, "Failed"));
-        taskCount.setFinishedTask(stageRepository.countByProjectIdAndName(project, "Finished"));
-        taskCount.setTotalTaskCount(stageRepository.countByProjectId(project));
+
+        var failedStage = stageRepository.findByProjectIdAndName(project, "Failed");
+
+        var finishedStage = stageRepository.findByProjectIdAndName(project, "Finished");
+        
+        if(failedStage != null)
+            taskCount.setFailedTask(taskRepository.countByStageId(failedStage));
+
+        if(finishedStage != null) 
+            taskCount.setFinishedTask(taskRepository.countByStageId(finishedStage));
+
+        int stagesTaskCount = 0;
+        for(var eleman :project.getStages()){
+            stagesTaskCount += taskRepository.countByStageId(eleman);
+        }
+
+        taskCount.setTotalTaskCount(stagesTaskCount);
 
 
         return taskCount;

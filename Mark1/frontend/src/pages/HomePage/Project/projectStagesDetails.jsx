@@ -8,8 +8,9 @@ import { IoIosWarning } from "react-icons/io";
 import { RiEdit2Fill } from "react-icons/ri";
 
 import "./projectStagesDetails.css";
-import { createStage, updateStage } from "./api";
+import { createStage, deleteStage, handleUpdateSequence, updateStage } from "./api";
 import WarningModal from "./WarningModal";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
 export default function ProjectStagesDetails({
   stages,
@@ -31,8 +32,8 @@ export default function ProjectStagesDetails({
       const response = await createStage(projectId, { name: stageName });
 
       if (response.status === 201) {
-        console.log(response.data);
-        setStagesName([{ name: stageName }, ...stagesName]);
+
+        setStagesName([...stagesName,response.data]);
         setStageName("");
       }
 
@@ -42,8 +43,8 @@ export default function ProjectStagesDetails({
 
   useEffect(() => {
     setTotalTasks(totalTaskCount);
-    console.log(totalTasks);
   }, [totalTaskCount]);
+
 
   const handleNewStage = () => {
     setNewStage(true);
@@ -62,13 +63,20 @@ export default function ProjectStagesDetails({
   };
 
   const handleDelete = (index) => {
+
     setShowConfirmModal(true);
     setDeleteIndex(index);
     setConfirmAction("delete");
   };
 
-  const handleConfirmDelete = () => {
-    setStagesName(stagesName.filter((_, i) => i !== deleteIndex));
+  const handleConfirmDelete = async () => {
+    const response = await deleteStage(stagesName[deleteIndex].id);
+
+    if(response.status === 200){
+
+      setStagesName(stagesName.filter((_, i) => i !== deleteIndex));
+
+    }
     setShowConfirmModal(false);
     setDeleteIndex(null);
     setEditStage(null);
@@ -106,6 +114,51 @@ export default function ProjectStagesDetails({
     setShowConfirmModal(false);
   };
 
+  const handleUpButton = async (index) => {
+    
+    const newStages = [...stagesName];
+
+    const response = await handleUpdateSequence({
+      stageGoingUp: newStages[index].id, 
+      stageGoingDown: newStages[index-1].id
+    })
+
+    if(response.status === 200){
+
+      console.log(response.data)
+      
+      newStages[index] = response.data.newDown //down 
+      newStages[index-1] = response.data.newUp; // up
+
+      setStagesName(newStages);
+
+
+    }
+    
+    
+  }
+
+  const handleDownButton = async (index) => {
+
+    const newStages = [...stagesName];
+
+    const response = await handleUpdateSequence({
+      stageGoingUp: newStages[index+1].id, 
+      stageGoingDown: newStages[index].id
+    });
+
+    if(response.status === 200){
+
+      newStages[index] = response.data.newUp;
+      newStages[index+1] = response.data.newDown;
+      setStagesName(newStages);
+
+    }
+
+    
+
+  }
+
   useEffect(() => {
     setStagesName(stages);
   }, [stages]);
@@ -115,7 +168,7 @@ export default function ProjectStagesDetails({
       <div className="project_stage_container">
         <div className="stages_container">
           <FaList />
-          <h1 className="project_stage_title">Project Stages</h1>
+          <h1>Project Stages</h1>
         </div>
         <span onClick={handleNewStage} className="add_stages">
           <IoMdAdd />
@@ -155,7 +208,15 @@ export default function ProjectStagesDetails({
               ) : (
                 <span className="stage_name">{item.name}</span>
               )}
-              <div className="update_remove">
+              
+              <div className="last-buttons">
+                <div className="up-down-buttons">
+                  {index !== 0 ? <span onClick={() => handleUpButton(index)} className="button-up-down"><FaCaretUp /></span> : <></>} 
+                  {index !== stagesName.length -1 ? <span onClick={() => handleDownButton(index)} className="button-up-down"> <FaCaretDown /></span> : <></>}
+                  
+                </div>
+                <div className="update_remove">
+              
                 {editStage === index ? (
                   <span onClick={handleSaveEdit} className="check">
                     <FaCheck />
@@ -168,7 +229,8 @@ export default function ProjectStagesDetails({
                 )}
                 {editStage === index ? (
                   <span onClick={handleCancelUpdate} className="remove">
-                    
+                    {" "}
+                    <AiOutlineClose />
                   </span>
                 ) : (
                   <MdDelete
@@ -177,6 +239,8 @@ export default function ProjectStagesDetails({
                   />
                 )}
               </div>
+              </div>
+              
             </li>
           ))}
         </ul>

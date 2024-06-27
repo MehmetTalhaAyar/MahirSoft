@@ -9,6 +9,9 @@ main {
   height: 630px;
   padding-bottom: 50px;
 }
+.profil_title span {
+  font-family: cursive;
+}
 .profile_header {
   display: flex;
   width: 40%;

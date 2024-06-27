@@ -21,7 +21,7 @@ public class TaskAndStageService {
 
     public Task updateTaskStage(UpdateTaskStageRequest updateTaskStageRequest) {
         
-        var stage = stageRepository.findById(updateTaskStageRequest.getStageId());
+        var stage = stageRepository.findByStageIdAndDeletionStateCodeNot(updateTaskStageRequest.getStageId(),1);
 
         if(stage == null) return null;
 

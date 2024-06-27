@@ -21,6 +21,8 @@ public class GeneralUserAuthenticationResponse {
 
     private String image;
 
+    private String roleName;
+
     public long getUserId() {
         return userId;
     }
@@ -91,5 +93,13 @@ public class GeneralUserAuthenticationResponse {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

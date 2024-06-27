@@ -4,13 +4,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
+import com.mahirsoft.webservice.DataAccess.AuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.CompanyCreateRequestRepository;
 import com.mahirsoft.webservice.DataAccess.CompanyInvitationRepository;
 import com.mahirsoft.webservice.DataAccess.CompanyRepository;
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRoleAuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
+import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserAlreadyInTheCompanyException;
+import com.mahirsoft.webservice.Entities.Models.Authorization;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.CompanyCreateRequest;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation;
@@ -21,7 +26,9 @@ import com.mahirsoft.webservice.Entities.Models.CompanyInvitation.CompanyInvitat
 import com.mahirsoft.webservice.Entities.Requests.PostAddUserToCompanyRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCompanyCreateRequestReplyRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateCompanyRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostGrantUserRoleRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostReplyToCompanyInvitationRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyRolesRequest;
 
 import jakarta.validation.Valid;
 
@@ -38,20 +45,31 @@ public class CompanyService {
 
     UserRoleRepository userRoleRepository;
 
+    UserRoleAuthorizationRepository userRoleAuthorizationRepository;
+
+    AuthorizationRepository authorizationRepository;
+
 
 
 
     
 
 
+
+   
+
     public CompanyService(CompanyRepository companyRepository, CompanyInvitationRepository companyInvitationRepository,
             UserAuthenticationRepository userAuthenticationRepository,
-            CompanyCreateRequestRepository companyCreateRequestRepository, UserRoleRepository userRoleRepository) {
+            CompanyCreateRequestRepository companyCreateRequestRepository, UserRoleRepository userRoleRepository,
+            UserRoleAuthorizationRepository userRoleAuthorizationRepository,
+            AuthorizationRepository authorizationRepository) {
         this.companyRepository = companyRepository;
         this.companyInvitationRepository = companyInvitationRepository;
         this.userAuthenticationRepository = userAuthenticationRepository;
         this.companyCreateRequestRepository = companyCreateRequestRepository;
         this.userRoleRepository = userRoleRepository;
+        this.userRoleAuthorizationRepository = userRoleAuthorizationRepository;
+        this.authorizationRepository = authorizationRepository;
     }
 
 
@@ -167,5 +185,62 @@ public class CompanyService {
 
         return companyCreateRequestRepository.save(companyRequest);
 
+    }
+
+
+    public List<UserRole> getCompanyRoles(PostSearchCompanyRolesRequest postSearchCompanyRolesRequest, UserAuthentication user) {
+        
+
+        if(postSearchCompanyRolesRequest.getSearchKey().trim().isBlank()){
+            return userRoleRepository.findFirst3ByCompanyIdAndName(user.getCompanyId(), postSearchCompanyRolesRequest.getSearchKey());
+
+        }
+        else{
+            return userRoleRepository.findFirst3ByCompanyId(user.getCompanyId());
+        }
+    }
+
+
+    public UserRole grantUserRole(@Valid PostGrantUserRoleRequest postGrantUserRoleRequest, UserAuthentication user) {
+
+        Authorization authorization = authorizationRepository.findById(Integer.valueOf(AuthorizationCodes.GRANTING_PERMISSIONS).longValue()).orElseThrow(()-> new ResourceNotFoundException());
+
+        boolean permission = userRoleAuthorizationRepository.existsByAuthorizationIdAndUserRoleId(authorization, user.getUserRoleId());
+        
+        if(permission){
+            var userRole = userRoleRepository.findById(postGrantUserRoleRequest.getUserRoleId());
+
+            if(userRole == null) return null;
+
+            var updateUser = userAuthenticationRepository.findById(postGrantUserRoleRequest.getUserId());
+
+            if(updateUser == null) return null;
+
+            updateUser.setUserRoleId(userRole);
+
+            userAuthenticationRepository.save(updateUser);
+
+            return userRole;
+
+        }else{
+            if(postGrantUserRoleRequest.getUserRoleId() == user.getUserRoleId().getUserRoleId()){
+                var updateUser = userAuthenticationRepository.findById(postGrantUserRoleRequest.getUserId());
+
+                if(updateUser == null) return null;
+
+                updateUser.setUserRoleId(user.getUserRoleId());
+
+                userAuthenticationRepository.save(updateUser);
+
+                return user.getUserRoleId();
+
+            }
+            else{
+                throw new PermissionDeniedException();
+            }
+
+        }
+
+        
     }
 }

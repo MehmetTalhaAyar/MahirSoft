@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import defaultProfileImage from "../../../assets/profileImage.jpg";
 import WarningModal from "./WarningModal"; // Import the WarningModal component
 import { useAuthState } from "../../../state/context";
+import toast from "react-hot-toast";
 
 function Project() {
   const [projectFormOpen, setProjectFormOpen] = useState(false);
@@ -132,6 +133,8 @@ function Project() {
         const newDropdownStates = [...dropdownStates, false];
         setProjectCards(newProjectCards);
         setDropdownStates(newDropdownStates);
+        
+        toast.success("Project Created!");
       }
     } catch (error) {
       setTitleError("Project title size must be between 2 and 32 characters!");

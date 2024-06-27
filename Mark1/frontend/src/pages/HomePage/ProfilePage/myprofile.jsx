@@ -21,13 +21,11 @@ function MyProfile() {
     setCurrentPage(page);
   };
 
-  useEffect(()=>{
-
-    if(authState.image !== null && authState !== undefined){
-
+  useEffect(() => {
+    if (authState.image !== null && authState !== undefined) {
       setProfileImage(authState.image);
     }
-  },[authState])
+  }, [authState]);
 
   //Change Profile Function
   const handleProfileImage = (newImage) => {
@@ -37,9 +35,9 @@ function MyProfile() {
   return (
     <main>
       <h1>Profile</h1>
-      <div>
+      <div className="profil_title">
         <span>Home </span>
-        <span>/ Profile</span>
+        <span>| My Profile</span>
       </div>
       <section className="section">
         <div className="profile_card">

@@ -16,7 +16,9 @@ export function CompanyPage(props) {
   const [errors, setErrors] = useState({});
   const [condition, setCondition] = useState(false);
   const authState = useAuthState();
-  const [requestSuccess, setRequestSuccess] = useState(authState.company !== null && authState.company !== undefined ? true : false);
+  const [requestSuccess, setRequestSuccess] = useState(
+    authState.company !== null && authState.company !== undefined ? true : false
+  );
 
   const saveUser = async (event) => {
     event.preventDefault();

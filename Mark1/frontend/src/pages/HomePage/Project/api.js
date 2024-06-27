@@ -60,3 +60,19 @@ export function AddingANewMember(body){
 export function removeMember(body){
     return http.post("/api/v1/projects/delete",body);
 }
+
+export function getAvaibleRoles(body){
+    return http.post("/api/v1/company/roles",body);
+}
+
+export function handleGrantRole(body){
+    return http.post("/api/v1/company/grant/role",body);
+}
+
+export function handleUpdateSequence(body){
+    return http.put("/api/v1/stage/update/sequence",body);
+}
+
+export function deleteStage(stageId){
+    return http.delete(`/api/v1/stage/delete/${stageId}`)
+}
