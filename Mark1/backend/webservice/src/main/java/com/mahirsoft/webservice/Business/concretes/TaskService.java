@@ -8,6 +8,7 @@ import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.Entities.Models.Task;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUpdateTaskDescriptionRequest;
+import com.mahirsoft.webservice.Entities.Requests.PutUpdateTaskNameRequest;
 
 import jakarta.validation.Valid;
 
@@ -84,6 +85,18 @@ public class TaskService {
         if(task == null) return null;
         task.setTaskDescription(postUpdateTaskDescriptionRequest.getDescription());
         
+        return taskRepository.save(task);
+    }
+
+
+    public Task updateTaskName(@Valid PutUpdateTaskNameRequest putUpdateTaskNameRequest) {
+        
+        var task = taskRepository.findById(putUpdateTaskNameRequest.getTaskId());
+
+        if(task == null) return null;
+
+        task.setTaskName(putUpdateTaskNameRequest.getName());
+
         return taskRepository.save(task);
     }
 

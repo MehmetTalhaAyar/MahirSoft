@@ -12,7 +12,6 @@ import com.mahirsoft.webservice.DataAccess.StageRepository;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
-import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.ProjectUser;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;

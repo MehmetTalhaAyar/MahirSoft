@@ -20,10 +20,13 @@ public class StaticResourceConfiguration implements WebMvcConfigurer {
 
     private MahirsoftProperties mahirsoftProperties;
 
+    
+
     public StaticResourceConfiguration(MahirsoftProperties mahirsoftProperties) {
         this.mahirsoftProperties = mahirsoftProperties;
     }
-    
+
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -37,6 +40,8 @@ public class StaticResourceConfiguration implements WebMvcConfigurer {
         // TODO Auto-generated method stub
         WebMvcConfigurer.super.addResourceHandlers(registry);
     }
+
+    
 
     
     

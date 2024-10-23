@@ -17,6 +17,7 @@ import {
   updateComment,
   updateLikeCount,
   deleteComment,
+  updateTaskName,
   // updateTaskName, // Create a API updateTaskName for changing name in backend
 } from "./api";
 import { MONTHS } from "../../Constants/Constants";
@@ -59,6 +60,7 @@ export function TaskPage() {
   const [selectedReporter, setSelectedReporter] = useState();
   const [isShow, setIsShow] = useState(false);
   const [saveChanges, setSaveChanges] = useState(false);
+  const [task,setTask] = useState({});
 
   useEffect(() => {
     if (authState.userId > 0) {
@@ -78,8 +80,10 @@ export function TaskPage() {
     const response = await getTaskInfo(location.state.id);
 
     if (response.status == 200) {
+      setTask(response.data)
       setStage(response.data.stage.name);
       setTaskReporter(response.data.reportsTo);
+      setTaskName(response.data.taskName);
 
       setTaskDescription(response.data.taskDescripton);
 
@@ -308,9 +312,9 @@ export function TaskPage() {
   const handleSaveTaskName = async () => {
     setEditTaskName(false);
 
-    // Mehmet bu kod taskName değiştirmeyebilir, bir daha bak !!!
-    const response = await updateTaskName(location.state.id, {
-      name: taskName,
+    const response = await updateTaskName( {
+      taskId : task.taskId,
+      name: taskName
     });
     if (response.status === 200) {
       setTaskName(response.data.name);

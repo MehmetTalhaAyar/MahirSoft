@@ -19,8 +19,10 @@ function Task(props) {
   const [taskName, setTaskName] = useState();
   const [taskDescription, setTaskDescription] = useState();
   const [error, setErrors] = useState();
+  const [progress,setProgress] = useState(false);
 
   const saveElements = async () => {
+    setProgress(true);
     try {
       const response = await addTask(stageId, {
         taskName,
@@ -35,6 +37,9 @@ function Task(props) {
         setErrors(axiosError.response.data.validationErrors);
       }
       console.log(axiosError);
+    }
+    finally {
+      setProgress(false)
     }
   };
 
@@ -53,7 +58,7 @@ function Task(props) {
         <div
           className="task"
         >
-          <button className="save-button" onClick={saveElements}>
+          <button className="save-button" disabled={progress} onClick={saveElements}>
             <FaCheck />
           </button>
           <div className="input-container">

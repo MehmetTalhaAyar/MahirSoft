@@ -35,3 +35,7 @@ export function updateDescription(body) {
 export function deleteComment(commentId) {
   return http.delete(`/api/v1/comment/${commentId}`);
 }
+
+export function updateTaskName(body){
+  return http.put("/api/v1/tasks/update/name",body);
+}

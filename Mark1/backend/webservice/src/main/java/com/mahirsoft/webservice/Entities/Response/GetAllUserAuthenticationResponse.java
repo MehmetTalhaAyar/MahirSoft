@@ -1,8 +1,6 @@
 package com.mahirsoft.webservice.Entities.Response;
 
-import java.util.List;
 
-import com.mahirsoft.webservice.Entities.Models.Task;
 
 public class GetAllUserAuthenticationResponse {
 
@@ -16,19 +14,8 @@ public class GetAllUserAuthenticationResponse {
 
     String gsm;
 
-    List<Task> tasks;
-
     public GetAllUserAuthenticationResponse(){
         
-    }
-
-    public GetAllUserAuthenticationResponse(long userId,String name,String surname,String email,String gsm,List<Task> tasks){
-        this.userId = userId;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.gsm = gsm;
-        this.tasks = tasks;
     }
 
     public long getUserId() {
@@ -71,12 +58,6 @@ public class GetAllUserAuthenticationResponse {
         this.gsm = gsm;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
-    }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
-    }
     
 }

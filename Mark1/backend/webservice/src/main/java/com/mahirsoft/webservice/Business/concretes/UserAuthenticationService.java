@@ -59,7 +59,9 @@ public class UserAuthenticationService {
 
     public UserAuthentication getUserInfo(PostUserAuthenticationRequest PostUserAuthenticationRequest){
         
-        UserAuthentication userAuthentication = userAuthenticationRepository.findByEmail(PostUserAuthenticationRequest.getEmail()).orElseThrow(()-> new ResourceNotFoundException());
+        UserAuthentication userAuthentication = userAuthenticationRepository.findByEmail(PostUserAuthenticationRequest.getEmail()).orElse(null);
+
+        if(userAuthentication == null) return null;
 
         if(!passwordEncoder.matches(PostUserAuthenticationRequest.getPassword(), userAuthentication.getPassword())) return null;
 

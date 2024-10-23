@@ -29,9 +29,9 @@ function NavBar() {
         </Link>
 
         <div className="message_profile_icon">
-          <div className="notification_icone" onClick={handleNotificationClick}>
+          {/* <div className="notification_icone" onClick={handleNotificationClick}>
             <BiMessageSquareDetail />
-          </div>
+          </div> */}
           <div className="logout_img" onClick={handleProfileClick}>
             <CgProfile />
           </div>

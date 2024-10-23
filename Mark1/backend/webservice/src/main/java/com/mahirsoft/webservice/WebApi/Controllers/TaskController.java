@@ -8,6 +8,7 @@ import com.mahirsoft.webservice.Business.concretes.TaskService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateTaskRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUpdateTaskDescriptionRequest;
+import com.mahirsoft.webservice.Entities.Requests.PutUpdateTaskNameRequest;
 import com.mahirsoft.webservice.Entities.Response.GetAllTaskResponse;
 import com.mahirsoft.webservice.Entities.Response.GetTaskResponse;
 import com.mahirsoft.webservice.Entities.Response.TaskResponse;
@@ -18,6 +19,7 @@ import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -122,7 +124,21 @@ public class TaskController {
 
 
         return new ResponseEntity<TaskResponse>(task.toTaskResponse(), HttpStatusCode.valueOf(200));
-    }
+    }   
 
+    @PutMapping("/update/name")
+    public ResponseEntity<?> handleUpdateTaskName(@Valid @RequestBody PutUpdateTaskNameRequest putUpdateTaskNameRequest, @AuthenticationPrincipal DefaultUser currentUser){
+
+        permissionService.isInThisProjectFindByTaskId(currentUser, putUpdateTaskNameRequest.getTaskId(), AuthorizationCodes.TASK_CREATE);
+
+        var task = taskService.updateTaskName(putUpdateTaskNameRequest);
+
+        if(task == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        var generalTask = task.toTaskResponse();
+
+
+        return new ResponseEntity<TaskResponse>(generalTask,HttpStatus.OK);
+    }
     
 }

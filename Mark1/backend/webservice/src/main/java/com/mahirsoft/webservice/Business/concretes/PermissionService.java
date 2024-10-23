@@ -99,6 +99,11 @@ public class PermissionService {
         if(user == null ) throw new UserNotFoundException();
 
         if(user.getCompanyId() == null && user.getUserId() == project.getLeadingPersonId().getUserId()){
+
+            if(authorizationCode != AuthorizationCodes.ANY_AUTHORIZATION){
+
+                return checkUserPermission(user, authorizationCode);
+            }
             return user;
         }
 

@@ -100,7 +100,6 @@ public class UserAuthenticationController {
             newUser.setSurname(user.getSurname());
             newUser.setEmail(user.getEmail());
             newUser.setGsm(user.getGsm());
-            newUser.setTasks(user.getResponsibleTasks());
             allUsers.add(newUser);
         }
 

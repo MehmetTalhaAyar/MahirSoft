@@ -19,7 +19,7 @@ function EditProfilePage({ onProfileImageChange }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const fileReader = new FileReader();
-
+   
         fileReader.onloadend = () => {
             const data = fileReader.result
             setTempImage(data);
@@ -56,7 +56,7 @@ function EditProfilePage({ onProfileImageChange }) {
         setProfileImage(`/assets/profile/${response.data.image}`);
         dispatch({type:'update-image',image:response.data.image});
         onProfileImageChange(response.data.image);
-        toast.error("resim yüklendi.");
+        toast.success("Resim yüklendi.");
       }
     }
     

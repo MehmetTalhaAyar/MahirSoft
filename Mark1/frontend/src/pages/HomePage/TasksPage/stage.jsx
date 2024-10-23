@@ -30,6 +30,8 @@ function Stage(props) {
 
   useEffect(() => {
     setTasks(stage.tasks);
+    console.log(newTaskCount)
+    console.log(tasks)
   }, [stage.tasks.length]);
 
   useEffect(() => {
@@ -55,6 +57,9 @@ function Stage(props) {
   }, [showDrop]);
 
   const saveTask = (response) => {
+
+    
+    
     const oldTasks = tasks.map((task) => {
       if (task.isNew === true) {
         return {
@@ -65,8 +70,10 @@ function Stage(props) {
       }
       return task;
     });
-    stage.tasks = oldTasks;
+
     setNewTaskCount(0);
+    stage.tasks = oldTasks;
+    
 
   };
 

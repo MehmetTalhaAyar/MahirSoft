@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.mahirsoft.webservice.Entities.Errors.ApiError;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
+import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,6 +51,17 @@ public class GlobalExceptionHandler {
         apiError.setPath(request.getRequestURI());
         apiError.setMessage("Permission Denied");
         apiError.setStatus(401);
+
+        return new ResponseEntity<>(apiError,HttpStatusCode.valueOf(apiError.getStatus()));
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    ResponseEntity<?> handlePermissionDeniedException(ResourceNotFoundException exception,HttpServletRequest request){
+        ApiError apiError = new ApiError();
+
+        apiError.setPath(request.getRequestURI());
+        apiError.setMessage("Bad Request");
+        apiError.setStatus(400);
 
         return new ResponseEntity<>(apiError,HttpStatusCode.valueOf(apiError.getStatus()));
     }
