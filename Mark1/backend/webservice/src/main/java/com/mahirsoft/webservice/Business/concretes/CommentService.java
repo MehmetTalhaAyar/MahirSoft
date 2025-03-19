@@ -4,30 +4,49 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.CommentLikeRepository;
 import com.mahirsoft.webservice.DataAccess.CommentRepository;
+import com.mahirsoft.webservice.DataAccess.TaskRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
+import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Comment;
 import com.mahirsoft.webservice.Entities.Models.CommentLike;
+import com.mahirsoft.webservice.Entities.Models.Task;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Requests.CreateCommentRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUpdateCommentRequest;
 import com.mahirsoft.webservice.Entities.Response.CommentLikeCountResponse;
 
 @Service
 public class CommentService {
 
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
-    CommentLikeRepository commentLikeRepository;
+    private CommentLikeRepository commentLikeRepository;
+
+    private TaskRepository taskRepository;
 
     
 
-    public CommentService(CommentRepository commentRepository, CommentLikeRepository commentLikeRepository) {
+    
+
+
+    public CommentService(CommentRepository commentRepository, CommentLikeRepository commentLikeRepository,
+            TaskRepository taskRepository) {
         this.commentRepository = commentRepository;
         this.commentLikeRepository = commentLikeRepository;
+        this.taskRepository = taskRepository;
     }
 
 
-    public Comment createComment(Comment comment){
-       return commentRepository.save(comment);
+    public Comment createComment(CreateCommentRequest createCommentRequest,UserAuthentication writtenBy){
+
+        Task relatedTask = taskRepository.findById(createCommentRequest.getLinkedTaskId()).orElseThrow(()-> new ResourceNotFoundException()); 
+
+        Comment comment = new Comment();
+        comment.setContent(createCommentRequest.getContent());
+        comment.setLinkedTaskId(relatedTask);
+        comment.setWrittenById(writtenBy);
+
+        return commentRepository.save(comment);
 
     }
 

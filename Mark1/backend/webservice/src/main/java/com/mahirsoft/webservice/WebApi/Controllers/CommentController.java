@@ -16,7 +16,6 @@ import com.mahirsoft.webservice.Business.concretes.CommentService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.TaskService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
-import com.mahirsoft.webservice.Entities.Models.Comment;
 import com.mahirsoft.webservice.Entities.Requests.CreateCommentRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUpdateCommentRequest;
 import com.mahirsoft.webservice.Entities.Response.CommentLikeCountResponse;
@@ -28,36 +27,24 @@ import com.mahirsoft.webservice.security.DefaultUser;
 @RequestMapping("/api/v1/comment")
 public class CommentController {
 
-    CommentService commentService;
+    private CommentService commentService;
 
-    PermissionService permissionService;
-
-    TaskService taskService;
+    private PermissionService permissionService;
 
 
     public CommentController(CommentService commentService, PermissionService permissionService,
             TaskService taskService) {
         this.commentService = commentService;
         this.permissionService = permissionService;
-        this.taskService = taskService;
     }
 
 
     @PostMapping("/add")
     public ResponseEntity<?> addComment(@RequestBody CreateCommentRequest createCommentRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
-        var linkedTask = taskService.findById(createCommentRequest.getLinkedTaskId());
-
-        if(linkedTask == null) return new ResponseEntity<String>("SomeThing went wrong!", HttpStatusCode.valueOf(400));
-
         var writtenBy = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION); // yorum yapma yetkisi olmadığı için -1 konuldu.
 
-        Comment newComment = new Comment();
-        newComment.setContent(createCommentRequest.getContent());
-        newComment.setLinkedTaskId(linkedTask);
-        newComment.setWrittenById(writtenBy);
-
-        var createdComment = commentService.createComment(newComment);
+        var createdComment = commentService.createComment(createCommentRequest,writtenBy);
 
         GeneralCommentResponse generalCommentResponse = createdComment.toGeneralCommentResponse();
 

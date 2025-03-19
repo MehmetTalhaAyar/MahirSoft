@@ -8,7 +8,9 @@ import com.mahirsoft.webservice.DataAccess.ProjectRepository;
 import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.DataAccess.StageRepository;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
+import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
+import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
@@ -18,7 +20,7 @@ import com.mahirsoft.webservice.security.DefaultUser;
 public class PermissionService {
 
 
-    private UserAuthenticationService userAuthenticationService;
+    private UserAuthenticationRepository userAuthenticationRepository;
 
     private StageRepository stageRepository;
 
@@ -31,10 +33,10 @@ public class PermissionService {
     
 
 
-    public PermissionService(UserAuthenticationService userAuthenticationService, StageRepository stageRepository,
+    public PermissionService(UserAuthenticationRepository userAuthenticationRepository, StageRepository stageRepository,
             ProjectUserRepository projectUserRepository, TaskRepository taskRepository,
             ProjectRepository projectRepository) {
-        this.userAuthenticationService = userAuthenticationService;
+        this.userAuthenticationRepository = userAuthenticationRepository;
         this.stageRepository = stageRepository;
         this.projectUserRepository = projectUserRepository;
         this.taskRepository = taskRepository;
@@ -44,9 +46,7 @@ public class PermissionService {
 
     public UserAuthentication isTherePermission(DefaultUser currentUser,Integer authorityNumber){
 
-        var user = userAuthenticationService.findById(currentUser.getId());
-
-        if(user == null) throw new UserNotFoundException();
+        var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(()-> new UserNotFoundException());
 
         if(authorityNumber == -1) return user; // permission listesinde bulunmayan bir işlem için user dondurme
 
@@ -57,9 +57,7 @@ public class PermissionService {
 
     public UserAuthentication isThereAnyOfThesePermissions(DefaultUser currentUser,List<Integer> authorityNumbers){
 
-        var user = userAuthenticationService.findById(currentUser.getId());
-
-        if(user == null) throw new UserNotFoundException();
+        var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(() -> new UserNotFoundException());
 
         return checkUserPermission(user, authorityNumbers);
     }
@@ -78,13 +76,9 @@ public class PermissionService {
     // tamamlandı
     public UserAuthentication isInThisProjectFindByTaskId(DefaultUser currentUser,long taskId,int authorizationCode){
         
-        var user = userAuthenticationService.findById(currentUser.getId());
+        var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(()-> new UserNotFoundException());
 
-        if(user == null) throw new UserNotFoundException();
-
-        var task = taskRepository.findById(taskId);
-
-        if(task == null) throw new PermissionDeniedException();
+        var task = taskRepository.findById(taskId).orElseThrow(()-> new ResourceNotFoundException());
 
         isInThisProjectFindByStageId(currentUser, task.getStageId().getStageId(),authorizationCode);
         
@@ -94,9 +88,7 @@ public class PermissionService {
     // tamamlandı
     public UserAuthentication isInThisProject(DefaultUser currentUser,Project project,int authorizationCode ){
 
-        var user = userAuthenticationService.findById(currentUser.getId());
-
-        if(user == null ) throw new UserNotFoundException();
+        var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(()-> new UserNotFoundException());
 
         if(user.getCompanyId() == null && user.getUserId() == project.getLeadingPersonId().getUserId()){
 
@@ -127,9 +119,7 @@ public class PermissionService {
     // tamamlandı
     public UserAuthentication isInThisProject(DefaultUser currentUser,long projectId,int authorizationCode){
 
-        var project = projectRepository.findById(projectId);
-
-        if(project == null) throw new PermissionDeniedException(); // buraya uygun bir exception yaz
+        var project = projectRepository.findById(projectId).orElseThrow(()-> new ResourceNotFoundException());
         
         return isInThisProject(currentUser, project,authorizationCode);
     }

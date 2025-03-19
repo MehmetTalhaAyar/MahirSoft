@@ -36,11 +36,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/userauthentication")
 public class UserAuthenticationController {
 
-    UserAuthenticationService userAuthenticationService;
+    private UserAuthenticationService userAuthenticationService;
 
-    PermissionService permissionService;
+    private PermissionService permissionService;
 
-    TokenService tokenService;
+    private TokenService tokenService;
 
 
     public UserAuthenticationController(UserAuthenticationService userAuthenticationService,
@@ -59,13 +59,13 @@ public class UserAuthenticationController {
         if(user == null) return new ResponseEntity<>(HttpStatusCode.valueOf(400)); 
 
 
-        return new ResponseEntity<String>(body,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<String>(body,HttpStatusCode.valueOf(201)); // 201
     }
 
     @PostMapping("/user")
     ResponseEntity<?> getUserInformation(@Valid @RequestBody PostUserAuthenticationRequest postUserAuthenticationRequest){
         var user = userAuthenticationService.getUserInfo(postUserAuthenticationRequest);
-
+        
         if (user == null){
             return new ResponseEntity<String>("User not found", HttpStatusCode.valueOf(204));
         }
@@ -110,8 +110,8 @@ public class UserAuthenticationController {
     @GetMapping("/{id}")
     public UserAuthentication getuser(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
 
-        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN); 
-        var user = userAuthenticationService.findById(id);
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN); 
+        
         if(user == null) return null;
 
 

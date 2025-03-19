@@ -77,10 +77,6 @@ public class UserAuthenticationService {
         return userAuthenticationRepository.findAll();
     }
 
-    public UserAuthentication findById(long id){
-        return userAuthenticationRepository.findById(id);
-    }
-
     public UserAuthentication addUserToCompany(UserAuthentication userAuthentication){
 
         var userRole = userRoleRepository.findById(2); // new user for company

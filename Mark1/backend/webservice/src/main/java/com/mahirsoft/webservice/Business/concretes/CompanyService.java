@@ -15,6 +15,7 @@ import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserAlreadyInTheCompanyException;
+import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Authorization;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.CompanyCreateRequest;
@@ -35,19 +36,19 @@ import jakarta.validation.Valid;
 @Service
 public class CompanyService {
 
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
-    CompanyInvitationRepository companyInvitationRepository;
+    private CompanyInvitationRepository companyInvitationRepository;
 
-    UserAuthenticationRepository userAuthenticationRepository;
+    private UserAuthenticationRepository userAuthenticationRepository;
 
-    CompanyCreateRequestRepository companyCreateRequestRepository;
+    private CompanyCreateRequestRepository companyCreateRequestRepository;
 
-    UserRoleRepository userRoleRepository;
+    private UserRoleRepository userRoleRepository;
 
-    UserRoleAuthorizationRepository userRoleAuthorizationRepository;
+    private UserRoleAuthorizationRepository userRoleAuthorizationRepository;
 
-    AuthorizationRepository authorizationRepository;
+    private AuthorizationRepository authorizationRepository;
 
 
 
@@ -212,9 +213,7 @@ public class CompanyService {
 
             if(userRole == null) return null;
 
-            var updateUser = userAuthenticationRepository.findById(postGrantUserRoleRequest.getUserId());
-
-            if(updateUser == null) return null;
+            var updateUser = userAuthenticationRepository.findById(postGrantUserRoleRequest.getUserId()).orElseThrow(()-> new UserNotFoundException());
 
             updateUser.setUserRoleId(userRole);
 
@@ -223,10 +222,10 @@ public class CompanyService {
             return userRole;
 
         }else{
-            if(postGrantUserRoleRequest.getUserRoleId() == user.getUserRoleId().getUserRoleId()){
-                var updateUser = userAuthenticationRepository.findById(postGrantUserRoleRequest.getUserId());
 
-                if(updateUser == null) return null;
+            if(postGrantUserRoleRequest.getUserRoleId() == user.getUserRoleId().getUserRoleId()){
+                
+                var updateUser = userAuthenticationRepository.findById(postGrantUserRoleRequest.getUserId()).orElseThrow(()-> new UserNotFoundException());
 
                 updateUser.setUserRoleId(user.getUserRoleId());
 

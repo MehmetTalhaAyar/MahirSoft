@@ -11,7 +11,7 @@ import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 
 public interface UserAuthenticationRepository  extends JpaRepository<UserAuthentication,Long>{
 
-    UserAuthentication findById(long id);
+    Optional<UserAuthentication> findById(long id);
 
     Optional<UserAuthentication> findByEmail(String email);
 

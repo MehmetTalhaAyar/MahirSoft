@@ -137,6 +137,10 @@ public class UserAuthentication {
     @JsonIgnore
     @OneToMany(mappedBy = "userId")
     private List<Notification> notifications;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
     
 
 

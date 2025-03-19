@@ -10,10 +10,8 @@ import com.mahirsoft.webservice.Entities.Response.GeneralTaskResponse;
 import com.mahirsoft.webservice.Entities.Response.StageResponse;
 import com.mahirsoft.webservice.Entities.Response.TaskResponse;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;

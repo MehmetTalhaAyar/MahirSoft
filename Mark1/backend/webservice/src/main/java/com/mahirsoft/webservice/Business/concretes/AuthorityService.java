@@ -11,7 +11,6 @@ import com.mahirsoft.webservice.Business.concretes.PermissionService.Authorizati
 import com.mahirsoft.webservice.DataAccess.AuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleAuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
-import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Authorization;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
@@ -20,7 +19,6 @@ import com.mahirsoft.webservice.Entities.Models.UserRoleAuthorization;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateAuthorityRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUpdateAuthorityLevelsRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralAuthorizationResponse;
-import com.mahirsoft.webservice.Entities.Response.GeneralUserRoleResponse;
 import com.mahirsoft.webservice.Entities.Response.GetUserRoleAndAuthorizationResponse;
 
 

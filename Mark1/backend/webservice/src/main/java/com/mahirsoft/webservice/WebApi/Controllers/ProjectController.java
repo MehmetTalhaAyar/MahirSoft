@@ -21,8 +21,10 @@ import com.mahirsoft.webservice.Business.concretes.ProjectService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.ResponseMessage;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Requests.DeleteAMemberFromTheProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddMemberToProjectRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostCreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostSearchProjectMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutProjectDescriptionRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutProjectNameRequest;
@@ -30,6 +32,8 @@ import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectDetailsResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectStageDetailsResponse;
+import com.mahirsoft.webservice.Entities.Response.PostProjectAndStageResponse;
+import com.mahirsoft.webservice.Entities.Response.PostProjectAndUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
@@ -40,9 +44,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/projects")
 public class ProjectController {
 
-    ProjectService projectService;
+    private ProjectService projectService;
 
-    PermissionService permissionService;
+    private PermissionService permissionService;
 
 
     
@@ -205,5 +209,100 @@ public class ProjectController {
 
         return new ResponseEntity<GeneralProjectResponse>(projectResponse,HttpStatus.OK);
     }
+
+    @PostMapping("/addstage/{id}")
+    public ResponseEntity<?> addStage(@PathVariable long id,@Valid @RequestBody CreateStageRequest createStageRequest,@AuthenticationPrincipal DefaultUser currentUser){
+        
+        
+        String body = "Project Not Found";
+
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.STAGE_CREATE);
+
+        
+        var response = projectService.addStageToProject(id, createStageRequest,user);
+        if(response == null){
+            return new ResponseEntity<String>(body, HttpStatusCode.valueOf(400));
+        }
+
+        GeneralProjectResponse generalProjectResponse = response.getProjectId().toGeneralProjectResponse();
+
+        PostProjectAndStageResponse postProjectAndStageResponse = new PostProjectAndStageResponse();
+        postProjectAndStageResponse.setName(response.getName());
+        postProjectAndStageResponse.setProject(generalProjectResponse);
+
+        return new ResponseEntity<PostProjectAndStageResponse>(postProjectAndStageResponse, HttpStatusCode.valueOf(200));
+
+    }
+
+    @PostMapping("/defaultProject") // test için sadece super admin istek atabilir
+    public ResponseEntity<?> addDefaultProject(@Valid @RequestBody CreateProjectRequest createProjectRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        var user = permissionService.isTherePermission(currentUser,AuthorizationCodes.SUPER_ADMIN);
+
+        var project = projectService.createDefaultProject(createProjectRequest,createProjectRequest.getLeadPersonId(), user);
+
+        GeneralProjectResponse generalProjectResponse = new GeneralProjectResponse();
+
+        generalProjectResponse.setCreatedOn(project.getCreatedOn());
+        generalProjectResponse.setLeadingPerson(project.toLeadPerson());
+        generalProjectResponse.setName(project.getName());
+        generalProjectResponse.setStages(project.toGeneralStageResponses());
+
+
+        return new ResponseEntity<GeneralProjectResponse>(generalProjectResponse, HttpStatusCode.valueOf(200));
+    }
+
+    @PostMapping("/createproject")
+    public ResponseEntity<?> addProject(@Valid @RequestBody PostCreateProjectRequest postCreateProjectRequest ,@AuthenticationPrincipal DefaultUser currentUser){
+
+
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.PROJECT_CREATE); // proje oluşturma yetkisi
+
+        var project = projectService.createProject(postCreateProjectRequest, user);
+
+        if(project == null) return new ResponseEntity<String>("Something Went Wrong!", HttpStatusCode.valueOf(400));
+
+        GeneralProjectResponse generalProjectResponse = project.toGeneralProjectResponse();
+        
+        return new ResponseEntity<GeneralProjectResponse>(generalProjectResponse, HttpStatusCode.valueOf(201));
+    }
+
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> createProjectWithLead(@PathVariable long id,@Valid @RequestBody CreateProjectRequest createProjectRequest,@AuthenticationPrincipal DefaultUser currentUser){
+
+        permissionService.isTherePermission(currentUser, AuthorizationCodes.SUPER_ADMIN);
+        
+        var response = projectService.createProjectWithLeading(id, createProjectRequest);
+
+        if(response == null){
+            return null;
+        }
+
+        GeneralUserAuthenticationResponse leadPerson = response.toLeadPerson();
+        
+        PostProjectAndUserResponse postProjectAndUserResponse = new PostProjectAndUserResponse();
+        postProjectAndUserResponse.setCreatedOn(response.getCreatedOn());
+        postProjectAndUserResponse.setName(response.getName());
+        postProjectAndUserResponse.setStages(response.getStages());
+        postProjectAndUserResponse.setLeadingPerson(leadPerson);
+
+        return new ResponseEntity<PostProjectAndUserResponse>(postProjectAndUserResponse,HttpStatusCode.valueOf(200));
+    }
+
+
+    @DeleteMapping("/{id}") 
+    public ResponseEntity<?> deleteProject(@PathVariable long id,@AuthenticationPrincipal DefaultUser currentUser){
+
+        var user = permissionService.isTherePermission(currentUser, AuthorizationCodes.PROJECT_DELETE);
+        
+        var project =  projectService.softDeleteProject(id,user);
+        
+        if(project == null) return new ResponseEntity<String>("Only Leader delete project", HttpStatusCode.valueOf(400));
+         
+        return new ResponseEntity<String>("Project Deleted", HttpStatusCode.valueOf(200));
+    }
+
+
 
 }

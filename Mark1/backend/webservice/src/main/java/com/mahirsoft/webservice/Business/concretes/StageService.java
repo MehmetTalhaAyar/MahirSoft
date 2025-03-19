@@ -1,15 +1,23 @@
 package com.mahirsoft.webservice.Business.concretes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.ProjectRepository;
+import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.DataAccess.StageRepository;
+import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Stage;
 import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
+import com.mahirsoft.webservice.Entities.Requests.PostGetStageAndProjectMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutUpdateStageNameRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutUpdateStageSequenceRequest;
+import com.mahirsoft.webservice.Entities.Response.ProjectMembersAndStageResponse;
 import com.mahirsoft.webservice.Entities.Response.PutUpdateStageSequenceResponse;
+import com.mahirsoft.webservice.Entities.Response.UserAuthenticationResponse;
 
 import jakarta.validation.Valid;
 
@@ -21,10 +29,16 @@ public class StageService {
 
     ProjectRepository projectRepository;
 
+    ProjectUserRepository projectUserRepository;
+
    
-    public StageService(StageRepository stageRepository, ProjectRepository projectRepository) {
+    
+
+    public StageService(StageRepository stageRepository, ProjectRepository projectRepository,
+            ProjectUserRepository projectUserRepository) {
         this.stageRepository = stageRepository;
         this.projectRepository = projectRepository;
+        this.projectUserRepository = projectUserRepository;
     }
 
     public Stage getStage(long id){
@@ -35,18 +49,9 @@ public class StageService {
         return stage;     
     }
 
-    public Stage createStage(Stage stage){
-        return stageRepository.save(stage);
-    }
-
-    public void updateStage(Stage stage){
-        stageRepository.save(stage);
-    }
-
-
     public Stage createStage(CreateStageRequest createStageRequest,UserAuthentication user,long projectId){
         
-        var project = projectRepository.findById(projectId);
+        var project = projectRepository.findById(projectId).orElseThrow(()-> new ResourceNotFoundException());
 
         Stage stage = new Stage();
         stage.setCreatedById(user);
@@ -94,6 +99,44 @@ public class StageService {
 
 
         return putUpdateStageSequenceResponse; 
+    }
+
+    public ProjectMembersAndStageResponse getProjectMembersAndStageByStageId(PostGetStageAndProjectMembersRequest postGetStageAndProjectMembersRequest) {
+       
+        List<UserAuthenticationResponse> users = new ArrayList<>();
+        ProjectMembersAndStageResponse projectMembersAndStageResponse = new ProjectMembersAndStageResponse();
+
+        var stage = stageRepository.findById(postGetStageAndProjectMembersRequest.getStageId()).orElseThrow(()-> new ResourceNotFoundException());
+
+        if(postGetStageAndProjectMembersRequest.getSearchKey().strip().isBlank()){
+            var projectUsers =  projectUserRepository.findFirst5ByProjectId(stage.getProjectId());
+
+            for(var eleman : projectUsers){
+                users.add(eleman.getUserId().toUserAuthenticationResponse());
+            }
+
+            projectMembersAndStageResponse.setStages(stage.getProjectId().toStageResponses());
+            projectMembersAndStageResponse.setUsers(users);
+
+            return projectMembersAndStageResponse;
+        }
+
+        
+        var projectMembers = projectUserRepository.findFirst5ByProjectIdAndNameContaining(stage.getProjectId(), postGetStageAndProjectMembersRequest.getSearchKey());
+        
+
+        for(var projectUser : projectMembers){
+            users.add(projectUser.getUserId().toUserAuthenticationResponse());
+        }
+
+
+        
+        projectMembersAndStageResponse.setStages(stage.getProjectId().toStageResponses());
+        projectMembersAndStageResponse.setUsers(users);
+
+        return projectMembersAndStageResponse;
+
+
     }
 
     public Stage softDeleteStage(long stageId) {
