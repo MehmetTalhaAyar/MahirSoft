@@ -29,7 +29,7 @@ import com.mahirsoft.webservice.Entities.Requests.PostSearchProjectMembersReques
 import com.mahirsoft.webservice.Entities.Requests.PutProjectDescriptionRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutProjectNameRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
-import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectDetailsResponse;
 import com.mahirsoft.webservice.Entities.Response.GetProjectStageDetailsResponse;
 import com.mahirsoft.webservice.Entities.Response.PostProjectAndStageResponse;
@@ -69,7 +69,7 @@ public class ProjectController {
 
         }
 
-        GeneralUserAuthenticationResponse leadPerson = new GeneralUserAuthenticationResponse();
+        GeneralUserResponse leadPerson = new GeneralUserResponse();
         leadPerson.setEmail(project.getLeadingPersonId().getEmail());
         leadPerson.setGsm(project.getLeadingPersonId().getGsm());
         leadPerson.setName(project.getLeadingPersonId().getName());
@@ -184,16 +184,16 @@ public class ProjectController {
 
         var users = projectService.getMembersWhoNotInThisProject(postSearchProjectMembersRequest,user);
 
-        List<GeneralUserAuthenticationResponse> generalUsers = new ArrayList<>();
+        List<GeneralUserResponse> generalUsers = new ArrayList<>();
     
         for(var eleman : users){
 
-            GeneralUserAuthenticationResponse generalUserAuthenticationResponse = eleman.toGeneralUserAuthenticationResponse();
+            GeneralUserResponse generalUserAuthenticationResponse = eleman.toGeneralUserAuthenticationResponse();
             generalUsers.add(generalUserAuthenticationResponse);
         }
 
 
-        return new ResponseEntity<List<GeneralUserAuthenticationResponse>>(generalUsers,HttpStatus.OK);
+        return new ResponseEntity<List<GeneralUserResponse>>(generalUsers,HttpStatus.OK);
     }
 
     @PostMapping("/delete")
@@ -279,7 +279,7 @@ public class ProjectController {
             return null;
         }
 
-        GeneralUserAuthenticationResponse leadPerson = response.toLeadPerson();
+        GeneralUserResponse leadPerson = response.toLeadPerson();
         
         PostProjectAndUserResponse postProjectAndUserResponse = new PostProjectAndUserResponse();
         postProjectAndUserResponse.setCreatedOn(response.getCreatedOn());

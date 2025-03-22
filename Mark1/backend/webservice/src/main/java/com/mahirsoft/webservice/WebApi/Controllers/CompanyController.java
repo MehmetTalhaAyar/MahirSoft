@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mahirsoft.webservice.Business.concretes.CompanyService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
-import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
+import com.mahirsoft.webservice.Business.concretes.UserService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.Entities.ResponseMessage;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation.CompanyInvitationCodes;
 import com.mahirsoft.webservice.Entities.Requests.CreateCompanyMemberRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostAddUserToCompanyRequest;
@@ -34,7 +34,7 @@ import com.mahirsoft.webservice.Entities.Requests.PostSearchCompanyRolesRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyCreateRequest;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
-import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserRoleResponse;
 import com.mahirsoft.webservice.security.DefaultUser;
 
@@ -48,10 +48,10 @@ public class CompanyController {
 
     private PermissionService permissionService;
 
-    private UserAuthenticationService userAuthenticationService;
+    private UserService userAuthenticationService;
 
     public CompanyController(CompanyService companyService, PermissionService permissionService,
-            UserAuthenticationService userAuthenticationService) {
+            UserService userAuthenticationService) {
         this.companyService = companyService;
         this.permissionService = permissionService;
         this.userAuthenticationService = userAuthenticationService;
@@ -151,12 +151,12 @@ public class CompanyController {
 
 
     @PostMapping("/members") 
-    public List<GeneralUserAuthenticationResponse> getcompanyMembers(@RequestBody PostSearchCompanyMembersRequest postSearchCompanyMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){
+    public List<GeneralUserResponse> getcompanyMembers(@RequestBody PostSearchCompanyMembersRequest postSearchCompanyMembersRequest,@AuthenticationPrincipal DefaultUser currentUser){
 
         var chosenUser = permissionService.isTherePermission(currentUser, AuthorizationCodes.ANY_AUTHORIZATION);
 
         if(chosenUser.getCompanyId() == null){
-            List<GeneralUserAuthenticationResponse> onlyHimself = new ArrayList<>();
+            List<GeneralUserResponse> onlyHimself = new ArrayList<>();
             onlyHimself.add(chosenUser.toGeneralUserAuthenticationResponse());
             return onlyHimself;
         }
@@ -164,7 +164,7 @@ public class CompanyController {
 
         var users = userAuthenticationService.getUsersBycompany(company, postSearchCompanyMembersRequest);
 
-        List<GeneralUserAuthenticationResponse> generalUsers = new ArrayList<>();
+        List<GeneralUserResponse> generalUsers = new ArrayList<>();
         for(var user : users){
             generalUsers.add(user.toGeneralUserAuthenticationResponse());
         }
@@ -199,15 +199,15 @@ public class CompanyController {
 
         var createdUser = permissionService.isTherePermission(user, AuthorizationCodes.CREATING_A_REGISTERED_USER_FOR_THE_COMPANY);
 
-        UserAuthentication newMember = CreateCompanyMemberRequest.toUserAuthentication();
+        User newMember = CreateCompanyMemberRequest.toUserAuthentication();
         newMember.setCreatedById(createdUser);
         newMember.setCompanyId(createdUser.getCompanyId());
 
         var newCreatedUser = userAuthenticationService.addUserToCompany(newMember);
 
-        GeneralUserAuthenticationResponse generalUser = newCreatedUser.toGeneralUserAuthenticationResponse();
+        GeneralUserResponse generalUser = newCreatedUser.toGeneralUserAuthenticationResponse();
 
-        return new ResponseEntity<GeneralUserAuthenticationResponse>(generalUser,HttpStatusCode.valueOf(201));
+        return new ResponseEntity<GeneralUserResponse>(generalUser,HttpStatusCode.valueOf(201));
     }
 
     @PostMapping("/roles")

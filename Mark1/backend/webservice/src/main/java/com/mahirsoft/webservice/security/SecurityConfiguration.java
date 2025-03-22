@@ -26,9 +26,9 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests((authentication) ->
-            authentication.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/userauthentication/user")).anonymous()
+            authentication.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/auth/**")).anonymous()
             .requestMatchers(AntPathRequestMatcher.antMatcher( "/assets/**")).anonymous()
-            .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/userauthentication/add")).anonymous().anyRequest().authenticated()
+            .anyRequest().authenticated()
             // .requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/userauthentication/add"))
             //     .authenticated().anyRequest().permitAll()
         );

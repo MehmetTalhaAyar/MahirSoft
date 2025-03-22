@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.ProjectUser;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 
 public interface ProjectUserRepository extends JpaRepository<ProjectUser,Long> {
     
@@ -20,7 +20,7 @@ public interface ProjectUserRepository extends JpaRepository<ProjectUser,Long> {
     List<ProjectUser> findFirst5ByProjectId(Project project);
 
 
-    ProjectUser findByProjectIdAndUserId(Project project,UserAuthentication user);
+    ProjectUser findByProjectIdAndUserId(Project project,User user);
 
 
 }

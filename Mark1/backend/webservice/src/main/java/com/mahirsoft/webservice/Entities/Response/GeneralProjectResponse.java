@@ -14,13 +14,13 @@ public class GeneralProjectResponse {
 
     private String description;
 
-    private GeneralUserAuthenticationResponse leadingPerson;
+    private GeneralUserResponse leadingPerson;
 
     private LocalDateTime createdOn;
 
     private List<GeneralStageResponse> stages;
 
-    private List<GeneralUserAuthenticationResponse> members;
+    private List<GeneralUserResponse> members;
 
     public String getName() {
         return name;
@@ -30,11 +30,11 @@ public class GeneralProjectResponse {
         this.name = name;
     }
 
-    public GeneralUserAuthenticationResponse getLeadingPerson() {
+    public GeneralUserResponse getLeadingPerson() {
         return leadingPerson;
     }
 
-    public void setLeadingPerson(GeneralUserAuthenticationResponse leadingPerson) {
+    public void setLeadingPerson(GeneralUserResponse leadingPerson) {
         this.leadingPerson = leadingPerson;
     }
 
@@ -62,11 +62,11 @@ public class GeneralProjectResponse {
         this.stages = stages;
     }
 
-    public List<GeneralUserAuthenticationResponse> getMembers() {
+    public List<GeneralUserResponse> getMembers() {
         return members;
     }
 
-    public void setMembers(List<GeneralUserAuthenticationResponse> members) {
+    public void setMembers(List<GeneralUserResponse> members) {
         this.members = members;
     }
 

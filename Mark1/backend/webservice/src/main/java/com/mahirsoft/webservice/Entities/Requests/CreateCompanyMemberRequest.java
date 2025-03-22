@@ -1,6 +1,6 @@
 package com.mahirsoft.webservice.Entities.Requests;
 
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Validations.Annotations.UniqueEmail;
 
 import jakarta.validation.constraints.Email;
@@ -33,8 +33,8 @@ public class CreateCompanyMemberRequest {
     private String password;
 
 
-    public UserAuthentication toUserAuthentication(){
-        UserAuthentication newUser = new UserAuthentication();
+    public User toUserAuthentication(){
+        User newUser = new User();
         newUser.setEmail(email);
         newUser.setPassword(password);
         newUser.setSurname(surname);

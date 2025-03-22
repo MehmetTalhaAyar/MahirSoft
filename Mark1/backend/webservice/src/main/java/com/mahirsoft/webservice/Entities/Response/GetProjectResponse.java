@@ -9,7 +9,7 @@ public class GetProjectResponse {
 
     private String name;
 
-    private GeneralUserAuthenticationResponse leadingPerson;
+    private GeneralUserResponse leadingPerson;
 
     private List<Stage> stages;
 
@@ -32,11 +32,11 @@ public class GetProjectResponse {
         this.stages = stages;
     }
 
-    public GeneralUserAuthenticationResponse getLeadingPerson() {
+    public GeneralUserResponse getLeadingPerson() {
         return leadingPerson;
     }
 
-    public void setLeadingPerson(GeneralUserAuthenticationResponse leadingPerson) {
+    public void setLeadingPerson(GeneralUserResponse leadingPerson) {
         this.leadingPerson = leadingPerson;
     }
 

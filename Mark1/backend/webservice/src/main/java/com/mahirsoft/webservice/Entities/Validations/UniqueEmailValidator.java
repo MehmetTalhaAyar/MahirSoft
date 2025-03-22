@@ -1,7 +1,7 @@
 package com.mahirsoft.webservice.Entities.Validations;
 
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Validations.Annotations.UniqueEmail;
 
 import jakarta.validation.ConstraintValidator;
@@ -9,9 +9,9 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail,String> {
 
-    UserAuthenticationRepository userAuthenticationRepository;
+    UserRepository userAuthenticationRepository;
 
-    UniqueEmailValidator(UserAuthenticationRepository userAuthenticationRepository){
+    UniqueEmailValidator(UserRepository userAuthenticationRepository){
         this.userAuthenticationRepository = userAuthenticationRepository;
     }
 
@@ -19,7 +19,7 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail,Str
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         
-        UserAuthentication inDB = userAuthenticationRepository.findByEmail(value).orElse(null);
+        User inDB = userAuthenticationRepository.findByEmail(value).orElse(null);
         
         return inDB == null;
     }

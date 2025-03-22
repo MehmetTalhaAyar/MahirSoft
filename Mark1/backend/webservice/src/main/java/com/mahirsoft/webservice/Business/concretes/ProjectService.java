@@ -10,13 +10,13 @@ import com.mahirsoft.webservice.DataAccess.ProjectRepository;
 import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.DataAccess.StageRepository;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Project;
 import com.mahirsoft.webservice.Entities.Models.ProjectUser;
 import com.mahirsoft.webservice.Entities.Models.Stage;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Requests.CreateProjectRequest;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Requests.DeleteAMemberFromTheProjectRequest;
@@ -37,7 +37,7 @@ public class ProjectService {
 
     private StageRepository stageRepository;
 
-    private UserAuthenticationRepository userAuthenticationRepository; 
+    private UserRepository userAuthenticationRepository; 
 
     private ProjectUserRepository projectUserRepository;
 
@@ -49,7 +49,7 @@ public class ProjectService {
     
 
     public ProjectService(ProjectRepository projectRepository, StageRepository stageRepository,
-            UserAuthenticationRepository userAuthenticationRepository, ProjectUserRepository projectUserRepository,
+            UserRepository userAuthenticationRepository, ProjectUserRepository projectUserRepository,
             TaskRepository taskRepository) {
         this.projectRepository = projectRepository;
         this.stageRepository = stageRepository;
@@ -67,7 +67,7 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public Project createDefaultProject(CreateProjectRequest createProjectRequest,long userId,UserAuthentication createdBy){
+    public Project createDefaultProject(CreateProjectRequest createProjectRequest,long userId,User createdBy){
 
         
         var leadPerson = userAuthenticationRepository.findById(userId).orElseThrow(()-> new UserNotFoundException());
@@ -77,7 +77,7 @@ public class ProjectService {
         return project;
     }
 
-     public Project createProject(PostCreateProjectRequest postCreateProjectRequest,UserAuthentication createdBy){
+     public Project createProject(PostCreateProjectRequest postCreateProjectRequest,User createdBy){
 
 
         var leadPerson = userAuthenticationRepository.findById(postCreateProjectRequest.getAdminId()).orElseThrow(()-> new UserNotFoundException());
@@ -108,7 +108,7 @@ public class ProjectService {
 
 
 
-    public Stage addStageToProject(long projectId,CreateStageRequest createStageRequest,UserAuthentication createdBy){
+    public Stage addStageToProject(long projectId,CreateStageRequest createStageRequest,User createdBy){
         var project = projectRepository.findById(projectId).orElseThrow(()-> new ResourceNotFoundException()); // burayı değiştirdim silinen stageler gelirse ona göre değiştirilmesi lazım
 
         Stage stage = new Stage();
@@ -132,7 +132,7 @@ public class ProjectService {
         return project;
     }
 
-    public Project softDeleteProject(long id,UserAuthentication user) {
+    public Project softDeleteProject(long id,User user) {
 
         
         var project = projectRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException());
@@ -206,7 +206,7 @@ public class ProjectService {
         return projectRepository.save(project);
     }
 
-    public ProjectUser addANewMember(PostAddMemberToProjectRequest postAddMemberToProjectRequest,UserAuthentication user) {
+    public ProjectUser addANewMember(PostAddMemberToProjectRequest postAddMemberToProjectRequest,User user) {
 
         var member = userAuthenticationRepository.findByEmail(postAddMemberToProjectRequest.getEmail()).orElseThrow(()-> new ResourceNotFoundException());
 
@@ -241,21 +241,21 @@ public class ProjectService {
         return null;
     }
 
-    public List<UserAuthentication> getMembersWhoNotInThisProject(PostSearchProjectMembersRequest postSearchProjectMembersRequest,UserAuthentication user) {
+    public List<User> getMembersWhoNotInThisProject(PostSearchProjectMembersRequest postSearchProjectMembersRequest,User user) {
 
 
         var project = projectRepository.findById(postSearchProjectMembersRequest.getProjectId()).orElseThrow(()-> new ResourceNotFoundException());
 
         if(project == null) throw new ResourceNotFoundException();
 
-        List<UserAuthentication> members = new ArrayList<>();
+        List<User> members = new ArrayList<>();
 
         for(var eleman : project.getProjectMembers()){
             members.add(eleman.getUserId());
         }
 
 
-        List<UserAuthentication> companyUsers = new ArrayList<>();
+        List<User> companyUsers = new ArrayList<>();
         
         if(postSearchProjectMembersRequest.getSearchKey().strip().isBlank()){
             companyUsers.addAll(userAuthenticationRepository.findFirst3ByCompanyId(user.getCompanyId(), members));
@@ -268,7 +268,7 @@ public class ProjectService {
         return companyUsers;
     }
 
-    public GeneralProjectResponse deleteMemberFromProject(@Valid DeleteAMemberFromTheProjectRequest deleteAMemberFromTheProjectRequest,UserAuthentication user) {
+    public GeneralProjectResponse deleteMemberFromProject(@Valid DeleteAMemberFromTheProjectRequest deleteAMemberFromTheProjectRequest,User user) {
         
 
         var deletedUser = userAuthenticationRepository.findByEmail(deleteAMemberFromTheProjectRequest.getEmail()).orElseThrow(()-> new ResourceNotFoundException());
@@ -291,7 +291,7 @@ public class ProjectService {
 
     // Private methods
     
-    private Project defaultProject(CreateProjectRequest createProjectRequest,UserAuthentication createdUser,UserAuthentication leadPerson){
+    private Project defaultProject(CreateProjectRequest createProjectRequest,User createdUser,User leadPerson){
 
         List<Stage> stages = new ArrayList<Stage>();
 

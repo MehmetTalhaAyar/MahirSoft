@@ -30,7 +30,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "writtenById",referencedColumnName = "userId")
-    private UserAuthentication writtenById;
+    private User writtenById;
 
     @ManyToOne
     @JoinColumn(name = "linkedTaskId", referencedColumnName = "taskId")
@@ -89,11 +89,11 @@ public class Comment {
     }
 
 
-    public UserAuthentication getWrittenById() {
+    public User getWrittenById() {
         return writtenById;
     }
 
-    public void setWrittenById(UserAuthentication writtenById) {
+    public void setWrittenById(User writtenById) {
         this.writtenById = writtenById;
     }
 

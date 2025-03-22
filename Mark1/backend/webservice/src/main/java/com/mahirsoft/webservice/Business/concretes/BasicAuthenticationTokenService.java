@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.Business.abstracts.TokenService;
 import com.mahirsoft.webservice.DataAccess.TokenRepository;
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
+import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Token;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
-import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
+import com.mahirsoft.webservice.Entities.Models.User;
+import com.mahirsoft.webservice.Entities.Requests.PostUserRequest;
 
 
 
@@ -20,7 +21,7 @@ import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
 @ConditionalOnProperty(name = "mahirsoft.token-type", havingValue = "basic")
 public class BasicAuthenticationTokenService implements TokenService {
 
-    private UserAuthenticationRepository userAuthenticationRepository;
+    private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
 
@@ -28,26 +29,34 @@ public class BasicAuthenticationTokenService implements TokenService {
 
   
 
-    public BasicAuthenticationTokenService(UserAuthenticationRepository userAuthenticationRepository,
+    public BasicAuthenticationTokenService(UserRepository userRepository,
             PasswordEncoder passwordEncoder, TokenRepository tokenRepository) {
-        this.userAuthenticationRepository = userAuthenticationRepository;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenRepository = tokenRepository;
     }
 
     @Override
-    public Token createToken(PostUserAuthenticationRequest userAuthentication) {
+    public Token createToken(PostUserRequest postUserRequest) {
+
+        User user = userRepository.findByEmail(postUserRequest.getEmail()).orElseThrow(()-> new UserNotFoundException());
+
+        String emailColonPassword = postUserRequest.getEmail() + ":" + postUserRequest.getPassword();
+
+        String tokenString = Base64.getEncoder().encodeToString(emailColonPassword.getBytes());
+
+        Token token = new Token();
+        token.setPrefix("Basic");
+        token.setToken(tokenString);
+        token.setUser(user);
+        
 
 
-        String emailColonPassword = userAuthentication.getEmail() + ":" + userAuthentication.getPassword();
-
-        String token = Base64.getEncoder().encodeToString(emailColonPassword.getBytes());
-
-        return tokenRepository.save(new Token("Basic",token));
+        return tokenRepository.save(token);
     }
 
     @Override
-    public UserAuthentication verifyToken(String tokenWithPrefix) {
+    public User verifyToken(String tokenWithPrefix) {
         
         if(tokenWithPrefix == null) return null;
 
@@ -58,7 +67,7 @@ public class BasicAuthenticationTokenService implements TokenService {
         var email = credentials[0];
         var password = credentials[1];
 
-        var user = userAuthenticationRepository.findByEmail(email);
+        var user = userRepository.findByEmail(email);
 
         if(!user.isPresent()) return null;
 

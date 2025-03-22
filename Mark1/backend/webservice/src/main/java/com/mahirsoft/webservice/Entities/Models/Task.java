@@ -28,7 +28,7 @@ public class Task {
     
     @ManyToOne
     @JoinColumn(name = "responsibleId",referencedColumnName = "userId")
-    private UserAuthentication resposibleId;
+    private User resposibleId;
 
     @Column(name = "taskName")
     private String taskName;
@@ -41,7 +41,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "createdById",referencedColumnName = "userId")
-    private UserAuthentication createdById;
+    private User createdById;
 
     @ManyToOne
     @JoinColumn(name = "stageId",referencedColumnName = "stageId")
@@ -49,7 +49,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "reportsToId",referencedColumnName = "userId")
-    private UserAuthentication reportsToId;
+    private User reportsToId;
 
     @ManyToOne
     @JoinColumn(name = "relatedTaskId",referencedColumnName = "taskId")
@@ -142,11 +142,11 @@ public class Task {
     }
 
 
-    public UserAuthentication getResposibleId() {
+    public User getResposibleId() {
         return resposibleId;
     }
 
-    public void setResposibleId(UserAuthentication resposibleId) {
+    public void setResposibleId(User resposibleId) {
         this.resposibleId = resposibleId;
     }
 
@@ -166,11 +166,11 @@ public class Task {
         this.relatedTasks = relatedTasks;
     }
 
-    public UserAuthentication getCreatedById() {
+    public User getCreatedById() {
         return createdById;
     }
 
-    public void setCreatedById(UserAuthentication createdById) {
+    public void setCreatedById(User createdById) {
         this.createdById = createdById;
     }
 
@@ -207,12 +207,12 @@ public class Task {
     }
 
 
-    public UserAuthentication getReportsToId() {
+    public User getReportsToId() {
         return reportsToId;
     }
 
 
-    public void setReportsToId(UserAuthentication reportsToId) {
+    public void setReportsToId(User reportsToId) {
         this.reportsToId = reportsToId;
     }
 

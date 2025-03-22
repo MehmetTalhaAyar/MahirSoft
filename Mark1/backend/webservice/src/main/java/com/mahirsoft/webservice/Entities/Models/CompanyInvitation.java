@@ -27,11 +27,11 @@ public class CompanyInvitation { // şirkete davet için bir entity
 
     @ManyToOne
     @JoinColumn(name = "userWhoReceiveInvitation")
-    private UserAuthentication userWhoReceiveInvitation;
+    private User userWhoReceiveInvitation;
 
     @ManyToOne
     @JoinColumn(name = "userWhoSendInvitation")
-    private UserAuthentication userWhoSendInvitation;
+    private User userWhoSendInvitation;
 
 
     public static class CompanyInvitationCodes {
@@ -85,28 +85,28 @@ public class CompanyInvitation { // şirkete davet için bir entity
 
 
 
-    public UserAuthentication getUserWhoReceiveInvitation() {
+    public User getUserWhoReceiveInvitation() {
         return userWhoReceiveInvitation;
     }
 
 
 
 
-    public void setUserWhoReceiveInvitation(UserAuthentication userWhoReceiveInvitation) {
+    public void setUserWhoReceiveInvitation(User userWhoReceiveInvitation) {
         this.userWhoReceiveInvitation = userWhoReceiveInvitation;
     }
 
 
 
 
-    public UserAuthentication getUserWhoSendInvitation() {
+    public User getUserWhoSendInvitation() {
         return userWhoSendInvitation;
     }
 
 
 
 
-    public void setUserWhoSendInvitation(UserAuthentication userWhoSendInvitation) {
+    public void setUserWhoSendInvitation(User userWhoSendInvitation) {
         this.userWhoSendInvitation = userWhoSendInvitation;
     }
 

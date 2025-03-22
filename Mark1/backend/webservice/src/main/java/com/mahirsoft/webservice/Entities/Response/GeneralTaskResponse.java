@@ -10,7 +10,7 @@ public class GeneralTaskResponse {
 
     private GeneralStageResponse stage;
 
-    private GeneralUserAuthenticationResponse responsiblePerson;
+    private GeneralUserResponse responsiblePerson;
 
     public String getName() {
         return name;
@@ -36,11 +36,11 @@ public class GeneralTaskResponse {
         this.stage = stage;
     }
 
-    public GeneralUserAuthenticationResponse getResponsiblePerson() {
+    public GeneralUserResponse getResponsiblePerson() {
         return responsiblePerson;
     }
 
-    public void setResponsiblePerson(GeneralUserAuthenticationResponse responsiblePerson) {
+    public void setResponsiblePerson(GeneralUserResponse responsiblePerson) {
         this.responsiblePerson = responsiblePerson;
     }
 

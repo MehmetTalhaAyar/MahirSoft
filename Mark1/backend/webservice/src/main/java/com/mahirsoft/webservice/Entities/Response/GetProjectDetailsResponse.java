@@ -8,9 +8,9 @@ public class GetProjectDetailsResponse {
 
     private String description;
 
-    private GeneralUserAuthenticationResponse projectLead;
+    private GeneralUserResponse projectLead;
 
-    private List<GeneralUserAuthenticationResponse> projectMembers;
+    private List<GeneralUserResponse> projectMembers;
 
     private List<GeneralStageResponse> projectStages;
 
@@ -32,19 +32,19 @@ public class GetProjectDetailsResponse {
         this.description = description;
     }
 
-    public GeneralUserAuthenticationResponse getProjectLead() {
+    public GeneralUserResponse getProjectLead() {
         return projectLead;
     }
 
-    public void setProjectLead(GeneralUserAuthenticationResponse projectLead) {
+    public void setProjectLead(GeneralUserResponse projectLead) {
         this.projectLead = projectLead;
     }
 
-    public List<GeneralUserAuthenticationResponse> getProjectMembers() {
+    public List<GeneralUserResponse> getProjectMembers() {
         return projectMembers;
     }
 
-    public void setProjectMembers(List<GeneralUserAuthenticationResponse> projectMembers) {
+    public void setProjectMembers(List<GeneralUserResponse> projectMembers) {
         this.projectMembers = projectMembers;
     }
 

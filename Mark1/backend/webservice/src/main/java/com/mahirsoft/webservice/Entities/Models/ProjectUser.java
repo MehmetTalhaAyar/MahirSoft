@@ -23,7 +23,7 @@ public class ProjectUser {
 
     @ManyToOne
     @JoinColumn(name = "userId",referencedColumnName = "userId")
-    private UserAuthentication userId;
+    private User userId;
 
     public long getId() {
         return id;
@@ -41,11 +41,11 @@ public class ProjectUser {
         this.projectId = projectId;
     }
 
-    public UserAuthentication getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(UserAuthentication userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
     

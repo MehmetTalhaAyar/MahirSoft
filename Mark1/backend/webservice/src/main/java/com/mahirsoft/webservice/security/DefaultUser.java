@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 
 public class DefaultUser implements UserDetails {
 
@@ -17,7 +17,7 @@ public class DefaultUser implements UserDetails {
     private String password;
 
 
-    public DefaultUser(UserAuthentication user){
+    public DefaultUser(User user){
         this.id = user.getUserId();
         this.username = user.getEmail();
         this.password = user.getPassword();

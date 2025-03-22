@@ -9,7 +9,7 @@ public class PostProjectAndUserResponse {
 
     private String name;
 
-    private GeneralUserAuthenticationResponse leadingPerson;
+    private GeneralUserResponse leadingPerson;
 
     private LocalDateTime createdOn;
 
@@ -23,11 +23,11 @@ public class PostProjectAndUserResponse {
         this.name = name;
     }
 
-    public GeneralUserAuthenticationResponse getLeadingPerson() {
+    public GeneralUserResponse getLeadingPerson() {
         return leadingPerson;
     }
 
-    public void setLeadingPerson(GeneralUserAuthenticationResponse leadingPerson) {
+    public void setLeadingPerson(GeneralUserResponse leadingPerson) {
         this.leadingPerson = leadingPerson;
     }
 

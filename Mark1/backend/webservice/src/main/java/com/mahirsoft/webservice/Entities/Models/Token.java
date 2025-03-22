@@ -33,15 +33,10 @@ public class Token {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "userId",referencedColumnName = "userId")
-    private UserAuthentication user;
+    private User user;
     
 
     public Token() {
-    }
-
-    public Token(String prefix, String token) {
-        this.prefix = prefix;
-        this.token = token;
     }
 
     public String getPrefix() {
@@ -76,11 +71,11 @@ public class Token {
         this.expiredOn = expiredOn;
     }
 
-    public UserAuthentication getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserAuthentication user) {
+    public void setUser(User user) {
         this.user = user;
     }
     

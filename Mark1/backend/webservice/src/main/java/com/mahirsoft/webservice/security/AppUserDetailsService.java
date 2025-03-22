@@ -5,17 +5,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.mahirsoft.webservice.Business.concretes.UserAuthenticationService;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Business.concretes.UserService;
+import com.mahirsoft.webservice.Entities.Models.User;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
 
-    UserAuthenticationService userAuthenticationService;
+    UserService userAuthenticationService;
 
 
 
-    public AppUserDetailsService(UserAuthenticationService userAuthenticationService) {
+    public AppUserDetailsService(UserService userAuthenticationService) {
         this.userAuthenticationService = userAuthenticationService;
     }
 
@@ -24,7 +24,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         
-        UserAuthentication inDB = userAuthenticationService.findByEmail(email);
+        User inDB = userAuthenticationService.findByEmail(email);
 
         if(inDB == null){
             throw new UsernameNotFoundException(email + " is not found");

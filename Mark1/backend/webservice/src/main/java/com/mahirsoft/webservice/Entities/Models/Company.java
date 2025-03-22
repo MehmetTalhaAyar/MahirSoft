@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.CompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralCompanyResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
-import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralUserRoleResponse;
 
 import jakarta.persistence.Column;
@@ -39,7 +39,7 @@ public class Company {
 
     @ManyToOne
     @JoinColumn(name = "managerId",referencedColumnName = "userId")
-    private UserAuthentication managerId;
+    private User managerId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "companyId")
@@ -47,7 +47,7 @@ public class Company {
 
     @JsonIgnore
     @OneToMany(mappedBy = "companyId")
-    List<UserAuthentication> companyMembers;
+    List<User> companyMembers;
 
     @JsonIgnore
     @OneToMany(mappedBy = "companyId")
@@ -69,11 +69,11 @@ public class Company {
         return companyResponse;
     }
 
-    public List<GeneralUserAuthenticationResponse> toListGeneralUserAuthenticationResponses(){
-        List<GeneralUserAuthenticationResponse> members = new ArrayList<>();
+    public List<GeneralUserResponse> toListGeneralUserAuthenticationResponses(){
+        List<GeneralUserResponse> members = new ArrayList<>();
 
         for(var eleman : companyMembers){
-            GeneralUserAuthenticationResponse user = new GeneralUserAuthenticationResponse();
+            GeneralUserResponse user = new GeneralUserResponse();
 
             user.setCompany(toCompanyResponse());
             user.setEmail(eleman.getEmail());
@@ -161,11 +161,11 @@ public class Company {
         this.deletionStateCode = deletionStateCode;
     }
 
-    public UserAuthentication getManagerId() {
+    public User getManagerId() {
         return managerId;
     }
 
-    public void setManagerId(UserAuthentication managerId) {
+    public void setManagerId(User managerId) {
         this.managerId = managerId;
     }
 
@@ -177,11 +177,11 @@ public class Company {
         this.projects = projects;
     }
 
-    public List<UserAuthentication> getCompanyMembers() {
+    public List<User> getCompanyMembers() {
         return companyMembers;
     }
 
-    public void setCompanyMembers(List<UserAuthentication> companyMembers) {
+    public void setCompanyMembers(List<User> companyMembers) {
         this.companyMembers = companyMembers;
     }
 

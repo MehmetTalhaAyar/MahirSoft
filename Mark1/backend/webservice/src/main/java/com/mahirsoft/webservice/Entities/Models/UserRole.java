@@ -32,7 +32,7 @@ public class UserRole {
 
     @JsonIgnore
     @OneToMany(mappedBy = "userRoleId")
-    private List<UserAuthentication> users;
+    private List<User> users;
 
     @JsonIgnore
     @OneToMany(mappedBy = "userRoleId")
@@ -62,11 +62,11 @@ public class UserRole {
         this.companyId = companyId;
     }
 
-    public List<UserAuthentication> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UserAuthentication> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 

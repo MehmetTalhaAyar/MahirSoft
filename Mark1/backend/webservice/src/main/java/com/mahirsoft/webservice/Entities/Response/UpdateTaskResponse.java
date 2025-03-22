@@ -8,9 +8,9 @@ public class UpdateTaskResponse {
 
     private LocalDateTime endTime;
     
-    private GeneralUserAuthenticationResponse reporterUser;
+    private GeneralUserResponse reporterUser;
 
-    private GeneralUserAuthenticationResponse responsibleId;
+    private GeneralUserResponse responsibleId;
 
     public long getId() {
         return id;
@@ -28,19 +28,19 @@ public class UpdateTaskResponse {
         this.endTime = endTime;
     }
 
-    public GeneralUserAuthenticationResponse getReporterUser() {
+    public GeneralUserResponse getReporterUser() {
         return reporterUser;
     }
 
-    public void setReporterUser(GeneralUserAuthenticationResponse reporterUser) {
+    public void setReporterUser(GeneralUserResponse reporterUser) {
         this.reporterUser = reporterUser;
     }
 
-    public GeneralUserAuthenticationResponse getResponsibleId() {
+    public GeneralUserResponse getResponsibleId() {
         return responsibleId;
     }
 
-    public void setResponsibleId(GeneralUserAuthenticationResponse responsibleId) {
+    public void setResponsibleId(GeneralUserResponse responsibleId) {
         this.responsibleId = responsibleId;
     }
 

@@ -8,19 +8,19 @@ import com.mahirsoft.webservice.DataAccess.ProjectRepository;
 import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.DataAccess.StageRepository;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Project;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.security.DefaultUser;
 
 @Service
 public class PermissionService {
 
 
-    private UserAuthenticationRepository userAuthenticationRepository;
+    private UserRepository userAuthenticationRepository;
 
     private StageRepository stageRepository;
 
@@ -33,7 +33,7 @@ public class PermissionService {
     
 
 
-    public PermissionService(UserAuthenticationRepository userAuthenticationRepository, StageRepository stageRepository,
+    public PermissionService(UserRepository userAuthenticationRepository, StageRepository stageRepository,
             ProjectUserRepository projectUserRepository, TaskRepository taskRepository,
             ProjectRepository projectRepository) {
         this.userAuthenticationRepository = userAuthenticationRepository;
@@ -44,7 +44,7 @@ public class PermissionService {
     }
 
 
-    public UserAuthentication isTherePermission(DefaultUser currentUser,Integer authorityNumber){
+    public User isTherePermission(DefaultUser currentUser,Integer authorityNumber){
 
         var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(()-> new UserNotFoundException());
 
@@ -55,14 +55,14 @@ public class PermissionService {
         
     }
 
-    public UserAuthentication isThereAnyOfThesePermissions(DefaultUser currentUser,List<Integer> authorityNumbers){
+    public User isThereAnyOfThesePermissions(DefaultUser currentUser,List<Integer> authorityNumbers){
 
         var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(() -> new UserNotFoundException());
 
         return checkUserPermission(user, authorityNumbers);
     }
 
-    public UserAuthentication isInThisProjectFindByStageId(DefaultUser currentUser,long stageId,int authorizationCode ){
+    public User isInThisProjectFindByStageId(DefaultUser currentUser,long stageId,int authorizationCode ){
 
         var stage = stageRepository.findByStageIdAndDeletionStateCodeNot(stageId,1);
 
@@ -74,7 +74,7 @@ public class PermissionService {
     }
 
     // tamamlandı
-    public UserAuthentication isInThisProjectFindByTaskId(DefaultUser currentUser,long taskId,int authorizationCode){
+    public User isInThisProjectFindByTaskId(DefaultUser currentUser,long taskId,int authorizationCode){
         
         var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(()-> new UserNotFoundException());
 
@@ -86,7 +86,7 @@ public class PermissionService {
     }
 
     // tamamlandı
-    public UserAuthentication isInThisProject(DefaultUser currentUser,Project project,int authorizationCode ){
+    public User isInThisProject(DefaultUser currentUser,Project project,int authorizationCode ){
 
         var user = userAuthenticationRepository.findById(currentUser.getId()).orElseThrow(()-> new UserNotFoundException());
 
@@ -117,14 +117,14 @@ public class PermissionService {
 
 
     // tamamlandı
-    public UserAuthentication isInThisProject(DefaultUser currentUser,long projectId,int authorizationCode){
+    public User isInThisProject(DefaultUser currentUser,long projectId,int authorizationCode){
 
         var project = projectRepository.findById(projectId).orElseThrow(()-> new ResourceNotFoundException());
         
         return isInThisProject(currentUser, project,authorizationCode);
     }
 
-    private UserAuthentication checkUserPermission(UserAuthentication user, int authorityNumber){
+    private User checkUserPermission(User user, int authorityNumber){
         for(var authorization : user.getUserRoleId().getUserRoleAuthorizations()){
             if( Long.valueOf(authorization.getAuthorizationId().getAuthorizationId()).intValue() == authorityNumber){
                 return user;
@@ -134,7 +134,7 @@ public class PermissionService {
         throw new PermissionDeniedException();
     }
 
-    private UserAuthentication checkUserPermission(UserAuthentication user, List<Integer> authorityNumbers){
+    private User checkUserPermission(User user, List<Integer> authorityNumbers){
         for(var authorization : user.getUserRoleId().getUserRoleAuthorizations()){
             if( authorityNumbers.contains(Long.valueOf(authorization.getAuthorizationId().getAuthorizationId()).intValue())){
                 return user;

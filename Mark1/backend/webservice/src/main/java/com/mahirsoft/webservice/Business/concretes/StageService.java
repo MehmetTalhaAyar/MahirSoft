@@ -10,7 +10,7 @@ import com.mahirsoft.webservice.DataAccess.ProjectUserRepository;
 import com.mahirsoft.webservice.DataAccess.StageRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Stage;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Requests.CreateStageRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostGetStageAndProjectMembersRequest;
 import com.mahirsoft.webservice.Entities.Requests.PutUpdateStageNameRequest;
@@ -25,11 +25,11 @@ import jakarta.validation.Valid;
 @Service
 public class StageService {
 
-    StageRepository stageRepository;
+    private StageRepository stageRepository;
 
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
-    ProjectUserRepository projectUserRepository;
+    private ProjectUserRepository projectUserRepository;
 
    
     
@@ -49,7 +49,7 @@ public class StageService {
         return stage;     
     }
 
-    public Stage createStage(CreateStageRequest createStageRequest,UserAuthentication user,long projectId){
+    public Stage createStage(CreateStageRequest createStageRequest,User user,long projectId){
         
         var project = projectRepository.findById(projectId).orElseThrow(()-> new ResourceNotFoundException());
 

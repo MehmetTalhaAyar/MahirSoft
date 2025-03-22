@@ -28,7 +28,7 @@ public class CompanyCreateRequest { // şirket oluşturmak için bir request
 
     @ManyToOne
     @JoinColumn(name = "userId")
-    private UserAuthentication userId;
+    private User userId;
 
     public static class CompanyCreateRequestCodes {
 
@@ -49,11 +49,11 @@ public class CompanyCreateRequest { // şirket oluşturmak için bir request
 
    
 
-    public UserAuthentication getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(UserAuthentication userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

@@ -10,7 +10,7 @@ import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Comment;
 import com.mahirsoft.webservice.Entities.Models.CommentLike;
 import com.mahirsoft.webservice.Entities.Models.Task;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Requests.CreateCommentRequest;
 import com.mahirsoft.webservice.Entities.Requests.PostUpdateCommentRequest;
 import com.mahirsoft.webservice.Entities.Response.CommentLikeCountResponse;
@@ -37,7 +37,7 @@ public class CommentService {
     }
 
 
-    public Comment createComment(CreateCommentRequest createCommentRequest,UserAuthentication writtenBy){
+    public Comment createComment(CreateCommentRequest createCommentRequest,User writtenBy){
 
         Task relatedTask = taskRepository.findById(createCommentRequest.getLinkedTaskId()).orElseThrow(()-> new ResourceNotFoundException()); 
 
@@ -51,7 +51,7 @@ public class CommentService {
     }
 
 
-    public Comment UpdateComment(PostUpdateCommentRequest postUpdateCommentRequest,UserAuthentication user) {
+    public Comment UpdateComment(PostUpdateCommentRequest postUpdateCommentRequest,User user) {
         
         var comment = commentRepository.findById(postUpdateCommentRequest.getCommentId()).orElse(null);
 
@@ -65,7 +65,7 @@ public class CommentService {
     }
 
 
-    public CommentLikeCountResponse updateLikeCount(UserAuthentication user,Comment comment) {
+    public CommentLikeCountResponse updateLikeCount(User user,Comment comment) {
         CommentLikeCountResponse commentLikeCountResponse = new CommentLikeCountResponse();
 
         for(var commentLike : comment.getLikes()){
@@ -94,7 +94,7 @@ public class CommentService {
     }
 
 
-    public Comment softDeleteComment(long commentId,UserAuthentication user) {
+    public Comment softDeleteComment(long commentId,User user) {
         
         var comment = commentRepository.findById(commentId).orElse(null);
 

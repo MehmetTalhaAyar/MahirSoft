@@ -8,7 +8,7 @@ public class GeneralCompanyCreateRequest {
 
     private String description;
 
-    private GeneralUserAuthenticationResponse user;
+    private GeneralUserResponse user;
 
     public long getCompanyCreateRequestId() {
         return companyCreateRequestId;
@@ -34,11 +34,11 @@ public class GeneralCompanyCreateRequest {
         this.description = description;
     }
 
-    public GeneralUserAuthenticationResponse getUser() {
+    public GeneralUserResponse getUser() {
         return user;
     }
 
-    public void setUser(GeneralUserAuthenticationResponse user) {
+    public void setUser(GeneralUserResponse user) {
         this.user = user;
     }
     

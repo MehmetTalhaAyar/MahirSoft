@@ -8,7 +8,7 @@ public class GeneralCommentResponse {
 
     private String content;
 
-    private GeneralUserAuthenticationResponse writtenById;
+    private GeneralUserResponse writtenById;
 
     private int likeCount;
     
@@ -39,11 +39,11 @@ public class GeneralCommentResponse {
         this.likeCount = likeCount;
     }
 
-    public GeneralUserAuthenticationResponse getWrittenById() {
+    public GeneralUserResponse getWrittenById() {
         return writtenById;
     }
 
-    public void setWrittenById(GeneralUserAuthenticationResponse writtenById) {
+    public void setWrittenById(GeneralUserResponse writtenById) {
         this.writtenById = writtenById;
     }
 

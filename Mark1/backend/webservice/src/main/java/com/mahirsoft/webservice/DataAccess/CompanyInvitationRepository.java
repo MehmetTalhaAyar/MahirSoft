@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 
 public interface CompanyInvitationRepository extends JpaRepository<CompanyInvitation,Long> {
 
-    List<CompanyInvitation> findByUserWhoReceiveInvitationAndStatus(UserAuthentication userWhoReceiveInvitation,int status);
+    List<CompanyInvitation> findByUserWhoReceiveInvitationAndStatus(User userWhoReceiveInvitation,int status);
 
-    Optional<CompanyInvitation> findByCompanyIdAndUserWhoReceiveInvitation(Company company,UserAuthentication userAuthentication);
+    Optional<CompanyInvitation> findByCompanyIdAndUserWhoReceiveInvitation(Company company,User userAuthentication);
     
 }

@@ -8,7 +8,7 @@ public class GeneralCompanyResponse {
 
     private String description;
 
-    private GeneralUserAuthenticationResponse manager;
+    private GeneralUserResponse manager;
 
     public long getId() {
         return id;
@@ -26,11 +26,11 @@ public class GeneralCompanyResponse {
         this.description = description;
     }
 
-    public GeneralUserAuthenticationResponse getManager() {
+    public GeneralUserResponse getManager() {
         return manager;
     }
 
-    public void setManager(GeneralUserAuthenticationResponse manager) {
+    public void setManager(GeneralUserResponse manager) {
         this.manager = manager;
     }
 

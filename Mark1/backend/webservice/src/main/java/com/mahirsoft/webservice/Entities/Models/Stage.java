@@ -33,7 +33,7 @@ public class Stage {
 
     @ManyToOne
     @JoinColumn(name = "createdById" ,referencedColumnName = "userId")
-    private UserAuthentication createdById;
+    private User createdById;
 
     @Column(name = "sequence")
     private int sequence;
@@ -119,11 +119,11 @@ public class Stage {
         this.name = name;
     }
 
-    public UserAuthentication getCreatedById() {
+    public User getCreatedById() {
         return createdById;
     }
 
-    public void setCreatedById(UserAuthentication createdById) {
+    public void setCreatedById(User createdById) {
         this.createdById = createdById;
     }
 

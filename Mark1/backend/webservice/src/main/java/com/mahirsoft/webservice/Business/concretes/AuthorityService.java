@@ -13,7 +13,7 @@ import com.mahirsoft.webservice.DataAccess.UserRoleAuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Authorization;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Models.UserRole;
 import com.mahirsoft.webservice.Entities.Models.UserRoleAuthorization;
 import com.mahirsoft.webservice.Entities.Requests.PostCreateAuthorityRequest;
@@ -40,7 +40,7 @@ public class AuthorityService {
     }
 
 
-    public UserRole createAuthority(UserAuthentication user,PostCreateAuthorityRequest postCreateAuthorityRequest) {
+    public UserRole createAuthority(User user,PostCreateAuthorityRequest postCreateAuthorityRequest) {
 
         UserRole userRole = new UserRole();
         userRole.setName(postCreateAuthorityRequest.getName());
@@ -51,7 +51,7 @@ public class AuthorityService {
     }
 
 
-    public GetUserRoleAndAuthorizationResponse getRolesWithAuthority(UserAuthentication user) {
+    public GetUserRoleAndAuthorizationResponse getRolesWithAuthority(User user) {
 
         var authorizations= authorizationRepository.findAll();
 
@@ -97,7 +97,7 @@ public class AuthorityService {
     }
 
 
-    public UserRole updateUserRoleAuths(PostUpdateAuthorityLevelsRequest postUpdateAuthorityLevelsRequest,UserAuthentication user) {
+    public UserRole updateUserRoleAuths(PostUpdateAuthorityLevelsRequest postUpdateAuthorityLevelsRequest,User user) {
 
         var userRoleAuthorizations = userRoleAuthorizationRepository.findByuserRoleId(user.getUserRoleId());
         List<UserRoleAuthorization> auths = new ArrayList<>();

@@ -9,7 +9,7 @@ import com.mahirsoft.webservice.DataAccess.AuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.CompanyCreateRequestRepository;
 import com.mahirsoft.webservice.DataAccess.CompanyInvitationRepository;
 import com.mahirsoft.webservice.DataAccess.CompanyRepository;
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleAuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.PermissionDeniedException;
@@ -20,7 +20,7 @@ import com.mahirsoft.webservice.Entities.Models.Authorization;
 import com.mahirsoft.webservice.Entities.Models.Company;
 import com.mahirsoft.webservice.Entities.Models.CompanyCreateRequest;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Models.UserRole;
 import com.mahirsoft.webservice.Entities.Models.CompanyCreateRequest.CompanyCreateRequestCodes;
 import com.mahirsoft.webservice.Entities.Models.CompanyInvitation.CompanyInvitationCodes;
@@ -40,7 +40,7 @@ public class CompanyService {
 
     private CompanyInvitationRepository companyInvitationRepository;
 
-    private UserAuthenticationRepository userAuthenticationRepository;
+    private UserRepository userAuthenticationRepository;
 
     private CompanyCreateRequestRepository companyCreateRequestRepository;
 
@@ -60,7 +60,7 @@ public class CompanyService {
    
 
     public CompanyService(CompanyRepository companyRepository, CompanyInvitationRepository companyInvitationRepository,
-            UserAuthenticationRepository userAuthenticationRepository,
+            UserRepository userAuthenticationRepository,
             CompanyCreateRequestRepository companyCreateRequestRepository, UserRoleRepository userRoleRepository,
             UserRoleAuthorizationRepository userRoleAuthorizationRepository,
             AuthorizationRepository authorizationRepository) {
@@ -79,7 +79,7 @@ public class CompanyService {
     }
     
 
-    public List<UserAuthentication> getCompanyMembers(long id){
+    public List<User> getCompanyMembers(long id){
         var company = companyRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException());
 
         return company.getCompanyMembers();
@@ -87,7 +87,7 @@ public class CompanyService {
 
 
     public CompanyInvitation addANewMember(long companyId, PostAddUserToCompanyRequest postAddUserToCompanyRequest,
-            UserAuthentication userWhoSentInvitation) {
+            User userWhoSentInvitation) {
 
         var userWhoReceiveInvitation = userAuthenticationRepository.findByEmail(postAddUserToCompanyRequest.getEmail()).orElseThrow(()-> new ResourceNotFoundException());    
 
@@ -106,12 +106,12 @@ public class CompanyService {
         return companyInvitationRepository.save(companyInvitation);
     }
 
-    public List<CompanyInvitation> checkCompanyInvitations(UserAuthentication user ,int status) {
+    public List<CompanyInvitation> checkCompanyInvitations(User user ,int status) {
         return companyInvitationRepository.findByUserWhoReceiveInvitationAndStatus(user,status);
     }
 
     public Company replyCompanyInvitation(PostReplyToCompanyInvitationRequest postReplyToCompanyInvitationRequest,
-            UserAuthentication user) {
+            User user) {
         
         
         var company = companyRepository.findById(postReplyToCompanyInvitationRequest.getCompanyInfo().getId()).orElseThrow(()-> new ResourceNotFoundException());
@@ -135,7 +135,7 @@ public class CompanyService {
         return companyRepository.save(newCompany);
     }
 
-    public CompanyCreateRequest createCompanyCreationRequest(@Valid PostCreateCompanyRequest postCreateCompnayRequest,UserAuthentication user) {
+    public CompanyCreateRequest createCompanyCreationRequest(@Valid PostCreateCompanyRequest postCreateCompnayRequest,User user) {
         
         var companyRequest = companyCreateRequestRepository.findByStatusAndUserId(CompanyCreateRequestCodes.PENDING, user);
 
@@ -189,7 +189,7 @@ public class CompanyService {
     }
 
 
-    public List<UserRole> getCompanyRoles(PostSearchCompanyRolesRequest postSearchCompanyRolesRequest, UserAuthentication user) {
+    public List<UserRole> getCompanyRoles(PostSearchCompanyRolesRequest postSearchCompanyRolesRequest, User user) {
         
 
         if(postSearchCompanyRolesRequest.getSearchKey().trim().isBlank()){
@@ -202,7 +202,7 @@ public class CompanyService {
     }
 
 
-    public UserRole grantUserRole(@Valid PostGrantUserRoleRequest postGrantUserRoleRequest, UserAuthentication user) {
+    public UserRole grantUserRole(@Valid PostGrantUserRoleRequest postGrantUserRoleRequest, User user) {
 
         Authorization authorization = authorizationRepository.findById(Integer.valueOf(AuthorizationCodes.GRANTING_PERMISSIONS).longValue()).orElseThrow(()-> new ResourceNotFoundException());
 

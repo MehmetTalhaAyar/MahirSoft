@@ -12,7 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.mahirsoft.webservice.Business.abstracts.TokenService;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,6 +25,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
     private TokenService tokenService;
 
+    @SuppressWarnings("unused")    
     private HandlerExceptionResolver exceptionResolver;
 
     public TokenFilter(TokenService tokenService, @Qualifier("handlerExceptionResolver") HandlerExceptionResolver exceptionResolver) {
@@ -44,7 +45,7 @@ public class TokenFilter extends OncePerRequestFilter {
         String tokenWithPrefix = getTokenWithPrefix(request);
 
         if(tokenWithPrefix != null){
-            UserAuthentication user = tokenService.verifyToken(tokenWithPrefix);
+            User user = tokenService.verifyToken(tokenWithPrefix);
 
 
             if(user != null){

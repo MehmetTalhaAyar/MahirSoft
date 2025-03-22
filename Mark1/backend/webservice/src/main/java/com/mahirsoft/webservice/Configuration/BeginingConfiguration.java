@@ -11,11 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.mahirsoft.webservice.Business.concretes.PermissionService;
 import com.mahirsoft.webservice.Business.concretes.PermissionService.AuthorizationCodes;
 import com.mahirsoft.webservice.DataAccess.AuthorizationRepository;
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleAuthorizationRepository;
 import com.mahirsoft.webservice.DataAccess.UserRoleRepository;
 import com.mahirsoft.webservice.Entities.Models.Authorization;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
+import com.mahirsoft.webservice.Entities.Models.User;
 import com.mahirsoft.webservice.Entities.Models.UserRole;
 import com.mahirsoft.webservice.Entities.Models.UserRoleAuthorization;
 
@@ -23,7 +23,7 @@ import com.mahirsoft.webservice.Entities.Models.UserRoleAuthorization;
 public class BeginingConfiguration {
     
 
-    private UserAuthenticationRepository userAuthenticationRepository;
+    private UserRepository userAuthenticationRepository;
 
 
     private AuthorizationRepository authorizationRepository;
@@ -40,7 +40,7 @@ public class BeginingConfiguration {
     
 
 
-    public BeginingConfiguration(UserAuthenticationRepository userAuthenticationRepository,
+    public BeginingConfiguration(UserRepository userAuthenticationRepository,
             AuthorizationRepository authorizationRepository,
             UserRoleAuthorizationRepository userRoleAuthorizationRepository, UserRoleRepository userRoleRepository,
             PasswordEncoder passwordEncoder, PermissionService permissionService) {
@@ -147,7 +147,7 @@ public class BeginingConfiguration {
             userRoleRepository.save(superAdminRole);
             authorityPairing(authorizations, superAdminRole, superAdminAuthorizations);
             
-            UserAuthentication superAdmin = new UserAuthentication();
+            User superAdmin = new User();
             superAdmin.setName("Mehmet Talha");
             superAdmin.setSurname("AYAR");
             superAdmin.setEmail("mehmettalhaayar61@gmail.com");

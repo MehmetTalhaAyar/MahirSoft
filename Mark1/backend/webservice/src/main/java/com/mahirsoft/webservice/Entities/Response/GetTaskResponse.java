@@ -16,9 +16,9 @@ public class GetTaskResponse {
 
     private LocalDateTime taskDeadlineDate;
 
-    private GeneralUserAuthenticationResponse responsibleId;
+    private GeneralUserResponse responsibleId;
 
-    private GeneralUserAuthenticationResponse reportsTo;
+    private GeneralUserResponse reportsTo;
 
     private List<GeneralCommentResponse> comments;
 
@@ -78,11 +78,11 @@ public class GetTaskResponse {
         this.comments = comments;
     }
 
-    public GeneralUserAuthenticationResponse getResponsibleId() {
+    public GeneralUserResponse getResponsibleId() {
         return responsibleId;
     }
 
-    public void setResponsibleId(GeneralUserAuthenticationResponse responsibleId) {
+    public void setResponsibleId(GeneralUserResponse responsibleId) {
         this.responsibleId = responsibleId;
     }
 
@@ -94,11 +94,11 @@ public class GetTaskResponse {
         this.stage = stage;
     }
 
-    public GeneralUserAuthenticationResponse getReportsTo() {
+    public GeneralUserResponse getReportsTo() {
         return reportsTo;
     }
 
-    public void setReportsTo(GeneralUserAuthenticationResponse reportsTo) {
+    public void setReportsTo(GeneralUserResponse reportsTo) {
         this.reportsTo = reportsTo;
     }
 

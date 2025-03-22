@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.DataAccess.StageRepository;
 import com.mahirsoft.webservice.DataAccess.TaskRepository;
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Exceptions.UserNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Task;
@@ -24,12 +24,12 @@ public class TaskService {
 
     private StageRepository stageRepository;
      
-    private UserAuthenticationRepository userAuthenticationRepository;
+    private UserRepository userAuthenticationRepository;
 
   
 
     public TaskService(TaskRepository taskRepository, StageRepository stageRepository,
-            UserAuthenticationRepository userAuthenticationRepository) {
+            UserRepository userAuthenticationRepository) {
         this.taskRepository = taskRepository;
         this.stageRepository = stageRepository;
         this.userAuthenticationRepository = userAuthenticationRepository;

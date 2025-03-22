@@ -7,7 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mahirsoft.webservice.Entities.Response.GeneralProjectResponse;
 import com.mahirsoft.webservice.Entities.Response.GeneralStageResponse;
-import com.mahirsoft.webservice.Entities.Response.GeneralUserAuthenticationResponse;
+import com.mahirsoft.webservice.Entities.Response.GeneralUserResponse;
 import com.mahirsoft.webservice.Entities.Response.StageResponse;
 import com.mahirsoft.webservice.Entities.Response.UserAuthenticationResponse;
 
@@ -40,7 +40,7 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "leadingPersonId", referencedColumnName = "userId")
-    private UserAuthentication leadingPersonId;
+    private User leadingPersonId;
 
     @Column(name = "deletionStateCode")
     private int deletionStateCode = 0;
@@ -64,7 +64,7 @@ public class Project {
     }
 
     public GeneralProjectResponse toGeneralProjectResponse(){
-        GeneralUserAuthenticationResponse leadPerson = toLeadPerson();
+        GeneralUserResponse leadPerson = toLeadPerson();
 
         GeneralProjectResponse response = new GeneralProjectResponse();
         response.setId(projectId);
@@ -79,11 +79,11 @@ public class Project {
 
     }
 
-    public List<GeneralUserAuthenticationResponse> toGeneralUserAuthenticationResponses(){
-        List<GeneralUserAuthenticationResponse> members = new ArrayList<>();
+    public List<GeneralUserResponse> toGeneralUserAuthenticationResponses(){
+        List<GeneralUserResponse> members = new ArrayList<>();
 
         for(var eleman : projectMembers){
-            GeneralUserAuthenticationResponse user = new GeneralUserAuthenticationResponse();
+            GeneralUserResponse user = new GeneralUserResponse();
             var currentUser = eleman.getUserId();
             
             if(currentUser.getCompanyId() != null)
@@ -145,8 +145,8 @@ public class Project {
 
     }
 
-    public GeneralUserAuthenticationResponse toLeadPerson(){
-        GeneralUserAuthenticationResponse leadPerson = new GeneralUserAuthenticationResponse();
+    public GeneralUserResponse toLeadPerson(){
+        GeneralUserResponse leadPerson = new GeneralUserResponse();
         leadPerson.setEmail(leadingPersonId.getEmail());
         leadPerson.setGsm(leadingPersonId.getGsm());
         leadPerson.setName(leadingPersonId.getName());
@@ -181,11 +181,11 @@ public class Project {
         this.name = name;
     }
 
-    public UserAuthentication getLeadingPersonId() {
+    public User getLeadingPersonId() {
         return leadingPersonId;
     }
 
-    public void setLeadingPersonId(UserAuthentication leadingPersonId) {
+    public void setLeadingPersonId(User leadingPersonId) {
         this.leadingPersonId = leadingPersonId;
     }
 

@@ -36,7 +36,7 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "userId")
-    private UserAuthentication userId;
+    private User userId;
 
 
 
@@ -135,14 +135,14 @@ public class Notification {
 
 
 
-    public UserAuthentication getUserId() {
+    public User getUserId() {
         return userId;
     }
 
 
 
 
-    public void setUserId(UserAuthentication userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

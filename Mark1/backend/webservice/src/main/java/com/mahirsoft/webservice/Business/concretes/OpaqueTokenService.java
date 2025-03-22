@@ -3,6 +3,7 @@
 
 package com.mahirsoft.webservice.Business.concretes;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -10,32 +11,33 @@ import org.springframework.stereotype.Service;
 
 import com.mahirsoft.webservice.Business.abstracts.TokenService;
 import com.mahirsoft.webservice.DataAccess.TokenRepository;
-import com.mahirsoft.webservice.DataAccess.UserAuthenticationRepository;
+import com.mahirsoft.webservice.DataAccess.UserRepository;
 import com.mahirsoft.webservice.Entities.Exceptions.ResourceNotFoundException;
 import com.mahirsoft.webservice.Entities.Models.Token;
-import com.mahirsoft.webservice.Entities.Models.UserAuthentication;
-import com.mahirsoft.webservice.Entities.Requests.PostUserAuthenticationRequest;
+import com.mahirsoft.webservice.Entities.Models.User;
+import com.mahirsoft.webservice.Entities.Requests.PostUserRequest;
 
 
 @Service
 @ConditionalOnProperty(name = "mahirsoft.token-type", havingValue = "opaque")
 public class OpaqueTokenService implements TokenService {
 
-    private UserAuthenticationRepository userAuthenticationRepository;
+    private UserRepository userRepository;
 
     private TokenRepository tokenRepository;
 
-    public OpaqueTokenService(UserAuthenticationRepository userAuthenticationRepository,
-            TokenRepository tokenRepository) {
-        this.userAuthenticationRepository = userAuthenticationRepository;
+    
+    public OpaqueTokenService(UserRepository userRepository, TokenRepository tokenRepository) {
+        this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
     }
 
+
     @Override
-    public Token createToken(PostUserAuthenticationRequest userAuthentication) {
+    public Token createToken(PostUserRequest postUserRequest) {
         
 
-        var user = userAuthenticationRepository.findByEmail(userAuthentication.getEmail()).orElseThrow(()-> new ResourceNotFoundException());
+        var user = userRepository.findByEmail(postUserRequest.getEmail()).orElseThrow(()-> new ResourceNotFoundException());
 
         var tokenString = UUID.randomUUID().toString();
 
@@ -50,7 +52,7 @@ public class OpaqueTokenService implements TokenService {
 
     // burada değerler null dönülüyor hata fırlatılması filter içerisinde gerçekleşiyor.
     @Override
-    public UserAuthentication verifyToken(String tokenWithPrefix) {
+    public User verifyToken(String tokenWithPrefix) {
         
         if(tokenWithPrefix == null) return null;
 
@@ -58,7 +60,12 @@ public class OpaqueTokenService implements TokenService {
 
         var token = tokenRepository.findByToken(tokenContent);
 
+        // token in varligi kontrol ediliyor
         if(!token.isPresent()) return null;
+
+        // token süresi geçmiş mi diye kontrol yapiliyor
+        if(LocalDateTime.now().isAfter(token.get().getExpiredOn())) return null;
+
 
         return token.get().getUser();
     }
